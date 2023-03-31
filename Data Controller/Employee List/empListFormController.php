@@ -1,4 +1,20 @@
 <?php  
+
+   $empid = $_POST['empid'];
+   $conn = new mysqli('localhost', 'root', '', 'hris_db');
+   if($conn->connect_error){
+    die('Connection Failed: '.$conn->connect_error);
+   }else{
+    $stmt = $conn->prepare("SELECT empid FROM employee_tb WHERE empid = ?");
+    $stmt->bind_param("s", $empid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        // empid already exists, display an error message
+        echo "<script> alert('EMPLOYEE ID IS EXIST') </script>";
+        exit;
+        } else{
+    
    $fname = $_POST['fname'];
    $lname = $_POST['lname'];
    $empid = $_POST['empid'];
@@ -31,11 +47,10 @@
    $password = $_POST['password'];
    $cpassword = $_POST['cpassword'];
 
-
-    $conn = new mysqli('localhost', 'root', '', 'hris_db');
-    if($conn->connect_error){
-        die('Connection Failed: ' .$conn->connect_error);
-    } else{
+   if($password != $cpassword){
+     echo "Password is not match";
+   }else{
+   
         $stmt = $conn->prepare("INSERT INTO employee_tb (fname, lname, empid, address, contact, cstatus, gender, empdob, empsss, emptin, emppagibig, empphilhealth, empbranch, department_name, empposition, empbsalary, drate, approver, empdate_hired, emptranspo, empmeal, empinternet, empschedule_type, empstart_date, empend_date, empaccess_id, username, role, email, password, cpassword)
                                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param("sssssssssssssssssssssssssssssss", $fname,  $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empschedule_type, $empstart_date, $empend_date, $empaccess_id, $username, $role, $email, $password, $cpassword);
@@ -45,6 +60,8 @@
         $conn->close();
 
     }
+   }
+   }
 
 
     // if(!$conn){

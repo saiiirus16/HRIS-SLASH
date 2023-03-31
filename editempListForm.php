@@ -1,7 +1,8 @@
 
 <?php
     session_start();
- 
+    
+    $empid = $_POST['empid'];
 
     $server = "localhost";
     $user = "root";
