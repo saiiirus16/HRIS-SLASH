@@ -140,8 +140,23 @@
 
                                          <div class="emp-empDetail-first-input">
                                              <div class="emp-empDetail-branch">
-                                                     <label for="empbranch">Branch</label><br>
-                                                     <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['empbranch'] ?>">
+                                             <?php
+                                                    include 'config.php';
+
+                                                     $sql = "SELECT branch_name FROM branch_tb";
+                                                     $results = mysqli_query($conn, $sql);
+             
+                                                     $options = "";
+                                                     while ($rows = mysqli_fetch_assoc($results)) {
+                                                         $options .= "<option value='". $rows['branch_name'] . "'>" .$rows['branch_name'].  "</option>";
+                                                     }
+                                                     ?>
+             
+                                                 <label for="depatment">Select Branch</label><br>
+                                                     <select name="empbranch" id="" value="<?php echo $row['branch_name'];?>">
+                                                     <!-- <option value disabled selected>Select Department</option> -->
+                                                       <?php echo $options; ?>
+                                                     </select>
                                              </div>
              
              
@@ -149,29 +164,39 @@
                                                    <?php
                                                     include 'config.php';
 
-                                                     $sql = "SELECT department_name FROM department_tb";
+                                                     $sql = "SELECT col_deptname FROM dept_tb";
                                                      $results = mysqli_query($conn, $sql);
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value=' ". $rows['department_name'] . "'>" .$rows['department_name'].  "</option>";
+                                                         $options .= "<option value='". $rows['col_deptname'] . "'>" .$rows['col_deptname'].  "</option>";
                                                      }
                                                      ?>
              
                                                  <label for="depatment">Select Department</label><br>
-                                                     <select name="department_name" id="" value="<?php echo $row['department_name'];?>">
+                                                     <select name="department_name" id="" value="<?php echo $row['col_deptname'];?>">
                                                      <!-- <option value disabled selected>Select Department</option> -->
                                                        <?php echo $options; ?>
                                                      </select>
                                              </div>
 
                                              <div class="emp-empDetail-jposition">
-                                                 <label for="empposition">Job Position</label><br>
-                                                     <select name="empposition" id="" placeholder="Select Job Position" value="<?php echo $row['empposition'];?>">
-                                                         <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Department</option> -->
-                                                         <option value="Admin Staff">Admin Staff</option>
-                                                         <option value="Software Developer">Software dev</option>
-                                                         <option value="IT Sales Associate">IT Sales Associate</option>
+                                             <?php
+                                                    include 'config.php';
+
+                                                     $sql = "SELECT position FROM positionn_tb";
+                                                     $results = mysqli_query($conn, $sql);
+             
+                                                     $options = "";
+                                                     while ($rows = mysqli_fetch_assoc($results)) {
+                                                         $options .= "<option value='". $rows['position'] . "'>" .$rows['position'].  "</option>";
+                                                     }
+                                                     ?>
+             
+                                                 <label for="depatment">Select Position</label><br>
+                                                     <select name="empposition" id="" value="<?php echo $row['position'];?>">
+                                                     <!-- <option value disabled selected>Select Department</option> -->
+                                                       <?php echo $options; ?>
                                                      </select>
                                              </div>
                                          </div>

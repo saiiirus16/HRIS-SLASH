@@ -18,7 +18,7 @@
     <title>HRIS | Employee List Form</title>
 </head>
 <body>
-    <script>
+    <!-- <script>
         $(document).ready(function(){
             $("form").submit(function(event){
                 event.preventDefault();
@@ -41,7 +41,7 @@
             });
         });
     </script>
-    
+     -->
     <header>
         <?php include("header.php")?>
     </header>
@@ -313,12 +313,12 @@
                                 </div>
                                 <div class="emp-Access-password">
                                         <label for="password">Password</label><br>
-                                        <input type="text" pattern="[a-zA-Z0-9]{8,}" title="Must be at least 5 characters." name="password" id="" placeholder="Password"required>
+                                        <input type="password" pattern="[a-zA-Z0-9]{8,}" title="Must be at least 5 characters." name="password" id="" placeholder="Password"required>
                                         
                                 </div>
                                 <div class="emp-Access-cpassword">
                                     <label for="cpassword">Confirm Password</label><br>
-                                        <input type="password" pattern="[a-zA-Z0-9]" title="Must be at least 5 characters." name="cpassword" id="" placeholder="Confirm Password"required>
+                                        <input type="password" pattern="[a-zA-Z0-9]{8,}" title="Must be at least 5 characters." name="cpassword" id="" placeholder="Confirm Password"required>
                                 </div>
                             </div>
                         </div>

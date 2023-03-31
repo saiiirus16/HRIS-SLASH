@@ -64,6 +64,25 @@ session_start();
     .sidebars ul li ul li{
         width: 100%;
     }
+
+    .card{
+      box-shadow: 5px 8px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+      width: 1400px;
+      height: 780px;
+
+    }
+
+
+    .card-body{
+        overflow: hidden;
+    }
+
+    .table{
+        width: 99.8%;
+        
+    }
+
+
 </style>
 
 <!------------------------------------------------------ADD NEW POSITION MODAL-------------------------------------------------------->
@@ -159,7 +178,7 @@ session_start();
 <!-----------------------------------------ETO ANG HEADER INCLUDING ANG DROP-DOWN-------------------------------------------------------->
 <div class="main-panel mt-5" style="margin-left: 15%;">
         <div class="content-wrapper mt-5">
-          <div class="card" style="width:1530px; height:780px;  box-shadow: 5px 8px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 20px 0 rgba(0, 0, 0, 0.17);" >
+          <div class="card">
             <div class="card-body">
             <div class="row">
                         <div class="col-6">
@@ -173,44 +192,32 @@ session_start();
                         </div>
                     </div> <!--ROW END-->
 
-                    <div class="mt-3">
+                    <!-- <div class="mt-3">
                     <label for="Select_emp" class="form-label">Filter by Position:</label>
-                             <?php
-                                    include 'Data Controller/Position/position_conn.php';
+                             <?php //Eto yung pangFilter sa Position
+                                    // include 'Data Controller/Position/position_conn.php';
 
-                                    // Fetch all values of position from the database
-                                    $sql = "SELECT position FROM positionn_tb";
-                                    $result = mysqli_query($conn, $sql);
+                                    // // Fetch all values of position from the database
+                                    // $sql = "SELECT position FROM positionn_tb";
+                                    // $result = mysqli_query($conn, $sql);
 
-                                    // Generate the dropdown list
-                                    echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp' style='width: 350px;'>";
-                                    while ($row = mysqli_fetch_array($result)) {
-                                        $pos_ition = $row['position'];
-                                        echo "<option value='$position'>$pos_ition</option>";
-                                    }
-                                    echo "</select>";
+                                    // // Generate the dropdown list
+                                    // echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp' style='width: 350px;'>";
+                                    // while ($row = mysqli_fetch_array($result)) {
+                                    //     $pos_ition = $row['position'];
+                                    //     echo "<option value='$position'>$pos_ition</option>";
+                                    // }
+                                    // echo "</select>";
                               ?>
                      </div>
-                     <br>
-
-                     <style>
-                      .card{
-                        width: 80%;
-                        
-                      }
-
-                      .table{
-                        width: 99.8%;
-                      }
-
-                     </style>
+                     <br> -->
 <!-------------------------------------------------------END NG HEADER------------------------------------------------------------------->
 
 <!-------------------------------------------------------MESSAGE ALERT------------------------------------------------------------------->
 <?php
     if (isset($_GET['msg'])) {
         $msg = $_GET['msg'];
-        echo '<div id="alert-message" class="alert alert-success alert-dismissible fade show" role="alert">
+        echo '<div id="alert-message" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
         '.$msg.'
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>';
@@ -225,6 +232,8 @@ session_start();
             <div class="row">
                 <div class="col-12 mt-5">
                     <div class="table-responsive">
+                      <form action="View_Position.php" method="post">
+                      <input type="hidden" id="id_position_name" name="name_position">
                         <table id="order-listing" class="table">
                         <thead>
                             <tr>
@@ -260,11 +269,10 @@ session_start();
                                             <td>$pos_name</td>
                                             <td>$emp_count</td>
                                             <td>
-                                                <button type='submit' name='view_data' class= 'border-0 viewbtn' title = 'View' style=' background: transparent;'>
-                                                <i class='fa-regular fa-eye'></i>
-                                                </button>
-                                                <button class='link-dark editbtn border-0'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
-                                                <button class='link-dark deletebtn border-0'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
+
+                                                <button type='submit'  name='view_data' class='link-dark editbtn border-0 viewbtn' title = 'View'><i class='fa-solid fa-eye fs-5 me-3'></i></button>
+                                                <button type='button'class='link-dark editbtn border-0' data-bs-toggle='modal' data-bs-target='#editmodal'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
+                                                <button type='button'class='link-dark deletebtn border-0' data-bs-toggle='modal' data-bs-target='#deletemodal'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
                                             </td>
                                         </tr>";
                                 }
@@ -275,8 +283,9 @@ session_start();
                                 mysqli_close($conn);
                             ?>
                         
-                         </tbody>
-                        </table>
+                                  </tbody>
+                                </table>
+                              </form>
                         </div>
                     </div>
                 </div>
@@ -351,11 +360,23 @@ session_start();
         </script>
 <!----------------------------------------------End ng Script sa pagpop-up ng modal para maedit------------------------------------------------------->
 
-<script>
-    // Set a timer to remove the alert message after 2 seconds
-    setTimeout(function(){
-        document.getElementById("alert-message").remove();
-    }, 2000);
-</script>
+<script> //FOR VIEW TRANSFER MODAL 
+            $(document).ready(function(){
+                                    $('.viewbtn').on('click', function(){
+                                        $('#IDview_deptMDL').modal('show');
+                                        $tr = $(this).closest('tr');
+
+                                        var data = $tr.children("td").map(function () {
+                                            return $(this).text();
+                                        }).get();
+
+                                        console.log(data);
+                                        //id_colId
+                                        //$('#id_textdept').val(data[1]);
+                                        $('#id_position_name').val(data[1]);
+                                    });
+                                });
+            //FOR VIEW TRANSFER MODAL END
+        </script>
 </body>
 </html>
