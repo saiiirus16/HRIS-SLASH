@@ -139,7 +139,10 @@
                                          </div>
 
                                          <div class="emp-empDetail-first-input">
+
+                                         
                                              <div class="emp-empDetail-branch">
+                                                
                                                      <label for="empbranch">Branch</label><br>
                                                      <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['empbranch'] ?>">
                                              </div>
@@ -149,17 +152,17 @@
                                                    <?php
                                                     include 'config.php';
 
-                                                     $sql = "SELECT department_name FROM department_tb";
+                                                     $sql = "SELECT col_deptname FROM dept_tb";
                                                      $results = mysqli_query($conn, $sql);
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value=' ". $rows['department_name'] . "'>" .$rows['department_name'].  "</option>";
+                                                         $options .= "<option value=' ". $rows['col_deptname'] . "'>" .$rows['col_deptname'].  "</option>";
                                                      }
                                                      ?>
              
                                                  <label for="depatment">Select Department</label><br>
-                                                     <select name="department_name" id="" value="<?php echo $row['department_name'];?>">
+                                                     <select name="department_name" id="" value="<?php echo $row['col_deptname'];?>">
                                                      <!-- <option value disabled selected>Select Department</option> -->
                                                        <?php echo $options; ?>
                                                      </select>

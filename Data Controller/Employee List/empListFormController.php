@@ -47,21 +47,21 @@
    $password = $_POST['password'];
    $cpassword = $_POST['cpassword'];
 
-   $errorEmpty = false;
-   $errorEmail = false;
+//    $errorEmpty = false;
+//    $errorEmail = false;
 
-    if(empty($fname) || empty($lname) || empty($empid) || empty($contact) || empty($email)){
-        echo "<span class='form-error'> Fill the fields! </span>";
-        $errorEmpty = true;
-        } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            echo "<span class='form-error'> Write a valid email </span>";
-            $errorEmail = true;
-        } else{
-            echo "<span class='form-success'> Filled Succesfully </span>"; 
-        }
-    } else {
-        echo "There was an error!";
-    }
+//     if(empty($fname) || empty($lname) || empty($empid) || empty($contact) || empty($email)){
+//         echo "<span class='form-error'> Fill the fields! </span>";
+//         $errorEmpty = true;
+//         } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+//             echo "<span class='form-error'> Write a valid email </span>";
+//             $errorEmail = true;
+//         } else{
+//             echo "<span class='form-success'> Filled Succesfully </span>"; 
+//         }
+//     } else {
+//         echo "There was an error!";
+//     }
    if($password != $cpassword){
      echo "Password is not match";
    }else{
@@ -76,14 +76,14 @@
 
     }
    }
+}
 
    ?>
 
-   <script>
+   <!-- <script>
     $("#form-fname, #form-lname, #form-empid, #form-contact, #form-email").removeClass("input-error");
 
-    var errorEmpty = "<?php echo $errorEmpty; ?>";
-    var errorEmail = "<?php echo $errorEmail; ?>";
+    var errorEmpty = "
     
     if(errorEmpty == true){
         $("#form-fname, #form-lname, #form-empid, #form-contact").addClass("input-error");
@@ -95,5 +95,5 @@
         $("#form-fname, #form-lname, #form-empid, #form-contact").val("")
     }
    </script>
-
+ -->
 
