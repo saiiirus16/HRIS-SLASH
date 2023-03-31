@@ -51,7 +51,7 @@
                                  <div class="employeeList-modal-content">
                                      <div class="employeeList-info-container">
                                          <div class="emp-title">
-                                             <h1>Personal Information</h1>
+                                             <h1>Edit Personal Information</h1>
                                          </div>
                                          <div class="emp-info-first-input">
                                              <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
