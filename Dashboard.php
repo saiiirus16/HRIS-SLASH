@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styles.css">
-    <title>HRIS | Dashboard</title>
+    <title>HRIS | Dashboards</title>
 </head>
 <body>
     <header>

@@ -17,7 +17,7 @@
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css">
 
-    <title>Add New Department</title>
+    <title>Add New Departments</title>
 </head>
 <body>
     
