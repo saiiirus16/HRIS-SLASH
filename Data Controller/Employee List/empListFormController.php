@@ -47,6 +47,21 @@
    $password = $_POST['password'];
    $cpassword = $_POST['cpassword'];
 
+   $errorEmpty = false;
+   $errorEmail = false;
+
+    if(empty($fname) || empty($lname) || empty($empid) || empty($contact) || empty($email)){
+        echo "<span class='form-error'> Fill the fields! </span>";
+        $errorEmpty = true;
+        } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            echo "<span class='form-error'> Write a valid email </span>";
+            $errorEmail = true;
+        } else{
+            echo "<span class='form-success'> Filled Succesfully </span>"; 
+        }
+    } else {
+        echo "There was an error!";
+    }
    if($password != $cpassword){
      echo "Password is not match";
    }else{
@@ -61,57 +76,24 @@
 
     }
    }
-   }
 
+   ?>
 
-    // if(!$conn){
-    //  echo '<script type="text/javascript">';
-    //  echo 'alert("Connection Failed.");';
-    //  echo '</script>';
-    //  die;
-    // } ekse
+   <script>
+    $("#form-fname, #form-lname, #form-empid, #form-contact, #form-email").removeClass("input-error");
+
+    var errorEmpty = "<?php echo $errorEmpty; ?>";
+    var errorEmail = "<?php echo $errorEmail; ?>";
     
-
-    // if(isset($_POST['submit'])){
-    //     $fname = $_POST['fname'];
-    //     $lname = $_POST['lname'];
-    //     $empid = $_POST['empid'];
-    //     $address = $_POST['address'];
-    //     $contact = $_POST['contact'];
-    //     $cstatus = $_POST['cstatus'];
-    //     $gender = $_POST['gender'];
-    //     $empdob = $_POST['empdob'];
-    //     $empsss = $_POST['empsss'];
-    //     $emptin = $_POST['emptin'];
-    //     $emppagibig = $_POST['emppagibig'];
-    //     $empphilhealth = $_POST['empphilhealth'];
-    //     $empbranch = $_POST['empbranch'];
-    //     $empdepartment = $_POST['empdepartment'];
-    //     $empposition = $_POST['empposition'];
-    //     $empbsalary = $_POST['empbsalary'];
-    //     $approver = $_POST['approver'];
-    //     $empdate_hired = $_POST['empdate_hired'];
-    //     $emptransportation = $_POST['emptransportation'];
-    //     $empmeal = $_POST['empmeal'];
-    //     $empinternet = $_POST['empinternet'];
-    //     $empschedule_type = $_POST['empschedule_type'];
-    //     $empend_date = $_POST['empend_date'];
-    //     $empaccess_id = $_POST['empaccess_id'];
-    //     $username = $_POST['username'];
-    //     $role = $_POST['role'];
-    //     $email = $_POST['email'];
-    //     $password = $_POST['password'];
-    //     $cpassword = $_POST['cpassword'];
+    if(errorEmpty == true){
+        $("#form-fname, #form-lname, #form-empid, #form-contact").addClass("input-error");
+    }
+    if(errorEmail == true){
+        $("#form-email").addClass("input-error");        
+    }
+    if(errorEmpty == false && errorEmail == false){
+        $("#form-fname, #form-lname, #form-empid, #form-contact").val("")
+    }
+   </script>
 
 
-    //     $stmt = $conn->prepare("INSERT INTO employee_tb (fname, lname, empid, address, contact, cstatus, gender, empdob, empsss, emptin, emppagibig, empphilhealth, empbranch, empdepartment, empposition, empbsalary, approver, empdate_hired, emptransportation, empmeal, empinternet, empschedule_type, empend_date, empaccess_id, username, role, email, password, cpassword)
-
-    //             VALUES('$fname','$lname', '$empid', '$address', '$contact', '$cstatus', '$gender', '$empdob', '$empsss', '$emptin', '$emppagibig', '$empphilhealth', '$empbranch', '$empdepartment', '$empposition', '$empbsalary', '$approver', '$empdate_hired','$emptransportation ', '$empmeal', '$empinternet', '$empschedule_type', '$empend_date','$empaccess_id','$username','$role','$email','$password','$cpassword' )";
-    //     $result = mysqli_query($conn, $sql));
-    //     if($result){
-    //         echo "<script> alert Data has been saved </script>";
-    //     }else{
-    //         die(mysqli_error($conn));
-    //     }
-
-    // }

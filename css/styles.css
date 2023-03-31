@@ -10,6 +10,24 @@ body{
     color: black;
 }
 
+/* Validation */
+.error-message{
+    font-size: 13px;
+    height: 20px;
+}
+
+.form-error{
+    color: red;
+}
+
+.form-success{
+    color: green;
+}
+
+.input-error{
+    box-shadow: 0 0 5px red;
+}
+
 /* header */
 header{
     width: 100%;

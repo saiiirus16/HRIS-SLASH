@@ -13,10 +13,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <link rel="stylesheet" href="css/styles.css"> 
     <title>HRIS | Employee List Form</title>
 </head>
 <body>
+    <script>
+        $(document).ready(function(){
+            $("form").submit(function(event){
+                event.preventDefault();
+                var fname = $("#form-fname").val();
+                var lname = $("#form-lname").val();
+                var empid = $("#form-empid").val();
+                var contact = $("#form-contact").val();
+                var email = $("#form-email").val();
+                var submit = $("#form-submit").val();
+
+                $(".erorr-message").load("Data Controller/Employee List/empListFormController.php", {
+                    fname: fname,
+                    lname: lname,
+                    empid: empid,
+                    contact: contact,
+                    email: email,
+                    submit: submit 
+                });
+                
+            });
+        });
+    </script>
+    
     <header>
         <?php include("header.php")?>
     </header>
@@ -32,32 +57,37 @@
                             <div class="emp-info-first-input">
                                 <div class="emp-info-fname">
                                         <label for="fname">First Name</label><br>
-                                        <input type="text" name="fname" id="" placeholder="First Name" required>
+                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" >
+                                        
                                 </div>
                                 <div class="emp-info-lname">
                                         <label for="lname">Last Name</label><br>
-                                        <input type="text" name="lname" id="" placeholder="Last Name" required>
+                                        <input type="text" name="lname" id="form-lname" placeholder="Last Name" >
+                                        
                                 </div>
                                 <div class="emp-info-empID">
                                         <label for="empid">Employee ID</label><br>
-                                        <input type="text" name="empid" id="" placeholder="Employee ID"required>
+                                        <input type="text" name="empid" id="form-empid" placeholder="Employee ID">
+                                        
                                 </div>
                             </div>
                             <div class="emp-info-second-input">
                                 <div class="emp-info-address">
                                         <label for="address">Complete Address</label><br>
-                                        <input type="text" name="address" id="" placeholder="Complete Address"required>
+                                        <input type="text" name="address" id="" placeholder="Complete Address">
+
                                 </div>
                                 <div class="emp-info-contact">
                                         <label for="contact">Contact Number</label><br>
-                                        <input type="number" name="contact" id="" placeholder="Contact Number"required>
+                                        <input type="number" name="contact" id="form-contact" placeholder="Contact Number">
+                                        
                                 </div>
                             </div>
                             <div class="emp-info-third-input">
                                 <div class="emp-info-cstatus">
                                         <label for="cstatus">Civil Status</label><br>
                                         <select name="cstatus" id="" placeholdber="Select Status">
-                                            <option value="" selected="selected" class="selectTag" style="color: gray;" required>Select Status</option>
+                                            <option value="" selected="selected" class="selectTag" style="color: gray;" >Select Status</option>
                                             <option value="Single">Single</option>
                                             <option value="Married">Married</option>
                                             <option value="Other">Other</option>
@@ -65,7 +95,7 @@
                                 </div>
                                 <div class="emp-info-gender">
                                         <label for="gender">Gender</label><br>
-                                        <select name="gender" id="" placeholdber="Select Gender" required>
+                                        <select name="gender" id="" placeholdber="Select Gender" >
                                             <option value="" selected="selected" class="selectTag" style="color: gray;">Select Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
@@ -74,7 +104,7 @@
                                 </div>
                                 <div class="emp-info-dob">
                                         <label for="empdob">Date of Birth</label><br>
-                                        <input type="date" name="empdob" id="" placeholder="Select Date of Birth" required>
+                                        <input type="date" name="empdob" id="" placeholder="Select Date of Birth" >
                                 </div>
                             </div>
                         </div> 
@@ -128,7 +158,7 @@
                                         ?>
 
                                     <label for="empbranch">Select Branch</label><br>
-                                        <select name="empbranch" id="" required>
+                                        <select name="empbranch" id="" >
                                         <option value disabled selected>Select Branch</option>
                                           <?php echo $options; ?>
                                         </select>
@@ -151,7 +181,7 @@
                                         }
                                         ?>
 
-                                    <label for="depatment" required>Select Department</label><br>
+                                    <label for="depatment" >Select Department</label><br>
                                         <select name="col_deptname" id="">
                                         <option value disabled selected>Select Department</option>
                                           <?php echo $options; ?>
@@ -171,7 +201,7 @@
                                                      ?>
              
                                                  <label for="empposition">Select Positon</label><br>
-                                                     <select name="empposition" id="" value="<?php echo $row['position'];?>" required>
+                                                     <select name="empposition" id="" value="<?php echo $row['position'];?>" >
                                                      <option value disabled selected>Select Position</option> 
                                                        <?php echo $options; ?>
                                                      </select>
@@ -188,7 +218,7 @@
                                 </div>
                                 <div class="emp-empDetail-approver">
                                     <label for="approver">Immediate Superior/Approver</label><br>
-                                        <select name="approver" id="" placeholder="Select Superior/Approver" required>
+                                        <select name="approver" id="" placeholder="Select Superior/Approver" >
                                             <option value="" selected="selected" class="selectTag" style="color: gray;">Select Superior/Approver</option>
                                             <option value="Cyrus Machete">Cyrus Machete</option>
                                             <option value="Regis Legaspi">Regin Legaspi</option>
@@ -258,16 +288,16 @@
                             <div class="emp-Access-first-input">
                                 <div class="emp-Access-access_id">
                                         <label for="empaccess_id">Access ID</label><br>
-                                        <input type="text" name="empaccess_id" id="" placeholder="Access ID" required>
+                                        <input type="text" name="empaccess_id" id="" placeholder="Access ID" >
                                 </div>
                                 <div class="emp-empAccess-username">
                                     <label for="username">Username</label><br>
-                                    <input type="text" name="username" id="" placeholder="Username" required>
+                                    <input type="text" name="username" id="" placeholder="Username" >
                                 </div>
                                 <div class="emp-empAccess-role">
                                     <label for="role">Role</label><br>
                                     <select name="role" id="" placeholder="Select Schedule Type">
-                                            <option value="" selected="selected" class="selectTag" style="color: gray;" required>Select Role</option>
+                                            <option value="" selected="selected" class="selectTag" style="color: gray;" >Select Role</option>
                                             <option value="Employee">Employee</option>
                                             <option value="Admin">Admin</option>
                                             <option value="Superadmin">Superadmin</option>
@@ -278,15 +308,17 @@
                             <div class="emp-Access-second-input">
                                 <div class="emp-Access-email">
                                         <label for="email">Email</label><br>
-                                        <input type="email" name="email" id="" placeholder="Email Address" required>
+                                        <input pattern="" type="email" name="email" id="form-email" placeholder="Email Address" title="Must be a valid email." >
+                                        
                                 </div>
                                 <div class="emp-Access-password">
                                         <label for="password">Password</label><br>
-                                        <input type="password" name="password" id="" placeholder="Password"required>
+                                        <input type="text" pattern="[a-zA-Z0-9]{8,}" title="Must be at least 5 characters." name="password" id="" placeholder="Password"required>
+                                        
                                 </div>
                                 <div class="emp-Access-cpassword">
                                     <label for="cpassword">Confirm Password</label><br>
-                                        <input type="password" name="cpassword" id="" placeholder="Confirm Password"required>
+                                        <input type="password" pattern="[a-zA-Z0-9]" title="Must be at least 5 characters." name="cpassword" id="" placeholder="Confirm Password"required>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +326,7 @@
                     <div class="empList-save-btn">
                         <div>
                             <span class="closeModal" id="closeModal">Cancel</span>
-                            <span class="modalSave"> <input class="submit" type="submit" value="Save"></span>
+                            <span class="modalSave"> <input class="submit" type="submit" value="Submit" id="form-submit" ></span>
                         </div>
                     </div>
                 </div>

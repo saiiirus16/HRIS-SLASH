@@ -27,7 +27,7 @@
             <h1>Employee List</h1>
         </div>
         <div class="empList-create-search">
-            <a href="empListForm.php" class="empList-btn">Create New</a>
+            <a href="empListForm.php" class="empList-btn" title="Create New">Create New</a>
 
             <input class="employeeList-search" type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome" id="search"/>
         </div>
