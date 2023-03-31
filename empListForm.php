@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="emp-info-contact">
                                         <label for="contact">Contact Number</label><br>
-                                        <input type="text" name="contact" id="" placeholder="Contact Number"required>
+                                        <input type="number" name="contact" id="" placeholder="Contact Number"required>
                                 </div>
                             </div>
                             <div class="emp-info-third-input">
