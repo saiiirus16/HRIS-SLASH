@@ -27,7 +27,7 @@ include ("config.php");
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
     <link rel="stylesheet" href="css/branch.css"/>
     <link rel="stylesheet" href="css/styles.css">
-    <title>Branch</title>
+    <title>Branchesss</title>
 
 </head>
 <body>
