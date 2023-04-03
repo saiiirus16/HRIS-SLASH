@@ -99,11 +99,9 @@
 
             <div class="card-body">
 
-                <div class="pnl_utop p-3 mb-2 bg-body-tertiary">
-                        <h3 style= "font-size: 20px; font-weight: bold; font-family: 'Nunito', sans-serif; ">Company Departments</h3>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-12">
+                
+                <div class="row mt-3 mb-3">
+                    <div class="col-12 text-right">
                                 <div class="pnl_search" >
                                     <form action="" 
                                         style= "
@@ -118,13 +116,42 @@
                                                 border: 1px solid #adacac;
                                                 border-radius: 5px;
                                                 padding: 9px 4px 9px 40px;
-                                                background: #FFFFFF url(icon/search.png) 
+                                                background: #FFFFFF url(icons/search.png) 
                                                 no-repeat 13px center;
                                                 ">
                                     </form>
                                 </div> 
                     </div><!--COL-6 END-->   
                 </div> <!--ROW END-->
+
+                   <!-- ------------------para sa message na sucessful START -------------------->
+                   <?php
+
+                        if (isset($_GET['msg'])) {
+                            $msg = $_GET['msg'];
+                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                            '.$msg.'
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
+                        }
+
+
+                        ?>
+                        <!-------------------- para sa message na sucessful ENd --------------------->
+
+
+                        <!----------------------para sa message na error START --------------------->
+                        <?php
+                            if (isset($_GET['error'])) {
+                            $error = $_GET['error'];
+                            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                            '.$error.'
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>';
+                        }
+
+                    ?>
+                        <!-------------------- para sa message na error ENd --------------------->
 
                 <div class="table table-responsive">
                     <form action="departmentEmployee.php" method="post">
@@ -173,7 +200,7 @@
                                                         <img src='icons/editing.png' alt='...'>
                                                 </button>
                                                 <button type='button' class= 'border-0' title = 'Delete' style=' background: transparent;'>
-                                                    <a href='actions/Department/delete.php?col_ID=$dept_id' class='link-dark'>
+                                                    <a href='actions/Department/delete.php?col_ID=$dept_id&dsgntn_count=$emp_count' class='link-dark'>
                                                         <img src='icons/delete.png' alt='...'>
                                                     </a>
                                                 </button> 
@@ -186,7 +213,7 @@
                                 // Close the database connection
                                 mysqli_close($conn);
                             ?>
-
+ 
                       </tbody>
                       </form>   
                     </table>        
@@ -278,5 +305,5 @@
             //FOR VIEW TRANSFER MODAL END
         </script>
 </body>
-<script src="javascript/dept.js"></script>
+<script src="js/dept.js"></script>
 </html>
