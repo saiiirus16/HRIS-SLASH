@@ -58,10 +58,10 @@ session_start();
 </style>
 
 
-    <div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 270px;">
+    <div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 350px;">
         <div class="">
 
-            <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; width: 1530px; height: 760px;">
+            <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; width: 1530px; height: 800px;">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
@@ -466,11 +466,11 @@ session_start();
         <!----------------------------------Break------------------------------------->   
         
         
-                    <div class="table my-3  table-responsive "  style="height: 300px; overflow-y: auto;">
+                    <div class="table table-responsive "  style="height: 300px; overflow-y: auto;">
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;">
-                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top ">
+                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>
