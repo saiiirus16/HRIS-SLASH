@@ -16,8 +16,7 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-    
-    
+
     <title>Leave Request</title>
 </head>
 <body>
@@ -59,7 +58,7 @@ session_start();
 </style>
 
 
-    <div class="container-xxl mt-5 " style="position:absolute; bottom: 50px; right: 270px;">
+    <div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 270px;">
         <div class="">
 
             <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; width: 1530px; height: 760px;">
@@ -72,9 +71,9 @@ session_start();
                             <button class="btn_applyL" data-bs-toggle="modal" data-bs-target="#id_apply_leave">
                                 Apply Leave
                             </button>
-                            <button class="btn_applyLec" data-bs-toggle="modal" data-bs-target="#id_addLeaveType">
+                            <!-- <button class="btn_applyLec" data-bs-toggle="modal" data-bs-target="#id_addLeaveType">
                                 Add Leave Type
-                            </button>
+                            </button> -->
                             <style>
                                 .btn_applyLec{
                                         background: #EFB300 url(icons/add_leave.png) 
@@ -284,31 +283,17 @@ session_start();
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            <div class="mb-0">
-                                    <label for="Select_emp" class="form-label">Select Employee :</label>
-                                    <?php
-                                        include 'config.php';
-
-                                        // Fetch all values of fname and lname from the database
-                                        $sql = "SELECT fname, lname FROM employee_tb";
-                                        $result = mysqli_query($conn, $sql);
-
-                                        // Store all values in an array
-                                        $fname_lname = array();
-                                        while($row = mysqli_fetch_array($result)){
-                                            $fname_lname[] = $row['fname'] . ' ' . $row['lname'];
-                                        }
-
-                                        // Generate the dropdown list
-                                        echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' style=' height: 50px; width: 400px; cursor: pointer;'>";
-                                        foreach ($fname_lname as $name){
-                                            echo "<option value='$name'>$name</option>";
-                                        }
-                                        echo "</select>";
-                                    ?>
-
+                        <div class="mb-3">
+                                <label for="Select_dept" class="form-label">Select Status</label>
+                                        <select class='form-select form-select-m' aria-label='.form-select-sm example' style=' height: 50px; width: 400px; cursor: pointer;'>
+                                            <option value='Pending'>Pending</option>
+                                            <option value='Approved'>Approved</option>
+                                            <option value='Declined'>Declined</option>
+                                        </select>
                             </div> <!-- First mb-3 end-->
-                        
+                          
+                            
+
                         </div> <!-- first col- 6 end-->
                         <div class="col-6">
                             <label for="id_strdate" class="form-label">Date Range :</label>
@@ -324,16 +309,8 @@ session_start();
             <!----------------------------------Break------------------------------------->
 
                     <div class="row">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="Select_dept" class="form-label">Select Status</label>
-                                        <select class='form-select form-select-m' aria-label='.form-select-sm example' style=' height: 50px; width: 400px; cursor: pointer;'>
-                                            <option value='Pending'>Pending</option>
-                                            <option value='Approved'>Approved</option>
-                                            <option value='Declined'>Declined</option>
-                                        </select>
-                            </div> <!-- First mb-3 end-->
-                        
+                        <div class="col-6">                         
+                            <!-- for employee dropdown tinangal ko -->
                         </div> <!-- first col- 6 end-->
                         <div class="col-6">
                             <div class="mb-1 mt-3">
@@ -352,8 +329,38 @@ session_start();
                     </div>
             <!----------------------------------Break------------------------------------->
 
+
+             <!-- ------------------para sa message na sucessful START -------------------->
+        <?php
+
+            if (isset($_GET['msg'])) {
+                $msg = $_GET['msg'];
+                echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                '.$msg.'
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+            }
+
+
+            ?>
+            <!-------------------- para sa message na sucessful ENd --------------------->
+
+
+            <!-- ------------------para sa message na error START -------------------->
+            <?php
+            if (isset($_GET['error'])) {
+                $error = $_GET['error'];
+                echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                '.$error.'
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+            }
+
+?>
+<!-------------------- para sa message na error ENd --------------------->
+
             <div class="row mt-3"> <!--ROW start--> 
-                        <div class="col-6">
+                        <div class="col-6 mb-3">
                             <div class="pnl_top">
                                 <select class="slction_top">
                                     <option value="" disabled selected>10 Items Listed</option>
@@ -456,31 +463,14 @@ session_start();
                             </div> 
                         </div><!--COL-6 END-->        
                     </div><!--ROW END--> 
-        <!----------------------------------Break------------------------------------->                               
-        <?php
-                if (isset($_GET['msg'])) {
-                    $msg = $_GET['msg'];
-                    if($msg == 'You cannot Approved Request that is already Approved!!'){
-                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        '.$msg.'
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>';
-                    }
-                    else{
-                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                         '.$msg.'
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>';
-                    }
-                    
-                }
-
-                ?>
-                    <div class="table my-3">
+        <!----------------------------------Break------------------------------------->   
+        
+        
+                    <div class="table my-3  table-responsive "  style="height: 300px; overflow-y: auto;">
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;">
-                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top">
+                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top ">
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>
@@ -567,8 +557,10 @@ session_start();
                     </div>  --><!--modal  end-->
 
                 </div> <!--card-body end-->
+
             </div> <!--Card end-->
-        </div>  <!--jummbotron end-->
+                                                </div>
+        </div>  <!--jummbotron end--> 
     </div> <!--container end-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -592,14 +584,6 @@ session_start();
             //FOR VIEW TRANSFER MODAL END
 </script>
 
-<script>
-    setTimeout(function() {
-        let alert = document.querySelector('.alert');
-        if (alert) {
-            alert.remove();
-        }
-    }, 2000);
-</script>
 
 
 </body>

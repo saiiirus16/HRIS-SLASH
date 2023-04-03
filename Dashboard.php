@@ -23,17 +23,6 @@
 
 
 
-        
-
-
-
-
-
-
-
-
-
-
 
     
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
