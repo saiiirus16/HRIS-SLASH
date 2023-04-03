@@ -23,10 +23,10 @@ if(isset($_POST['approve_btn']))
             $status_dtr = $row_dtr['status'];
 
         if($status_dtr === 'Approved'){
-            header("Location: ../../dtr_admin.php?msg=You cannot APPROVED a request that is already APPROVED");
+            header("Location: ../../dtr_admin.php?error=You cannot APPROVED a request that is already APPROVED");
         }
         else if($status_dtr === 'Rejected'){
-            header("Location: ../../dtr_admin.php?msg=You cannot APPROVED a request that is already REJECTED");
+            header("Location: ../../dtr_admin.php?error=You cannot APPROVED a request that is already REJECTED");
         }else{
             if($type_dtr === 'IN'){
                 $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
@@ -74,10 +74,10 @@ if(isset($_POST['reject_btn']))
     $status_dtr = $row_dtr['status'];
     
     if($status_dtr === 'Approved'){
-        header("Location: ../../dtr_admin.php?msg=You cannot REJECT a request that is already APPROVED");
+        header("Location: ../../dtr_admin.php?error=You cannot REJECT a request that is already APPROVED");
     }
     else if($status_dtr === 'Rejected'){
-        header("Location: ../../dtr_admin.php?msg=You cannot REJECT a request that is already REJECTED");
+        header("Location: ../../dtr_admin.php?error=You cannot REJECT a request that is already REJECTED");
     }else{
         $query = "UPDATE emp_dtr_tb SET `status` ='Rejected' WHERE `id`='$empid'";
         $query_run = mysqli_query($conn, $query);

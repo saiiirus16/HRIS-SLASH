@@ -91,8 +91,20 @@
 <?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
             '.$msg.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+?>
+<!------------------------------------End Message alert------------------------------------------------->
+
+<!------------------------------------Message alert------------------------------------------------->
+<?php
+        if (isset($_GET['error'])) {
+            $err = $_GET['error'];
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            '.$err.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
         }
@@ -138,9 +150,16 @@
 
 <!----------------------------------Button for Approve and Reject All------------------------------------------>
                 <div class="btn-section">
-                    <button class="approve-btn">Approve All</button>
-                    <button class="reject-btn">Reject All</button>
-                 </div>
+                <form action="actions/DTR Correction/update_status.php" method="POST">
+                <input type="hidden" name="status" value="approved">
+                <button type="submit" name="approve_all" class="approve-btn">Approve All</button>
+                </form>
+
+                <form action="actions/DTR Correction/update_status.php" method="POST">
+                <input type="hidden" name="status" value="rejected">
+                <button type="submit" name="reject_all" class="reject-btn">Reject All</button>
+                </form>
+                </div>
 <!--------------------------------End Button for Approve and Reject All---------------------------------------->                 
 
 <!------------------------------------------Syntax ng Table-------------------------------------------------->
@@ -328,7 +347,7 @@
 <!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
 
 <!---------------------------------Script to Change the value of status------------------------------------------>
-<script>
+<!-- <script>
     // Get the buttons
     const approveAllBtn = document.querySelector('.approve-btn');
     const rejectAllBtn = document.querySelector('.reject-btn');
@@ -356,7 +375,7 @@
         };
         xhr.send('status=' + status);
     }
-</script>
+</script> -->
 <!-------------------------------End Script to Change the value of status---------------------------------------->
 
 

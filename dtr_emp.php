@@ -158,7 +158,7 @@
 
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div id="alert-message" class="alert alert-warning alert-dismissible fade show" role="alert">
+            echo '<div id="alert-message" class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
