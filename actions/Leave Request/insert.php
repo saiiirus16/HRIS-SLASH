@@ -39,33 +39,38 @@
                         
                             //------------------------------------------------START VALIDATION ONLY ONE REQUEST-----------------------------------------------------
                        
-            //Para sa pag select ng mga data galing sa apply leave TABLE  (PARA MAG CHECK IF EXIST)
+            //Para sa pag select ng mga data galing sa apply leave TABLE  (PARA MAG CHECK IF EXIST) DIto CHESTAH
                                 $result_leaveINFO = mysqli_query($conn, " SELECT
-                                *  
+                                    *  
                                 FROM
                                     applyleave_tb
-                                WHERE col_req_emp = $empname
-                                AND col_LeavePeriod = '$leave_period'
-                                AND col_status = 'Pending'");
+                                WHERE `col_req_emp` = $empname
+                                AND `col_LeavePeriod` = '$leave_period'
+                                AND (`col_status` = 'Pending' OR `col_status` = 'Approved')
+                                AND ('$str_date' BETWEEN `col_strDate` AND `col_endDate` 
+                                OR '$end_date' BETWEEN `col_strDate` AND `col_endDate`)");
                                 if(mysqli_num_rows($result_leaveINFO) > 0) {
                                     $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
-                                    header("Location: ../../leavereq.php?msg= Cannot apply another request due to Pending Request");
-                                } else {                                                  
+                                    //echo  "d maka insert";
+                                   header("Location: ../../leavereq.php?error= Cannot Apply due to the selected dates is already taken by your past requests.");
+                                } else {       
+                                    echo  "pwede maka insert";                                           
                                                     $minusVacationCredits = $row__leaveINFO['col_vctionCrdt'] - 0.5;
                                                     $minusSickCredits = $row__leaveINFO['col_sickCrdt'] - 0.5;
                                                     $minusBvrvmntCredits = $row__leaveINFO['col_brvmntCrdt'] - 0.5; 
                                             
                                                     if($leave_type == 'Vacation Leave'){
                                                         if($minusVacationCredits < 0 ){
-                                                            header("Location: ../../leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
+                                                            header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
                                                         }
                                                         else{
+                                                            
                                                                 #sql query to insert into database
                                                             $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
                                                             VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
                                             
                                                                 if(mysqli_query($conn,$sql)){
-                                                                    header("Location: ../../leavereq.php?msg=Successfully Added");
+                                                                   header("Location: ../../leavereq.php?msg=Successfully Added");
                                                                 }
                                                                 else{
                                                                 echo "Error";
@@ -74,7 +79,7 @@
                                                     } //end if statement in Vacation
                                                     elseif($leave_type == 'Bereavement Leave'){
                                                         if($minusBvrvmntCredits < 0 ){
-                                                            header("Location: ../../leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
+                                                            header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
                                                         }
                                                         else{
                                                                 #sql query to insert into database
@@ -91,7 +96,7 @@
                                                     } //end if statement in Bereavement Leave
                                                     elseif($leave_type == 'Sick Leave'){
                                                         if($minusSickCredits < 0 ){
-                                                            header("Location: ../../leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
+                                                            header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
                                                         }
                                                         else{
                                                                 #sql query to insert into database
@@ -154,17 +159,19 @@
 
    
     //------------------------------------------------START VALIDATION ONLY ONE REQUEST-----------------------------------------------------
-                        //Para sa pag select ng mga data galing sa apply leave TABLE
+                        //Para sa pag select ng mga data galing sa apply leave TABLE ______DIto CHESTAH
                         $result_leaveINFO1 = mysqli_query($conn, " SELECT
-                        *  
-                        FROM
-                            applyleave_tb
-                        WHERE col_req_emp = $empname
-                        AND col_LeavePeriod = '$leave_period'
-                        AND col_status = 'Pending'");
-                        if(mysqli_num_rows($result_leaveINFO1) > 0) {
-                            $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO1);
-                            header("Location: ../../leavereq.php?msg= Cannot apply another request due to Pending Request");
+                            *  
+                            FROM
+                                    applyleave_tb
+                                WHERE `col_req_emp` = $empname
+                                AND `col_LeavePeriod` = '$leave_period'
+                                AND ('$str_date' BETWEEN `col_strDate` AND `col_endDate` 
+                                OR '$end_date' BETWEEN `col_strDate` AND `col_endDate`)");
+                                if(mysqli_num_rows($result_leaveINFO) > 0) {
+                                    $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
+                                    //echo  "d maka insert";
+                                   header("Location: ../../leavereq.php?error= Cannot Apply due to the selected dates is already taken by your past requests.");
                         } else {
 
 
@@ -174,7 +181,7 @@
                                     
                                             if($leave_type == 'Vacation Leave'){
                                                 if($minusVacationCredits < 0 ){
-                                                    header("Location: leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
+                                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
                                                 }
                                                 else{
                                                         #sql query to insert into database
@@ -182,7 +189,7 @@
                                                     VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
                                     
                                                         if(mysqli_query($conn,$sql)){
-                                                            header("Location: leavereq.php?msg=Successfully Added");
+                                                            header("Location: ../../leavereq.php?msg=Successfully Added");
                                                         }
                                                         else{
                                                         echo "Error";
@@ -191,7 +198,7 @@
                                             } //end if statement in Vacation
                                             elseif($leave_type == 'Bereavement Leave'){
                                                 if($minusBvrvmntCredits < 0 ){
-                                                    header("Location: leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
+                                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
                                                 }
                                                 else{
                                                         #sql query to insert into database
@@ -199,7 +206,7 @@
                                                     VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
                                     
                                                         if(mysqli_query($conn,$sql)){
-                                                        header("Location: leavereq.php?msg=Successfully Added");
+                                                        header("Location: ../../leavereq.php?msg=Successfully Added");
                                                         }
                                                         else{
                                                         echo "Error";
@@ -208,7 +215,7 @@
                                             } //end if statement in Bereavement Leave
                                             elseif($leave_type == 'Sick Leave'){
                                                 if($minusSickCredits < 0 ){
-                                                    header("Location: leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
+                                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
                                                 }
                                                 else{
                                                         #sql query to insert into database
@@ -216,7 +223,7 @@
                                                     VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
                                     
                                                         if(mysqli_query($conn,$sql)){
-                                                        header("Location: leavereq.php?msg=Successfully Added");
+                                                        header("Location: ../.../leavereq.php?msg=Successfully Added");
                                                         }
                                                         else{
                                                         echo "Error";
@@ -268,17 +275,19 @@
 
    
     //------------------------------------------------START VALIDATION ONLY ONE REQUEST-----------------------------------------------------
-           //Para sa pag select ng mga data galing sa apply leave TABLE
+           //Para sa pag select ng mga data galing sa apply leave TABLE ______DIto CHESTAH
         $result_leaveINFO = mysqli_query($conn, " SELECT
-           *  
+                 *  
            FROM
-               applyleave_tb
-           WHERE col_req_emp = $empname
-           AND col_LeavePeriod = '$leave_period'
-           AND col_status = 'Pending'");
-           if(mysqli_num_rows($result_leaveINFO) > 0) {
-               $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
-               header("Location: ../../leavereq.php?msg= Cannot apply another request due to Pending Request");
+                                    applyleave_tb
+                                WHERE `col_req_emp` = $empname
+                                AND `col_LeavePeriod` = '$leave_period'
+                                AND ('$str_date' BETWEEN `col_strDate` AND `col_endDate` 
+                                OR '$end_date' BETWEEN `col_strDate` AND `col_endDate`)");
+                                if(mysqli_num_rows($result_leaveINFO) > 0) {
+                                    $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
+                                    //echo  "d maka insert";
+                                   header("Location: ../../leavereq.php?error= Cannot Apply due to the selected dates is already taken by your past requests.");
            } else {
                             //---------------BREAK START IF FULLDAY ANG REQUEST----------------
                             $date1 = new DateTime($str_date); // value ng start date 
@@ -291,7 +300,7 @@
                     
                             if($leave_type == 'Vacation Leave'){
                                 if($minusVacationCredits < 0 ){
-                                    header("Location: ../../leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
+                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
                                 }
                                 else{
                                         #sql query to insert into database
@@ -308,7 +317,7 @@
                             } //end if statement in Vacation
                             elseif($leave_type == 'Bereavement Leave'){
                                 if($minusBvrvmntCredits < 0 ){
-                                    header("Location: ../../leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
+                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
                                 }
                                 else{
                                         #sql query to insert into database
@@ -320,12 +329,12 @@
                                         }
                                         else{
                                         echo "Error";
-                                        }
+                                        } 
                                     }
                             } //end if statement in Bereavement Leave
                             elseif($leave_type == 'Sick Leave'){
                                 if($minusSickCredits < 0 ){
-                                    header("Location: ../../leavereq.php?msg=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
+                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
                                 }
                                 else{
                                         #sql query to insert into database
