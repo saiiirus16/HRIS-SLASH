@@ -43,6 +43,27 @@
 
       <form action="Data Controller/DTR Employee/dtr_conn.php" method="POST">
       <div class="modal-body">
+      
+        <div class="mb-3">
+               <label for="Select_emp" class="form-label">Select Employee:</label>
+             <?php
+                include 'config.php';
+
+               // Fetch all values of fname and lname from the database
+                  $sql = "SELECT fname, lname, empid FROM employee_tb";
+                  $result = mysqli_query($conn, $sql);
+
+              // Generate the dropdown list
+                  echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp'>";
+                  while ($row = mysqli_fetch_array($result)) {
+                  $emp_id = $row['empid'];
+                  $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
+                  echo "<option value='$emp_id'>$name</option>";
+              }
+                  echo "</select>";
+            ?>
+     </div>  <!--mb-3 end--->
+
         <div class="mb-3">
             <label for="exampleInputDate" class="form-label">Date</label>
             <input name="date" type="date" class="form-control" id="date_input" required>

@@ -59,19 +59,34 @@
     .sidebars ul li ul li{
         width: 100%;
     }
+
+    .card-body{
+         width: 98%;
+                   
+    }
+
+    .table{
+         width: 99.6%;
+    }
+
+    .content-wrapper{
+         width: 85%
+    }
 </style>
 
 
 <!------------------------------------Header, Dropdown and Button------------------------------------------------->
-<div class="main-panel mt-5" style="margin-left: 15%;">
+    <div class="main-panel mt-5" style="margin-left: 15%;">
         <div class="content-wrapper mt-5">
           <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1550px; height:800px; border-radius:20px;">
             <div class="card-body">
-            <div class="row">
+                <div class="row">
                         <div class="col-6">
                             <h2>DTR Correction</h2>
                         </div>
                         </div>  
+<!------------------------------------Header, Dropdown and Button------------------------------------------------->
+
 <!------------------------------------Message alert------------------------------------------------->
 <?php
         if (isset($_GET['msg'])) {
@@ -127,23 +142,6 @@
                     <button class="reject-btn">Reject All</button>
                  </div>
 <!--------------------------------End Button for Approve and Reject All---------------------------------------->                 
-
-<!------------------------------------CSS ng Table para maresize----------------------------------------------->
-            <style>
-                .card-body{
-                    width: 98%;
-                   
-                }
-
-                .table{
-                    width: 99.6%;
-                }
-
-                .content-wrapper{
-                    width: 85%
-                }
-            </style>
-<!------------------------------------End CSS ng Table para maresize----------------------------------------->
 
 <!------------------------------------------Syntax ng Table-------------------------------------------------->
 <form action="actions/DTR Correction/approval.php" method="POST">
@@ -202,7 +200,7 @@
                                         <td><?php echo $row['reason']?></td>
                                         <td><?php echo $row['upl_file']?></td>
                                         <td> 
-                                            <p><?php echo $row['status']?></p>
+                                            <p data-status="<?php echo $row['status']?>"><?php echo $row['status']?></p>
                                         </td>
                                         <td>
                                         <button type="submit" name="approve_btn" class="btn btn-outline-success viewbtn">Approve</button>

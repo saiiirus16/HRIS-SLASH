@@ -12,22 +12,18 @@ include ("config.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
     <link rel="stylesheet" href="css/branch.css"/>
     <link rel="stylesheet" href="css/styles.css">
-    <title>Branchesss</title>
+    <title>Branch</title>
 
 </head>
 <body>
@@ -233,16 +229,31 @@ include 'header.php';
                     </div> <!--ROW END-->
 
 
+<!-------------------------------------------------------MESSAGE ALERT------------------------------------------------------------------->
         <?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
         }
 
         ?>
+<!------------------------------------------------------- END NG MESSAGE ALERT------------------------------------------------------------>
+
+
+<!-------------------------------------------------------ERROR MESSAGE ALERT------------------------------------------------------------------->
+<?php
+    if (isset($_GET['error'])) {
+        $err = $_GET['error'];
+        echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        '.$err.'
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+    }
+?>
+<!------------------------------------------------------- END NG ERROR MESSAGE ALERT------------------------------------------------------------>
 
                         <!-- <div class="mt-3">
                                 <label for="Select_emp" class="form-label">Filter by Branch:</label>
@@ -298,8 +309,8 @@ include 'header.php';
                                         <td><?php echo $row['email']?></td>
                                         <td><?php echo $row['telephone']?></td>
                                         <td>
-                                                <button class='link-dark editbtn border-0'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
-                                                <button class='link-dark deletebtn border-0'><i class='fa-solid fa-trash fs-5 me-3' title='delete'></i></button> 
+                                                <button class='link-dark editbtn border-0'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='EDIT'></i></button> 
+                                                <button class='link-dark deletebtn border-0'><i class='fa-solid fa-trash fs-5 me-3' title='DELETE'></i></button> 
                                         </td>
                                         </tr>
                           <?php

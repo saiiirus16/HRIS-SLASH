@@ -41,6 +41,32 @@ session_start();
                     
                     <form action="Data Controller/Official Employee/official_conn.php" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
+                            <div class="mb-3">
+                                    <label for="Select_emp" class="form-label">Select Employee:</label>
+                                    <?php
+                                        include 'config.php';
+
+                                    // Fetch all values of fname and lname from the database
+                                        $sql = "SELECT fname, lname, empid FROM employee_tb";
+                                        $result = mysqli_query($conn, $sql);
+
+                                    // Generate the dropdown list
+                                        echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp'>";
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        $emp_id = $row['empid'];
+                                        $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
+                                        echo "<option value='$emp_id'>$name</option>";
+                                    }
+                                        echo "</select>";
+                                    ?>
+                            </div>  <!--mb-3 end--->
+                            
+                            <div class="mb-3">
+                                    <label for="company" class="form-label">Company Name</label>
+                                    <input type="text" name="company_name" class="form-control" id="location_id" required>
+                                </div>
+
+
                             <div class="row">
                                 <div class="col-6">
                                 <label for="start" class="form-label">Start Date</label>
@@ -54,17 +80,17 @@ session_start();
 
                                 <div class="row" >
                                     <div class="col-6">
-                                    <label for="timer_start" class="form-label">Start Time</label>
+                                    <label for="timer_start" class="form-label mt-2">Start Time</label>
                                     <input type="time" name="str_time" class="form-control" id="start_time" required>
                                     </div>
                                     <div class="col-6">
-                                    <label for="timer_end" class="form-label">End Time</label>
+                                    <label for="timer_end" class="form-label mt-2">End Time</label>
                                     <input type="time" name="end_time" class="form-control" id="end_time" required>
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="location" class="form-label">Location</label>
+                                    <label for="location" class="form-label mt-2">Location</label>
                                     <input type="text" name="locate" class="form-control" id="location_id" required>
                                 </div>
 
@@ -147,6 +173,7 @@ session_start();
                                             <tr>
                                                 <th>Employee ID</th>
                                                 <th>Name</th>
+                                                <th>Company Name</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                                 <th>Start Time</th>
@@ -157,17 +184,36 @@ session_start();
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                                <?php
-                                                    $conn = mysqli_connect("localhost","root","", "hris_db");
+                                        <?php 
+                                            $conn = mysqli_connect("localhost","root","","hris_db");
 
-                                                    $query = "SELECT * FROM emp_official_tb";
-                                                    $result = mysqli_query($conn, $query);
-                                                    while ($row = mysqli_fetch_assoc($result)) {
-                                                    
-                                                ?> 
+                                            $query = "SELECT
+                                            emp_official_tb.id,
+                                            employee_tb.empid,
+                                            CONCAT(
+                                                employee_tb.`fname`,
+                                                ' ',
+                                                employee_tb.`lname`
+                                            ) AS `full_name`,
+                                            emp_official_tb.company_name,
+                                            emp_official_tb.str_date,
+                                            emp_official_tb.end_date,
+                                            emp_official_tb.start_time,
+                                            emp_official_tb.end_time,
+                                            emp_official_tb.location,
+                                            emp_official_tb.file_upl,
+                                            emp_official_tb.reason,
+                                            emp_official_tb.status
+                                        FROM
+                                            employee_tb
+                                        INNER JOIN emp_official_tb ON employee_tb.empid = emp_official_tb.employee_id;";
+                                            $result = mysqli_query($conn, $query);
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                            ?>
                                             <tr>
-                                                <td><?php echo $row['employee_id'];?></td>
-                                                <td>Joseph</td>
+                                                <td><?php echo $row['empid'];?></td>
+                                                <td><?php echo $row['full_name'];?></td>
+                                                <td><?php echo $row['company_name'];?></td>
                                                 <td><?php echo $row['str_date'];?></td>
                                                 <td><?php echo $row['end_date'];?></td>
                                                 <td><?php echo $row['start_time'];?></td>

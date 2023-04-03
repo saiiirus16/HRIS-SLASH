@@ -159,7 +159,7 @@ session_start();
       <div class="modal-body">
 
         <input type="hidden" name="delete_id" id="delete_id">
-
+        <input type="hidden" name="designation" id="designate">
         <h4>Do you want to delete?</h4>
 
       </div> <!--Modal body div close tag-->
@@ -228,6 +228,19 @@ session_start();
 
 <!------------------------------------------------------- END NG MESSAGE ALERT------------------------------------------------------------>
 
+
+<!-------------------------------------------------------MESSAGE ERROR ALERT------------------------------------------------------------------->
+<?php
+    if (isset($_GET['error'])) {
+        $err = $_GET['error'];
+        echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        '.$err.'
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+    }
+?>
+<!-------------------------------------------------------END MESSAGE ERROR ALERT------------------------------------------------------------------->
+
 <!------------------------------------------------------THIS IS CODE FOR TABLE------------------------------------------------------------------->
             <div class="row">
                 <div class="col-12 mt-5">
@@ -271,8 +284,8 @@ session_start();
                                             <td>
 
                                                 <button type='submit'  name='view_data' class='link-dark editbtn border-0 viewbtn' title = 'View'><i class='fa-solid fa-eye fs-5 me-3'></i></button>
-                                                <button type='button'class='link-dark editbtn border-0' data-bs-toggle='modal' data-bs-target='#editmodal'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
-                                                <button type='button'class='link-dark deletebtn border-0' data-bs-toggle='modal' data-bs-target='#deletemodal'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
+                                                <button type='button' class='link-dark editbtn border-0' data-bs-toggle='modal' data-bs-target='#editmodal'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
+                                                <button type='button' class='link-dark deletebtn border-0' data-bs-toggle='modal' data-bs-target='#deletemodal'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
                                             </td>
                                         </tr>";
                                 }
@@ -289,7 +302,8 @@ session_start();
                         </div>
                     </div>
                 </div>
-            </div>
+
+            </div> <!--Main Panel Close Tag-->
         </div>
     </div>
 </div>
@@ -327,7 +341,7 @@ session_start();
                     console.log(data);
 
                     $('#delete_id').val(data[0]);
-                    
+                    $('#designate').val(data[2]);
 
                 });
             });
@@ -377,6 +391,8 @@ session_start();
                                     });
                                 });
             //FOR VIEW TRANSFER MODAL END
-        </script>
+</script>
+
+
 </body>
 </html>

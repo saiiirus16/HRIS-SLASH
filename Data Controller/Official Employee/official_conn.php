@@ -9,8 +9,8 @@
 
     if(isset($_POST['savedata']))
     {
-        $employee_id = '123';
-        //$employee_id = $_POST['employee_id'];
+        $employee_id = $_POST ['name_emp'];
+        $name_company = $_POST ['company_name'];
         $start_date = $_POST['str_date'];
         $end_date = $_POST['end_date'];
         $start_time = $_POST['str_time'];
@@ -29,8 +29,8 @@
         #TO move the uploaded file to specific location
         move_uploaded_file($tname, $uploads_dir.'/'.$file_upl);
 
-        $query = "INSERT INTO emp_official_tb (`employee_id`,`str_date`,`end_date`,`start_time`,`end_time`,`location`,`file_upl`,`reason`,`status`)
-        VALUES ('$employee_id','$start_date','$end_date','$start_time','$end_time','$location','$file_upl','$reason','Pending')";
+        $query = "INSERT INTO emp_official_tb (`employee_id`, `company_name`,`str_date`,`end_date`,`start_time`,`end_time`,`location`,`file_upl`,`reason`,`status`)
+        VALUES ('$employee_id', '$name_company', '$start_date','$end_date','$start_time','$end_time','$location','$file_upl','$reason','Pending')";
         $query_run = mysqli_query($conn, $query);
 
         if($query_run)
