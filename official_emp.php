@@ -222,7 +222,7 @@ session_start();
                                                 <td><?php echo $row['file_upl'];?></td>
                                                 <td><?php echo $row['reason'];?></td>
                                                 <td> 
-                                                <label class="  "><?php echo $row['status'];?> </label>
+                                                <label class=""><?php echo $row['status'];?> </label>
                                                 </td>
                                             </tr>
                                                  <?php

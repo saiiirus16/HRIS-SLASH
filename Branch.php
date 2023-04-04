@@ -316,9 +316,7 @@ include 'header.php';
                           <?php
                                } 
                           ?>
-
-
-                        
+        
                          </tbody>
                       </table>
                         </div>
@@ -382,9 +380,6 @@ include 'header.php';
             });
         </script>
 <!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
-
-
-
 
     <!--Bootstrap Js-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

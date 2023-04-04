@@ -1,50 +1,86 @@
 <?php
-// Connect to the database
 $conn = mysqli_connect("localhost", "root", "", "hris_db");
 
-// Select all entries with status "Pending"
 $query = "SELECT * FROM emp_dtr_tb WHERE `status`='Pending'";
 $result = mysqli_query($conn, $query);
 
-// Check if there are any pending entries
 if (mysqli_num_rows($result) == 0) {
-  // No pending entries found
   header("Location: ../../dtr_admin.php?error=No Pending Requests");
   exit();
 }
 
-// Check if the user clicked "Approve All" or "Reject All"
+// Check if the user clicked Approve All or Reject All Button
 if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
-  // Get the current status of the pending entries
   $query = "SELECT DISTINCT `status` FROM emp_dtr_tb WHERE `status`='Pending'";
-  $result = mysqli_query($conn, $query);
+  $result_pending = mysqli_query($conn, $query);
 
-  // Check if there is only one status (i.e. all entries have the same status)
-  if (mysqli_num_rows($result) == 1) {
-    $status = mysqli_fetch_assoc($result)['status'];
+  if (mysqli_num_rows($result_pending) == 1) {
+    $status = mysqli_fetch_assoc($result_pending)['status'];
 
     if ($status == 'Pending') {
-      // Update the status of pending entries in the database to "approved" or "rejected"
       if (isset($_POST['approve_all'])) {
         $query = "UPDATE emp_dtr_tb SET `status`='Approved' WHERE `status`='Pending'";
+        mysqli_query($conn, $query);
+
+        $msg = '';
+        $error = false;
+        $result = mysqli_query($conn, "SELECT * FROM emp_dtr_tb WHERE `status`='Approved'");
+
+          while ($row_dtr = mysqli_fetch_assoc($result)) {
+          $employeeid = $row_dtr['emp_id'];
+          $date_dtr = $row_dtr['date'];
+          $time_dtr = $row_dtr['time'];
+          $type_dtr = $row_dtr['type'];
+          $status_dtr = $row_dtr['status'];
+
+        
+          // Update the status of the request
+          $query = "UPDATE emp_dtr_tb SET `status`='Approved' WHERE `id`={$row_dtr['id']} AND `status`='Pending'";
+          $query_run = mysqli_query($conn, $query);
+        
+          if ($query_run) {
+            // Insert into the attendances table
+            if ($type_dtr === 'IN') {
+              $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr')";
+              $result_attendance = mysqli_query($conn, $sql);
+        
+              if (!$result_attendance) {
+                $msg = "Failed to insert into the attendances table: " . mysqli_error($conn);
+                $error = true;
+                break; 
+              }
+            } else if($type_dtr === 'OUT') {
+              $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_out`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr')";
+              $result_attendance = mysqli_query($conn, $sql);
+        
+              if (!$result_attendance) {
+                $msg = "Failed to insert into the attendances table: " . mysqli_error($conn);
+                $error = true;
+                break; 
+              }
+            }
+          }
+        }
+        if (!$error) {
+          $msg = "You Approved all requests successfully.";
+        }
+        header("Location: ../../dtr_admin.php?msg=$msg");
       } else {
         $query = "UPDATE emp_dtr_tb SET `status`='Rejected' WHERE `status`='Pending'";
-      }
+        $result = mysqli_query($conn, $query);
 
-      $result = mysqli_query($conn, $query);
-      // Check for errors
-      if ($result) {
-        header("Location: ../../dtr_admin.php?msg=Update Status All Request Successfully");
-      } else {
-        echo "Error updating status: " . mysqli_error($conn);
+        if ($result) {
+          header("Location: ../../dtr_admin.php?msg=Rejected the All Request Successfully");
+        } else {
+          echo "Error updating status: " . mysqli_error($conn);
+        }
       }
+    } else {
+      header("Location: ../../dtr_admin.php?error=There are requests with different statuses.");
     }
-
-    // Close the database connection
     mysqli_close($conn);
-    // Inform the reader that the database connection has been closed
-    //echo "Database connection closed successfully";
   }
 }
+
 ?>
 
