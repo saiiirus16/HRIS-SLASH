@@ -176,15 +176,15 @@
                             $sql = "SELECT * FROM schedule_tb";
                             $results = mysqli_query($conn, $sql);
 
-                            $options = "";
-                            while ($rows = mysqli_fetch_assoc($results)) {
-                                $options .="<a href=editScheduleForm.php?id=$rows[id]'>".$rows['schedule_name']. "</a><br><br>";
-                        }
+                           
+                            if($results->num_rows > 0){
+                                while($rows = $results->fetch_assoc()){
+                                    echo "<button style='border:none; background-color: inherit; display: flex; margin-left: 20px; font-size: 26px; margin-top: 10px; font-weight: 500;'><a href='editScheduleForm.php?id=$rows[id]'>".$rows['schedule_name']."</a></button>";
+                                }
+                            }
                         ?>
 
-                    <div>   
-                        <h1><?php echo $options; ?></h1>
-                    </div>
+                   
                     <!-- <a href="scheduleForm.php"><h1>Office Based</h1></a>
                     <a href="http://"><h1>Flexible</h1></a>
                     <a href="http://"><h1>Work From Home</h1></a> -->
@@ -195,12 +195,12 @@
                         <div class="scheduleBtn-crud">
                             <!-- <button style="color:white;" type="submit"><a href="" style="color:white;">Add</a></button> -->
                             <input type="submit" value="Update" name="update" class="btn btn-success"  >
-                            <button class="btn btn-success"><a href="Button Controller/delete.php?id=$row[id]" style="color:white;">Delete</a></button>
+                            <button class="btn btn-success"><a href="actions/Schedules/delete.php?id=<?php echo $schedrow['id'] ?>" style="color:white;">Delete</a></button>
                         </div>
                     </div>
 
                     <label for="schedule_name">Schedule Name</label><br>
-                    <input class="schedule-input" type="text" name="schedule_name" id="" value="<?php echo $schedrow['schedule_name'];?>">
+                    <input class="schedule-input" type="text" name="schedule_name" id="" value="<?php echo $schedrow['schedule_name'];?>" required>
 
                 <div class="scheduletable-table">
 

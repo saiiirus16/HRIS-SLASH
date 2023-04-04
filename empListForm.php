@@ -57,7 +57,7 @@
                             <div class="emp-info-first-input">
                                 <div class="emp-info-fname">
                                         <label for="fname">First Name</label><br>
-                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" required>
+                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" required >
                                         
                                 </div>
                                 <div class="emp-info-lname">
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="emp-info-dob">
                                         <label for="empdob" required>Date of Birth</label><br>
-                                        <input type="date" name="empdob" id="" placeholder="Select Date of Birth" >
+                                        <input type="date" name="empdob" id="empdob" placeholder="Select Date of Birth" >         
                                 </div>
                             </div>
                         </div> 
@@ -334,6 +334,18 @@
     </form>
         </div>
 
+
+<script>
+ // Calculate the date 18 years ago
+var today = new Date();
+var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+// Format the maxDate as YYYY-MM-DD
+var maxDateFormatted = maxDate.toISOString().split("T")[0];
+
+// Set the max attribute of the input element
+document.getElementById("empdob").setAttribute("max", maxDateFormatted);
+</script>
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>

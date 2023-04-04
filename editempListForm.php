@@ -67,7 +67,7 @@
                                              </div> 
                                              <div class="emp-info-empID">
                                                      <label for="empid">Employee ID</label><br>
-                                                     <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>">
+                                                     <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>" disabled>
                                              </div>
                                          </div>
                                          <div class="emp-info-second-input">
@@ -144,7 +144,7 @@
                                              <div class="emp-empDetail-branch">
                                                 
                                                      <label for="empbranch">Branch</label><br>
-                                                     <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['empbranch'] ?>">
+                                                     <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['empbranch'] ?>" disabled>
                                              </div>
              
              
@@ -157,7 +157,7 @@
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value=' ". $rows['col_deptname'] . "'>" .$rows['col_deptname'].  "</option>";
+                                                         $options .= "<option value='".$rows['col_deptname']."'>" .$rows['col_deptname'].  "</option>";
                                                      }
                                                      ?>
              
