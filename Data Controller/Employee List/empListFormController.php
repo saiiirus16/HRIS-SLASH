@@ -1,5 +1,7 @@
 <?php  
 
+    // $empidError = urlencode("Employee ID does exist. ");
+
    $empid = $_POST['empid'];
    $conn = new mysqli('localhost', 'root', '', 'hris_db');
    if($conn->connect_error){
@@ -11,8 +13,8 @@
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         // empid already exists, display an error message
-        echo "<script> alert('EMPLOYEE ID IS EXIST') </script>";
-        exit;
+        header("Location: ../../empListForm.php?empidError");
+        die;
         } else{
     
    $fname = $_POST['fname'];
@@ -62,8 +64,9 @@
 //     } else {
 //         echo "There was an error!";
 //     }
-   if($password != $cpassword){
-     echo "Password is not match";
+   if($password != $cpassword){  
+    header("Location: ../../empListForm.php?passError");
+    die;
    }else{
    
         $stmt = $conn->prepare("INSERT INTO employee_tb (fname, lname, empid, address, contact, cstatus, gender, empdob, empsss, emptin, emppagibig, empphilhealth, empbranch, department_name, empposition, empbsalary, drate, approver, empdate_hired, emptranspo, empmeal, empinternet, empschedule_type, empstart_date, empend_date, empaccess_id, username, role, email, password, cpassword)

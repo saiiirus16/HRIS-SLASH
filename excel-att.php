@@ -17,7 +17,7 @@ if(!$db){
  
 
 // Fetch records from database 
-$query = $db->query("SELECT * FROM attendances ORDER BY id ASC"); 
+$query = $db->query("SELECT * FROM attendance_tb ORDER BY id ASC"); 
  
 if($query->num_rows > 0){ 
     $delimiter = ","; 

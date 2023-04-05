@@ -22,10 +22,10 @@
                     <img src="img/user.jpg" alt="" srcset="">
                 </div>
                 <div class="header-type">
-                    <h1><?php if(empty($_SESSION['userType'])){
+                    <h1><?php if(empty($_SESSION['role'])){
                             echo "No user type";
                         } else {
-                            echo $_SESSION['userType'];
+                            echo $_SESSION['role'];
                         }
                         
                         ?></h1>
@@ -52,7 +52,7 @@
 
                 <li><a href="#" class="timekeep-dd hoverable"><div><span class="fa-regular fa-clock"></span>TIMEKEEPING</div><span class="fa-solid fa-chevron-right"></span></a>
                     <ul class="timekeep-dd-show">
-                        <li> <a href="att.php"> ATTENDANCE</a></li>
+                        <li> <a href="attendance.php"> ATTENDANCE</a></li>
                         <li> <a href="#"> CALENDAR</a></li>
                         <li> <a href="dtRecords.php"> DAILY TIME RECORDS</a></li>
                         <li> <a href="dtr_admin.php"> DTR CORRECTION</a></li>

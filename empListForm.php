@@ -1,6 +1,17 @@
 
 <?php
     session_start();
+
+    if(isset($_GET['empidError'])){
+        $empidError = "Employee ID does exist.";
+        echo "<script> alert('$empidError')</script>";
+    }
+
+    if(isset($_GET['passError'])){
+        $passError = "Password does not match!";
+        echo "<script> alert('$passError')</script>";
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,8 +51,8 @@
                 
             });
         }); -->
-    </script>
     
+        
     <header>
         <?php include("header.php")?>
     </header>
@@ -57,12 +68,12 @@
                             <div class="emp-info-first-input">
                                 <div class="emp-info-fname">
                                         <label for="fname">First Name</label><br>
-                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" required >
+                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" id="fname" onkeyup='saveValue(this);' required >
                                         
                                 </div>
                                 <div class="emp-info-lname">
                                         <label for="lname">Last Name</label><br>
-                                        <input type="text" name="lname" id="form-lname" placeholder="Last Name" required >
+                                        <input type="text" name="lname" id="form-lname" placeholder="Last Name" id="lname" onkeyup='saveValue(this);' required >
                                         
                                 </div>
                                 <div class="emp-info-empID">
@@ -345,7 +356,10 @@ var maxDateFormatted = maxDate.toISOString().split("T")[0];
 
 // Set the max attribute of the input element
 document.getElementById("empdob").setAttribute("max", maxDateFormatted);
+
 </script>
+
+
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
