@@ -254,7 +254,7 @@ if(!empty($_GET['status'])){
                                 }
                             }else{
                                 ?>
-                                    <tr><td colspan="5">No member(s) found...</td></tr>
+                                    <!-- <tr><td colspan="5">No member(s) found...</td></tr> -->
                                 <?php
                             }
                             ?>

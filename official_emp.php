@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +31,44 @@ session_start();
         include 'header.php';
     ?>
     </header>
+
+    <style>
+    .sidebars ul li{
+        list-style: none;
+        text-decoration:none;
+        width: 287px;
+        margin-left:-16px;
+        line-height:30px;
+       
+    }
+
+    .sidebars ul li .hoverable{
+        height:55px;
+    }
+
+    .sidebars ul{
+        height:100%;
+    }
+
+    .sidebars .first-ul{
+        line-height:60px;
+        height:100px;
+    }
+
+    .sidebars ul li ul li{
+        width: 100%;
+    }
+
+    .card-body{
+         width: 70%;
+                   
+    }
+
+    .table{
+         width: 90%;
+    }
+
+</style>
  <!------------------------------------Modal Start Here----------------------------------------------->
  <div class="modal fade" id="file_off_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -74,7 +113,7 @@ session_start();
                                 </div>
                                 <div class="col-6">
                                 <label for="end" class="form-label">End Date</label>
-                                <input type="date" name="end_date" class="form-control" id="end_date" required>
+                                <input type="date" name="end_date" class="form-control" id="end_date"  required>
                                  </div>
                             </div>
 
@@ -85,7 +124,7 @@ session_start();
                                     </div>
                                     <div class="col-6">
                                     <label for="timer_end" class="form-label mt-2">End Time</label>
-                                    <input type="time" name="end_time" class="form-control" id="end_time" required>
+                                    <input type="time" name="end_time" class="form-control" id="end_time" onchange = "timevalidate()" required>
                                     </div>
                                 </div>
 
@@ -95,13 +134,13 @@ session_start();
                                 </div>
 
                                 <div class="input-group mb-3">
-                                    <input type="file" name="file_upload" class="form-control" id="inputGroupFile02" >
+                                    <input type="file" name="file_upload" class="form-control" id="inputfile" required>
                                     <label class="input-group-text"  for="inputGroupFile02">Upload</label>
                                 </div>
 
                                 <div class="mb-3">
                                 <label for="text_area" class="form-label">Reason</label>
-                                <textarea class="form-control" name="text_reason" id="text_area"></textarea>
+                                <textarea class="form-control" name="text_reason" id="view_reason"></textarea>
                                 </div>
                             </div>
                         <div class="modal-footer">
@@ -115,10 +154,63 @@ session_start();
      </div>
 <!--------------------------------------Modal End Here----------------------------------------------->
 
+
+<!---------------------------------------View Modal Start Here -------------------------------------->
+<div class="modal fade" id="viewmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">Reason</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+            <label for="text_area" class="form-label"></label>
+            <textarea class="form-control" name="text_reason" id="view_reason1" readonly></textarea>
+         </div>
+      </div><!--Modal Body Close Tag-->
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------View Modal End Here --------------------------------------->
+
+<!---------------------------------------Download Modal Start Here -------------------------------------->
+<div class="modal fade" id="download" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="download.php" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="table_id" id="id_table">
+        <input type="hidden" name="table_name" id="name_table">
+        <h3>Are you sure you want download the PDF File?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="yes_download" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------Download Modal End Here --------------------------------------->
+
+
+
+<!---------------------------------------Main Panel Start Here --------------------------------------->
         <div class="main-panel mt-5" style="margin-left: 15%;">
             <div class="content-wrapper mt-5">
                 <div class="card">
                     <div class="card-body">
+<!---------------------------------------Main Panel End Here --------------------------------------->
                         
 <!----------------------------------Class ng header including the button for modal---------------------------------------------->                    
                             <div class="row">
@@ -138,7 +230,7 @@ session_start();
 <?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            echo '<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
@@ -171,6 +263,7 @@ session_start();
                                     <table id="order-listing" class="table">
                                         <thead>
                                             <tr>
+                                                <th style="display: none;">ID</th>
                                                 <th>Employee ID</th>
                                                 <th>Name</th>
                                                 <th>Company Name</th>
@@ -181,6 +274,7 @@ session_start();
                                                 <th>Location</th>
                                                 <th>File Attachment</th>
                                                 <th>Reason</th>
+                                                <th style="display: none;">View Button</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -211,6 +305,7 @@ session_start();
                                             while ($row = mysqli_fetch_assoc($result)) {
                                             ?>
                                             <tr>
+                                                <td style="display: none;"><?php echo $row['id'];?></td>
                                                 <td><?php echo $row['empid'];?></td>
                                                 <td><?php echo $row['full_name'];?></td>
                                                 <td><?php echo $row['company_name'];?></td>
@@ -219,10 +314,12 @@ session_start();
                                                 <td><?php echo $row['start_time'];?></td>
                                                 <td><?php echo $row['end_time'];?></td>
                                                 <td><?php echo $row['location'];?></td>
-                                                <td><?php echo $row['file_upl'];?></td>
-                                                <td><?php echo $row['reason'];?></td>
+                                                <td><button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button></td>
+                                                <td style="display: none;"><?php echo $row['reason'];?></td>
+                                                <td>
+                                                <a href="" class="btn btn-primary showbtn" data-bs-toggle="modal" data-bs-target="#viewmodal">View</a>   
                                                 <td> 
-                                                <label class=""><?php echo $row['status'];?> </label>
+                                                <label class=""><?php echo $row['status'];?></label>
                                                 </td>
                                             </tr>
                                                  <?php
@@ -241,17 +338,66 @@ session_start();
 
 
 
+<!------------------------------------Script para lumabas ang modal------------------------------------------------->
+<script>
+     $(document).ready(function(){
+               $('.showbtn').on('click', function(){
+                 $('#viewmodal').modal('show');
+                      $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#view_reason1').val(data[10]);
+               });
+             });
+</script>
+<!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
+
+<!------------------------------------Script para lumabas ang modal------------------------------------------------->
+<script>
+     $(document).ready(function(){
+               $('.downloadbtn').on('click', function(){
+                 $('#download').modal('show');
+                      $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#id_table').val(data[0]);
+                   $('#name_table').val(data[2]);
+               });
+             });
+</script>
+<!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
+
+
+<!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>
+<script>
+  document.getElementById('inputfile').addEventListener('change', function(event) {
+    var fileInput = event.target;
+    var file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Please select a PDF file.');
+      fileInput.value = ''; // Clear the file input field
+    }
+  });
+</script>
+<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+
 
 
 <!-----------------------Script para sa automatic na pagdisapper ng alert message------------------------------->
-<script>
+<!-- <script>
     setTimeout(function() {
         let alert = document.querySelector('.alert');
         if (alert) {
             alert.remove();
         }
     }, 2000);
-</script>
+</script> -->
 <!---------------------End Script para sa automatic na pagdisapper ng alert message------------------------------>
 
 <!-- plugins:js -->
@@ -266,6 +412,6 @@ session_start();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-
+<!-- <script src="js/official_emp.js"></script> -->
 </body>
 </html>
