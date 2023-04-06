@@ -25,6 +25,7 @@ if(!empty($_GET['status'])){
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,6 +83,19 @@ if(!empty($_GET['status'])){
     .sidebars ul li ul li{
         width: 100%;
     }
+
+    .card-body{
+                            width: 99.8%;
+                            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+                        }
+
+                        .table{
+                            width: 100%;
+                        }
+
+                        .content-wrapper{
+                            width: 90%
+                        }
 </style>
 <!-------------------------------------------- Modal Start Here ---------------------------------------------------------->
 <div class="modal fade" id="upload_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -112,7 +126,7 @@ if(!empty($_GET['status'])){
           <div class="card mt-3" style="width: 1550px; height:800px box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);">
             <div class="card-body">
                 <div class="pnl_home">
-                <a href="#">Home</a>
+                <a href="dashboard.php">Home</a>
                 <p class="header_slash">\</p>
                 <p class="header_prgph_DTR">EmployeeDTRManagement</p>
                 
@@ -122,22 +136,6 @@ if(!empty($_GET['status'])){
                     <button class="down-btn" id="downloadBtn"><a href="actions/Daily Time Records/export.php" class="dl_excel"></i>Download Excel</a></button>
                   </div>
                   </div>
-
-                  <style>
-                        .card-body{
-                            width: 99.8%;
-                            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-                        }
-
-                        .table{
-                            width: 100%;
-                        }
-
-                        .content-wrapper{
-                            width: 90%
-                        }
-
-                  </style>
 <!------------------------------------------------- End Of Header -------------------------------------------> 
 
 <!---------------------------------------- Display status message ------------------------------------------->
@@ -288,7 +286,7 @@ function formToggle(ID){
         if (alert) {
             alert.style.display = 'none';
         }
-    }, 2000);
+    }, 4000);
 </script>
 
 

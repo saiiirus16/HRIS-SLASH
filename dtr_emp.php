@@ -31,6 +31,47 @@
             include 'header.php'
         ?>
 </header>
+
+<style>
+.sidebars ul li{
+        list-style: none;
+        text-decoration:none;
+        width: 287px;
+        margin-left:-16px;
+        line-height:30px;
+       
+    }
+
+    .sidebars ul li .hoverable{
+        height:55px;
+    }
+
+    .sidebars ul{
+        height:100%;
+    }
+
+    .sidebars .first-ul{
+        line-height:60px;
+        height:100px;
+    }
+
+    .sidebars ul li ul li{
+        width: 100%;
+    }
+    
+    .card-body{
+                    width: 98%;
+                    box-shadow: 10px 10px 10px 8px #888888;
+                }
+
+                .table{
+                    width: 99.7%;
+                }
+
+                .content-wrapper{
+                    width: 85%
+                }
+</style>
 <!----------------------------------------------Modal Start Here-------------------------------------------------------------->
 
 <div class="modal fade" id="file_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -169,18 +210,7 @@
 
 <!-------------------------------------------Style sa card at table--------------------------------------------------------------->
 <style>
-                .card-body{
-                    width: 98%;
-                    box-shadow: 10px 10px 10px 8px #888888;
-                }
 
-                .table{
-                    width: 99.7%;
-                }
-
-                .content-wrapper{
-                    width: 85%
-                }
 </style>
 <!----------------------------------------End Style sa card at table-------------------------------------------------------------->
 

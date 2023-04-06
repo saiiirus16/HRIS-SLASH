@@ -41,7 +41,15 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
           if ($query_run) {
             // Insert into the attendances table
             if ($type_dtr === 'IN') {
-              $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr')";
+            // Calculate late if time_in is later than 9am
+                $late = '';
+                if($time_dtr > '09:00:00'){
+                    $time_in_datetime = new DateTime($time_dtr);
+                    $scheduled_time = new DateTime('09:00:00');
+                    $interval = $time_in_datetime->diff($scheduled_time);
+                    $late = $interval->format('%h:%i:%s');
+                }
+              $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
               $result_attendance = mysqli_query($conn, $sql);
         
               if (!$result_attendance) {
@@ -50,13 +58,26 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                 break; 
               }
             } else if($type_dtr === 'OUT') {
-              $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_out`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr')";
+              
+              $scheduled_time = new DateTime('18:00:00');
+              $time_out_datetime = new DateTime($time_dtr);
+              if ($time_out_datetime < $scheduled_time) {
+                $interval = $scheduled_time->diff($time_out_datetime);
+                $early_out = $interval->format('%h:%i:%s');
+                $overtime = '';
+              } else {
+                $interval = $time_out_datetime->diff($scheduled_time);
+                $overtime = $interval->format('%h:%i:%s');
+                $early_out = '';
+              }
+
+              $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_out`, `early_out`, `overtime`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$early_out', '$overtime')";
               $result_attendance = mysqli_query($conn, $sql);
-        
+
               if (!$result_attendance) {
                 $msg = "Failed to insert into the attendances table: " . mysqli_error($conn);
                 $error = true;
-                break; 
+                break;
               }
             }
           }
