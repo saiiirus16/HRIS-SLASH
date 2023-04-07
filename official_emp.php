@@ -24,6 +24,7 @@ session_start();
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
     <link rel="stylesheet" href="css/official_emp.css"/>
     <link rel="stylesheet" href="css/styles.css">
+    <title>Official Business - Employee</title>
 </head>
 <body>
     <header>

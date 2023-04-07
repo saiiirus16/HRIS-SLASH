@@ -58,7 +58,7 @@
                         <li> <a href="dtr_admin.php"> DTR CORRECTION</a></li>
                         <li> <a href="leaveInfo.php"> LEAVES INFORMATION</a></li>
                         <li> <a href="leaveReq.php"> LEAVE REQUEST</a></li>
-                        <li> <a href="#"> OFFICIAL BUSINESS</a></li>
+                        <li> <a href="official_business.php"> OFFICIAL BUSINESS</a></li>
                         <li> <a href="Schedules.php"> SCHEDULES</a></li>
                     </ul>
                 </li>
