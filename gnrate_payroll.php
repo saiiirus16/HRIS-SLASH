@@ -133,7 +133,8 @@
 
 
                                     <div class="table-responsive" style = "overflow-y: scroll;  max-height: 500px;">
-                                        <form action="departmentEmployee.php" method="post">         
+                                        <form action="gnrate_payroll_view.php" method="post">
+                                        <input id="employeeID" name="Name_employeeID" type="text">         
                                             <table id="order-listing" class="table">
                                                 <thead>
                                                     <tr>
@@ -187,7 +188,7 @@
                                                 <td class= 'text-center'>" . $row['Total_allowance'] . "</td>
                                                 <td class= 'text-center'>" . $row['Total_deduct'] . "</td>
                                                 <td>
-                                                <button type='button' class='border-light viewbtn' title='View' data-bs-toggle='modal' data-bs-target='#view_payslip' data-empid='" . $row['empid'] . "'>
+                                                <button type='submit' name='name_btnView' class='border-light viewbtn' title='View'>
                                                     <img src='icons/visible.png' alt='...'>
                                                 </button>
                                             </td>
@@ -206,138 +207,6 @@
                         </div> <!--  END CARD BODY -->
                     </div> <!--  END CARD -->
             </div> <!--  END MAIN PANEL -->
-
-
-            <!-----------------------------------------------------Modal-------------------------------------------------->
-                <div class="modal fade" id="view_payslip" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <form action = "Data Controller/Department/insertcode.php" method="POST">
-                            <div class="modal-content">
-                            
-                            <div class="modal-header">
-                                Please Select the range of date to generate:
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="mb-1">
-                                            <label for="id_strdate" class="form-label">Date Range :</label>
-                                            <form class="form-floating">
-                                                <input type="date" class="form-control" id="id_inpt_strdate" style=' height: 50px; width: 400px;cursor: pointer;' >
-                                                <label for="id_inpt_strdate">Start Date :</label>
-                                            </form>
-                                        </div> <!-- mb-1 end-->
-                                    </div> <!-- col-6 end-->
-                                    <div class="col-6">
-                                        <div class="mb-1">
-                                                <label for="id_inpt_strdate">End Date :</label>
-                                                <input type="date" name="name_endDate" class="form-control" id="id_inpt_endDate" style='cursor: pointer;' required>
-                                            </div> <!--  mb-1 end-->
-                                        </div> <!-- col-6 end-->
-                                </div> <!-- ROW end-->
-                            </div>
-
-                            <div class="modal-body"> 
-                                <input id="employeeID" type="text">
-                                    
-                                    <ul class="nav nav-tabs">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" data-bs-toggle="tab" href="#Payslip">Payslip Details</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#Allowance">Allowance</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#Loan">Loan Details</a>
-                                        </li>
-                                    </ul>
-
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id= "Payslip">
-                                            <div class="table-responsive" style = " overflow-x:  scroll; max-width: 1300px; max-height: 500px;">
-                                                <form action="departmentEmployee.php" method="post">         
-                                                            <table id="order-listing" class="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Salary Rate</th>
-                                                                        <th>Late Hours</th>
-                                                                        <th>Undertime Hours</th> 
-                                                                        <th>Basic Hours</th>
-                                                                        <th>Basic Pay</th>
-                                                                        <th>Basic OT Pay</th> 
-                                                                        <th>SSS</th> 
-                                                                        <th>Philhealth</th>
-                                                                        <th>Pagibig</th>
-                                                                        <th>Net Pay</th> 
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-
-                                                        <?php 
-                                                            include 'config.php';
-                                                            //select data db
-                                                            if (isset($_GET['empid'])) {
-                                                                $empid = $_GET['empid'];
-                                                                echo $empid;
-
-                                                                $sql = "SELECT
-                                                                            SUM(employee_tb.`drate`) AS Salary_of_Month,
-                                                                            employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` + employee_tb.`allowance_amount` AS Total_allowance,
-                                                                            employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` + employee_tb.`govern_amount` AS Total_deduct,
-                                                                            attendances.late
-                                                                        FROM
-                                                                            employee_tb
-                                                                        INNER JOIN attendances ON employee_tb.empid = attendances.empid
-                                                                        WHERE attendances.status = 'Present' AND employee_tb.empid = $empid
-                                                                        ";
-                                                    $result = $conn->query($sql);
-
-                                                    //read data
-                                                    while($row = $result->fetch_assoc()){
-                                                        echo "<tr>
-                                                                <td>" . $row['Salary_of_Month'] . "</td>
-                                                                <td>" . $row['late'] . "</td>
-                                                                <td>" . $row['Salary_of_Month'] . "</td>
-                                                                <td class= 'text-center'>" . $row['Total_allowance'] . "</td>
-                                                                <td class= 'text-center'>" . $row['Total_deduct'] . "</td>
-                                                                <td>
-                                                                    ds
-                                                                </td>
-                                                            </tr>"; 
-                                                    }
-                                                            } else{
-                                                                echo "wala" . $empid;
-                                                            }
-
-                                                           
-                                                        ?>  
-
-
-                                                                                        
-                                                                </tbody>
-                                                            </table>
-                                                </form>
-                                            </div> <!--table-responsive END-->
-                                        </div>
-                                        <!--------------- break ------------->
-                                        <div class="tab-pane" id= "Allowance">
-                                            Allowance
-                                        </div>
-                                        <!--------------- break ------------->
-                                        <div class="tab-pane" id= "Loan">
-                                            Loan
-                                        </div>
-                                        <!--------------- break ------------->
-                                    </div>
-                                    
-                            </div> <!-- Modal Body END -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Add Department</button>
-                                    </div> <!-- Modal footer END -->
-                            </div> <!-- Modal content END -->
-                        </form>
-                    </div> <!-- Modal DIALOg END -->
-                </div> <!-- Modal END -->
-<!-----------------------------------------------------Modal End-------------------------------------------------->
 
 
 <script> //FOR VIEW GET EMP ID PUT INTO MODAL PAYROLL
