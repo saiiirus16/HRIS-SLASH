@@ -24,7 +24,7 @@
             ?>
 </header>
     
-<div class="container mt-5" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  box-shadow: 10px 10px 10px 8px #888888;">
+<div class="container mt-5 xxl" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  box-shadow: 10px 10px 10px 8px #888888;">
     <div class="">
         <div class="card border-light">
             

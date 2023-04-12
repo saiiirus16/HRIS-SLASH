@@ -262,7 +262,7 @@ session_start();
 
                                                 <div class="mt-3">
                                                     <label for="formFileMultiple" class="form-label fs-4">Attach File :</label>
-                                                    <input class="form-control" name="name_file" type="file" id="formFileMultiple" multiple>
+                                                    <input class="form-control" name="name_file" type="file" id="formFileMultiple" multiple required>
                                                 </div>
 
                                         </div>  <!-- end body-->
@@ -362,18 +362,11 @@ session_start();
             <div class="row mt-3"> <!--ROW start--> 
                         <div class="col-6 mb-3">
                             <div class="pnl_top">
-                                <select class="slction_top">
-                                    <option value="" disabled selected>10 Items Listed</option>
-                                    <option value="1">Item Listed 1</option>
-                                    <option value="2">Item Listed 2</option>
-                                    <option value="3">Item Listed 3</option>
-                                    <option value="4">Item Listed 4</option>
+                                <select class="slction_top" id="limit-select" name= "no_Limit_Listed">
+                                    <option value="" disabled selected>Select No. Item To List</option>
                                     <option value="5">Item Listed 5</option>
-                                    <option value="6">Item Listed 6</option>
-                                    <option value="7">Item Listed 7</option>
-                                    <option value="8">Item Listed 8</option>
-                                    <option value="9">Item Listed 9</option>
                                     <option value="10">Item Listed 10</option>
+                                    <option value="15">Item Listed 15</option>
                                 </select>
                             </div>
 
@@ -466,10 +459,10 @@ session_start();
         <!----------------------------------Break------------------------------------->   
         
         
-                    <div class="table table-responsive "  style="height: 300px; overflow-y: auto;">
+                    <div id="data_table" class="table table-responsive "  style="height: 300px; overflow-y: auto;">
                         <form action="actions/Leave Request/action.php" method="post">
-                        <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">
-                        <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;">
+                        <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">  <!--received the id of selected data in datatble and pass to calss action-->   
+                        <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;"> <!--received the employee_id of selected data in datatble and pass to calss action-->  
                             <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
@@ -482,10 +475,11 @@ session_start();
                                             <th scope="col">Date Filled</th>
                                             <th scope="col">Action Taken</th>
                                             <th scope="col">Approver</th>
+                                            <th scope="col">File Reason</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
-                                        <tbody>
+                                        <tbody id="table-body">
                                             <?php 
                                                     include 'config.php';
                                                     //select data db
@@ -505,7 +499,9 @@ session_start();
                                                                 applyleave_tb.`col_status`
                                                             FROM
                                                                 applyleave_tb
-                                                            INNER JOIN employee_tb ON applyleave_tb.col_req_emp = employee_tb.empid;
+                                                            INNER JOIN employee_tb ON applyleave_tb.col_req_emp = employee_tb.empid
+                                                            ORDER BY applyleave_tb.`_datetime` DESC
+                                                            
                                                             ";
                                                     $result = $conn->query($sql);
 
@@ -526,36 +522,50 @@ session_start();
                                                             <td>" . $row['_datetime'] . "</td>
                                                             <td>" . $row['col_dt_action'] . "</td>
                                                             <td>" . 'Admin'. "</td>
+                                                            <td>" . " <div class='row'>
+         
+
+                                                                        <div class='col-12'>
+                                                                        <button type='button' class= 'border-0 btn_view_file' title = 'View' data-bs-toggle='modal' data-bs-target='#id_view_file' style=' background: transparent;'>
+                                                                            <img src='icons/view_file.png' alt='...'>
+                                                                        </button>
+                                                                        </div>
+                                                                    </div>  " . "</td>
                                                             <td>" . $row['col_status'] . "</td>
                                                         </tr>";
                                                     }
                                                 ?>  
                                         </tbody>   
                                 </table>
+                                
                     
                         </form>
                     </div> <!--table my-3 end-->   
                 <!----------------------------------Break------------------------------------->
 
-                    <!-- Modal 
-                    <div class="modal fade" id="id_modal_empreqLeave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Leave Details</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                            </div>
-                        </div>
-                    </div>  --><!--modal  end-->
-
+                   <!---- Modal for View button for file reason ---->
+                        <div class="modal fade" id="id_view_file" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <form action="leave_req_fileReason.php" method="post">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">View File</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <input name="name_ID_tb" id="id_table" type="text" style="display:none;">
+                                            <input name="name_empID_tb" id="id_EMPID" type="text" style="display:none;">
+                                            <h3> Are you sure you want to view the valid reason uploaded as file?</h3>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" name="btn_yes_modal" class="btn btn-primary btn-lg">YES</button>
+                                            </div>
+                                        </div> <!---- Modal-content end---->
+                                </form>    
+                            </div><!---- Modal-dialog end---->
+                        </div> <!---- Modal end---->
+                    <!---- Modal for View button for file reason END---->
                 </div> <!--card-body end-->
 
             </div> <!--Card end-->
@@ -565,6 +575,19 @@ session_start();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+                
+<script>
+  document.getElementById('formFileMultiple').addEventListener('change', function(event) {
+    var fileInput = event.target;
+    var file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Please select a PDF file.');
+      fileInput.value = ''; // Clear the file input field
+    }
+  });
+</script>
+
+                <!---------------------------break --------------------------->
 <script> //FOR VIEW TRANSFER 
             $(document).ready(function(){
                                     $('.viewbtn').on('click', function(){
@@ -583,6 +606,49 @@ session_start();
                                 });
             //FOR VIEW TRANSFER MODAL END
 </script>
+                <!---------------------------break --------------------------->
+
+                <!---------------------------break --------------------------->
+<script> //FOR VIEW FILE REASON  modal
+            $(document).ready(function(){
+                                    $('.btn_view_file').on('click', function(){
+                                        $('#id_view_file').modal('show');
+                                        $tr = $(this).closest('tr');
+
+                                        var data = $tr.children("td").map(function () {
+                                            return $(this).text();
+                                        }).get();
+
+                                        console.log(data);
+                                        
+                                        $('#id_table').val(data[0]);
+                                        $('#id_EMPID').val(data[2]);
+                                    });
+                                });
+            //FOR VIEW FILE REASON modal END
+</script>
+                <!---------------------------break --------------------------->
+
+
+<script>
+//     $(document).ready(function() {
+//     // listen to changes on the selection box
+//     $('#limit-select').change(function() {
+//         // get the selected value
+//         var limit = $(this).val();
+
+//         // get all table rows
+//         var rows = $('#table-body tr');
+
+//         // hide all rows
+//         rows.hide();
+
+//         // show only the first "limit" number of rows
+//         rows.slice(0, limit).show();
+//     });
+// });
+
+// </script>
 
 
 

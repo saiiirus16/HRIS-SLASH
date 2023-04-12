@@ -18,7 +18,7 @@
     <title>HRIS | Employee List Form</title>
 </head>
 <body>
-    <script>
+    <!-- <script>
         $(document).ready(function(){
             $("form").submit(function(event){
                 event.preventDefault();
@@ -40,7 +40,7 @@
                 
             });
         });
-    </script>
+    </script> -->
     
     <header>
         <?php include("header.php")?>

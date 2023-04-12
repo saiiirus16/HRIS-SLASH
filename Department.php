@@ -84,7 +84,13 @@
 
         <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; position:absolute; right:100px; bottom: 80px; width:75%; height:75%;" >
             <div class="card-header">
-                <div class="row">
+                
+                
+            </div> <!-- CARD Header END -->
+
+            <div class="card-body">
+
+            <div class="row">
                     <div class="col-6">
                         <h2 class="display-5">Department Records</h2>
                     </div>
@@ -94,11 +100,7 @@
                             Add Department
                         </button>
                     </div>
-                </div> <!-- Row END -->
-            </div> <!-- CARD Header END -->
-
-            <div class="card-body">
-
+            </div> <!-- Row END -->
                 
                 <div class="row mt-3 mb-3">
                     <div class="col-12 text-right">
@@ -156,11 +158,11 @@
                 <div class="table table-responsive">
                     <form action="departmentEmployee.php" method="post">
                      <input id="id_deptname_tb" name="name_deptname_tb" type="text" style="display: none;">
-                  <table id="data_table" class="table table-sortable table-striped table-hover caption-top">
+                  <table id="data_table" class="table table-sortable  caption-top">
                     <caption class="text-end">List of Company Department</caption>
-                    <thead style="color: #787BDB;
+                    <thead  class="table-light" style="color: #787BDB;
                                 font-size: 19px;">
-                          <tr> <!--<img src="/icons/search.png" alt="Icon">--> 
+                          <tr> 
                                 <th style= 'display: none;'> ID  </th>  
                                 <th> Department  </th>
                                 <th>Total Employee</th>
