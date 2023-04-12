@@ -11,16 +11,20 @@
                                 $str_date = $_POST['name_STRdate'];
                                 $end_date = $_POST['name_ENDdate'];
                                 $reason_txt = $_POST['name_txtRSN'];
-                                #file name with a random number so that similar dont get replaced
-                                $reason_file = rand(1000,10000)."-".$_FILES["name_file"]["name"];
+                                
+                                 #file name with a random number so that similar dont get replaced
+                                    //     $reason_file = rand(1000,10000)."-" . $_FILES["name_file"]["name"];
 
-                                #temporary file name to store file
-                                $tname = $_FILES["name_file"]["tmp_name"];
-                        
-                            #upload directory path
-                            $uploads_dir = 'file_reason';
-                            #TO move the uploaded file to specific location
-                            move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
+                                    //     #temporary file name to store file
+                                    //     $tname = $_FILES["name_file"]["tmp_name"];
+                                
+                                    // #upload directory path
+                                    // $uploads_dir = 'file_reason';
+                                    // #TO move the uploaded file to specific location
+                                    // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
+                                    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+                                    $escaped_contents = mysqli_real_escape_string($conn, $contents);
+                                        
 
                             //Para sa pag select ng mga data galing sa LEAVE INFO TABLE
                                 $result_leaveINFO = mysqli_query($conn, "SELECT
@@ -67,7 +71,7 @@
                                                             
                                                                 #sql query to insert into database
                                                             $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
+                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
                                             
                                                                 if(mysqli_query($conn,$sql)){
                                                                    header("Location: ../../leavereq.php?msg=Successfully Added");
@@ -84,7 +88,7 @@
                                                         else{
                                                                 #sql query to insert into database
                                                             $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
+                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
                                             
                                                                 if(mysqli_query($conn,$sql)){
                                                                 header("Location: ../../leavereq.php?msg=Successfully Added");
@@ -101,7 +105,7 @@
                                                         else{
                                                                 #sql query to insert into database
                                                             $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
+                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
                                             
                                                                 if(mysqli_query($conn,$sql)){
                                                                 header("Location: ../../leavereq.php?msg=Successfully Added");
@@ -117,6 +121,7 @@
             //Para sa pag select ng mga data galing sa apply leave TABLE  (PARA MAG CHECK IF EXIST)
 
 
+                                   
 
 
                             //------------------------------------------------START VALIDATION ONLY ONE REQUEST END-----------------------------------------------------
@@ -126,112 +131,118 @@
     else if (isset($_POST['secondHalf'])) {
 
 
-                                    $empname = $_POST["name_emp"];
-                                    $leave_type =  $_POST['name_LeaveT'];
-                                    $leave_period = $_POST['secondHalf'];
-                                    $str_date = $_POST['name_STRdate'];
-                                    $end_date = $_POST['name_ENDdate'];
-                                    $reason_txt = $_POST['name_txtRSN'];
-                                    #file name with a random number so that similar dont get replaced
-                                    $reason_file = rand(1000,10000)."-".$_FILES["name_file"]["name"];
+                                  
+                                $empname = $_POST["name_emp"];
+                                $leave_type =  $_POST['name_LeaveT'];
+                                $leave_period = $_POST['firstHalf'];
+                                $str_date = $_POST['name_STRdate'];
+                                $end_date = $_POST['name_ENDdate'];
+                                $reason_txt = $_POST['name_txtRSN'];
+                                 #file name with a random number so that similar dont get replaced
+                                    //     $reason_file = rand(1000,10000)."-" . $_FILES["name_file"]["name"];
 
-                                    #temporary file name to store file
-                                    $tname = $_FILES["name_file"]["tmp_name"];
-                            
-                                #upload directory path
-                                $uploads_dir = 'file_reason';
-                                #TO move the uploaded file to specific location
-                                move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
+                                    //     #temporary file name to store file
+                                    //     $tname = $_FILES["name_file"]["tmp_name"];
+                                
+                                    // #upload directory path
+                                    // $uploads_dir = 'file_reason';
+                                    // #TO move the uploaded file to specific location
+                                    // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
 
-                                //Para sa pag select ng mga data galing sa LEAVE INFO TABLE
-                                    $result_leaveINFO = mysqli_query($conn, "SELECT
-                                        *  
-                                    FROM
-                                        leaveinfo_tb
-                                    WHERE col_empID = $empname");
-                                    if(mysqli_num_rows($result_leaveINFO) > 0) {
-                                        $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
-                                        //echo $row__leaveINFO['col_vctionCrdt'];
-                                    } else {
-                                        echo "No results found.";
-                                    }
-                                //Para sa pag select ng mga data galing sa LEAVE INFO TABLE (END)
+                                    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+                                    $escaped_contents = mysqli_real_escape_string($conn, $contents);
 
-   
-    //------------------------------------------------START VALIDATION ONLY ONE REQUEST-----------------------------------------------------
-                        //Para sa pag select ng mga data galing sa apply leave TABLE ______DIto CHESTAH
-                        $result_leaveINFO1 = mysqli_query($conn, " SELECT
-                            *  
-                            FROM
+                            //Para sa pag select ng mga data galing sa LEAVE INFO TABLE
+                                $result_leaveINFO = mysqli_query($conn, "SELECT
+                                    *  
+                                FROM
+                                    leaveinfo_tb
+                                WHERE col_empID = $empname");
+                                if(mysqli_num_rows($result_leaveINFO) > 0) {
+                                    $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
+                                    //echo $row__leaveINFO['col_vctionCrdt'];
+                                } else {
+                                    echo "No results found.";
+                                }
+                            //Para sa pag select ng mga data galing sa LEAVE INFO TABLE (END)
+
+                        
+                            //------------------------------------------------START VALIDATION ONLY ONE REQUEST-----------------------------------------------------
+                       
+            //Para sa pag select ng mga data galing sa apply leave TABLE  (PARA MAG CHECK IF EXIST) DIto CHESTAH
+                                $result_leaveINFO = mysqli_query($conn, " SELECT
+                                    *  
+                                FROM
                                     applyleave_tb
                                 WHERE `col_req_emp` = $empname
                                 AND `col_LeavePeriod` = '$leave_period'
+                                AND (`col_status` = 'Pending' OR `col_status` = 'Approved')
                                 AND ('$str_date' BETWEEN `col_strDate` AND `col_endDate` 
                                 OR '$end_date' BETWEEN `col_strDate` AND `col_endDate`)");
                                 if(mysqli_num_rows($result_leaveINFO) > 0) {
                                     $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
                                     //echo  "d maka insert";
                                    header("Location: ../../leavereq.php?error= Cannot Apply due to the selected dates is already taken by your past requests.");
-                        } else {
+                                } else {       
+                                    echo  "pwede maka insert";                                           
+                                                    $minusVacationCredits = $row__leaveINFO['col_vctionCrdt'] - 0.5;
+                                                    $minusSickCredits = $row__leaveINFO['col_sickCrdt'] - 0.5;
+                                                    $minusBvrvmntCredits = $row__leaveINFO['col_brvmntCrdt'] - 0.5; 
+                                            
+                                                    if($leave_type == 'Vacation Leave'){
+                                                        if($minusVacationCredits < 0 ){
+                                                            header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
+                                                        }
+                                                        else{
+                                                            
+                                                                #sql query to insert into database
+                                                            $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
+                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
+                                            
+                                                                if(mysqli_query($conn,$sql)){
+                                                                   header("Location: ../../leavereq.php?msg=Successfully Added");
+                                                                }
+                                                                else{
+                                                                echo "Error";
+                                                                }
+                                                            }
+                                                    } //end if statement in Vacation
+                                                    elseif($leave_type == 'Bereavement Leave'){
+                                                        if($minusBvrvmntCredits < 0 ){
+                                                            header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
+                                                        }
+                                                        else{
+                                                                #sql query to insert into database
+                                                            $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
+                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
+                                            
+                                                                if(mysqli_query($conn,$sql)){
+                                                                header("Location: ../../leavereq.php?msg=Successfully Added");
+                                                                }
+                                                                else{
+                                                                echo "Error";
+                                                                }
+                                                            }
+                                                    } //end if statement in Bereavement Leave
+                                                    elseif($leave_type == 'Sick Leave'){
+                                                        if($minusSickCredits < 0 ){
+                                                            header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
+                                                        }
+                                                        else{
+                                                                #sql query to insert into database
+                                                            $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
+                                                            VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
+                                            
+                                                                if(mysqli_query($conn,$sql)){
+                                                                header("Location: ../../leavereq.php?msg=Successfully Added");
+                                                                }
+                                                                else{
+                                                                echo "Error";
+                                                                }
+                                                            }
+                                                    } //end if statement in Sick Leave
 
-
-                            $minusVacationCredits = $row__leaveINFO['col_vctionCrdt'] - 0.5;
-                            $minusSickCredits = $row__leaveINFO['col_sickCrdt'] - 0.5;
-                            $minusBvrvmntCredits = $row__leaveINFO['col_brvmntCrdt'] - 0.5; 
-                                    
-                                            if($leave_type == 'Vacation Leave'){
-                                                if($minusVacationCredits < 0 ){
-                                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
-                                                }
-                                                else{
-                                                        #sql query to insert into database
-                                                    $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
-                                    
-                                                        if(mysqli_query($conn,$sql)){
-                                                            header("Location: ../../leavereq.php?msg=Successfully Added");
-                                                        }
-                                                        else{
-                                                        echo "Error";
-                                                        }
-                                                    }
-                                            } //end if statement in Vacation
-                                            elseif($leave_type == 'Bereavement Leave'){
-                                                if($minusBvrvmntCredits < 0 ){
-                                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Bereavement Leave");
-                                                }
-                                                else{
-                                                        #sql query to insert into database
-                                                    $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
-                                    
-                                                        if(mysqli_query($conn,$sql)){
-                                                        header("Location: ../../leavereq.php?msg=Successfully Added");
-                                                        }
-                                                        else{
-                                                        echo "Error";
-                                                        }
-                                                    }
-                                            } //end if statement in Bereavement Leave
-                                            elseif($leave_type == 'Sick Leave'){
-                                                if($minusSickCredits < 0 ){
-                                                    header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Sick Leave");
-                                                }
-                                                else{
-                                                        #sql query to insert into database
-                                                    $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
-                                    
-                                                        if(mysqli_query($conn,$sql)){
-                                                        header("Location: ../.../leavereq.php?msg=Successfully Added");
-                                                        }
-                                                        else{
-                                                        echo "Error";
-                                                        }
-                                                    }
-                                            } //end if statement in Sick Leave
-                                         //--------------------------BREAK END IF FULLDAY ANG REQUEST---------------------- 
-           }
+                                }
    //Para sa pag select ng mga data galing sa apply leave TABLE (END)
 
 
@@ -249,15 +260,18 @@
         $end_date = $_POST['name_ENDdate'];
         $reason_txt = $_POST['name_txtRSN'];
         #file name with a random number so that similar dont get replaced
-        $reason_file = rand(1000,10000)."-".$_FILES["name_file"]["name"];
+    //     $reason_file = rand(1000,10000)."-" . $_FILES["name_file"]["name"];
 
-        #temporary file name to store file
-        $tname = $_FILES["name_file"]["tmp_name"];
+    //     #temporary file name to store file
+    //     $tname = $_FILES["name_file"]["tmp_name"];
    
-    #upload directory path
-    $uploads_dir = 'file_reason';
-    #TO move the uploaded file to specific location
-    move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
+    // #upload directory path
+    // $uploads_dir = 'file_reason';
+    // #TO move the uploaded file to specific location
+    // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
+
+    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+	$escaped_contents = mysqli_real_escape_string($conn, $contents);
 
     //Para sa pag select ng mga data galing sa LEAVE INFO TABLE
         $result_leaveINFO = mysqli_query($conn, "SELECT
@@ -282,6 +296,7 @@
                                     applyleave_tb
                                 WHERE `col_req_emp` = $empname
                                 AND `col_LeavePeriod` = '$leave_period'
+                                AND (`col_status` = 'Pending' OR `col_status` = 'Approved')
                                 AND ('$str_date' BETWEEN `col_strDate` AND `col_endDate` 
                                 OR '$end_date' BETWEEN `col_strDate` AND `col_endDate`)");
                                 if(mysqli_num_rows($result_leaveINFO) > 0) {
@@ -305,7 +320,7 @@
                                 else{
                                         #sql query to insert into database
                                     $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
+                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
                     
                                         if(mysqli_query($conn,$sql)){
                                             header("Location: ../../leavereq.php?msg=Successfully Added");
@@ -322,7 +337,7 @@
                                 else{
                                         #sql query to insert into database
                                     $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
+                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
                     
                                         if(mysqli_query($conn,$sql)){
                                         header("Location: ../../leavereq.php?msg=Successfully Added");
@@ -339,7 +354,7 @@
                                 else{
                                         #sql query to insert into database
                                     $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_status`) 
-                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$reason_file', 'Pending')";
+                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents', 'Pending')";
                     
                                         if(mysqli_query($conn,$sql)){
                                         header("Location: ../../leavereq.php?msg=Successfully Added");

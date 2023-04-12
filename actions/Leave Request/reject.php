@@ -15,10 +15,10 @@ include '../../config.php';
 //Para sa pag select ng mga data galing sa APPLYLEAVE TABLE (END)
 
 if($row['col_status'] === 'Approved' ){
-header("Location: ../../leavereq.php?msg=You cannot REJECTED a request that is already APPROVED");
+header("Location: ../../leavereq.php?error=You cannot REJECTED a request that is already APPROVED");
 }
 else if($row['col_status'] === 'Rejected'){
-header("Location: ../../leavereq.php?msg=You cannot REJECTED a request that is already REJECTED");
+header("Location: ../../leavereq.php?error=You cannot REJECTED a request that is already REJECTED");
 }
 else{
     $reason = $_POST["name_rjectResn"];
