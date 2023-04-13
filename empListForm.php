@@ -29,6 +29,22 @@
     <title>HRIS | Employee List Form</title>
 </head>
 <body>
+<!-- 
+<div class="empListForm-container">
+                <form action="" method="POST">
+                    <div class="employeeList-modal" id="Modal">
+                        <div class="employeeList-info-container">
+                            <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
+                                <h1>Personal Information</h1>
+                                <span class="fa-solid fa-pen-to-square" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px;"></span>  
+                            </div>
+                            <div class="emp-info-first-container">
+                                
+                            </div>
+                        </div>         
+                    </div>
+                </form>
+            </div> -->
     <!-- <script>
         $(document).ready(function(){
             $("form").submit(function(event){

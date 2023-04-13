@@ -8,7 +8,7 @@
 body{
     font-family: 'Roboto', sans-serif;
     width: 100%;
-    color: black;
+    color: black;  
 }
 
 /* Validation */
@@ -810,6 +810,427 @@ header{
     border-radius: 5px;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
 }
+
+/* edit employee */ 
+
+
+.emp-info-first-container{
+    width: 1000px;
+    
+    margin-left: 60px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 370px;
+}
+
+.emp-fname label{
+    font-size: 17px;
+    
+    font-weight: 400;
+    margin-bottom: -10px;
+}
+
+.emp-fname input{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-lname label{
+    font-size: 17px;
+    
+    font-weight: 400;
+    margin-bottom: -10px;
+    
+}
+
+.emp-lname input{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-gender label{
+    font-size: 17px;
+   
+    font-weight: 400;
+    margin-bottom: -10px;
+    margin-top: 20px;
+}
+
+.emp-gender select{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-dob label{
+    font-size: 17px;
+    
+    font-weight: 400;
+    margin-bottom: -10px;
+    margin-top: 20px;
+}
+
+.emp-dob input{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-contact label{
+    font-size: 17px;
+   
+    font-weight: 400;
+    margin-bottom: -10px;
+    margin-top: 20px;
+}
+
+.emp-contact input{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-cstatus label{
+    font-size: 17px;
+    
+    font-weight: 400;
+    margin-bottom: -10px;
+    margin-top: 20px;
+}
+
+.emp-cstatus select{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-email label{
+    font-size: 17px;
+    
+    font-weight: 400;
+    margin-bottom: -10px;
+    margin-top: 20px;
+}
+
+.emp-email input{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-datehired label{
+    font-size: 17px;
+   
+    font-weight: 400;
+    margin-bottom: -10px;
+    margin-top: 20px;
+}
+
+.emp-datehired input{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+}
+
+.emp-govern-first-container{
+    width: 1400px;
+    margin-left: 60px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 170px;
+}
+
+.emp-govern-first-container input{
+    width: 340px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+    height: 50px;
+}
+
+.emp-govern-first-container label{
+    font-size: 17px;
+    margin-left: 3px;
+    font-weight: 400;
+    margin-bottom: -5px;
+    
+}
+
+.emp-allowance-first-container{
+    width: 1400px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-left: 50px;
+    margin-top: 10px;
+}
+
+.emp-allowance-first-container input{
+    width: 450px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+    height: 50px;
+}
+
+.emp-allowance-first-container label{
+    font-size: 17px;
+    margin-left: 3px;
+    font-weight: 400;
+    margin-bottom: -5px;    
+}
+
+.emp-empInfo-first-container{
+    width: 1400px;
+    margin-left: 60px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 300px;
+}
+
+.emp-empInfo-first-container label{
+    font-size: 17px;
+    margin-left: 3px;
+    font-weight: 400;
+    margin-bottom: -5px; 
+}
+
+.emp-empInfo-first-container input{
+    width: 420px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+    height: 50px;
+    
+}
+
+.emp-empInfo-first-container select{
+    width: 420px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+    height: 50px;
+}
+
+.emp-worksched-first-container{
+    width: 1400px;
+    margin-left: 60px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.emp-worksched-first-container label{
+    font-size: 17px;
+    margin-left: 3px;
+    font-weight: 400;
+    margin-bottom: -5px; 
+}
+
+.emp-worksched-first-container input{
+    width: 420px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+    height: 50px;
+    
+}
+
+.emp-worksched-first-container select{
+    width: 420px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+    height: 50px;
+}
+.worksched-scedule{
+    margin-left: 45px;
+}
+
+.emp-payroll-first-container{
+    width: 920px;
+    margin-left: 60px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100px;
+}
+
+.emp-payroll-first-container label{
+    font-size: 17px;
+    margin-left: 3px;
+    font-weight: 400;
+    margin-bottom: -5px; 
+}
+
+.emp-payroll-first-container input{
+    width: 420px;
+    padding: 9px;
+    font-size: 18px;
+    outline: none;
+    height: 50px;
+    
+}
+
+.emp-list-main{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.emp-list-info-second-container{
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.emp-head img{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    margin-top: 30px;
+    border: black 1px solid;
+}
+
+.emp-info{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.emp-info h1{
+    font-size: 30px;
+}
+
+.emp-info p{
+    font-size: 18px;
+    color: gray;
+    margin-top: -15px;
+}
+
+.emp-info .emp-stats{
+    display: flex;
+    flex-direction: row;
+}
+
+.emp-stats h4{
+    font-size: 16px;
+}
+
+.emp-modal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 100;
+    overflow: hidden;
+    display: block;
+    
+}
+
+.emp-modal-container{
+    position: absolute;
+    
+    width: 1100px;
+    background-color: #f4f4f4;
+    z-index: 101;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 15px;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+}
+
+.emp-modal-title{
+    margin-top: 20px;
+
+}
+
+.emp-modal-title h1{
+    margin-left: 20px;
+    margin-top: 15px;
+    font-size: 27px;
+    font-weight: 400;
+}
+
+.emp-modal-input{
+    display: flex;
+    margin-top: 40px;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+.emp-modal-input input{
+    padding: 8px;
+    outline: none;
+    font-size: 18px;
+}
+
+.emp-modal-input .emp-desc{
+    width: 450px;
+   
+    
+}
+
+.emp-modal-input .emp-amount{
+    width: 350px;
+    margin-right: 40px;
+}
+
+
+.emp-modal-input label{
+    font-size: 20px;
+    margin-bottom: -8px;
+    margin-left: 3px;
+}
+
+.emp-modal-input .govern-title{
+    width: 600px;
+}
+
+.emp-modal-input .govern-amount{
+    width: 350px;
+}
+
+.emp-modal-button{
+    height: 50px;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 43px;
+    align-items: center;
+}
+
+.emp-modal-button span{
+    font-size: 24px;
+    margin: 10px;
+    margin-right: 23px;
+    cursor: pointer;
+}
+
+
+
+
+
 
 
 /* Schedules */

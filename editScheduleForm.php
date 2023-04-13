@@ -218,49 +218,50 @@
                         <tbody>
                             <tr>
                                 <input type="hidden" name="id" value="<?php echo $schedrow['id']; ?>">
-                                <td><input type="checkbox" class="checkbox" name="monday" id="checkbox1" onclick="toggleInputs(this)" value="<?php if(isset($schedrow['monday'])&& !empty($schedrow['monday'])) { echo 'Monday'; } else { echo 'No data'; }?>"> Monday</td>
+                                <td>
+                                <input type="checkbox" class="checkbox" name="monday" id="checkbox1" onclick="toggleInputs(this)" value="Monday" <?php if ($schedrow['monday']){ echo "checked"; } ?>> Monday</td>
                                 <td><input name="mon_timein" type="time" class="time-input" id="time1"  value="<?php if(isset($schedrow['mon_timein'])&& !empty($schedrow['mon_timein'])) { echo $schedrow['mon_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="mon_timeout" type="time" class="time-input" id="time2"  value="<?php if(isset($schedrow['mon_timeout'])&& !empty($schedrow['mon_timeout'])) { echo $schedrow['mon_timeout']; } else { echo 'No data'; }?>"></td>
-                                <td><input name ="mon_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
+                                <td><input name ="mon_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['mon_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="tuesday"  id="checkbox1" onclick="toggleInputs(this)" value="<?php if(isset($schedrow['tuesday'])&& !empty($schedrow['tuesday'])) { echo 'Tuesday'; } else { echo 'No data'; }?>"> Tuesday</td>
+                                <td><input type="checkbox" class="checkbox" name="tuesday"  id="checkbox1" onclick="toggleInputs(this)" value="Tuesday" <?php if ($schedrow['tuesday']){ echo "checked"; } ?>> Tuesday</td>
                                 <td><input name="tues_timein" type="time" class="time-input" id="time3"  value="<?php if(isset($schedrow['tues_timein'])&& !empty($schedrow['tues_timein'])) { echo $schedrow['tues_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="tues_timeout" type="time" class="time-input" id="time4"  value="<?php if(isset($schedrow['tues_timeout'])&& !empty($schedrow['tues_timeout'])) { echo $schedrow['tues_timeout']; } else {echo 'No data'; }?>"></td>
-                                <td><input name ="tues_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
+                                <td><input name ="tues_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['tues_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="wednesday"  id="checkbox1" onclick="toggleInputs(this)" value="<?php if(isset($schedrow['wednesday'])&& !empty($schedrow['wednesday'])) { echo 'Wednesday'; } else { echo 'No data'; }?>"> Wednesday</td>
+                                <td><input type="checkbox" class="checkbox" name="wednesday"  id="checkbox1" onclick="toggleInputs(this)" value="Wednesday" <?php if ($schedrow['wednesday']){ echo "checked"; } ?>> Wednesday</td>
                                 <td><input name="wed_timein" type="time" class="time-input" id="time5"  value="<?php if(isset($schedrow['wed_timein'])&& !empty($schedrow['wed_timein'])) { echo $schedrow['wed_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="wed_timeout" type="time" class="time-input" id="time6"  value="<?php if(isset($schedrow['wed_timeout'])&& !empty($schedrow['wed_timeout'])) { echo $schedrow['wed_timeout']; } else {echo 'No data'; }?>"></td>
-                                <td><input name ="wed_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
+                                <td><input name ="wed_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['wed_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="thursday" value="<?php if(isset($schedrow['thursday'])&& !empty($schedrow['thursday'])) { echo 'Thursday'; } else { echo 'No data'; }?>" id="checkbox1" onclick="toggleInputs(this)">  Thursday </td>
+                                <td><input type="checkbox" class="checkbox" name="thursday" value="Thursday" <?php if ($schedrow['thursday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)">  Thursday </td>
                                 <td><input name="thurs_timein" type="time" class="time-input" id="time7"  value="<?php if(isset($schedrow['thurs_timein'])&& !empty($schedrow['thurs_timein'])) { echo $schedrow['thurs_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="thurs_timeout" type="time" class="time-input" id="time8" value="<?php if(isset($schedrow['thurs_timeout'])&& !empty($schedrow['thurs_timeout'])) { echo $schedrow['thurs_timeout']; } else {echo 'No data'; }?>"></td>
-                                <td><input name ="thurs_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
+                                <td><input name ="thurs_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['thurs_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="friday" value="<?php if(isset($schedrow['friday'])&& !empty($schedrow['friday'])) { echo 'Friday'; } else { echo 'No data'; }?>" id="checkbox1" onclick="toggleInputs(this)"> Friday</td>
+                                <td><input type="checkbox" class="checkbox" name="friday" value="Friday" <?php if ($schedrow['friday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)"> Friday</td>
                                 <td><input name="fri_timein" type="time" class="time-input" id="time9"  value="<?php if(isset($schedrow['fri_timein'])&& !empty($schedrow['fri_timein'])) { echo $schedrow['fri_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="fri_timeout" type="time" class="time-input" id="time10"  value="<?php if(isset($schedrow['fri_timeout'])&& !empty($schedrow['fri_timeout'])) { echo $schedrow['fri_timeout']; } else {echo 'No data'; }?>"></td>
-                                <td><input name ="fri_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
+                                <td><input name ="fri_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['fri_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                            <td><input type="checkbox" class="checkbox" name="saturday" value="<?php if(isset($schedrow['saturday'])&& !empty($schedrow['saturday'])) { echo 'Saturday'; } else { echo 'No data'; }?>"id="checkbox1" onclick="toggleInputs(this)"> Saturday</td>
+                            <td><input type="checkbox" class="checkbox" name="saturday" value="Saturday" <?php if ($schedrow['saturday']){ echo "checked"; } ?>id="checkbox1" onclick="toggleInputs(this)"> Saturday</td>
                             <td><input name="sat_timein" type="time" class="time-input" id="time11"  value="<?php if(isset($schedrow['sat_timein'])&& !empty($schedrow['sat_timein'])) { echo $schedrow['sat_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="sat_timeout" type="time" class="time-input" id="time12"  value="<?php if(isset($schedrow['sat_timeout'])&& !empty($schedrow['sat_timeout'])) { echo $schedrow['sat_timeout']; } else {echo 'No data'; }?>"></td>
-                                <td><input name ="sat_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
+                                <td><input name ="sat_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['sat_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                            <td><input type="checkbox" class="checkbox" name="sunday" value="<?php if(isset($schedrow['sunday'])&& !empty($schedrow['sunday'])) { echo 'Sunday'; } else { echo 'No data'; }?>" id="checkbox1" onclick="toggleInputs(this)" > Sunday</td>
+                            <td><input type="checkbox" class="checkbox" name="sunday" value="Sunday" <?php if ($schedrow['sunday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)" > Sunday</td>
                             <td><input name="sun_timein" type="time" class="time-input" id="time13"  value="<?php  if(isset($schedrow['sun_timein'])&& !empty($schedrow['sun_timein'])) { echo $schedrow['mon_timein']; } else echo 'No data';?>"></td>
                                 <td><input name="sun_timeout" type="time" class="time-input" id="time14"  value="<?php if(isset($schedrow['sun_timeout'])&& !empty($schedrow['sun_timeout'])) { echo $schedrow['sun_timeout']; } else {echo 'No data'; }?>"></td>
-                                <td><input name ="sun_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
+                                <td><input name ="sun_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['sun_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td ><input type="checkbox" name="flexible" id="" class="checkbox-lg" value="Flexible"> Flexible</td>
+                                <td ><input type="checkbox" name="flexible" id="" class="checkbox-lg" value="Flexible" <?php if ($schedrow['flexible']){ echo "checked"; } ?>> Flexible</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -292,7 +293,7 @@
                                 </div>
                             </div>
                             <div class="schedule-holiday">
-                                <input type="checkbox" name="sched_holiday" id="" class="checkbox-lg" value="Holiday Work">
+                                <input type="checkbox" name="sched_holiday" id="" class="checkbox-lg" value="Holiday Work" <?php if ($schedrow['sched_holiday']){ echo "checked"; } ?>>
                                 <label for="ob_holiday">Holiday Work</label>
                             </div>
                         </div> 
