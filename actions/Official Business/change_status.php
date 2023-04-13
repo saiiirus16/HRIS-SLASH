@@ -76,7 +76,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
             }
             header("Location: ../../official_business.php?msg=$msg");
         } else {
-        $query = "UPDATE emp_dtr_tb SET `status`='Rejected' WHERE `status`='Pending'";
+        $query = "UPDATE emp_official_tb SET `status`='Rejected' WHERE `status`='Pending'";
         $result = mysqli_query($conn, $query);
 
         if ($result) {

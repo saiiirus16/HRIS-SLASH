@@ -14,15 +14,11 @@ session_start();
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/position.css"/>
     <link rel="stylesheet" href="css/styles.css">
     <title>POSITION</title>
@@ -67,19 +63,9 @@ session_start();
 
     .card{
       box-shadow: 5px 8px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-      width: 1400px;
+      width: 1500px;
       height: 780px;
 
-    }
-
-
-    .card-body{
-        overflow: hidden;
-    }
-
-    .table{
-        width: 99.8%;
-        
     }
 
 
@@ -244,7 +230,7 @@ session_start();
 <!------------------------------------------------------THIS IS CODE FOR TABLE------------------------------------------------------------------->
             <div class="row">
                 <div class="col-12 mt-5">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow: hidden;">
                       <form action="View_Position.php" method="post">
                       <input type="hidden" id="id_position_name" name="name_position">
                         <table id="order-listing" class="table">

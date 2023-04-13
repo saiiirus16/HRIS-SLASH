@@ -199,7 +199,7 @@
 
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div id="alert-message" class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+            echo '<div id="alert-message" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
@@ -207,6 +207,22 @@
 
 ?>
 <!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
+
+
+<!-----------------------------------------Syntax for the alert Message----------------------------------------------------------->
+<?php
+
+        if (isset($_GET['error'])) {
+            $err = $_GET['error'];
+            echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+            '.$err.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+
+?>
+<!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
+
 
 <!-------------------------------------------Style sa card at table--------------------------------------------------------------->
 <style>
@@ -308,12 +324,12 @@
 <!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
 
 <!-----------------------Script para sa automatic na pagdisapper ng alert message------------------------------->
-<script>
+<!-- <script>
     // Set a timer to remove the alert message after 2 seconds
     setTimeout(function(){
         document.getElementById("alert-message").remove();
     }, 2000);
-</script>
+</script> -->
 <!---------------------End Script para sa automatic na pagdisapper ng alert message------------------------------>
 
 <!-- plugins:js -->

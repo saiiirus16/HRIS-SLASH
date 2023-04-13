@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+include '../../config.php';
 if (isset($_POST['yes_download'])) {
    $select_tableid = $_POST["table_id"];
    $select_tablename = $_POST["table_name"];

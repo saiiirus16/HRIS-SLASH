@@ -56,11 +56,6 @@
         width: 100%;
     }
 
-    .card-body{
-         width: 98%;
-                   
-    }
-
     .table{
          width: 99.6%;
     }
@@ -71,10 +66,10 @@
 </style>
 
 
-<!------------------------------------Header, Dropdown and Button------------------------------------------------->
+<!------------------------------------Header and Button------------------------------------------------->
     <div class="main-panel mt-5" style="margin-left: 15%;">
         <div class="content-wrapper mt-5">
-          <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1550px; height:800px; border-radius:20px;">
+          <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1500px; height:800px; border-radius:20px;">
             <div class="card-body">
                 <div class="row">
                         <div class="col-6">
@@ -304,7 +299,7 @@
 <script> 
             $(document).ready(function(){
                $('.viewbtn').on('click', function(){
-                 $('#id_modal_empreqLeave').modal('show');
+                 $().modal('show');
                       $tr = $(this).closest('tr');
 
                     var data = $tr.children("td").map(function () {

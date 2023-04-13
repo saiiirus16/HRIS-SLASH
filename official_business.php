@@ -14,17 +14,14 @@ session_start();
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
     <link rel="stylesheet" href="css/official_business.css"/>
     <link rel="stylesheet" href="css/styles.css">
-    <title>official Business - Admin</title>
+    <title>Official Business - Admin</title>
 </head>
 <body>
     <header>
@@ -44,7 +41,7 @@ session_start();
     }
 
     .sidebars ul li .hoverable{
-        height:55px;
+        height:50px;
     }
 
     .sidebars ul{
@@ -58,19 +55,6 @@ session_start();
 
     .sidebars ul li ul li{
         width: 100%;
-    }
-
-    .card-body{
-        width: 102%;
-        box-shadow: 10px 10px 10px 8px #888888;
-    }
-
-    .table{
-        width: 100%;
-    }
-
-    .content-wrapper{
-        width: 90%
     }
 
 </style>
@@ -106,7 +90,7 @@ session_start();
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <form action="download.php" method="POST">
+      <form action="actions/Official Business/download.php" method="POST">
       <div class="modal-body">
         <input type="hidden" name="table_id" id="id_table">
         <input type="hidden" name="table_name" id="name_table">
@@ -128,8 +112,8 @@ session_start();
 <!---------------------------------------Main Panel Start Here --------------------------------------->
         <div class="main-panel mt-5" style="margin-left: 15%;">
             <div class="content-wrapper mt-5">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card" style= "width:1500px; height:800px; border-radius:20px;">
+                    <div class="card-body" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);">
 <!---------------------------------------Main Panel End Here --------------------------------------->
                         
 <!----------------------------------Class ng header including the button for modal---------------------------------------------->                    
@@ -218,9 +202,11 @@ session_start();
 <!--------------------------------End Button for Approve and Reject All---------------------------------------->   
 
 <!--------------------------------------------Syntax and Bootstrap class for table------------------------------------------------>
-                        <div class="row">
-                            <div class="col-12 mt-2">
-                                <div class="table-responsive">
+        <form action="actions/Official Business/approve_reject.php" method="POST">
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <input style="display: none;" type="text" id="check_id" name="id_check">
+                              <div class="table-responsive" style="90%;">
                                     <table id="order-listing" class="table">
                                         <thead>
                                             <tr>
@@ -237,6 +223,7 @@ session_start();
                                                 <th>Reason</th>
                                                 <th style="display: none;">View Button</th>
                                                 <th>Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <?php 
@@ -282,6 +269,10 @@ session_start();
                                                 <td> 
                                                 <label class=""><?php echo $row['status'];?></label>
                                                 </td>
+                                                <td>
+                                                <button type="submit" name="btn_approve" class="btn btn-outline-success check_btn">Approve</button>
+                                                <button type="submit" name="btn_reject" class="btn btn-outline-danger check_btn">Reject</button>
+                                                </td>
                                             </tr>
                                                  <?php
                                                     } 
@@ -290,6 +281,7 @@ session_start();
                                 </div>
                             </div>
                         </div><!-----Close tag of row class------->
+                    </form>  
 <!------------------------------------------End Syntax and Bootstrap class for table---------------------------------------------->
 
                     </div><!------Main Panel Close Tag-------->
@@ -297,6 +289,26 @@ session_start();
             </div>
         </div>
 
+
+
+
+
+<!-------------------------------Script para matest kung naseselect ba ang I.D---------------------------------------->        
+<script> 
+            $(document).ready(function(){
+               $('.check_btn').on('click', function(){
+                 $().modal('show');
+                      $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#check_id').val(data[0]);
+               });
+             });
+</script>
+<!-----------------------------End Script para matest kung naseselect ba ang I.D------------------------------------->
 
 
 <!------------------------------------Script para lumabas ang modal------------------------------------------------->
@@ -315,6 +327,7 @@ session_start();
              });
 </script>
 <!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
+
 
 <!------------------------------------Script para lumabas ang modal------------------------------------------------->
 <script>

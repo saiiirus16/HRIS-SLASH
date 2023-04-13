@@ -38,10 +38,7 @@ if(!empty($_GET['status'])){
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
@@ -85,17 +82,9 @@ if(!empty($_GET['status'])){
     }
 
     .card-body{
-                            width: 99.8%;
-                            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-                        }
-
-                        .table{
-                            width: 100%;
-                        }
-
-                        .content-wrapper{
-                            width: 90%
-                        }
+        width: 99.8%;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    }
 </style>
 <!-------------------------------------------- Modal Start Here ---------------------------------------------------------->
 <div class="modal fade" id="upload_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

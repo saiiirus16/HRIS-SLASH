@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
     <link rel="stylesheet" href="css/dept.css">
     <link rel="stylesheet" href="css/styles.css">
+    <title>Department</title>
 
 
     <title>Add New Department</title>

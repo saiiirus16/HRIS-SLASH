@@ -1,13 +1,10 @@
-.alert {
-    width: 50%;
-    margin-top: 5px;
-  }
+
 
 .btn-section {
     background-color: #FFFFFF;
     flex-direction: row;
     display: flex;
-    margin-left: 78.3%;
+    margin-left: 78.7%;
     margin-top: 10px;
 }
 
@@ -119,3 +116,7 @@ p {
     color: #FFFFFF;
     box-shadow: 10px 10px 8px #888888;
 }
+
+tr:hover td {
+    background-color: #ECECEC;
+  }
