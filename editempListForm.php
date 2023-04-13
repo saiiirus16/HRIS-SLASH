@@ -369,26 +369,26 @@
                     <div class="emp-modal" id="emp-modal">
                         <div class="emp-modal-container" id="">
                         <script>
-                $(document).ready(function(){
+                            $(document).ready(function(){
 
-                    var html = '<tr><td> <input type="checkbox" name="empid[]" value="<?php echo $row['empid']?>" id="" style="margin-left: 5px; margin-top: -5px;"><input type="text" name="other_govern[]" id="" required class="emp-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="govern_amount[]" id="" required class="emp-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="remove" id="empRemove" class="btn" style="margin-top: 10px;"></td></tr>';
+                                var html = '<tr><td><input type="text" name="other_govern[]" id="" required class="emp-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="govern_amount[]" id="" required class="emp-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="empid" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="empid[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
 
-                    var max = 5;
-                    var x = 1;
-                    $("#empAdd").click(function(){
-                        if(x <= max ){
-                            $("#table-field").append(html);
-                            x++;
-                        }
-                    });
+                                var max = 5;
+                                var x = 1;
+                                $("#empAdd").click(function(){
+                                    if(x <= max ){
+                                        $("#table-field").append(html);
+                                        x++;
+                                    }
+                                });
 
-                    $("#table-field").on('click','#empRemove',function(){
-                        $(this).closest('tr').remove();
-                        x--;
-                    });
+                                $("#table-field").on('click','#empRemove',function(){
+                                    $(this).closest('tr').remove();
+                                    x--;
+                                });
 
-                });
-            </script>
+                            });
+                        </script>
                         <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
                             <div class="emp-modal-title">
                                 <h1>Add new deduction</h1>
@@ -402,11 +402,16 @@
                                         <th>Description</th>
                                         <th>Amount</th>
                                         <th>Actions</th>
+                                        <th></th>
                                     </tr>
                                     <tr>
-                                        <td> <input type="checkbox" name="empid" value="<?php echo $row['empid']?>" id="" style="margin-left: 5px; margin-top: -5px;"><input type="text" name="other_govern[]" id="" required class="emp-desc form-control" placeholder="Description"></td>
+                                        <td><input type="text" name="other_govern[]" id="" required class="emp-desc form-control" placeholder="Description"></td>
                                         <td><input type="text" name="govern_amount[]" id="" required class="emp-amount form-control" placeholder="Amount"></td>
-                                        <td><input type="button" value="Add" name="add" id="empAdd" class="btn"></td>
+                                        <td><input type="button" value="Add" name="empid[]" id="empAdd" class="btn"></td>
+                                        <td>
+                                        <input type="hidden" name="empid[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
+
+                                        </td>
                                     </tr>
                                 </table>
 
@@ -422,13 +427,42 @@
                             </div>
                             <div class="emp-modal-button">
                             <span value="Cancel" id="emp-modal-close" class="emp-modal-close" style="margin-bottom:12px;">Close</span>
-                            <input type="submit" value="Submit" name="submit" id="submit" >
+                            <input type="submit" value="Submit" name="submit" id="submit" style="border: none; font-size: 23px; margin-top: -1px; margin-right: 10px; color: blue;" >
                             </div>
+                            </form>  
                         </div>
+                        <table>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Total</th>
+                            </tr>
+                            <?php 
+                                $server = "localhost";
+                                $user = "root";
+                                $pass ="";
+                                $database = "hris_db";
+
+                                $results = mysqli_query($conn, "SELECT * FROM governdeduct_tb ORDER BY govern_amount DESC WHERE empid ='". $_GET['empid']. "'");
+                                $rows = mysqli_fetch_assoc($results);
+                                while($rows = mysqli_fetch_array($results)){ ?>
+
+                            <?php
+                                }
+                            ?>
+                            <tr>
+                            <input type="hidden" name="empid" value="<?php echo $rows['empid']; ?>">
+                                <td><?php echo $rows['other_govern'] ?></td>
+                                <td><?php echo $rows['govern_amount'] ?></td>
+                            </tr>
+                            
+        
+                        </table>
                     </div>
 
-                
-                </form>   
+
+
+                 
                 
             
             
