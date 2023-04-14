@@ -76,7 +76,7 @@ session_start();
                                 </h2>
                             </div> <!--end col-6-->
                             <div class="col-6 text-end">
-                                <a href='leavereq.php' class='btn btn-outline-danger'>Go back</a>
+                                <a href='../../leavereq.php' class='btn btn-outline-danger'>Go back</a>
                                 
                             </div> <!--end col-6-->
                         </div> <!--end row-->
@@ -214,7 +214,7 @@ session_start();
                                     }
                                     ?>
                                     </textarea>
-                                </div>  <!-- First mb-3 end-->
+                                </div>  <!-- First mb-3 end--> 
                             </div> <!-- col-4 end-->
                             <!----------------------------------Break------------------------------------->
                         </div> <!-- row end-->

@@ -1,8 +1,5 @@
 <?php
     session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    }
 ?>
 
 <!DOCTYPE html>
@@ -12,22 +9,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
     <link rel="stylesheet" href="css/dtr_ad.css"/>
     <link rel="stylesheet" href="css/styles.css">
-    <title> DTR</title>
+    <title>DTR Correction - Admin</title>
 </head>
 <body>
 <header>
@@ -62,25 +55,47 @@
     .sidebars ul li ul li{
         width: 100%;
     }
+
+    .table{
+         width: 99.6%;
+    }
+
+    .content-wrapper{
+         width: 85%
+    }
 </style>
 
 
-<!------------------------------------Header, Dropdown and Button------------------------------------------------->
-<div class="main-panel mt-5" style="margin-left: 15%;">
+<!------------------------------------Header and Button------------------------------------------------->
+    <div class="main-panel mt-5" style="margin-left: 15%;">
         <div class="content-wrapper mt-5">
-          <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1550px; height:800px; border-radius:20px;">
+          <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1500px; height:800px; border-radius:20px;">
             <div class="card-body">
-            <div class="row">
+                <div class="row">
                         <div class="col-6">
                             <h2>DTR Correction</h2>
                         </div>
                         </div>  
+<!------------------------------------Header, Dropdown and Button------------------------------------------------->
+
 <!------------------------------------Message alert------------------------------------------------->
 <?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
             '.$msg.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+?>
+<!------------------------------------End Message alert------------------------------------------------->
+
+<!------------------------------------Message alert------------------------------------------------->
+<?php
+        if (isset($_GET['error'])) {
+            $err = $_GET['error'];
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            '.$err.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
         }
@@ -126,34 +141,24 @@
 
 <!----------------------------------Button for Approve and Reject All------------------------------------------>
                 <div class="btn-section">
-                    <button class="approve-btn">Approve All</button>
-                    <button class="reject-btn">Reject All</button>
-                 </div>
+                <form action="actions/DTR Correction/update_status.php" method="POST">
+                <input type="hidden" name="Approve" value="approved">
+                <button type="submit" name="approve_all" class="approve-btn">Approve All</button>
+                </form>
+
+                <form action="actions/DTR Correction/update_status.php" method="POST">
+                <!-- <input type="hidden" name="status" value="rejected"> -->
+                <button type="submit" name="reject_all" class="reject-btn">Reject All</button>
+                </form>
+                </div>
 <!--------------------------------End Button for Approve and Reject All---------------------------------------->                 
-
-<!------------------------------------CSS ng Table para maresize----------------------------------------------->
-            <style>
-                .card-body{
-                    width: 98%;
-                   
-                }
-
-                .table{
-                    width: 99.6%;
-                }
-
-                .content-wrapper{
-                    width: 85%
-                }
-            </style>
-<!------------------------------------End CSS ng Table para maresize----------------------------------------->
 
 <!------------------------------------------Syntax ng Table-------------------------------------------------->
 <form action="actions/DTR Correction/approval.php" method="POST">
         <div class="row" >
-                <div class="col-12 mt-2">
-                    <input style="display: none;" type="text" id="input_id" name="input">
-                    <div class="">
+            <div class="col-12 mt-2">
+                <input style="display: none;" type="text" id="input_id" name="input">
+                    <div class="table-responsive">
                         <table id="order-listing" class="table" >
                         <thead>
                             <tr>
@@ -205,7 +210,7 @@
                                         <td><?php echo $row['reason']?></td>
                                         <td><?php echo $row['upl_file']?></td>
                                         <td> 
-                                            <p><?php echo $row['status']?></p>
+                                            <p data-status="<?php echo $row['status']?>"><?php echo $row['status']?></p>
                                         </td>
                                         <td>
                                         <button type="submit" name="approve_btn" class="btn btn-outline-success viewbtn">Approve</button>
@@ -294,7 +299,7 @@
 <script> 
             $(document).ready(function(){
                $('.viewbtn').on('click', function(){
-                 $('#id_modal_empreqLeave').modal('show');
+                 $().modal('show');
                       $tr = $(this).closest('tr');
 
                     var data = $tr.children("td").map(function () {
@@ -333,7 +338,7 @@
 <!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
 
 <!---------------------------------Script to Change the value of status------------------------------------------>
-<script>
+<!-- <script>
     // Get the buttons
     const approveAllBtn = document.querySelector('.approve-btn');
     const rejectAllBtn = document.querySelector('.reject-btn');
@@ -361,7 +366,7 @@
         };
         xhr.send('status=' + status);
     }
-</script>
+</script> -->
 <!-------------------------------End Script to Change the value of status---------------------------------------->
 
 

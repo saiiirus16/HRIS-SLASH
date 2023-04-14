@@ -52,13 +52,13 @@
 
                 <li><a href="#" class="timekeep-dd hoverable"><div><span class="fa-regular fa-clock"></span>TIMEKEEPING</div><span class="fa-solid fa-chevron-right"></span></a>
                     <ul class="timekeep-dd-show">
-                        <li> <a href="attendance.php"> ATTENDANCE</a></li>
+                        <li> <a href="att.php"> ATTENDANCE</a></li>
                         <li> <a href="#"> CALENDAR</a></li>
                         <li> <a href="dtRecords.php"> DAILY TIME RECORDS</a></li>
                         <li> <a href="dtr_admin.php"> DTR CORRECTION</a></li>
                         <li> <a href="leaveInfo.php"> LEAVES INFORMATION</a></li>
                         <li> <a href="leaveReq.php"> LEAVE REQUEST</a></li>
-                        <li> <a href="#"> OFFICIAL BUSINESS</a></li>
+                        <li> <a href="official_business.php"> OFFICIAL BUSINESS</a></li>
                         <li> <a href="Schedules.php"> SCHEDULES</a></li>
                     </ul>
                 </li>

@@ -12,13 +12,13 @@ $result_leaveINFO = mysqli_query($conn, " SELECT
         WHERE col_empID = $employeeID");
         if(mysqli_num_rows($result_leaveINFO) > 0) {
             $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
-                header("Location: ../../leaveInfo.php?msg=You cannot add credits that already had!!");
+                header("Location: ../../leaveInfo.php?error=You cannot add credits that already had!!");
           } else {
             
                 // Prepare the SQL statement
                 $sql = "INSERT INTO leaveinfo_tb (`col_empID`,`col_vctionCrdt`, `col_sickCrdt`, `col_brvmntCrdt`)
                 VALUES (?, ?, ?, ?)";
-
+ 
                 // Sanitize the data
 
                 $emp = mysqli_real_escape_string($conn, $_POST['name_emp']);

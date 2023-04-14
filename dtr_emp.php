@@ -1,8 +1,5 @@
 <?php
     session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +31,47 @@
             include 'header.php'
         ?>
 </header>
+
+<style>
+.sidebars ul li{
+        list-style: none;
+        text-decoration:none;
+        width: 287px;
+        margin-left:-16px;
+        line-height:30px;
+       
+    }
+
+    .sidebars ul li .hoverable{
+        height:55px;
+    }
+
+    .sidebars ul{
+        height:100%;
+    }
+
+    .sidebars .first-ul{
+        line-height:60px;
+        height:100px;
+    }
+
+    .sidebars ul li ul li{
+        width: 100%;
+    }
+    
+    .card-body{
+                    width: 98%;
+                    box-shadow: 10px 10px 10px 8px #888888;
+                }
+
+                .table{
+                    width: 99.7%;
+                }
+
+                .content-wrapper{
+                    width: 85%
+                }
+</style>
 <!----------------------------------------------Modal Start Here-------------------------------------------------------------->
 
 <div class="modal fade" id="file_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -46,6 +84,27 @@
 
       <form action="Data Controller/DTR Employee/dtr_conn.php" method="POST">
       <div class="modal-body">
+      
+        <div class="mb-3">
+               <label for="Select_emp" class="form-label">Select Employee:</label>
+             <?php
+                include 'config.php';
+
+               // Fetch all values of fname and lname from the database
+                  $sql = "SELECT fname, lname, empid FROM employee_tb";
+                  $result = mysqli_query($conn, $sql);
+
+              // Generate the dropdown list
+                  echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp'>";
+                  while ($row = mysqli_fetch_array($result)) {
+                  $emp_id = $row['empid'];
+                  $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
+                  echo "<option value='$emp_id'>$name</option>";
+              }
+                  echo "</select>";
+            ?>
+     </div>  <!--mb-3 end--->
+
         <div class="mb-3">
             <label for="exampleInputDate" class="form-label">Date</label>
             <input name="date" type="date" class="form-control" id="date_input" required>
@@ -140,7 +199,7 @@
 
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div id="alert-message" class="alert alert-warning alert-dismissible fade show" role="alert">
+            echo '<div id="alert-message" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
@@ -149,20 +208,25 @@
 ?>
 <!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
 
+
+<!-----------------------------------------Syntax for the alert Message----------------------------------------------------------->
+<?php
+
+        if (isset($_GET['error'])) {
+            $err = $_GET['error'];
+            echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+            '.$err.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+
+?>
+<!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
+
+
 <!-------------------------------------------Style sa card at table--------------------------------------------------------------->
 <style>
-                .card-body{
-                    width: 98%;
-                    box-shadow: 10px 10px 10px 8px #888888;
-                }
 
-                .table{
-                    width: 99.7%;
-                }
-
-                .content-wrapper{
-                    width: 85%
-                }
 </style>
 <!----------------------------------------End Style sa card at table-------------------------------------------------------------->
 
@@ -260,12 +324,12 @@
 <!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
 
 <!-----------------------Script para sa automatic na pagdisapper ng alert message------------------------------->
-<script>
+<!-- <script>
     // Set a timer to remove the alert message after 2 seconds
     setTimeout(function(){
         document.getElementById("alert-message").remove();
     }, 2000);
-</script>
+</script> -->
 <!---------------------End Script para sa automatic na pagdisapper ng alert message------------------------------>
 
 <!-- plugins:js -->

@@ -32,10 +32,10 @@ include '../../config.php';
           }
 //Para sa pag select ng mga data galing sa LEAVE INFO TABLE (END)
 if($row['col_status'] === 'Approved' ){
-    header("Location: ../../leavereq.php?msg=You cannot APPROVED a request that is already APPROVED");
+    header("Location: ../../leavereq.php?error=You cannot APPROVED a request that is already APPROVED");
 }
 else if($row['col_status'] === 'Rejected' ){
-    header("Location: ../../leavereq.php?msg=You cannot APPROVED a request that is already REJECTED");
+    header("Location: ../../leavereq.php?error=You cannot APPROVED a request that is already REJECTED");
 }
 else{
 
@@ -79,13 +79,13 @@ if($row['col_LeavePeriod'] === 'First Half'){
     
                     if($query_run){
                         header("Location: ../../leavereq.php?msg=Approved Successfully");
-                    }
+                    } 
                     else{
                         echo '<script> alert("Data Not Updated"); </script>';
                     }
 
-              }
-              else{
+              } 
+              else{ 
                 echo '<script> alert("Data Not Updated"); </script>';
               }
 } //-----------------------------------PARA SA PAG MINUS NG CREDITS IF HALDAY firsthalf end----------------------------------------------
