@@ -17,31 +17,6 @@
         $end_time = $_POST['end_time'];
         $location = $_POST['locate'];
         $reason = $_POST['text_reason'];
-    
-        // #file name with a random number so that similar dont get replaced
-        // $file_upl = $_FILES["file_upload"]["name"];
-    
-        // #temporary file name to store file
-        // $tname = $_FILES["file_upload"]["tmp_name"];
-
-        // #upload directory path
-        // $uploads_dir = 'Upload_files';
-        // #TO move the uploaded file to specific location
-        // move_uploaded_file($tname, $uploads_dir.'/'.$file_upl);
-
-        // $file_name = $_FILES['file_upload']['name'];
-        // $file_tmp = $_FILES['file_upload']['tmp_name'];
-        // $target_directory = "uploads/"; // Directory where you want to store the uploaded files
-
-        //         // Create the target directory if it does not exist
-        //         if (!file_exists($target_directory)) {
-        //             mkdir($target_directory, 0777, true);
-        //         }
-                
-        // $target_file = $target_directory . $file_name;
-        // move_uploaded_file($file_tmp, $target_file);
-
-        // $file_upl = $file_name; // Use the uploaded file name
 
         $contents = file_get_contents($_FILES['file_upload']['tmp_name']);
         $escaped_contents = mysqli_real_escape_string($conn, $contents);
