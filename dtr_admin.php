@@ -102,6 +102,54 @@
 ?>
 <!------------------------------------End Message alert------------------------------------------------->
 
+<!---------------------------------------View Modal Start Here -------------------------------------->
+<div class="modal fade" id="view_dtr_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">Reason</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+            <label for="text_area" class="form-label"></label>
+            <textarea class="form-control" name="text_reason" id="view_reason1" readonly></textarea>
+         </div>
+      </div><!--Modal Body Close Tag-->
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------View Modal End Here --------------------------------------->
+
+<!---------------------------------------Download Modal Start Here -------------------------------------->
+<div class="modal fade" id="download" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="actions/DTR Correction/download_dtr.php" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="table_id" id="id_table">
+        <input type="hidden" name="table_name" id="name_table">
+        <h3>Are you sure you want download the PDF File?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="yes_dl" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------Download Modal End Here --------------------------------------->
+
 <!----------------------------------Syntax for Dropdown button------------------------------------------>
     <div class="official_panel">
             <div class="child_panel">
@@ -169,6 +217,7 @@
                                 <th>Time</th>
                                 <th>Type</th>
                                 <th>Reason</th>
+                                <th style="display: none;">View Button</th>
                                 <th>File Attachment</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -207,10 +256,17 @@
                                         <td><?php echo $row['date']?></td>
                                         <td><?php echo $row['time']?></td>
                                         <td><?php echo $row['type']?></td>
-                                        <td><?php echo $row['reason']?></td>
-                                        <td><?php echo $row['upl_file']?></td>
+                                        <td style="display: none;"><?php echo $row['reason']?></td>
+                                        <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_dtr_modal">View</a></td>
+                                        <?php if(!empty($row['upl_file'])): ?>
+                                        <td>
+                                        <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
+                                        </td>
+                                        <?php else: ?>
+                                        <td></td> <!-- Show an empty cell if there is no file attachment -->
+                                        <?php endif; ?>
                                         <td> 
-                                            <p data-status="<?php echo $row['status']?>"><?php echo $row['status']?></p>
+                                        <label class=""><?php echo $row['status'];?></label>
                                         </td>
                                         <td>
                                         <button type="submit" name="approve_btn" class="btn btn-outline-success viewbtn">Approve</button>
@@ -233,7 +289,7 @@
 </div>
 
 
-<!------------------------------------------------ Modal ---------------------------------------------------->
+<!------------------------------------------------View ng whole data Modal ---------------------------------------------------->
 
 <div class="modal fade" id="viewmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -294,6 +350,23 @@
 <!------------------------------------------------End ng Modal ---------------------------------------------------->
 
 
+<!------------------------------------Script para sa pag pop-up ng view modal------------------------------------------------->
+<script>
+     $(document).ready(function(){
+               $('.viewbtn').on('click', function(){
+                 $('#view_dtr_modal').modal('show');
+                      $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#view_reason1').val(data[6]);
+               });
+             });
+</script>
+<!---------------------------------End ng Script para sa pag pop-up ng view modal------------------------------------------>
+
 
 <!-------------------------------Script para matest kung naseselect ba ang I.D---------------------------------------->        
 <script> 
@@ -312,7 +385,7 @@
         </script>
 <!-----------------------------End Script para matest kung naseselect ba ang I.D------------------------------------->
 
-<!------------------------------------Script para lumabas ang modal------------------------------------------------->
+<!------------------------------------Script para sa whole view data ng modal------------------------------------------------->
 <script>
      $(document).ready(function(){
                $('.showbtn').on('click', function(){
@@ -335,39 +408,20 @@
                });
              });
              </script>
-<!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
+<!---------------------------------End ng Script whole view data ng modal------------------------------------------>
 
-<!---------------------------------Script to Change the value of status------------------------------------------>
-<!-- <script>
-    // Get the buttons
-    const approveAllBtn = document.querySelector('.approve-btn');
-    const rejectAllBtn = document.querySelector('.reject-btn');
-
-    // Add event listeners to the buttons
-    approveAllBtn.addEventListener('click', () => updateAllStatus('Approved'));
-    rejectAllBtn.addEventListener('click', () => updateAllStatus('Rejected'));
-
-    // Function to update the status of all entries in the database
-    function updateAllStatus(status) {
-        // Send an AJAX request to the server
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'actions/DTR Correction/update_status.php', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                // Reload the page to show the updated data
-                location.reload();
-            } else {
-                console.error(xhr.statusText);
-            }
-        };
-        xhr.onerror = function() {
-            console.error(xhr.statusText);
-        };
-        xhr.send('status=' + status);
+<!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>
+<script>
+  document.getElementById('inputfile').addEventListener('change', function(event) {
+    var fileInput = event.target;
+    var file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Please select a PDF file.');
+      fileInput.value = ''; // Clear the file input field
     }
-</script> -->
-<!-------------------------------End Script to Change the value of status---------------------------------------->
+  });
+</script>
+<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
 
 
 <!-- End custom js for this page-->

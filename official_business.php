@@ -262,7 +262,13 @@ session_start();
                                                 <td><?php echo $row['start_time'];?></td>
                                                 <td><?php echo $row['end_time'];?></td>
                                                 <td><?php echo $row['location'];?></td>
-                                                <td><button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button></td>
+                                                <?php if(!empty($row['file_upl'])): ?>
+                                                <td>
+                                                <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
+                                                </td>
+                                                <?php else: ?>
+                                                <td></td> <!-- Show an empty cell if there is no file attachment -->
+                                                <?php endif; ?>
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>
                                                 <a href="" class="btn btn-primary showbtn" data-bs-toggle="modal" data-bs-target="#viewmodal">View</a>   
@@ -329,7 +335,7 @@ session_start();
 <!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
 
 
-<!------------------------------------Script para lumabas ang modal------------------------------------------------->
+<!------------------------------------Script para sa download modal------------------------------------------------->
 <script>
      $(document).ready(function(){
                $('.downloadbtn').on('click', function(){
@@ -345,7 +351,7 @@ session_start();
                });
              });
 </script>
-<!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
+<!---------------------------------End ng Script para download modal------------------------------------------>
 
 
 <!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>

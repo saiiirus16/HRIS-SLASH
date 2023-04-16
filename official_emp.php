@@ -135,7 +135,7 @@ session_start();
                                 </div>
 
                                 <div class="input-group mb-3">
-                                    <input type="file" name="file_upload" class="form-control" id="inputfile" required>
+                                    <input type="file" name="file_upload" class="form-control" id="inputfile" >
                                     <label class="input-group-text"  for="inputGroupFile02">Upload</label>
                                 </div>
 
@@ -187,7 +187,7 @@ session_start();
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <form action="download.php" method="POST">
+      <form action="actions/Official Business/download.php" method="POST">
       <div class="modal-body">
         <input type="hidden" name="table_id" id="id_table">
         <input type="hidden" name="table_name" id="name_table">
@@ -315,7 +315,13 @@ session_start();
                                                 <td><?php echo $row['start_time'];?></td>
                                                 <td><?php echo $row['end_time'];?></td>
                                                 <td><?php echo $row['location'];?></td>
-                                                <td><button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button></td>
+                                                <?php if(!empty($row['file_upl'])): ?>
+                                                <td>
+                                                <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
+                                                </td>
+                                                <?php else: ?>
+                                                <td></td> <!-- Show an empty cell if there is no file attachment -->
+                                                <?php endif; ?>
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>
                                                 <a href="" class="btn btn-primary showbtn" data-bs-toggle="modal" data-bs-target="#viewmodal">View</a>   

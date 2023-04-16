@@ -15,7 +15,14 @@ if(isset($_POST['add_data']))
     $reason = $_POST['text_reason'];
     $upload_file = $_POST['file_upload'];
 
-    $query = "INSERT INTO emp_dtr_tb (`emp_id`,`date`,`time`,`type`,`reason`,`upl_file`,`status`) VALUES ('1001454','$date','$time','$type','$reason','$upload_file','Pending')";
+    if(isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == 0) {
+        $contents = file_get_contents($_FILES['file_upload']['tmp_name']);
+        $escaped_contents = mysqli_real_escape_string($conn, $contents);
+    } else {
+        $escaped_contents = "";
+    }
+
+    $query = "INSERT INTO emp_dtr_tb (`emp_id`,`date`,`time`,`type`,`reason`,`upl_file`,`status`) VALUES ('1001454','$date','$time','$type','$reason','$escaped_contents','Pending')";
     $query_run = mysqli_query($conn, $query);
 
     if($query_run)
