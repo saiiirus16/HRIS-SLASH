@@ -30,7 +30,6 @@
             
 <a href=""></a>
     
-
             <?php
 
                     if(isset($_POST['view_data'])){

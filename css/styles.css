@@ -1152,7 +1152,7 @@ header{
     background-color: rgba(0,0,0,0.4);
     z-index: 101;
     overflow: hidden;
-    display: block;
+    display: none;
 }
 
 .emp-modal-container{
