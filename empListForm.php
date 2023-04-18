@@ -175,12 +175,12 @@
                                         $database = "hris_db";
 
                                         $conn = mysqli_connect($server, $user, $pass, $database);
-                                        $sql = "SELECT branch_name FROM branch_tb";
+                                        $sql = "SELECT * FROM branch_tb";
                                         $result = mysqli_query($conn, $sql);
 
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            $options .= "<option value='". $row['branch_name'] . "'>" .$row['branch_name'].  "</option>";
+                                            $options .= "<option value='". $row['id'] . "'>" .$row['branch_name'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
                                         }
                                         ?>
 
@@ -199,12 +199,12 @@
                                         $database = "hris_db";
 
                                         $conn = mysqli_connect($server, $user, $pass, $database);
-                                        $sql = "SELECT col_deptname FROM dept_tb";
+                                        $sql = "SELECT * FROM dept_tb";
                                         $result = mysqli_query($conn, $sql);
 
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            $options .= "<option value='". $row['col_deptname'] . "'>" .$row['col_deptname'].  "</option>";
+                                            $options .= "<option value='". $row['col_ID'] . "'>" .$row['col_deptname'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
                                         }
                                         ?>
 
@@ -218,12 +218,12 @@
                                     <?php
                                                     include 'config.php';
 
-                                                     $sql = "SELECT position FROM positionn_tb";
+                                                     $sql = "SELECT * FROM positionn_tb";
                                                      $results = mysqli_query($conn, $sql);
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value=' ". $rows['position'] . "'>" .$rows['position'].  "</option>";
+                                                         $options .= "<option value=' ". $rows['id'] . "'>" .$rows['position'].  "</option>";
                                                      }
                                                      ?>
              

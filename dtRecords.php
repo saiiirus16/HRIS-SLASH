@@ -205,6 +205,7 @@ if(!empty($_GET['status'])){
                                             
                                             <th>Employee ID</th>
                                             <th>Name</th>
+                                            <th>Date</th>
                                             <th>Department</th>
                                             <th>Schedule Type</th>
                                             <th>Time Entry</th>
@@ -225,6 +226,7 @@ if(!empty($_GET['status'])){
                                         <tr>
                                             <td><?php echo $row['employee_id'];?></td>
                                             <td><?php echo $row['name'];?></td>
+                                            <td><?php echo $row['date'];?></td>
                                             <td><?php echo $row['department'];?></td>
                                             <td><?php echo $row['schedule_type'];?></td>
                                             <td><?php echo $row['time_entry'];?></td>

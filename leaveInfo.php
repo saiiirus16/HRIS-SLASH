@@ -437,7 +437,7 @@ session_start();
                                             <label for="name_employee_Dept" class="form-label">Vacation Leave :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" name= "name_set_Vcrdt" id="id_v_crdt" class="form-control bg-light" aria-label="" readonly>
-                                                <input type="float" name= "name_updt_Vcrdt" id="id_Tv_crdt" class="form-control" placeholder="00.0" required aria-label="" onchange="vldty()">
+                                                <input type="float" name= "name_updt_Vcrdt" id="id_Tv_crdt" class="form-control" placeholder="00.0" required aria-label="" >
                                             </div>
                                         </div>
                                         <!--              line break                     --> 
@@ -445,7 +445,7 @@ session_start();
                                             <label for="name_employee_Dept" class="form-label">Sick Leave :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" name= "name_set_Scrdt" id="id_s_crdt" class="form-control bg-light" aria-label="" readonly>
-                                                <input type="float" name= "name_updt_Scrdt" id="id_Ts_crdt" class="form-control" placeholder="00.0" required aria-label="" disabled onchange="vldt1()">
+                                                <input type="float" name= "name_updt_Scrdt" id="id_Ts_crdt" class="form-control" placeholder="00.0" required aria-label="">
                                             </div>
                                         </div>
                                         <!--              line break                     --> 
@@ -453,7 +453,7 @@ session_start();
                                             <label for="name_employee_Dept" class="form-label">Bereavement Leave :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" name= "name_set_Bcrdt" id="id_B_crdt" class="form-control bg-light" aria-label="" readonly>
-                                                <input type="float" name= "name_updt_Bcrdt" id="id_TB_crdt" class="form-control" placeholder="00.0" required aria-label="" disabled onchange="vldt2()">
+                                                <input type="float" name= "name_updt_Bcrdt" id="id_TB_crdt" class="form-control" placeholder="00.0" required aria-label="">
                                             </div>
                                         </div>
                                         <!--              line break                     --> 

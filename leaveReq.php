@@ -61,7 +61,7 @@ session_start();
     <div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 350px;">
         <div class="">
 
-            <div class="card border-light" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width: 1530px; height: 800px; margin-left:80px">
+            <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; width: 1530px; height: 800px;">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
@@ -259,6 +259,19 @@ session_start();
                                                 </div>
 
                                                 <!---------------------------------- BREAK ------------------------------>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="input-group mt-3" id="id_wthPay">
+                                                            <div class="input-group-text">
+                                                                <input class="form-check-input mt-0" type="checkbox" name="name_wthPay" value="With Pay" id="checkbox_wthPay">
+                                                            </div>
+                                                            <input type="text" id="chnge_val" class="form-control" aria-label="Text input with checkbox" readonly value="Leave Without Pay" style= "background-color: red; color: #ffffff;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                                 <!---------------------------------- BREAK ------------------------------>
 
                                                 <div class="mt-3">
                                                     <label for="formFileMultiple" class="form-label fs-4">Attach File :</label>
@@ -463,7 +476,7 @@ session_start();
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">  <!--received the id of selected data in datatble and pass to calss action-->   
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;"> <!--received the employee_id of selected data in datatble and pass to calss action-->  
-                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top ">
+                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>

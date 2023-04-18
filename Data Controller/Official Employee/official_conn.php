@@ -9,28 +9,25 @@
 
     if(isset($_POST['savedata']))
     {
-        $employee_id = '123';
-        //$employee_id = $_POST['employee_id'];
+        $employee_id = $_POST ['name_emp'];
+        $name_company = $_POST ['company_name'];
         $start_date = $_POST['str_date'];
         $end_date = $_POST['end_date'];
         $start_time = $_POST['str_time'];
         $end_time = $_POST['end_time'];
         $location = $_POST['locate'];
         $reason = $_POST['text_reason'];
-    
-        #file name with a random number so that similar dont get replaced
-        $file_upl = rand(1000,10000)."-".$_FILES["file_upload"]["name"];
-    
-        #temporary file name to store file
-        $tname = $_FILES["file_upload"]["tmp_name"];
 
-        #upload directory path
-        $uploads_dir = 'Upload_files';
-        #TO move the uploaded file to specific location
-        move_uploaded_file($tname, $uploads_dir.'/'.$file_upl);
+        if(isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == 0) {
+            $contents = file_get_contents($_FILES['file_upload']['tmp_name']);
+            $escaped_contents = mysqli_real_escape_string($conn, $contents);
+        } else {
+            $escaped_contents = "";
+        }
 
-        $query = "INSERT INTO emp_official_tb (`employee_id`,`str_date`,`end_date`,`start_time`,`end_time`,`location`,`file_upl`,`reason`,`status`)
-        VALUES ('$employee_id','$start_date','$end_date','$start_time','$end_time','$location','$file_upl','$reason','Pending')";
+
+        $query = "INSERT INTO emp_official_tb (`employee_id`, `company_name`,`str_date`,`end_date`,`start_time`,`end_time`,`location`,`file_upl`,`reason`,`status`)
+        VALUES ('$employee_id', '$name_company', '$start_date','$end_date','$start_time','$end_time','$location','$escaped_contents','$reason','Pending')";
         $query_run = mysqli_query($conn, $query);
 
         if($query_run)

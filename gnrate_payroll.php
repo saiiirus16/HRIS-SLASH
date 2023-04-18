@@ -152,7 +152,7 @@
                                         include 'config.php';
                                         //select data db
 
-                                      
+                                         
 
                                         $sql = "SELECT
                                                     employee_tb.`empid`,
