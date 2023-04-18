@@ -191,7 +191,7 @@
                         <div class="scheduleBtn-crud">
                              <input type="submit" value="Submit" name="submit" class="btn btn-success"  >
                             <!-- <input type="submit" value="Update" name="" class="btn btn-success"  > -->
-                            <!-- <button style="color:white; margin-left:20px"><a href="Button Controller/delete.php?id=$row[id]" style="color:white;">Delete</a></button> -->
+                            <!-- <button style="color:white; margin-left:20px"><a href="Button Controller/delete.pshp?id=$row[id]" style="color:white;">Delete</a></button> -->
                         </div>
                     </div>
             

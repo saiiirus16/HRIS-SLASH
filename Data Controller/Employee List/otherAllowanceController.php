@@ -9,12 +9,12 @@ $row = mysqli_fetch_assoc($result);
 if(count($_POST) > 0){
 
     $id_emp = $_POST['id_emp'];
-    $other_govern = $_POST['other_govern'];
-    $govern_amount = $_POST['govern_amount'];
+    $other_allowance = $_POST['other_allowance'];
+    $allowance_amount = $_POST['allowance_amount'];
 
     foreach($id_emp as $key => $value){ 
-        $submit ="INSERT INTO governdeduct_tb(id_emp, other_govern,govern_amount)
-                  VALUES ('".$value."','".$other_govern[$key]."', '".$govern_amount[$key]."')";
+        $submit ="INSERT INTO allowancededuct_tb(id_emp, other_allowance,allowance_amount)
+                  VALUES ('".$value."','".$other_allowance[$key]."', '".$allowance_amount[$key]."')";
 
         $query = mysqli_query($conn,$submit);
         

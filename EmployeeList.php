@@ -60,7 +60,7 @@
                                 <td style='font-weight: 400;'>".$row["email"]. "</td>
                                 <td style='font-weight: 400;'>".$row["contact"]. "</td>
                                 <td style='font-weight: 400;'>".$row["role"]." <td>
-                                <td style='font-weight: 400;'>Active</td>
+                                <td style='font-weight: 400;'>".$row["status"]."</td>
                                 <td class='tbody-btn' style='width:120px;'>
                                     <button class='tb-view' style='border:none;background-color:inherit; outline:none;'><a href='editempListForm.php?id=$row[id]' style='color:gray;'>View</span></a></button>
                                    

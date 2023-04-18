@@ -201,7 +201,8 @@
                         <div class="emp-allowance-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Allowances</h1>
-                                <span class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px;"></span> 
+                                <span id="allowance-update" id="allowance-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </span>
+
                             </div>
                             <div class="emp-allowance-first-container">
                                 <div class="allowance-transpo">
@@ -371,7 +372,7 @@
                         <script>
                             $(document).ready(function(){
 
-                                var html = '<tr><td><input type="text" name="other_govern[]" id="" required class="emp-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="govern_amount[]" id="" required class="emp-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="empid" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="empid[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
+                                var html = '<tr><td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px"></td></tr>';
 
                                 var max = 5;
                                 var x = 1;
@@ -397,7 +398,7 @@
 
                             <div class="emp-modal-input">
                                 
-                                <table class="" id="table-field">
+                                <table class="" id="table-field" style=" width: 300px; margin-left: 100px;" >
                                     <tr>
                                         <th>Description</th>
                                         <th>Amount</th>
@@ -405,63 +406,176 @@
                                         <th></th>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="other_govern[]" id="" required class="emp-desc form-control" placeholder="Description"></td>
-                                        <td><input type="text" name="govern_amount[]" id="" required class="emp-amount form-control" placeholder="Amount"></td>
-                                        <td><input type="button" value="Add" name="empid[]" id="empAdd" class="btn"></td>
+                                        <td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"></td>
+                                        <td><input type="number" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount"></td>
+                                        <td><input type="button" value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px;" ></td>
                                         <td>
-                                        <input type="hidden" name="empid[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
+                                        <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px">
 
                                         </td>
                                     </tr>
                                 </table>
 
+                                <div class="other-govern-title" style="margin-top: 30px">
+                                    <h1 style="font-size: 23px; margin-left: 20px; margin-bottom:-20px;">New Deductions</h1>
                                 
-                                <!-- <div>
-                                    <label for="other_govern">Title</label><br>
-                                    <input type="text" name="other_govern" id="" placeholder="Description" class="govern-title">
+                                
+                                <table style=" width: 300px; margin-left: 100px; margin-top: 30px;">
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>         
+                                    </tr>
+                                <?php
+                                   $conn = mysqli_connect("localhost", "root", "", "hris_db");
+                                   $sql = "SELECT * FROM governdeduct_tb
+                                            AS govern
+                                            INNER JOIN employee_tb
+                                            AS emp
+                                            ON(emp.id = govern.id_emp)
+                                            WHERE emp.id = '".$_GET['id']."'";
+                                   $result = mysqli_query($conn, $sql);
+                                   $totalAmount = 0;
+                                   if (mysqli_num_rows($result) > 0) {
+                                       while ($row = mysqli_fetch_assoc($result)) {
+                                           $totalAmount += $row['govern_amount'];
+                                           echo "<tr>";
+                                           echo "<td><input type='text' disabled class='emp-desc form-control' style='margin-top:10px;' name='other_govern[]' value='" . $row['other_govern'] . "'></td>";
+                                           echo "<td><input type='text'  style='margin-top:10px;'  class='emp-amount form-control' disabled name='govern_amount[]' value='" . $row['govern_amount'] . "'></td>";
+                                           echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/govern_delete.php?other_govern=".$row['other_govern']."&id=".$row['id']."' style='color:white;'>Delete</a></button></td>";
+                                           echo "<input type='hidden'disabled name='empid[]' value='" . $row['empid'] . "'>";
+                                           echo "</tr>";
+                                       }
+                                    }
+                                   echo "<tr>";
+                                   echo "<td>Total Amount:</td>";
+                                   echo "<td><input type='text' disabled style='margin-top:10px;'  class='emp-amount form-control' name='total_amount' value='" . $totalAmount . "'></td>";
+                                   echo "</tr>";
+                                   mysqli_close($conn);
+                                ?>
+                                <input type='hidden' name="id" value="<?php echo $rows['id'];?>">
+                                
+                                </table>
                                 </div>
-                                <div>
-                                    <label for="govern_amount">Amount</label><br>
-                                    <input type="text" name="govern_amount" id="" placeholder="Amount" class="govern-amount">
-                                </div> -->
                             </div>
                             <div class="emp-modal-button">
                             <span value="Cancel" id="emp-modal-close" class="emp-modal-close" style="margin-bottom:12px;">Close</span>
                             <input type="submit" value="Submit" name="submit" id="submit" style="border: none; font-size: 23px; margin-top: -1px; margin-right: 10px; color: blue;" >
                             </div>
-                            </form>  
                         </div>
-                        <table>
-                            <tr>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Total</th>
-                            </tr>
-                            <?php 
-                                $server = "localhost";
-                                $user = "root";
-                                $pass ="";
-                                $database = "hris_db";
-
-                                $results = mysqli_query($conn, "SELECT * FROM governdeduct_tb ORDER BY govern_amount DESC WHERE empid ='". $_GET['empid']. "'");
-                                $rows = mysqli_fetch_assoc($results);
-                                while($rows = mysqli_fetch_array($results)){ ?>
-
-                            <?php
-                                }
-                            ?>
-                            <tr>
-                            <input type="hidden" name="empid" value="<?php echo $rows['empid']; ?>">
-                                <td><?php echo $rows['other_govern'] ?></td>
-                                <td><?php echo $rows['govern_amount'] ?></td>
-                            </tr>
-                            
-        
-                        </table>
                     </div>
+                    </form> 
+                    
 
+                    <!-- Allowance modal-->
 
+                   
+                <form action="Data Controller/Employee List/otherAllowanceController.php" method="POST">
+                <?php 
+                        $server = "localhost";
+                        $user = "root";
+                        $pass ="";
+                        $database = "hris_db";
+     
+                        $conn = mysqli_connect($server, $user, $pass, $database);
+                        $sql = "SELECT empid FROM employee_tb";
 
+                        $results = mysqli_query($conn, "SELECT * FROM employee_tb WHERE id ='". $_GET['id']. "'");
+                        $rows = mysqli_fetch_assoc($results);
+     
+                                
+                    ?>
+                
+                    <div class="allowance-modal" id="allowance-modal">
+                        <div class="allowance-modal-container">
+                            <script>
+                                $(document).ready(function(){
+                                    var html = '<tr><td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px"></td></tr>';
+
+                                var max = 5;
+                                var x = 1;
+                                $("#allowanceAdd").click(function(){
+                                    if(x <= max ){
+                                        $("#table-fields").append(html);
+                                        x++;
+                                    }
+                                });
+
+                                $("#table-fields").on('click','#allowanceRemove',function(){
+                                    $(this).closest('tr').remove();
+                                    x--;
+                                });
+
+                            });
+                            </script>
+                            <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
+                            <div class="allowance-modal-title">
+                                <h1>Add new deduction</h1>
+                            </div>
+                            <div class="allowance-modal-input">  
+                                <table class="" id="table-fields" style=" width: 300px; margin-left: 100px;" >
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"></td>
+                                        <td><input type="number" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount"></td>
+                                        <td><input type="button" value="Add" name="id_emp[]" id="allowanceAdd" class="btn btn-success" style="width: 73px;" ></td>
+                                        <td>
+                                        <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px">
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div class="other-allowance-title" style="margin-top: 30px">
+                                    <h1 style="font-size: 23px; margin-left: 20px; margin-bottom:-20px;">New Deductions</h1>
+                                
+                                
+                                <table style="width: 300px; margin-left: 100px; margin-top: 30px;">
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>         
+                                    </tr>
+                                <?php
+                                    $conns = mysqli_connect("localhost", "root", "", "hris_db");
+                                    $sqls = "SELECT * FROM `allowancededuct_tb` AS allow
+                                             INNER JOIN `employee_tb` AS emps ON(emps.id = allow.id_emp)
+                                             WHERE emps.id = '".$_GET['id']."'";
+                                    $allowanceResult = mysqli_query($conns, $sqls);
+                                    $allowanceTotalAmount = 0;
+                                    if (mysqli_num_rows($allowanceResult) > 0) {
+                                        while ($allowanceRow = mysqli_fetch_assoc($allowanceResult)) {
+                                            $allowanceTotalAmount += $allowanceRow['allowance_amount'];
+                                            echo "<tr>";
+                                            echo "<td><input type='text' disabled class='allowance-desc form-control' style='margin-top:10px;' name='other_allowance[]' value='" . $allowanceRow['other_allowance'] . "'></td>";
+                                            echo "<td><input type='text' disabled class='allowance-amount form-control' style='margin-top:10px;' name='allowance_amount[]' value='" . $allowanceRow['allowance_amount'] . "'></td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                   echo "<tr>";
+                                   echo "<td>Total Amount:</td>";
+                                   echo "<td><input type='text' disabled style='margin-top:10px;'  class='emp-amount form-control' name='total_amount' value='" . $allowanceTotalAmount . "'></td>";
+                                   echo "</tr>";
+                                   mysqli_close($conns);
+                                ?>
+                                <input style="width:500px" type='text' name="id" value="<?php echo $allowanceRow['other_allowance'];?>">
+                                
+                                </table>
+                                </div>
+                            </div>
+                            <div class="allowance-modal-button">
+                                <span value="Cancel" id="allowance-modal-close" class="allowance-modal-close" style="margin-bottom:12px;">Close</span>
+                                <input type="submit" value="Submit" name="submit" id="submit" style="border: none; font-size: 23px; margin-top: -1px; margin-right: 10px; color: blue;">
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                
+                    
                  
                 
             
@@ -516,6 +630,38 @@ function clickOutside(e){
     }
 }
 
+</script>
+
+<script>
+    // sched form modal
+
+let allowanceModal = document.getElementById('allowance-modal');
+
+//get open modal
+let allowanceBtn = document.getElementById('allowance-update');
+
+//get close button modal
+let allowanceClose = document.getElementsByClassName('allowance-modal-close')[0];
+
+//event listener
+allowanceBtn.addEventListener('click', openAllowance);
+allowanceClose.addEventListener('click', exitAllowance);
+window.addEventListener('click', clickOutsides);
+
+//functions
+function openAllowance(){
+    allowanceModal.style.display ='block';
+}
+
+function exitAllowance(){
+    allowanceModal.style.display ='none';
+}
+
+function clickOutsides(e){
+    if(e.target == allowanceModal){
+        allowanceModal.style.display ='none';    
+    }
+}
 </script>
                      
 
