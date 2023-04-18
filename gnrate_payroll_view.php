@@ -133,76 +133,152 @@
                             
                                                         //Para sa mga range of dates per day to compute the late and undertime deduction
                                                             // -----------------------BREAK MONDAY START----------------------------//
+                                                            if($row_Sched['mon_timein'] == NULL){
+                                                                       
+                                                                $MON_timeIN = '00:00:00';
+                                                                $MON_timeOUT = '01:00:00';
+                                                                
+                                                                $MOn_total_work = strtotime($MON_timeOUT) - strtotime($MON_timeIN) - 7200;
+                                                                $MOn_total_work = date('H:i:s', $MOn_total_work);
+                                                                echo " MON_NULL " .  $MOn_total_work;
+                                                            }else{
                                                                     $MON_timeIN = $row_Sched['mon_timein'];
                                                                     $MON_timeOUT = $row_Sched['mon_timeout'];
                                                                     
                                                                     $MOn_total_work = strtotime($MON_timeOUT) - strtotime($MON_timeIN) - 7200;
                                                                     $MOn_total_work = date('H:i:s', $MOn_total_work);
-                                                                    echo "  " .  $MOn_total_work;
+                                                                    echo " MON " .  $MOn_total_work;
+                                                            }
                                                             // -----------------------BREAK MONDAY START----------------------------//
 
                                                             // -----------------------BREAK Tuesday START----------------------------//
-                                                                    $tue_timeIN = $row_Sched['tues_timein'];
-                                                                    $tue_timeout = $row_Sched['tues_timeout'];
+                                                            
+                                                           
+
+                                                                if($row_Sched['tues_timein'] == NULL){
+                                                                       
+                                                                    $tue_timeIN = '00:00:00';
+                                                                    $tue_timeout = '01:00:00';
                                                                     
                                                                     $Tue_total_work = strtotime($tue_timeout) - strtotime($tue_timeIN) - 7200;
                                                                     $Tue_total_work = date('H:i:s', $Tue_total_work);
-                                                                    echo "  " .  $Tue_total_work;
+                                                                    echo " TUE_NULL " .  $Tue_total_work;
+                                                                }else{
+                                                                        $fri_timeIN = $row_Sched['fri_timein'];
+                                                                        $fri_timeout = $row_Sched['fri_timeout'];
+                                                                        
+                                                                        $fri_total_work = strtotime($fri_timeout) - strtotime($fri_timeIN) - 7200;
+                                                                        $fri_total_work = date('H:i:s', $fri_total_work);
+                                                                        echo " tue " .  $fri_total_work;
+                                                                }
                                                             // -----------------------BREAK Tuesday END----------------------------//
 
                                                              // -----------------------BREAK WEDNESDAY START----------------------------//
-                                                                    $wed_timeIN = $row_Sched['wed_timein'];
-                                                                    $wed_timeout = $row_Sched['wed_timeout'];
+                                                             
+                                                                    if($row_Sched['wed_timein'] == NULL){
+                                                                            
+                                                                        $wed_timeIN = '00:00:00';
+                                                                        $wed_timeout = '01:00:00';
+                                                                        
+                                                                        $wed_total_work = strtotime($wed_timeout) - strtotime($wed_timeIN) - 7200;
+                                                                        $wed_total_work = date('H:i:s', $wed_total_work);
+                                                                        echo " WED_NULL " .  $wed_total_work;
+                                                                    }else{
+
+                                                                        $wed_timeIN = $row_Sched['wed_timein'];
+                                                                        $wed_timeout = $row_Sched['wed_timeout'];
+                                                                        
+                                                                        $wed_total_work = strtotime($wed_timeout) - strtotime($wed_timeIN) - 7200;
+                                                                        $wed_total_work = date('H:i:s', $wed_total_work);
+                                                                        echo " WED_ " .  $wed_total_work;
+                                                                    }
+
                                                                     
-                                                                    $wed_total_work = strtotime($wed_timeout) - strtotime($wed_timeIN) - 7200;
-                                                                    $wed_total_work = date('H:i:s', $wed_total_work);
-                                                                    echo "  " .  $wed_total_work;
                                                             // -----------------------BREAK WEDNESDAY END----------------------------//
 
                                                             // -----------------------BREAK THURSDAY START----------------------------//
-                                                                    $thurs_timeIN = $row_Sched['thurs_timein'];
-                                                                    $thurs_timeout = $row_Sched['thurs_timeout'];
-
+                                                                if($row_Sched['thurs_timein'] == NULL){
+                                                                        
+                                                                    $thurs_timeIN = '00:00:00';
+                                                                    $thurs_timeout = '01:00:00';
+                                                                    
                                                                     $thurs_total_work = strtotime($thurs_timeout) - strtotime($thurs_timeIN) - 7200;
                                                                     $thurs_total_work = date('H:i:s', $thurs_total_work);
-                                                                    echo " thurs " .  $thurs_total_work;
+                                                                    echo " Thurs_NULL " .  $fri_total_work;
+                                                                }else{
+
+
+                                                                        $thurs_timeIN = $row_Sched['thurs_timein'];
+                                                                        $thurs_timeout = $row_Sched['thurs_timeout'];
+
+                                                                        $thurs_total_work = strtotime($thurs_timeout) - strtotime($thurs_timeIN) - 7200;
+                                                                        $thurs_total_work = date('H:i:s', $thurs_total_work);
+                                                                        echo " THURS " .  $thurs_total_work;
+                                                                }
                                                             // -----------------------BREAK THURSDAY END----------------------------//
 
 
                                                             // -----------------------BREAK FRIDAY START----------------------------//
-                                                                   
+                                                        
+                                                            if($row_Sched['fri_timein'] == NULL){
+                                                                       
+                                                                $fri_timeIN = '00:00:00';
+                                                                $fri_timeout = '01:00:00';
+                                                                
+                                                                $fri_total_work = strtotime($fri_timeout) - strtotime($fri_timeIN) - 7200;
+                                                                $fri_total_work = date('H:i:s', $fri_total_work);
+                                                                echo " fri_NULL " .  $fri_total_work;
+                                                            }else{
                                                                     $fri_timeIN = $row_Sched['fri_timein'];
                                                                     $fri_timeout = $row_Sched['fri_timeout'];
                                                                     
                                                                     $fri_total_work = strtotime($fri_timeout) - strtotime($fri_timeIN) - 7200;
                                                                     $fri_total_work = date('H:i:s', $fri_total_work);
                                                                     echo " fri " .  $fri_total_work;
+                                                            }
 
 
                                                             // -----------------------BREAK FRIDAY END----------------------------//
 
                                                             
                                                             // -----------------------BREAK Saturday START----------------------------//
+                                                            if($row_Sched['sat_timein'] == NULL){
+                                                                       
+                                                                $sat_timeIN = '00:00:00';
+                                                                $sat_timeout = '01:00:00';
+                                                                
+                                                                $sat_total_work = strtotime($sat_timeout) - strtotime($sat_timeIN) - 7200;
+                                                                $sat_total_work = date('H:i:s', $sat_total_work);
+                                                                echo " SAT_NULL " .  $sat_total_work;
+                                                            }else{
                                                                    
                                                                     $sat_timeIN = $row_Sched['sat_timein'];
                                                                     $sat_timeout = $row_Sched['sat_timeout'];
                                                                     
                                                                     $sat_total_work = strtotime($sat_timeout) - strtotime($sat_timeIN) - 7200;
                                                                     $sat_total_work = date('H:i:s', $sat_total_work);
-                                                                    echo " sat " .  $sat_total_work;
-
+                                                                    echo " SAT " .  $sat_total_work;
+                                                            }
 
                                                             // -----------------------BREAK Saturday END----------------------------//
                                                     
                                                             // -----------------------BREAK SUNDAY START----------------------------//
-                                                                   
+                                                            if($row_Sched['sun_timein'] == NULL){
+                                                                       
+                                                                $sun_timeIN = '00:00:00';
+                                                                $sun_timeout = '01:00:00';
+                                                                
+                                                                $sun_total_work = strtotime($sun_timeout) - strtotime($sun_timeout) - 7200;
+                                                                $sun_total_work = date('H:i:s', $sun_total_work);
+                                                                echo " SUN_NULL " .  $sun_total_work;
+                                                            }else{
                                                                     $sun_timeIN = $row_Sched['sun_timein'];
                                                                     $sun_timeout = $row_Sched['sun_timeout'];
                                                                     
                                                                     $sun_total_work = strtotime($sun_timeout) - strtotime($sun_timeIN) - 7200;
                                                                     $sun_total_work = date('H:i:s', $sun_total_work);
-                                                                    echo " sun " .  $sun_total_work;
-
+                                                                    echo " SUN " .  $sun_total_work;
+                                                            }
 
                                                             // -----------------------BREAK SUNDAY END----------------------------//
 
@@ -220,142 +296,163 @@
                                                                 //need pa ma fetch sa between sa dates na naselect na month sa dropdown
                                                                 if(mysqli_num_rows($sql_attndces) > 0) 
                                                                 {
-                                                                    $row_attndcs = mysqli_fetch_assoc($sql_attndces);
-
-
-                                                                        // Fetch all rows from attendances_tb
+                                                                    $row_emp = mysqli_fetch_assoc($sql_attndces);
+                                                                       // Fetch all rows from attendances_tb
                                                                     $query = "SELECT * FROM attendances WHERE empid = $emp_ID";
                                                                     $result = $conn->query($query);
 
                                                                     // Check if any rows are fetched
                                                                     if ($result->num_rows > 0) 
                                                                     {
+                                                                       
+                                                                        $datesArray = array(); // Array to store the dates
+                                                                       
                                                                         // Loop through each row
                                                                         while($row = $result->fetch_assoc()) 
                                                                         {
                                                                             $_late = $row["late"];
+                                                                            
                                                                             // $status = $row["status"];
-                                                                            $Date = $row["date"];
-                                                                            $day_of_week = date('l', strtotime($Date));
+                                                                            $Date = $row["date"];             
+                                                                            //$day_of_week = date('l', strtotime($Date));
+                                                                            //echo '<br>' .  $Date . ' ' . $day_of_week . ' ' .  $_late;
 
-                                                                            // // Check if the person is present or absent
-                                                                            // if ($status == "Present") {
-                                                                            //     echo "$name is present...$day_of_week<br> ";
-                                                                            // } else if ($status == "Absent") {
-                                                                            //     echo "$name is absent.<br>";
-                                                                            // } else {
-                                                                            //     echo "Unknown status for $name.<br>";
-                                                                            // }
-                                                                            
-                                                                            //check for what day is it (for getting value of minutes in peso)
-                                                                            if($day_of_week === 'Monday'){
-                                                                                
-                                                                                $emp_dailyRate =  $row_attndcs['drate'];
-                                                                                $Mon_total_work_hours = (int)substr($MOn_total_work, 0, 2);
-                                                                                $hour_rate =  $emp_dailyRate / $Mon_total_work_hours;
-                                                                                $MON_minute_rate = $hour_rate / 60;
-
-                                                                                $timeString = "$_late";
-                                                                                $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                $MONDAY_TO_DEDUCT_LATE = $totalMinutes * $MON_minute_rate;
-                                                                                echo " _ MONDAY  =" . $totalMinutes;
-
-                                                                                
-
-                                                                                // $final_deduct_monday = $_late * $MON_minute_rate;
-                                                                                // echo $day_of_week   . " " .  $final_deduct_monday;
-                                                                            }else if ($day_of_week === 'Tuesday'){
-                                                                                $emp_dailyRate =  $row_attndcs['drate'];
-                                                                                $total_work_hours = (int)substr($Tue_total_work, 0, 2);
-                                                                                $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                $TUES_minute_rate = $hour_rate / 60;
-
-                                                                                $timeString = "$_late";
-                                                                                $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                $TUESDAY_TO_DEDUCT_LATE = $totalMinutes * $TUES_minute_rate;
-                                                                                echo " _ Tuesday  =" . $TUESDAY_TO_DEDUCT_LATE;
-
-
-                                                                            }else if ($day_of_week === 'Wednesday'){
-                                                                                $emp_dailyRate =  $row_attndcs['drate'];
-                                                                                $total_work_hours = (int)substr($wed_total_work, 0, 2);
-                                                                                $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                $WEDS_minute_rate = $hour_rate / 60;
-                                                                                
-                                                                                
-                                                                                $timeString = "$_late";
-                                                                                $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                $WEDS_TO_DEDUCT_LATE = $totalMinutes * $WEDS_minute_rate;
-                                                                                echo "_ WEDNESDAY  =" . $WEDS_TO_DEDUCT_LATE;
-
-                                                                            }else if ($day_of_week === 'Thursday'){
-                                                                                $emp_dailyRate =  $row_attndcs['drate'];
-                                                                                $total_work_hours = (int)substr($thurs_total_work, 0, 2);
-                                                                                $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                $THURS_minute_rate = $hour_rate / 60;
-                                                                                
-                                                                                 
-                                                                                $timeString = "$_late";
-                                                                                $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                $THURS_TO_DEDUCT_LATE = $totalMinutes * $THURS_minute_rate;
-                                                                                echo " _ THURSDAY  =" . $THURS_TO_DEDUCT_LATE;
-
-                                                                            }else if ($day_of_week === 'Friday'){
-                                                                                $emp_dailyRate =  $row_attndcs['drate'];
-                                                                                $total_work_hours = (int)substr($fri_total_work, 0, 2);
-                                                                                $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                $FRI_minute_rate = $hour_rate / 60;
-                                                                              
-                                                                                
-                                                                                $timeString = "$_late";
-                                                                                $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                $FRI_TO_DEDUCT_LATE = $totalMinutes * $FRI_minute_rate;
-                                                                                echo "_ FRIDAY  =" . $FRI_TO_DEDUCT_LATE;
-                                                                            }
-
-                                                                            else if ($day_of_week === 'Saturday'){
-                                                                                $emp_dailyRate =  $row_attndcs['drate'];
-                                                                                $total_work_hours = (int)substr($sat_total_work, 0, 2);
-                                                                                $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                $SAT_minute_rate = $hour_rate / 60;
-                                                                                
-                                                                                
-                                                                                $timeString = "$_late";
-                                                                                $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                $SAT_TO_DEDUCT_LATE = $totalMinutes * $SAT_minute_rate;
-                                                                                echo "_ SATURDAY =" . $SAT_TO_DEDUCT_LATE;
-
-
-                                                                            }else if ($day_of_week === 'Sunday'){
-                                                                                $emp_dailyRate =  $row_attndcs['drate'];
-                                                                                $total_work_hours = (int)substr($sun_total_work, 0, 2);
-                                                                                $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                $SUN_minute_rate = $hour_rate / 60;
-                                                                               
-                                                                                
-                                                                                $timeString = "$_late";
-                                                                                $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                $SUN_TO_DEDUCT_LATE = $totalMinutes * $SAT_minute_rate;
-                                                                                echo "_ SUNDAY =" . $SUN_TO_DEDUCT_LATE;
-                                                                            }
-                                                                            
-                                                                           
-
+                                                                            $datesArray[] = array('late' => $_late, 'date' => $Date); // Append the fetched date and late value to the array
+                                                                            //echo '<br>' . $_late;
                                                                         } //end while
+                                                                       
+                                                                        foreach ($datesArray as $date_att) 
+                                                                            {
+                                                                                
+                                                                            $day_of_week = date('l', strtotime($date_att['date']));
+                                                                            echo '<br>' . $date_att['date'] . ' ' . $day_of_week . ' ' . $date_att['late'];
+                                                                            //echo '<br>' . $_late;
+                                                                           if($day_of_week === 'Monday'){
+                                                                            
+                                                                            if($MOn_total_work === '00:00:00'){
+                                                                                $MONDAY_TO_DEDUCT_LATE = 0;
+                                                                            }else{
+                                                                              
+                                                                                    $emp_dailyRate =  $row_emp['drate'];
+                                                                                    $Mon_total_work_hours = (int)substr($MOn_total_work, 0, 2);
+                                                                                    $hour_rate =  $emp_dailyRate / $Mon_total_work_hours;
+                                                                                    $MON_minute_rate = $hour_rate / 60; 
+
+                                                                                    
+                                                                                    //$timeString = "$_late";
+                                                                                    $timeString =$date_att['late'];;
+                                                                                    //echo '<br> MON LATE' . $timeString;
+                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
+                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    $MONDAY_TO_DEDUCT_LATE = $totalMinutes * $MON_minute_rate;
+                                                                                }
+                                                                                
+                                                                            } else if($day_of_week === 'Tuesday'){
+                                                                                if($Tue_total_work === '00:00:00'){
+                                                                                    $Tue_TO_DEDUCT_LATE = 0;
+                                                                                }else{
+                                                                                
+                                                                                    $emp_dailyRate =  $row_emp['drate'];
+                                                                                    $total_work_hours = (int)substr($Tue_total_work, 0, 2);
+                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
+                                                                                    $minute_rate = $hour_rate / 60; 
+
+                                                                                    //$timeString = "$_late";
+                                                                                    $timeString1 = $date_att['late'];
+                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString1);// Convert time string to DateTime object
+                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    $Tue_TO_DEDUCT_LATE = $totalMinutes * $minute_rate;
+                                                                                }
+                                                                            } else if($day_of_week === 'Wednesday'){
+                                                                                if($wed_total_work === '00:00:00'){
+                                                                                    $WED_TO_DEDUCT_LATE = 0;
+                                                                                }else{
+                                                                                
+                                                                                    $emp_dailyRate =  $row_emp['drate'];
+                                                                                    $total_work_hours = (int)substr($wed_total_work, 0, 2);
+                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
+                                                                                    $minute_rate = $hour_rate / 60; 
+
+                                                                                    //$timeString = "$_late";
+                                                                                    $timeString2 = $date_att['late'];
+                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString2);// Convert time string to DateTime object
+                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    $WED_TO_DEDUCT_LATE = $totalMinutes * $minute_rate;
+                                                                                }
+                                                                            } else if($day_of_week === 'Thursday'){
+                                                                                if($thurs_total_work === '00:00:00'){
+                                                                                    $Thurs_TO_DEDUCT_LATE = 0;
+                                                                                }else{
+                                                                                
+                                                                                    $emp_dailyRate =  $row_emp['drate'];
+                                                                                    $total_work_hours = (int)substr($wed_total_work, 0, 2);
+                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
+                                                                                    $minute_rate = $hour_rate / 60; 
+
+                                                                                    //$timeString = "$_late";
+                                                                                    $timeString = $date_att['late'];
+                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
+                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    $Thurs_TO_DEDUCT_LATE = $totalMinutes * $minute_rate;
+                                                                                }
+                                                                            } else if($day_of_week === 'Friday'){
+                                                                                if($fri_total_work === '00:00:00'){
+                                                                                    $Fri_TO_DEDUCT_LATE = 0;
+                                                                                }else{
+                                                                                
+                                                                                    $emp_dailyRate =  $row_emp['drate'];
+                                                                                    $total_work_hours = (int)substr($fri_total_work, 0, 2);
+                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
+                                                                                    $minute_rate = $hour_rate / 60; 
+
+                                                                                    //$timeString = "$_late";
+                                                                                    $timeString = $date_att['late'];
+                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
+                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    $Fri_TO_DEDUCT_LATE = $totalMinutes * $minute_rate;
+                                                                                }
+                                                                            } else if($day_of_week === 'Saturday'){
+                                                                                if($sat_total_work === '00:00:00'){
+                                                                                    $SAT_TO_DEDUCT_LATE = 0;
+                                                                                }else{
+                                                                                
+                                                                                    $emp_dailyRate =  $row_emp['drate'];
+                                                                                    $total_work_hours = (int)substr($sat_total_work, 0, 2);
+                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
+                                                                                    $minute_rate = $hour_rate / 60; 
+
+                                                                                    //$timeString = "$_late";
+                                                                                    $timeString = $date_att['late'];
+                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
+                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    $SAT_TO_DEDUCT_LATE = $totalMinutes * $minute_rate;
+                                                                                }
+                                                                            } else if($day_of_week === 'Sunday'){
+                                                                                if($sun_total_work === '00:00:00'){
+                                                                                    $Sun_TO_DEDUCT_LATE = 0;
+                                                                                }else{
+                                                                                
+                                                                                    $emp_dailyRate =  $row_emp['drate'];
+                                                                                    $total_work_hours = (int)substr($sun_total_work, 0, 2);
+                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
+                                                                                    $minute_rate = $hour_rate / 60; 
+
+                                                                                    //$timeString = "$_late";
+                                                                                    $timeString = $date_att['late'];
+                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
+                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    $Sun_TO_DEDUCT_LATE = $totalMinutes * $minute_rate;
+                                                                                }
+                                                                            }
+                                                                        
+                                                                        }//end for each
                                                                     }
                                                                        
                                                                      else {
@@ -432,7 +529,14 @@
                                                                     ";
                                                 $result = $conn->query($sql);
 
-                                                
+                                                echo " <br>_ MONDAY  =" . $MONDAY_TO_DEDUCT_LATE;
+                                                echo " <br>_ Tuesday  =" . $Tue_TO_DEDUCT_LATE;
+                                                echo "<br>_ WEDNESDAY  =" . $WED_TO_DEDUCT_LATE;
+                                                echo " <br>_ Thursday  =" . $Thurs_TO_DEDUCT_LATE;
+                                                echo "<br>_ Friday  =" . $Fri_TO_DEDUCT_LATE;
+                                                echo "<br>_ Saturday  =" . $SAT_TO_DEDUCT_LATE;
+                                                echo "<br>_ SUNDAY  =" . $Sun_TO_DEDUCT_LATE;
+
 
                                                 //need pa ma fetch sa between sa dates na naselect na month sa dropdown
 
@@ -443,7 +547,7 @@
                                                             <td>" . $row['total_hours_minutesLATE'] . "</td>
                                                             <td>" . $row['total_hours_minutesUndertime'] . "</td>
                                                             <td>" . $row['total_hours_minutestotalHours'] . "</td>
-                                                            <td>" . $MONDAY_TO_DEDUCT_LATE + $TUESDAY_TO_DEDUCT_LATE + $WEDS_TO_DEDUCT_LATE + $THURS_TO_DEDUCT_LATE + $FRI_TO_DEDUCT_LATE . "</td>
+                                                            <td>" . $MONDAY_TO_DEDUCT_LATE + $Tue_TO_DEDUCT_LATE + $WED_TO_DEDUCT_LATE +  $Thurs_TO_DEDUCT_LATE + $Fri_TO_DEDUCT_LATE + $SAT_TO_DEDUCT_LATE + $Sun_TO_DEDUCT_LATE. "</td>
                                                         </tr>"; 
                                                 }
 

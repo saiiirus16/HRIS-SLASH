@@ -92,28 +92,61 @@ function strvalidate() {
       
     }
   }
-  function halfdaysides(){
-    let halfday_side = document.getElementById('id_leavePeriod').value;
 
-    if(halfday_side === 'Half Day'){
-      document.getElementById('id_chckfirsthalf').style.display = "flex";
-      document.getElementById('id_chckSecondhalf').style.display = "flex";
-    }
-    else{
-      document.getElementById('id_chckfirsthalf').style.display = "none";
-      document.getElementById('id_chckSecondhalf').style.display = "none";
-    }
-  }
 
-  const firstHalfCheckbox = document.querySelector('input[name="firstHalf"]');
-  const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
-  firstHalfCheckbox.addEventListener('click', function() {
-      secondHalfCheckbox.checked = !this.checked;
-  });
-  secondHalfCheckbox.addEventListener('click', function() {
-      firstHalfCheckbox.checked = !this.checked;
-  });
 
+    //PARA ISA LANG MA CHECK SA FIRST AND SECOND HALF
+        function halfdaysides(){
+          let halfday_side = document.getElementById('id_leavePeriod').value;
+
+          if(halfday_side === 'Half Day'){
+            document.getElementById('id_chckfirsthalf').style.display = "flex";
+            document.getElementById('id_chckSecondhalf').style.display = "flex";
+          }
+          else{
+            document.getElementById('id_chckfirsthalf').style.display = "none";
+            document.getElementById('id_chckSecondhalf').style.display = "none";
+          }
+        }
+        
+
+
+        const firstHalfCheckbox = document.querySelector('input[name="firstHalf"]');
+        const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
+        firstHalfCheckbox.addEventListener('click', function() {
+            secondHalfCheckbox.checked = !this.checked;
+        });
+        secondHalfCheckbox.addEventListener('click', function() {
+            firstHalfCheckbox.checked = !this.checked;
+        });
+
+
+    //PARA ISA LANG MA CHECK SA FIRST AND SECOND HALF (END)
+
+
+//PARA MAG CHANGE SA TEXT NG CHECKBOX TO PAY AND WITHOUT PAY
+
+    // Get the checkbox element
+    var checkbox = document.getElementById('checkbox_wthPay');
+
+    // Add event listener for checkbox change
+    checkbox.addEventListener('change', function() {
+        // Get the input element
+        var inputValue = document.getElementById('chnge_val');
+
+        // Update input value based on checkbox checked state
+        if (this.checked) {
+            inputValue.value = 'Leave With Pay';
+            inputValue.style.color = '#ffffff';
+            inputValue.style.backgroundColor = 'green';
+        } else {
+            inputValue.value = 'Leave Without Pay';
+            inputValue.style.color = '#ffffff';
+            inputValue.style.backgroundColor = 'red';
+        }
+    });
+
+//PARA MAG CHANGE SA TEXT NG CHECKBOX TO PAY AND WITHOUT PAY (END)
 
 
 

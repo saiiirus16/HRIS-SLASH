@@ -259,6 +259,19 @@ session_start();
                                                 </div>
 
                                                 <!---------------------------------- BREAK ------------------------------>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="input-group mt-3" id="id_wthPay">
+                                                            <div class="input-group-text">
+                                                                <input class="form-check-input mt-0" type="checkbox" name="name_wthPay" value="With Pay" id="checkbox_wthPay">
+                                                            </div>
+                                                            <input type="text" id="chnge_val" class="form-control" aria-label="Text input with checkbox" readonly value="Leave Without Pay" style= "background-color: red; color: #ffffff;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                                 <!---------------------------------- BREAK ------------------------------>
 
                                                 <div class="mt-3">
                                                     <label for="formFileMultiple" class="form-label fs-4">Attach File :</label>
