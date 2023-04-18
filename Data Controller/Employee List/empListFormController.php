@@ -69,7 +69,7 @@
     die;
    }else{
    
-        $stmt = $conn->prepare("INSERT INTO employee_tb (fname, lname, empid, address, contact, cstatus, gender, empdob, empsss, emptin, emppagibig, empphilhealth, empbranch, department_name, empposition, empbsalary, drate, approver, empdate_hired, emptranspo, empmeal, empinternet, empschedule_type, empstart_date, empend_date, empaccess_id, username, role, email, password, cpassword)
+        $stmt = $conn->prepare("INSERT INTO employee_tb (fname, lname, empid, address, contact, cstatus, gender, empdob, empsss, emptin, emppagibig, empphilhealth, empbranch, department_name, empposition, empbsalary, drate, approver, empdate_hired, emptranspo, empmeal, empinternet, schedule_name, empstart_date, empend_date, empaccess_id, username, role, email, password, cpassword)
                                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         $stmt->bind_param("sssssssssssssssssssssssssssssss", $fname,  $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empschedule_type, $empstart_date, $empend_date, $empaccess_id, $username, $role, $email, $password, $cpassword);
         $stmt->execute();

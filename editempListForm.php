@@ -541,28 +541,33 @@
                                         <th>Actions</th>         
                                     </tr>
                                 <?php
-                                    $conns = mysqli_connect("localhost", "root", "", "hris_db");
-                                    $sqls = "SELECT * FROM `allowancededuct_tb` AS allow
-                                             INNER JOIN `employee_tb` AS emps ON(emps.id = allow.id_emp)
-                                             WHERE emps.id = '".$_GET['id']."'";
-                                    $allowanceResult = mysqli_query($conns, $sqls);
-                                    $allowanceTotalAmount = 0;
-                                    if (mysqli_num_rows($allowanceResult) > 0) {
-                                        while ($allowanceRow = mysqli_fetch_assoc($allowanceResult)) {
-                                            $allowanceTotalAmount += $allowanceRow['allowance_amount'];
-                                            echo "<tr>";
-                                            echo "<td><input type='text' disabled class='allowance-desc form-control' style='margin-top:10px;' name='other_allowance[]' value='" . $allowanceRow['other_allowance'] . "'></td>";
-                                            echo "<td><input type='text' disabled class='allowance-amount form-control' style='margin-top:10px;' name='allowance_amount[]' value='" . $allowanceRow['allowance_amount'] . "'></td>";
-                                            echo "</tr>";
-                                        }
-                                    }
-                                   echo "<tr>";
-                                   echo "<td>Total Amount:</td>";
-                                   echo "<td><input type='text' disabled style='margin-top:10px;'  class='emp-amount form-control' name='total_amount' value='" . $allowanceTotalAmount . "'></td>";
-                                   echo "</tr>";
-                                   mysqli_close($conns);
-                                ?>
-                                <input style="width:500px" type='text' name="id" value="<?php echo $allowanceRow['other_allowance'];?>">
+                                     $conn = mysqli_connect("localhost", "root", "", "hris_db");
+                                     $sql = "SELECT * FROM allowancededuct_tb
+                                              AS allow
+                                              INNER JOIN employee_tb
+                                              AS emp
+                                              ON(emp.id = allow.id_emp)
+                                              WHERE emp.id = '".$_GET['id']."'";
+                                     $resultd = mysqli_query($conn, $sql);
+                                     $totalAmountd = 0;
+                                     if (mysqli_num_rows($resultd) > 0) {
+                                         while ($rowd = mysqli_fetch_assoc($resultd)) {
+                                             $totalAmountd += $rowd['allowance_amount'];
+                                             echo "<tr>";
+                                             echo "<td><input type='text' readonly class='form-control' style='margin-top:10px;' name='other_allowance[]' value='" . $rowd['other_allowance'] . "'></td>";
+                                             echo "<td><input type='text'  style='margin-top:10px;'  class='form-control' readonly name='allowance_amount[]' value='" . $rowd['allowance_amount'] . "' ></td>";
+                                             echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/govern_delete.php?other_allowance=".$rowd['other_allowance']."&id=".$rowd['id']."' style='color:white;'>Delete</a></button></td>";
+                                             echo "<input type='hidden'readonly name='empid[]' value='" . $rowd['empid'] . "'>";
+                                             echo "</tr>";
+                                         }
+                                      }
+                                     echo "<tr>";
+                                     echo "<td>Total Amount:</td>";
+                                     echo "<td><input type='text' disabled style='margin-top:10px;'  class='form-control' name='total_amount' value='" . $totalAmountd . "'></td>";
+                                     echo "</tr>";
+                                     mysqli_close($conn);
+                                  ?>
+                                  <input type='hidden' name="id" value="<?php echo $rows['id'];?>">
                                 
                                 </table>
                                 </div>

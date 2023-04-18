@@ -455,15 +455,15 @@ if(isset($_POST['importSubmit'])){
         }
 
                 // Check whether member already exists in the database with the same email
-                $prevQuery = "SELECT id FROM attendance_tb WHERE empid = '".$line[1]."'";
+                $prevQuery = "SELECT id FROM attendances WHERE empid = '".$line[1]."'";
                 $prevResult = $db->query($prevQuery);
                 
                 if($prevResult->num_rows > 0){
                     // Update member data in the database
-                    $db->query("UPDATE attendance_tb SET status = '".$status."', name = '".$name."', date = '".$date."', time_in = '".$time_in."', time_out = '".$time_out."', late = '".$late."', early_out = '".$early_out."', overtime = '".$overtime."', total_work = '".$total_work."', total_rest = '".$total_rest."',modified = NOW() WHERE empid = '".$empid."'");
+                    $db->query("UPDATE attendances SET status = '".$status."', name = '".$name."', date = '".$date."', time_in = '".$time_in."', time_out = '".$time_out."', late = '".$late."', early_out = '".$early_out."', overtime = '".$overtime."', total_work = '".$total_work."', total_rest = '".$total_rest."',modified = NOW() WHERE empid = '".$empid."'");
                 }else{
                     // Insert member data in the database
-                    $db->query("INSERT INTO attendance_tb (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                    $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
                                 VALUES ('".$status."', '".$empid."', '".$name."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
                 }
             }

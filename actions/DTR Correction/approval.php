@@ -333,7 +333,6 @@ if(isset($_POST['approve_btn']))
                                                             $interval = $time_out_datetime->diff($scheduled_time);
                                                             $overtime = $interval->format('%h:%i:%s');
 
-
                                                     }
                                                             $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                             if(mysqli_num_rows($result) > 0) {
