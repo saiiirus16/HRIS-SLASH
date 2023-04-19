@@ -307,7 +307,7 @@ if(isset($_POST['importSubmit'])){
                 if($time_out < $time['thurs_timeout']){
                     $time_out_datetime = new DateTime($time_out);
                     $scheduled_outs = new DateTime($total_work);
-                    $early_interval = $scheduled_outs->diff($time_out_datetime);
+                    $early_interval = $time_out_datetime->diff($scheduled_outs);
                     $early_out = $early_interval->format('%h:%i:%s');
                 } else { 
                     $early_out = '00:00:00';
