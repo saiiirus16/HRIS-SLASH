@@ -97,7 +97,7 @@
 
     mysqli_stmt_execute($stmt);
 
-    header("Location: ../../Schedules.php");
+    header("Location: ../../scheduleForm.php");
     
     
     

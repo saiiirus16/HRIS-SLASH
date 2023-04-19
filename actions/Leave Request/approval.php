@@ -703,9 +703,9 @@ else{
                                     $sql3 = "INSERT INTO attendances (`status`, `empid`,`date`, `time_in`, `time_out`, `total_work`) VALUES (?,?,?,?,?,?)";
                                     $stmt = $conn->prepare($sql3);
                                     $status = 'Present';
-                                    $timein = '08:00';
-                                    $timeout = '17:00';
-                                    $total = '08:00';
+                                    // $timein = '08:00';
+                                    // $timeout = '17:00';
+                                    // $total = '08:00';
                                     $stmt->bind_param("ssssss", $status, $employee_ID, $date,  $time_in, $time_out, $total_work);
                                     $result = $stmt->execute();
                                     if (!$result) {
