@@ -1,8 +1,6 @@
 
 <?php
     session_start();
-
-    
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
     }
@@ -127,7 +125,7 @@
 
             
                 <div class="att-excel-input">
-                    <form action="Data Controller/Attendance/attImportController.php"  enctype="multipart/form-data" method="POST">
+                    <form action="Data Controller/Attendance/attendanceController.php"  enctype="multipart/form-data" method="POST">
                             <input type="file" name="file" />
                             <input type="submit" value="Submit" name="importSubmit" class="btn btn-primary">
                     </form>
@@ -144,66 +142,79 @@
         <div class="att-search">
         <input class="employeeList-search" type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome;" id="search" style="outline:none;"/>
         </div>
-       
+
+      
         <table class="table table-hover" id="att-table">
-            <thead>
-                <th>Status</th>
-                <th>Employee ID</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Time in</th>
-                <th>Time out</th>
-                <th>Late</th>
-                <th>Early Out</th>
-                <th>Overtime</th>
-                <th>Total Work</th>
-                <th>Total Rest</th>
-            </thead>
-            <tbody id="myTable">
-                <?php
-                $result = $db->query("SELECT * FROM attendances 
-                                     AS att
-                                     INNER JOIN employee_tb
-                                     AS emp
-                                     ON(att.empid = emp.empid)
-                                     ORDER BY date ASC");
+    <thead>
+        <th>Status</th>
+        <th>Employee ID</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Time in</th>
+        <th>Time out</th>
+        <th>Late</th>
+        <th>Early Out</th>
+        <th>Overtime</th>
+        <th>Total Work</th>
+        <th>Total Rest</th>
+    </thead>
+    <tbody id="myTable" >
+        <?php
+        $result = $db->query("SELECT attendances.status, 
+                                    attendances.empid,
+                                    attendances.date,
+                                    attendances.time_in,
+                                    attendances.time_out,
+                                    attendances.late,
+                                    attendances.early_out,
+                                    attendances.overtime,
+                                    attendances.total_work,
+                                    attendances.total_rest, 
+                                    CONCAT(
+                                                employee_tb.`fname`,
+                                                ' ',
+                                                employee_tb.`lname`
+                                            ) AS `full_name`  
+                                FROM attendances
+                                INNER JOIN employee_tb ON employee_tb.empid = attendances.empid
+                                ORDER BY date ASC");
 
-                if($result->num_rows > 0){
-                    while($row = $result->fetch_assoc()){
-                        ?>
-                        <tr>
-                            <td style="font-weight: 400;"><?php echo $row['status'];?></td>
-                            <td style="font-weight: 400;"><?php echo $row['empid']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['fname']; ?> <?php echo $row['lname']?> </td>
-                            <td style="font-weight: 400;"><?php echo $row['date']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['time_in']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['time_out']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['late']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['early_out']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['overtime']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['total_work']; ?></td>
-                            <td style="font-weight: 400;"><?php echo $row['total_rest']; ?></td>
-                        </tr> 
-                        <?php        
-                    }
-                } else{
-                    ?>
-                    <tr>
-                        <td colspan="11">No attendance found...</td>
-                    </tr>
-
-                <?php
-                }
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
                 ?>
-                
-            </tbody>
+                <tr>
+                    <td style="font-weight: 400;"><?php echo $row['status']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['empid']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['full_name']; ?> </td>
+                    <td style="font-weight: 400;"><?php echo $row['date']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['time_in']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['time_out']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['late']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['early_out']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['overtime']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['total_work']; ?></td>
+                    <td style="font-weight: 400;"><?php echo $row['total_rest']; ?></td>
+                </tr> 
+                <?php        
+            }
+        } else{
+            ?>
+            <tr>
+                <td colspan="11">No attendance found...</td>
+            </tr>
 
-        </table>
+        <?php
+        }
+        ?>
+    </tbody>
+</table>
+
     
         <div class="att-export-btn">
          <p>Export options: <a href="excel-att.php" class=""></i>Excel</a><span> |</span> <a href="#">PDF</a></p>
          
         </div>
+   
     </div>
     
     

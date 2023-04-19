@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    }
 
     // include  'Data Controller/scheduleFormModalController.php';
 
@@ -19,6 +22,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
     <link rel="stylesheet" href="css/styles.css"> 
     <title>HRIS | Employee List Form</title>
 </head>
@@ -27,12 +33,13 @@
         <?php include("header.php")?>
     </header>
 
+    <button id="schedFormBtn" class="schedFormBtn" > Assign to Employese</button>
 
-
-
-    <button id="schedFormBtn" class="schedFormBtn" > Assign to Employee</button>
+    <?php
+        include("editScheduleForms.php")
+    ?>
     <form action="Data Controller/Schedules/empSchedule.php" method="POST">
-        <div class="schedule-modal" id="schedFormModal">
+        <div class="schedule-modal" id="schedFormModal" style="display:none;">
             <div class="schedule-modal-container"  id="schedFormModal">
                     <div class="schedule-modal-content">
                         <div class="sched-modal-title">
@@ -53,7 +60,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value=' ". $row['department_name'] . "'>" .$row['department_name'].  "</option>";
+                                    $options .= "<option value='". $row['department_name'] . "'>" .$row['department_name'].  "</option>";
                                 }
                                 ?>
 
@@ -79,7 +86,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value=' ". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                                    $options .= "<option value='". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }
                                 ?>
 
@@ -105,7 +112,7 @@
 
                                     $options = "";
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $options .= "<option value=' ". $row['schedule_name'] . "'>" .$row['schedule_name']."</option>";
+                                        $options .= "<option value='".$row['schedule_name']."'>".$row['schedule_name']."</option>";
                                     }
                                     ?>
 
@@ -143,7 +150,6 @@
     </form>
 
     
-    <form action="Data Controller/Schedules/scheduleFormController.php" method="POST">
        <div class="scheduleform-container">
             <div class="schedulelist-container">
                 <div class="schedulelist-title">
@@ -161,33 +167,38 @@
                             $sql = "SELECT * FROM schedule_tb";
                             $results = mysqli_query($conn, $sql);
 
-                            $options = "";
-                            while ($rows = mysqli_fetch_assoc($results)) {
-                                $options .="<a href='editScheduleForm.php?id=$rows[id]'>".$rows['schedule_name']. "</a><br><br>";
-                        }
+                            
+                           
+                            if($results->num_rows > 0){
+                                while($rows = $results->fetch_assoc()){
+                                    echo "<button style='border:none; background-color: inherit; display: flex; margin-left: 20px; font-size: 26px; margin-top: 10px; font-weight: 500;'><a href='editScheduleForm.php?id=$rows[id]'>".$rows['schedule_name']."</a></button>";
+                                }
+                            }
                         ?>
 
-                    <div>   
-                        <h1><?php echo $options; ?></h1>
-                    </div>
+
                     <!-- <a href="scheduleForm.php"><h1>Office Based</h1></a>
                     <a href="http://"><h1>Flexible</h1></a>
                     <a href="http://"><h1>Work From Home</h1></a> -->
                 </div>
             </div>
+        <form action="Data Controller/Schedules/scheduleFormController.php" method="POST">
+       <div class="schedule-form-show">
+
+           
             <div class="scheduletable-container">
                     <div class="scheduletable-buttons">
                         <div class="scheduleBtn-crud">
                              <input type="submit" value="Submit" name="submit" class="btn btn-success"  >
-                            <input type="submit" value="Update" name="" class="btn btn-success"  >
-                            <!-- <button style="color:white; margin-left:20px"><a href="Button Controller/delete.php?id=$row[id]" style="color:white;">Delete</a></button> -->
+                            <!-- <input type="submit" value="Update" name="" class="btn btn-success"  > -->
+                            <!-- <button style="color:white; margin-left:20px"><a href="Button Controller/delete.pshp?id=$row[id]" style="color:white;">Delete</a></button> -->
                         </div>
                     </div>
-
+            
                     <label for="schedule_name">Schedule Name</label><br>
                     <input class="schedule-input" type="text" name="schedule_name" id="" required>
 
-                <div class="scheduletable-table">
+        <div class="scheduletable-table">
 
             <div class="schedule-table-container">
                 <table class="table-hover" id="scheduleForm-table">
@@ -280,10 +291,30 @@
 
                     </div>                   
                 </div>
-
+                </div> 
             </div>
        </div>
-       </form>   
+       </form>
+       
+       
+       <!-- <form action="" method="">                   
+       <div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">User Info</h4>
+                          <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div class="modal-body">
+                            
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+        </div> -->
+        
 
 
     
@@ -341,6 +372,8 @@ function clickOutside(e){
     }
 }
 
+
+
 //filter
 
 function filter(item){
@@ -366,8 +399,23 @@ function getEmployee(val){
          }
     });
 }
+</script>
 
-
+<script type='text/javascript'>
+            $(document).ready(function(){
+                $('.schedule-info').click(function(){
+                    var id = $(this).data('id');
+                    $.ajax({
+                        url: 'ajaxfile.php',
+                        type: 'post',
+                        data: {id: id},
+                        success: function(response){ 
+                            $('.modal-body').html(response); 
+                            $('.schedModal').modal('show'); 
+                        }
+                    });
+                });
+            });
 </script>
 
 

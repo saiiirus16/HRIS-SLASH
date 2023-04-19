@@ -120,7 +120,8 @@
                     <ul class="sett-dd-show">
                         <li><a href="official_emp.php">OFFICIAL</a></li>
                         <li><a href="dtr_emp.php">DTR EMPLOYEE</a></li>
-                        
+                        <li><a href="my_schedule.php">MY SCHEDULE</a></li>
+                        <li><a href="overtime_req.php">OVERTIME</a></li>
                     </ul>
                 </li>
                 
