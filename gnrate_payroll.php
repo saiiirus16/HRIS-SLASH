@@ -163,7 +163,7 @@
                                                     ) AS `full_name`,
                                                     SUM(employee_tb.`drate`) AS NetPay,
                                                     employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` + employee_tb.`allowance_amount` AS Total_allowance,
-                                                    employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` + employee_tb.`govern_amount` AS Total_deduct,
+                                                    employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` AS Total_deduct,
                                                     attendances.late
                                                 FROM
                                                     employee_tb

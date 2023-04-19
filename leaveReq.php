@@ -58,10 +58,10 @@ session_start();
 </style>
 
 
-    <div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 350px;">
+    <div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 275px;">
         <div class="">
 
-            <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; width: 1530px; height: 800px;">
+            <div class="card border-light" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.5); width: 1530px; height: 800px;">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">

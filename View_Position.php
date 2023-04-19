@@ -24,7 +24,7 @@
             ?>
 </header>
     
-<div class="container mt-5 xxl" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  box-shadow: 10px 10px 10px 8px #888888;">
+<div class="container mt-5" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  box-shadow: 10px 10px 10px 8px #888888;">
     <div class="">
         <div class="card border-light">
             
@@ -35,7 +35,7 @@
 
                     if(isset($_POST['view_data'])){
 
-                        $emp_dept = $_POST['name_deptname_tb'];
+                        $emp_position = $_POST['name_position'];
                         
                             echo "
                             <div class='card-header'>
@@ -43,12 +43,12 @@
                                 <div class='col-6'>
 
                                     <h2 class='display-5'>";
-                                    echo $emp_dept;
+                                    echo $emp_position;
                                     echo"
                                     </h2>
                                 </div> <!--first col-6 end-->
                                 <div class='col-6 text-end' style=''>
-                                    <a href='Department.php' class='btn btn-outline-danger'>Go back</a>
+                                    <a href='Position.php' class='btn btn-outline-danger'>Go back</a>
                                 </div> <!--sec col-6 end-->
                             </div> <!--row end-->
 
@@ -68,7 +68,7 @@
                                                 include 'config.php';
 
                                                 // Query the department table to retrieve department names
-                                                $dept_query = "SELECT * FROM employee_tb WHERE department_name = '$emp_dept'";
+                                                $dept_query = "SELECT * FROM employee_tb WHERE empposition = '$emp_position'";
 
                                                 $result = mysqli_query($conn, $dept_query);
 
@@ -82,7 +82,7 @@
                                                     echo "<tr>
                                                         <td>" . $row['empid'] . "</td>
                                                         <td>" . $fullname . "</td>
-                                                        <td>" . $row['department_name'] . "</td>
+                                                        <td>" . $row['empposition'] . "</td>
 
                                                         </tr>";
                                                 }

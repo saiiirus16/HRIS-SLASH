@@ -31,6 +31,47 @@
             include 'header.php'
         ?>
 </header>
+
+<style>
+.sidebars ul li{
+        list-style: none;
+        text-decoration:none;
+        width: 287px;
+        margin-left:-16px;
+        line-height:30px;
+       
+    }
+
+    .sidebars ul li .hoverable{
+        height:55px;
+    }
+
+    .sidebars ul{
+        height:100%;
+    }
+
+    .sidebars .first-ul{
+        line-height:60px;
+        height:100px;
+    }
+
+    .sidebars ul li ul li{
+        width: 100%;
+    }
+    
+    .card-body{
+                    width: 98%;
+                    box-shadow: 10px 10px 10px 8px #888888;
+                }
+
+                .table{
+                    width: 99.7%;
+                }
+
+                .content-wrapper{
+                    width: 85%
+                }
+</style>
 <!----------------------------------------------Modal Start Here-------------------------------------------------------------->
 
 <div class="modal fade" id="file_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -43,6 +84,27 @@
 
       <form action="Data Controller/DTR Employee/dtr_conn.php" method="POST">
       <div class="modal-body">
+      
+        <div class="mb-3">
+               <label for="Select_emp" class="form-label">Select Employee:</label>
+             <?php
+                include 'config.php';
+
+               // Fetch all values of fname and lname from the database
+                  $sql = "SELECT fname, lname, empid FROM employee_tb";
+                  $result = mysqli_query($conn, $sql);
+
+              // Generate the dropdown list
+                  echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp'>";
+                  while ($row = mysqli_fetch_array($result)) {
+                  $emp_id = $row['empid'];
+                  $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
+                  echo "<option value='$emp_id'>$name</option>";
+              }
+                  echo "</select>";
+            ?>
+     </div>  <!--mb-3 end--->
+
         <div class="mb-3">
             <label for="exampleInputDate" class="form-label">Date</label>
             <input name="date" type="date" class="form-control" id="date_input" required>
@@ -108,6 +170,28 @@
 </div>
 <!---------------------------------------------------END OF DELETE MODAL--------------------------------------------------------->
 
+<!---------------------------------------View Modal Start Here -------------------------------------->
+<div class="modal fade" id="view_dtr_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold" id="exampleModalLabel">Reason</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="mb-3">
+            <label for="text_area" class="form-label"></label>
+            <textarea class="form-control" name="text_reason" id="view_reason1" readonly></textarea>
+         </div>
+      </div><!--Modal Body Close Tag-->
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------View Modal End Here --------------------------------------->
+
 
 <!----------------------------------------------Class in overall design--------------------------------------------------------->
     <div class="main-panel mt-5" style="margin-left: 15%;">
@@ -137,7 +221,7 @@
 
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div id="alert-message" class="alert alert-warning alert-dismissible fade show" role="alert">
+            echo '<div id="alert-message" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
@@ -146,26 +230,31 @@
 ?>
 <!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
 
+
+<!-----------------------------------------Syntax for the alert Message----------------------------------------------------------->
+<?php
+
+        if (isset($_GET['error'])) {
+            $err = $_GET['error'];
+            echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+            '.$err.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+
+?>
+<!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
+
+
 <!-------------------------------------------Style sa card at table--------------------------------------------------------------->
 <style>
-                .card-body{
-                    width: 98%;
-                    box-shadow: 10px 10px 10px 8px #888888;
-                }
 
-                .table{
-                    width: 99.7%;
-                }
-
-                .content-wrapper{
-                    width: 85%
-                }
 </style>
 <!----------------------------------------End Style sa card at table-------------------------------------------------------------->
 
                         <div class="row">
                             <div class="col-12 mt-3">
-                                <div class="table-responsive mt-5">
+                                <div class="table-responsive mt-5" style = "overflow: hidden;">
                                     <table id="order-listing" class="table">
                                         <thead>
                                             <tr>
@@ -175,6 +264,8 @@
                                                 <th>Date</th>
                                                 <th>Time</th>
                                                 <th>Type</th>
+                                                <th>Reason</th>
+                                                <th style="display: none;">View Button</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -196,6 +287,7 @@
                                                     emp_dtr_tb.date,
                                                     emp_dtr_tb.time,
                                                     emp_dtr_tb.type,
+                                                    emp_dtr_tb.reason,
                                                     emp_dtr_tb.status
                                                 FROM
                                                     employee_tb
@@ -210,6 +302,8 @@
                                                                 <td><?php echo $row['date']?></td>
                                                                 <td><?php echo $row['time']?></td>
                                                                 <td><?php echo $row['type']?></td>
+                                                                <td  style="display: none;"><?php echo $row['reason'];?></td>
+                                                                <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_dtr_modal">View</a></td>
                                                                 <td> 
                                                                     <p><?php echo $row['status']?></p>
                                                                 </td>
@@ -231,7 +325,22 @@
         </div>
     </div>
 
+<!------------------------------------Script para lumabas ang modal------------------------------------------------->
+<script>
+     $(document).ready(function(){
+               $('.viewbtn').on('click', function(){
+                 $('#view_dtr_modal').modal('show');
+                      $tr = $(this).closest('tr');
 
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#view_reason1').val(data[6]);
+               });
+             });
+</script>
+<!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
 
 <!---------------------------------------Script sa pagpop-up ng modal para madelete--------------------------------------------->          
 <script>
@@ -257,12 +366,12 @@
 <!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
 
 <!-----------------------Script para sa automatic na pagdisapper ng alert message------------------------------->
-<script>
+<!-- <script>
     // Set a timer to remove the alert message after 2 seconds
     setTimeout(function(){
         document.getElementById("alert-message").remove();
     }, 2000);
-</script>
+</script> -->
 <!---------------------End Script para sa automatic na pagdisapper ng alert message------------------------------>
 
 <!-- plugins:js -->

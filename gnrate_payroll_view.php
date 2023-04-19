@@ -311,13 +311,13 @@
                                                                         while($row = $result->fetch_assoc()) 
                                                                         {
                                                                             $_late = $row["late"];
-                                                                            
+                                                                            $UT = $row["early_out"];
                                                                             // $status = $row["status"];
                                                                             $Date = $row["date"];             
                                                                             //$day_of_week = date('l', strtotime($Date));
                                                                             //echo '<br>' .  $Date . ' ' . $day_of_week . ' ' .  $_late;
 
-                                                                            $datesArray[] = array('late' => $_late, 'date' => $Date); // Append the fetched date and late value to the array
+                                                                            $datesArray[] = array('late' => $_late, 'date' => $Date, 'underTime' => $UT ); // Append the fetched date and late value to the array
                                                                             //echo '<br>' . $_late;
                                                                         } //end while
                                                                        
@@ -339,9 +339,7 @@
                                                                                     $MON_minute_rate = $hour_rate / 60; 
 
                                                                                     
-                                                                                    //$timeString = "$_late";
-                                                                                    $timeString =$date_att['late'];;
-                                                                                    //echo '<br> MON LATE' . $timeString;
+                                                                                    $timeString =$date_att['late'];
                                                                                     $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
                                                                                     $minutes = $time->format('i');// Extract minutes from DateTime object
                                                                                     $totalMinutes = intval($minutes);// Convert minutes to integer
@@ -358,7 +356,6 @@
                                                                                     $hour_rate =  $emp_dailyRate / $total_work_hours;
                                                                                     $minute_rate = $hour_rate / 60; 
 
-                                                                                    //$timeString = "$_late";
                                                                                     $timeString1 = $date_att['late'];
                                                                                     $time = DateTime::createFromFormat('H:i:s', $timeString1);// Convert time string to DateTime object
                                                                                     $minutes = $time->format('i');// Extract minutes from DateTime object
@@ -485,18 +482,18 @@
                                                     $sql = "SELECT
                                                                 SUM(employee_tb.`drate`) AS Salary_of_Month,
                                                                 employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` + employee_tb.`allowance_amount` AS Total_allowance,
-                                                                employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` + employee_tb.`govern_amount` AS Total_deduct,
+                                                                employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` AS Total_deduct,
                                                                 CONCAT(
                                                                         FLOOR( 
                                                                             SUM(TIME_TO_SEC(attendances.late)) / 3600
                                                                         ),
-                                                                        ':0',
+                                                                        ' hour/s ',
                                                                         FLOOR(
                                                                             (
                                                                                 SUM(TIME_TO_SEC(attendances.late)) % 3600
                                                                             ) / 60
                                                                         ),
-                                                                        ''
+                                                                        ' minute/s'
                                                                     ) AS total_hours_minutesLATE,
                                                                 CONCAT(
                                                                         FLOOR(
@@ -529,13 +526,13 @@
                                                                     ";
                                                 $result = $conn->query($sql);
 
-                                                echo " <br>_ MONDAY  =" . $MONDAY_TO_DEDUCT_LATE;
-                                                echo " <br>_ Tuesday  =" . $Tue_TO_DEDUCT_LATE;
-                                                echo "<br>_ WEDNESDAY  =" . $WED_TO_DEDUCT_LATE;
-                                                echo " <br>_ Thursday  =" . $Thurs_TO_DEDUCT_LATE;
-                                                echo "<br>_ Friday  =" . $Fri_TO_DEDUCT_LATE;
-                                                echo "<br>_ Saturday  =" . $SAT_TO_DEDUCT_LATE;
-                                                echo "<br>_ SUNDAY  =" . $Sun_TO_DEDUCT_LATE;
+                                                // echo " <br>_ MONDAY  =" . $MONDAY_TO_DEDUCT_LATE;
+                                                // echo " <br>_ Tuesday  =" . $Tue_TO_DEDUCT_LATE;
+                                                // echo "<br>_ WEDNESDAY  =" . $WED_TO_DEDUCT_LATE;
+                                                // echo " <br>_ Thursday  =" . $Thurs_TO_DEDUCT_LATE;
+                                                // echo "<br>_ Friday  =" . $Fri_TO_DEDUCT_LATE;
+                                                // echo "<br>_ Saturday  =" . $SAT_TO_DEDUCT_LATE;
+                                                // echo "<br>_ SUNDAY  =" . $Sun_TO_DEDUCT_LATE;
 
 
                                                 //need pa ma fetch sa between sa dates na naselect na month sa dropdown
