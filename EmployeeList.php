@@ -62,7 +62,7 @@
                                 <td style='font-weight: 400;'>".$row["role"]." <td>
                                 <td style='font-weight: 400;'>".$row["status"]."</td>
                                 <td class='tbody-btn' style='width:120px;'>
-                                    <button class='tb-view' style='border:none;background-color:inherit; outline:none;'><a href='editempListForm.php?id=$row[id]' style='color:gray;'>View</span></a></button>
+                                    <button class='tb-view' style='border:none;background-color:inherit; outline:none;'><a href='editempListForm.php?empid=$row[empid]' style='color:gray;'>View</span></a></button>
                                    
                                 </td>
                             </tr>";

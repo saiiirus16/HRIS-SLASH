@@ -9,6 +9,7 @@ $database = "hris_db";
 $db = mysqli_connect($server, $user, $pass, $database);
 
 
+
 if(isset($_POST['importSubmit'])){
     
     // Allowed mime types
@@ -75,7 +76,7 @@ if(isset($_POST['importSubmit'])){
             //     CAST(monday AS DATE) AS monday_date, 
             //     mon_timein, 
             //     mon_timeout
-            //     -- CAST(tuesday AS DATE) AS tuesday_date,    
+            //     -- CAST(tuesday AS DATE) AS tuesday_date, 
             //     -- tue_timein, 
             //     -- tue_timeout,
             //     -- CAST(wednesday AS DATE) AS wednesday_date, 
@@ -307,7 +308,7 @@ if(isset($_POST['importSubmit'])){
                 if($time_out < $time['thurs_timeout']){
                     $time_out_datetime = new DateTime($time_out);
                     $scheduled_outs = new DateTime($total_work);
-                    $early_interval = $time_out_datetime->diff($scheduled_outs);
+                    $early_interval = $scheduled_outs->diff($time_out_datetime);
                     $early_out = $early_interval->format('%h:%i:%s');
                 } else { 
                     $early_out = '00:00:00';
@@ -460,7 +461,8 @@ if(isset($_POST['importSubmit'])){
                 
                 if($prevResult->num_rows > 0){
                     // Update member data in the database
-                    $db->query("UPDATE attendances SET status = '".$status."', name = '".$name."', date = '".$date."', time_in = '".$time_in."', time_out = '".$time_out."', late = '".$late."', early_out = '".$early_out."', overtime = '".$overtime."', total_work = '".$total_work."', total_rest = '".$total_rest."',modified = NOW() WHERE empid = '".$empid."'");
+                    $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                    VALUES ('".$status."', '".$empid."', '".$name."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
                 }else{
                     // Insert member data in the database
                     $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)

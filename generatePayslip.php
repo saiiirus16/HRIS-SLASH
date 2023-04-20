@@ -20,12 +20,26 @@
     <title>HRIS | Generate Payslip</title>
 </head>
 <body>
+    <style>
+        table.dataTable thead .sorting:after,
+        table.dataTable thead .sorting:before,
+        table.dataTable thead .sorting_asc:after,
+        table.dataTable thead .sorting_asc:before,
+        table.dataTable thead .sorting_asc_disabled:after,
+        table.dataTable thead .sorting_asc_disabled:before,
+        table.dataTable thead .sorting_desc:after,
+        table.dataTable thead .sorting_desc:before,
+        table.dataTable thead .sorting_desc_disabled:after,
+        table.dataTable thead .sorting_desc_disabled:before {
+        bottom: .5em;
+}
+    </style>
     <header>
         <?php include("header.php")?>
     </header>
 
     <div class="gen-payslip">
-        <div class="gen-payslip-input-container">
+        <div class="gen-payslip-input-container" style="margin-bottom:50px;">
             <div class="gen-payslip-title">
                 <h1>Generate Payslip</h1>
             </div>
@@ -112,59 +126,116 @@
             <div class="att-date" style="margin-top: 18px;">
                 <h1 id="current-date">Attendance for <span>10/01/2023 - 10/15/2023</span></h1>
             </div>
-            <div class="att-search">
-                <input class="employeeList-search" type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome;" id="search" style="outline:none;"/>
+            <div class="att-search" style="margin-bottom: 50px;">
+                <!-- <input class="employeeList-search" type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome;" id="search" style="outline:none;"/> -->
             </div>
         </div>
-        <table class="table table-hover" style="margin-top:100px;">
-            <thead>
-                <th style="width:180px;" >Employee ID</th>
-                <th>Name</th>
-                <th>Bank Name</th>
-                <th>Bank Account</th>
-                <th>No. of Day</th>
-                <th>Action</th>
-            </thead>
-            <tbody id="myTable">
-                <tr>
-                    <td style="font-weight: 400">2</td>
-                    <td style="font-weight: 400">William Bunn</td>
-                    <td style="font-weight: 400">Chinese Bank</td>
-                    <td style="font-weight: 400">0932422</td>
-                    <td style="font-weight: 400">22</td>
-                    <td style="font-weight: 400"><button style="border: none; background-color: inherit;"><a href="" style="text-decoration: none;">View</a></button></td>
-                </tr>
-            </tbody>
-        </table>
+        <div style="width: 95%; margin:auto;">
+            <table id="dtDynamicVerticalScrollExample" class="table table-hover table-borderless" cellspacing="0">
+                <thead style="background-color: #f4f4f4;">
+                    <tr>
+                    <th class="th-sm">Name</th>
+                    <th class="th-sm">Position</th>
+                    <th class="th-sm">Office</th>
+                    <th class="th-sm">Age</th>
+                    <th class="th-sm">Start date</th>
+                    <th class="th-sm">Salary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="font-weight:400">
+                        <td style="font-weight:400">Tiger Nixon</td>
+                        <td style="font-weight:400">System Architect</td>
+                        <td style="font-weight:400">Edinburgh</td>
+                        <td style="font-weight:400">61</td>
+                        <td style="font-weight:400">2011/04/25</td>
+                        <td style="font-weight:400">$320,800</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:400">Garrett Winters</td>
+                        <td style="font-weight:400">Accountant</td>
+                        <td style="font-weight:400">Tokyo</td>
+                        <td style="font-weight:400">63</td>
+                        <td style="font-weight:400">2011/07/25</td>
+                        <td style="font-weight:400">$170,750</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:400">Ashton Cox</td>
+                        <td style="font-weight:400">Junior Technical Author</td>
+                        <td style="font-weight:400">San Francisco</td>
+                        <td style="font-weight:400">66</td>
+                        <td style="font-weight:400">2009/01/12</td>
+                        <td style="font-weight:400">$86,000</td>
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
-    <script src="main.js"></script>   
+    <script src="main.js"></script> 
     
-<script type="text/javascript">
-        $(document).ready(function(){
-            $('#search').keyup(function(){
-                search_table($(this).val());
-            });
-
-            function search_table(value){
-                $('#myTable tr').each(function(){
-                    var found = 'false';
-                    $(this).each(function(){
-                        if($(this).text().toLowerCase().indexOf(value.toLowerCase())>= 0){
-                            found = 'true';
-                        }
-                    });
-                    if(found == 'true'){
-                        $(this).show();
-                    }else{
-                        $(this).hide();
+<script>
+function sortTable(columnIndex) {
+    var table, rows, switching, i, x, y, shouldSwitch, direction, switchCount = 0;
+    table = document.getElementById("myTable");
+    switching = true;
+    direction = "asc";
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[columnIndex];
+            y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+            if (columnIndex === 0) {
+                if (direction === "asc") {
+                    if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
                     }
-                });
+                } else if (direction === "desc") {
+                    if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            } else {
+                if (direction === "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (direction === "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
             }
-        });
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchCount++;
+        } else {
+            if (switchCount === 0 && direction === "asc") {
+                direction = "desc";
+                switching = true;
+            }
+        }
+    }
+}
 
+$(document).ready(function () {
+  $('#dtDynamicVerticalScrollExample').DataTable({
+    "scrollY": "50vh",
+    "scrollCollapse": true,
+  });
+  $('.dataTables_length').addClass('bs-select');
+});
 </script>    
 
 <script>
