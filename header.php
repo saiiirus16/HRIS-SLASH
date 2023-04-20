@@ -65,9 +65,9 @@
                   
                 <li><a href="#" class="hoverable payroll-dd"><div><span class="fa-regular fa-credit-card"></span>PAYROLL</div><span class="fa-solid fa-chevron-right"></span></a>
                     <ul class="payroll-dd-show">
-                        <li><a href="#">LOAN REQUEST</a></li>
+                        <li><a href="loanRequest.php">LOAN REQUEST</a></li>
                         <li><a href="gnrate_payroll.php">GENERATE PAYROLL</a></li>
-                        <li><a href="#">GENERATE PAYSLIP</a></li>
+                        <li><a href="generatePayslip.php">GENERATE PAYSLIP</a></li>
                     </ul> 
                 </li>
 

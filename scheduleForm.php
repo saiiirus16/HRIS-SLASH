@@ -112,7 +112,7 @@
 
                                     $options = "";
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $options .= "<option value='". $row['schedule_name'] . "'>" .$row['schedule_name']."</option>";
+                                        $options .= "<option value='".$row['schedule_name']."'>".$row['schedule_name']."</option>";
                                     }
                                     ?>
 
@@ -374,34 +374,34 @@ function clickOutside(e){
 
 
 
-//filter
+// filter
 
-function filter(item){
-$.ajax({
-type: "POST",
-url: "Data Controller/empListFormController.php",
-data: { value: item},
-success:function(data){
-  $("#results").html(data);
-}
-});
-}
+// function filter(item){
+// $.ajax({
+// type: "POST",
+// url: "Data Controller/empListFormController.php",
+// data: { value: item},
+// success:function(data){
+//   $("#results").html(data);
+// }
+// });
+// }
 
 
-function getEmployee(val){
-    $.ajax({
-        type: "POST",
-        url: "getEmployee.php",
-        data: 'empid='+val,
-        success:function(data){
-             $("employee-dd").html(data);
-             getEmployee();
-         }
-    });
-}
-</script>
+// function getEmployee(val){
+//     $.ajax({
+//         type: "POST",
+//         url: "getEmployee.php",
+//         data: 'empid='+val,
+//         success:function(data){
+//              $("employee-dd").html(data);
+//              getEmployee();
+//          }
+//     });
+// }
+// </script>
 
-<script type='text/javascript'>
+<!-- <script type='text/javascript'>
             $(document).ready(function(){
                 $('.schedule-info').click(function(){
                     var id = $(this).data('id');
@@ -416,7 +416,7 @@ function getEmployee(val){
                     });
                 });
             });
-</script>
+</script> -->
 
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
