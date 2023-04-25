@@ -144,6 +144,7 @@
                             $dayOfWeek = date("l", strtotime($date));
                             $startTime = '';
                             $endTime = '';
+                            //$breakTime = $row['break_time']; // fetch break time from database
                             switch ($dayOfWeek) {
                               case 'Monday':
                                 $startTime = $row['mon_timein'];
@@ -175,6 +176,15 @@
                                 break;
                             }
                             $dateRange .= $date . " ";
+
+                                // Calculate working hours
+                                $workingHours = "";
+                                if (!empty($startTime) && !empty($endTime)) {
+                                    $startTimestamp = strtotime($startTime);
+                                    $endTimestamp = strtotime($endTime);
+                                    $workingSeconds = $endTimestamp - $startTimestamp - 3600; // subtract 1 hour for lunchtime
+                                    $workingHours = number_format($workingSeconds / 3600, 2); // format as 0.00
+                                }
                             ?>
                         <tr>
                             <td style="display: none;"><?php echo $row['id']?></td>
@@ -184,7 +194,7 @@
                             <td><?php echo $startTime?></td> 
                             <td><?php echo $endTime?></td>
                             <td><?php echo $row['schedule_name']?></td>  
-                            <td></td> 
+                            <td><?php echo $workingHours?></td> 
                         </tr>
                         <?php
                             $currDate = date('Y-m-d', strtotime($currDate . ' +1 day'));

@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
-    <link rel="stylesheet" href="css/overtime.css"/>
+    <link rel="stylesheet" href="css/undertime.css"/>
     <link rel="stylesheet" href="css/styles.css">
-    <title>Overtime - Employee</title>
+    <title>Undertime Request - Employee</title>
 </head>
 <body>
 <header>
@@ -62,15 +62,15 @@
 </style>
 
  <!------------------------------------Modal Start Here----------------------------------------------->
- <div class="modal fade" id="file_overtime" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="file_undertime" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Overtime Request</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Undertime Request</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                     
-                    <form action="Data Controller/Overtime Request/ot_insert.php" method="POST" enctype="multipart/form-data">
+                    <form action="Data Controller/Undertime Request/under_insert.php" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="mb-3">
                                     <label for="Select_emp" class="form-label">Select Employee</label>
@@ -94,55 +94,39 @@
                             
                             <div class="mb-3">
                                 <label for="company" class="form-label">Date</label>
-                                <input type="date" name="date_choose" class="form-control" id="date_id" required onchange="checkSchedule()">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="schedule" class="form-label">Work Schedule</label>
-                                <input type="text" class="form-control" name="schedule" id="schedule_id" readonly>
+                                <input type="date" name="date_pick" class="form-control" id="date_pick_id" required onchange="checkSchedule()">
                             </div>
                             
-                            <div class="row" >
-                                <div class="col-6">
-                                    <label for="start" class="form-label">Start Time</label>
-                                    <input type="time" name="time_start" class="form-control" id="start_time_id" readonly>
-                                </div>
-                                <div class="col-6">
-                                    <label for="end" class="form-label">End Time</label>
-                                    <input type="time" name="time_end" class="form-control" id="end_time_id" readonly>
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <label for="time_from" class="form-label mt-1">Time Range</label>
                                 <div class="input-group mb-3">
-                                    <input type="time" class="form-control" name="time_from" id="time_from_id" readonly>
+                                    <input type="time" class="form-control" name="start_time" id="start_time_id" readonly>
                                     <span class="input-group-text">-</span>
-                                    <input type="time" class="form-control" name="time_to" id="time_to_id" onchange="min_hours()">
+                                    <input type="time" class="form-control" name="end_time" id="end_time_id" required onchange="calculate_hours()">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="ot_hours" class="form-label">Overtime Hours</label>
+                                <label for="ot_hours" class="form-label">Undertime Hours</label>
                                 <div class="input-group mb-3">
-                                    <input type="time" class="form-control" name="total_overtime" id="ot_id" readonly>
+                                    <input type="time" class="form-control" name="total_undertime" id="undertime_id" readonly>
                                     <span class="input-group-text">hrs</span>
                                 </div>
                             </div>
 
                             <div class="mb-3 mt-2">
                                 <label for="text_area" class="form-label">Reason</label>
-                                <textarea class="form-control" name="file_reason" id="view_reason"></textarea>
+                                <textarea class="form-control" name="under_reason" id="view_under_reason"></textarea>
                             </div>
 
                                 <div class="input-group mb-3">
                                     <input type="file" name="file_upload" class="form-control" id="inputfile" >
-                                    <label class="input-group-text"  for="inputGroupFile02">Upload</label>
                                 </div>
                             </div> <!---Modal body close tag-->
 
                             <div class="modal-footer">
-                            <button type="submit" name="add_overtime" id="overtime_add" class="btn btn-primary">Add</button>
+                            <button type="submit" name="add_undertime" id="undertime_add" class="btn btn-primary">Add</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             </div>
                     </form> 
@@ -150,7 +134,7 @@
              </div>
         </div>
      </div>
-<!--------------------------------------Modal End Here----------------------------------------------->
+<!-----------------------------------------Modal End Here----------------------------------------------->
 
 <!---------------------------------------Download Modal Start Here -------------------------------------->
 <div class="modal fade" id="download_ot" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -180,7 +164,7 @@
 
 <!------------------------------------------------View ng whole data Modal ---------------------------------------------------->
 
-<div class="modal fade" id="view_ot_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="view_under_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
@@ -194,24 +178,24 @@
                             <input type="text" name="empid_view" class="form-control" id="view_empid" readonly>
                         </div>
                         <div class="col-6">
-                            <label for="company" class="form-label">OT Date</label>
+                            <label for="company" class="form-label">Undertime Date</label>
                             <input type="date" name="view_date_choose" class="form-control" id="view_date_id" readonly>
                         </div>
                     </div>
                     
                     <div class="row mt-2">
                        <div class="col-6">
-                            <label for="start" class="form-label">Time In</label>
+                            <label for="start" class="form-label">Start Time</label>
                             <input type="time" name="view_time_start" class="form-control" id="view_start_time_id" readonly>
                         </div>
                         <div class="col-6">
-                           <label for="end" class="form-label">Time Out</label>
+                           <label for="end" class="form-label">End Time</label>
                            <input type="time" name="view_time_end" class="form-control" id="view_end_time_id" readonly>
                         </div>
                     </div>
 
                     <div class="form-group mt-2">
-                        <label for="ot_hours" class="form-label">Overtime Hours</label>
+                        <label for="ot_hours" class="form-label">Undertime Hours</label>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" name="view_total_overtime" id="view_ot_id" readonly>
                             <span class="input-group-text">hrs</span>
@@ -261,12 +245,12 @@
 <!----------------------------------Class ng header including the button for modal---------------------------------------------->                    
                             <div class="row">
                                 <div class="col-6">
-                                    <h2>Overtime Request List</h2>
+                                    <h2>Undertime Request List</h2>
                                 </div>
                                 <div class="col-6 mt-1 text-end">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="file_overtime" data-bs-toggle="modal" data-bs-target="#file_overtime">
-                                    File Overtime
+                                <button type="button" class="file_undertime" data-bs-toggle="modal" data-bs-target="#file_undertime">
+                                    File Undertime
                                     </button>
                                 </div>
                             </div> <!--ROW END-->
@@ -308,10 +292,10 @@
                             <tr>
                                 <th style="display: none;">ID</th>
                                 <th>Employee ID</th>
-                                <th>OT Date</th>
-                                <th>Time In</th>
-                                <th>Time Out</th>
-                                <th>OT Hours</th>
+                                <th>Undertime Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Undertime Hours</th>
                                 <th style="display: none;">Reason</th>
                                 <th>File Attachment</th>
                                 <th>Status</th>
@@ -323,22 +307,19 @@
                          $conn = mysqli_connect("localhost","root","","hris_db");
                          
                          $query = "SELECT
-                         overtime_tb.id,
+                         undertime_tb.id,
                          employee_tb.empid,
-                         overtime_tb.date,
-                         overtime_tb.work_schedule,
-                         overtime_tb.time_in,
-                         overtime_tb.time_out,
-                         overtime_tb.out_time,
-                         overtime_tb.ot_hours,
-                         overtime_tb.total_ot,
-                         overtime_tb.reason,
-                         overtime_tb.file_attachment,
-                         overtime_tb.status,
-                         overtime_tb.date_filed
-                         FROM
-                            employee_tb
-                         INNER JOIN overtime_tb ON employee_tb.empid = overtime_tb.empid;";
+                         undertime_tb.date,
+                         undertime_tb.start_time,
+                         undertime_tb.end_time,
+                         undertime_tb.total_undertime,
+                         undertime_tb.file_attachment,
+                         undertime_tb.reason,
+                         undertime_tb.status,
+                         undertime_tb.date_file
+                     FROM
+                         employee_tb
+                     INNER JOIN undertime_tb ON employee_tb.empid = undertime_tb.empid;";
                          $result = mysqli_query($conn, $query);
                          while ($row = mysqli_fetch_assoc($result)){  
 
@@ -349,9 +330,9 @@
                                 <td style="display: none;"><?php echo $row['id']?></td>
                                 <td><?php echo $row['empid']?></td>
                                 <td><?php echo $row['date']?></td>
-                                <td><?php echo $row['time_in']?></td>
-                                <td><?php echo $row['time_out']?></td>
-                                <td><?php echo $row['total_ot']?></td>
+                                <td><?php echo $row['start_time']?></td>
+                                <td><?php echo $row['end_time']?></td>
+                                <td><?php echo $row['total_undertime']?></td>
                                 <td style="display: none;"><?php echo $row['reason']?></td>
                                 <?php if(!empty($row['file_attachment'])): ?>
                                 <td>
@@ -361,7 +342,7 @@
                                 <td>No File Attach</td> <!-- Show an empty cell if there is no file attachment -->
                                 <?php endif; ?>
                                 <td><?php echo $row['status']?></td>
-                                <td><?php echo $row['date_filed']?></td>
+                                <td><?php echo $row['date_file']?></td>
                                 <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_ot_modal">View</a></td>
                             </tr>
                             <?php
@@ -412,8 +393,8 @@
 // }
 
 function checkSchedule() {
-    var date = document.getElementById("date_id").value;
-    var addButton = document.getElementById("overtime_add");
+    var date = document.getElementById("date_pick_id").value;
+    var addButton = document.getElementById("undertime_add");
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -421,21 +402,15 @@ function checkSchedule() {
             var response = JSON.parse(this.responseText);
             if(response.error){
                 alert(response.message);
-                document.getElementById("schedule_id").value = '';
                 document.getElementById("start_time_id").value = '';
-                document.getElementById("end_time_id").value = '';
-                document.getElementById("time_from_id").value = '';
                 addButton.disabled = true; // disable the Add button
             }else{
-                document.getElementById("schedule_id").value = response.schedule;
-                document.getElementById("start_time_id").value = response.start_time;
-                document.getElementById("end_time_id").value = response.end_time;
-                document.getElementById("time_from_id").value = response.end_time;
+                document.getElementById("start_time_id").value = response.end_time;
                 addButton.disabled = false; // enable the Add button
             }
         }
     };
-    xhttp.open("POST", "actions/Overtime Request/check_schedule.php", true);
+    xhttp.open("POST", "actions/Undertime Request/schedule_check.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("date=" + date);
 }
@@ -500,7 +475,7 @@ function checkSchedule() {
 <!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
 
 
-<script src="js/overtime.js"></script>
+<script src="js/undertime.js"></script>
 <!-- End custom js for this page-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
