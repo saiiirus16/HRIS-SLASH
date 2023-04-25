@@ -528,221 +528,230 @@ else{
                     $IDLEAVE_TABLE = $_SESSION["ID_applyleave"];
         
                     $reason = $_POST["name_approvedtResn"]; 
-        
-                    $sql1 = "INSERT into actiontaken_tb(`col_applyID`, `col_remarks`,`col_status`) 
-                    VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
-                      if(mysqli_query($conn,$sql1))
-                      {
-                        $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime' WHERE col_ID = $IDLEAVE_TABLE";
-                        $query_run = mysqli_query($conn, $sql);
-            
-            
-                            if($query_run){
 
 
-                                // Create an array of dates between start date and end date
-                                $date_range = array();
-                                $current_date = strtotime($row['col_strDate']);
-                                $end_date = strtotime($row['col_endDate']);
-                                while ($current_date <= $end_date) {
-                                    $date_range[] = date('Y-m-d', $current_date);
-                                    $current_date = strtotime('+1 day', $current_date);
-                                }
 
-                                // Insert data into database
-                                foreach ($date_range as $date) 
-                                {
+                        // Create an array of dates between start date and end date
+                        $date_range = array();
+                        $current_date = strtotime($row['col_strDate']);
+                        $end_date = strtotime($row['col_endDate']);
+                        while ($current_date <= $end_date) {
+                            $date_range[] = date('Y-m-d', $current_date);
+                            $current_date = strtotime('+1 day', $current_date);
+                        }
 
-                                    $day_of_week = date('l', strtotime($date));//convert the each date to day
+                        // Insert data into database
+                        foreach ($date_range as $date) 
+                        {
 
-                                    if($day_of_week === 'Monday'){
+                            $day_of_week = date('l', strtotime($date));//convert the each date to day
 
-                                        error_reporting(E_ERROR | E_PARSE);
-                                        if($row_Sched['mon_timein'] == NULL || $row_Sched['mon_timeout'] == NULL){
-                                            
-                                            $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
-                                            $time_out = '11:11:11';
+                            if($day_of_week === 'Monday'){
 
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                        
-                                            
-                                        }else{
-                                            $time_in = $row_Sched['mon_timein']; 
-                                            $time_out = $row_Sched['mon_timeout'];
-                        
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                                        }
-                        
-                                       
-                                    }
+                                error_reporting(E_ERROR | E_PARSE);
+                                if($row_Sched['mon_timein'] == NULL || $row_Sched['mon_timeout'] == NULL){
                                     
-                                    if ($day_of_week === 'Tuesday')
-                                    {
-                                        
-                                        error_reporting(E_ERROR | E_PARSE);
-                                        if($row_Sched['tues_timein'] == NULL || $row_Sched['tues_timeout'] == NULL){
-                                            
-                                            $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
-                                            $time_out = '11:11:11';
-                        
-                                            
-                                        }else{
-                                            $time_in = $row_Sched['tues_timein']; 
-                                            $time_out = $row_Sched['tues_timeout'];
-                        
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                                        }
+                                    $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
+                                    $time_out = '11:11:11';
 
-                                       
-                                    }
-                                     if ($day_of_week === 'Wednesday')
-                                    {
-                                        error_reporting(E_ERROR | E_PARSE);
-                                        if($row_Sched['wed_timein'] == NULL || $row_Sched['wed_timeout'] == NULL){
-                                            
-                                            $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
-                                            $time_out = '11:11:11';
-                        
-                                            
-                                        }else{
-                                            $time_in = $row_Sched['wed_timein']; 
-                                            $time_out = $row_Sched['wed_timeout'];
-                        
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                                        }
-                                      
-                                        
-                                       
-                                    }
-                                     if ($day_of_week === 'Thursday')
-                                    {
-                                        error_reporting(E_ERROR | E_PARSE);
-                                        if($row_Sched['thurs_timein'] == NULL || $row_Sched['thurs_timeout'] == NULL){
-                                            
-                                            $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
-                                            $time_out = '11:11:11';
-                        
-                                            
-                                        }else{
-                                            $time_in = $row_Sched['thurs_timein'];
-                                            $time_out = $row_Sched['thurs_timeout'];
-                        
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                                        }
-                                        
-                                       
-                                    }
-                                     if ($day_of_week === 'Friday')
-                                    {
-                                        error_reporting(E_ERROR | E_PARSE);
-                                        if($row_Sched['fri_timein'] == NULL || $row_Sched['fri_timeout'] == NULL){
-                                            
-                                            $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
-                                            $time_out = '11:11:11';
-                        
-                                            
-                                        }else{
-                                            $time_in = $row_Sched['fri_timein'];
-                                            $time_out = $row_Sched['fri_timeout'];
-                        
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                                        }
-                                        
-                                      
-                                    }
-                                     if ($day_of_week === 'Saturday')
-                                    {
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
 
-                                        error_reporting(E_ERROR | E_PARSE);
-                                        if($row_Sched['sat_timein'] == NULL || $row_Sched['sat_timeout'] == NULL){
-                                            
-                                            $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
-                                            $time_out = '11:11:11';
-                        
-                                            
-                                        }else{
-                                            $time_in = $row_Sched['sat_timein'];
-                                            $time_out = $row_Sched['sat_timeout'];
-                        
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                                        }
-                                        
-                                        
-                                    }
-                                     if ($day_of_week === 'Sunday')
-                                    {
-
-                                        error_reporting(E_ERROR | E_PARSE);
-                                        if($row_Sched['sun_timein'] == NULL || $row_Sched['sun_timeout'] == NULL){
-                                            
-                                            $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
-                                            $time_out = '11:11:11';
-                        
-                                            
-                                        }else{
-                                            $time_in = $row_Sched['sun_timein'];
-                                            $time_out = $row_Sched['sun_timeout'];
-                        
-                                            $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
-                                            $total_work = date('H:i:s', $total_work);
-                                        }
-                                        
-                                       
-                                    }
-
-
-
-
-                                    $sql3 = "INSERT INTO attendances (`status`, `empid`,`date`, `time_in`, `time_out`, `total_work`) VALUES (?,?,?,?,?,?)";
-                                    $stmt = $conn->prepare($sql3);
-                                    $status = 'Present';
-                                    // $timein = '08:00';
-                                    // $timeout = '17:00';
-                                    // $total = '08:00';
-                                    $stmt->bind_param("ssssss", $status, $employee_ID, $date,  $time_in, $time_out, $total_work);
-                                    $result = $stmt->execute();
-                                    if (!$result) {
-                                        echo "Error: " . $stmt->error;
-                                        break;
-                                    }
-                                    $stmt->close();
-                                }
-
-                                // Check for successful insertion
-                                if ($result) {
-
-                                    $sql = "DELETE FROM `attendances` WHERE `time_in` = '11:11:11'";
-                                    $result = mysqli_query($conn, $sql);
-                                    if ($result) {
-                                        header("Location: ../../leavereq.php?msg=Approved Successfully");
-                                    }
-                                    else {
-                                        echo "Failed: " . mysqli_error($conn);
-                                    }
-                                   
+                                    
                                 }else{
-                                    echo "not inserted";
+                                    $time_in = $row_Sched['mon_timein']; 
+                                    $time_out = $row_Sched['mon_timeout'];
+
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
                                 }
 
-
-
-
-                               
+                            
                             }
-                            else{
-                                echo '<script> alert("Data Not Updated"); </script>';
+                            
+                            if ($day_of_week === 'Tuesday')
+                            {
+                                
+                                error_reporting(E_ERROR | E_PARSE);
+                                if($row_Sched['tues_timein'] == NULL || $row_Sched['tues_timeout'] == NULL){
+                                    
+                                    $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
+                                    $time_out = '11:11:11';
+
+                                    
+                                }else{
+                                    $time_in = $row_Sched['tues_timein']; 
+                                    $time_out = $row_Sched['tues_timeout'];
+
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
+                                }
+
+                            
                             }
-                      }
-                      else{
-                        echo '<script> alert("Data Not Updated"); </script>';
-                      }
+                            if ($day_of_week === 'Wednesday')
+                            {
+                                error_reporting(E_ERROR | E_PARSE);
+                                if($row_Sched['wed_timein'] == NULL || $row_Sched['wed_timeout'] == NULL){
+                                    
+                                    $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
+                                    $time_out = '11:11:11';
+
+                                    
+                                }else{
+                                    $time_in = $row_Sched['wed_timein']; 
+                                    $time_out = $row_Sched['wed_timeout'];
+
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
+                                }
+                            
+                                
+                            
+                            }
+                            if ($day_of_week === 'Thursday')
+                            {
+                                error_reporting(E_ERROR | E_PARSE);
+                                if($row_Sched['thurs_timein'] == NULL || $row_Sched['thurs_timeout'] == NULL){
+                                    
+                                    $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
+                                    $time_out = '11:11:11';
+
+                                    
+                                }else{
+                                    $time_in = $row_Sched['thurs_timein'];
+                                    $time_out = $row_Sched['thurs_timeout'];
+
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
+                                }
+                                
+                            
+                            }
+                            if ($day_of_week === 'Friday')
+                            {
+                                error_reporting(E_ERROR | E_PARSE);
+                                if($row_Sched['fri_timein'] == NULL || $row_Sched['fri_timeout'] == NULL){
+                                    
+                                    $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
+                                    $time_out = '11:11:11';
+
+                                    
+                                }else{
+                                    $time_in = $row_Sched['fri_timein'];
+                                    $time_out = $row_Sched['fri_timeout'];
+
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
+                                }
+                                
+                            
+                            }
+                            if ($day_of_week === 'Saturday')
+                            {
+
+                                error_reporting(E_ERROR | E_PARSE);
+                                if($row_Sched['sat_timein'] == NULL || $row_Sched['sat_timeout'] == NULL){
+                                    
+                                    $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
+                                    $time_out = '11:11:11';
+
+                                    
+                                }else{
+                                    $time_in = $row_Sched['sat_timein'];
+                                    $time_out = $row_Sched['sat_timeout'];
+
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
+                                }
+                                
+                                
+                            }
+                            if ($day_of_week === 'Sunday')
+                            {
+
+                                error_reporting(E_ERROR | E_PARSE);
+                                if($row_Sched['sun_timein'] == NULL || $row_Sched['sun_timeout'] == NULL){
+                                    
+                                    $time_in = '11:11:11'; //para sa where clause if NULL ang schedule sa araw na ito ay e delete niya sa baba
+                                    $time_out = '11:11:11';
+
+                                    
+                                }else{
+                                    $time_in = $row_Sched['sun_timein'];
+                                    $time_out = $row_Sched['sun_timeout'];
+
+                                    $total_work = strtotime($time_out) - strtotime($time_in) - 7200;
+                                    $total_work = date('H:i:s', $total_work);
+                                }
+                                
+                            
+                            }
+
+
+
+
+                            $sql3 = "INSERT INTO attendances (`status`, `empid`,`date`, `time_in`, `time_out`, `total_work`) VALUES (?,?,?,?,?,?)";
+                            $stmt = $conn->prepare($sql3);
+                            $status = 'Present';
+                            // $timein = '08:00';
+                            // $timeout = '17:00';
+                            // $total = '08:00';
+                            $stmt->bind_param("ssssss", $status, $employee_ID, $date,  $time_in, $time_out, $total_work);
+                            $result = $stmt->execute();
+                            if (!$result) {
+                                echo "Error: " . $stmt->error;
+                                break;
+                            }
+                            $stmt->close();
+                        }
+
+                        // Check for successful insertion
+                        if ($result) {
+
+                            $sql = "DELETE FROM `attendances` WHERE `time_in` = '11:11:11'";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result) {
+
+                                $sql1 = "INSERT into actiontaken_tb(`col_applyID`, `col_remarks`,`col_status`) 
+                                VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
+                                  if(mysqli_query($conn,$sql1))
+                                  {
+                                    $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime' WHERE col_ID = $IDLEAVE_TABLE";
+                                    $query_run = mysqli_query($conn, $sql);
+                        
+                        
+                                        if($query_run){
+            
+            
+                                            header("Location: ../../leavereq.php?msg=Approved Successfully");
+                                           
+                                        }
+                                        else{
+                                            echo '<script> alert("Data Not Updated"); </script>';
+                                        }
+                                  }
+                                  else{
+                                    echo '<script> alert("Data Not Updated"); </script>';
+                                  }
+
+
+                                
+                            }
+                            else {
+                                echo "Failed: " . mysqli_error($conn);
+                            }
+                        
+                        }else{
+                            echo "not inserted";
+                        }
+
+
+
+
+
+        
+                    
                    
         //------------------------------------CODE FOR UPDATING LEAVE REQUEST ACTION DATETIME, STATUS and MINUS LEAVE INFO CRDITS END----------------------------------
         }

@@ -68,14 +68,14 @@ if(isset($_POST['importSubmit'])){
                 sun_timein,
                 sun_timeout
               FROM schedule_tb
-              WHERE id = 22 ';
+              WHERE id = 8 ';
                 
                 
             //     SELECT 
             //     CAST(monday AS DATE) AS monday_date, 
             //     mon_timein, 
             //     mon_timeout
-            //     -- CAST(tuesday AS DATE) AS tuesday_date, 
+            //     -- CAST(tuesday AS DATE) AS tuesday_date,    
             //     -- tue_timein, 
             //     -- tue_timeout,
             //     -- CAST(wednesday AS DATE) AS wednesday_date, 
