@@ -67,7 +67,7 @@
                     <ul class="payroll-dd-show">
                         <li><a href="#">LOAN REQUEST</a></li>
                         <li><a href="gnrate_payroll.php">GENERATE PAYROLL</a></li>
-                        <li><a href="#">GENERATE PAYSLIP</a></li>
+                        <li><a href="cutoff.php">GENERATE PAYSLIP</a></li>
                     </ul> 
                 </li>
 

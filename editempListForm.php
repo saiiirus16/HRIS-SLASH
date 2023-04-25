@@ -25,7 +25,7 @@
     }
     
     if(count($_POST) > 0){
-        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."',empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$_POST['emp_img_url']."'
+        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',otrate='".$_POST['otrate']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."',empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$_POST['emp_img_url']."'
         WHERE id ='".$_POST['id']."'");
         header ("Location: EmployeeList.php");
     }
@@ -159,7 +159,7 @@
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
-                                        <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -170,7 +170,7 @@
                                     </div>
                                     <div>
                                     <label for="tinamount">Amount</label><br>
-                                        <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -181,7 +181,7 @@
                                     </div>
                                     <div>
                                     <label for="pagibigamount">Amount</label><br>
-                                        <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -192,7 +192,7 @@
                                     </div>
                                     <div>
                                     <label for="philhealth_amount">Amount</label><br>
-                                        <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
                             </div>

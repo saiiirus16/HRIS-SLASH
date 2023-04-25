@@ -207,7 +207,7 @@ session_start();
                                                                 <option value='Half Day'>Half Day</option>
                                                             </select>
                                                     </div> <!-- Second mb-3 end-->
-                                                </div> <!-- Second mb-3 end-->
+                                                </div> <!-- Second col-6 end-->
                                         </div>  <!-- Row end-->
 
 

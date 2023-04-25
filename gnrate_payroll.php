@@ -134,7 +134,7 @@
 
                                     <div class="table-responsive" style = "overflow-y: scroll;  max-height: 500px;">
                                         <form action="gnrate_payroll_view.php" method="post">
-                                        <input id="employeeID" name="Name_employeeID" type="text">         
+                                        <input id="employeeID" name="Name_employeeID" type="text" style= "display:none;">         
                                             <table id="order-listing" class="table">
                                                 <thead>
                                                     <tr>
@@ -152,8 +152,7 @@
                                         include 'config.php';
                                         //select data db
 
-                                         
-
+                                            
                                         $sql = "SELECT
                                                     employee_tb.`empid`,
                                                     CONCAT(
@@ -174,6 +173,7 @@
                                                     `full_name`;
                                             ";
                                     $result = $conn->query($sql);
+                                
 
 
 

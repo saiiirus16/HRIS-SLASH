@@ -47,31 +47,30 @@
                             <div> </div>
                         </div>
                         <div class="schedule-select">
-                            <div>
-                            <?php
-                                $server = "localhost";
-                                $user = "root";
-                                $pass ="";
-                                $database = "hris_db";
+                            <div class="mb-3">
+                                    <label for="Select_dept" class="form-label">Select Department</label>
+                                    <?php
+                                                include 'config.php';
 
-                                $conn = mysqli_connect($server, $user, $pass, $database);
-                                $sql = "SELECT department_name FROM employee_tb";
-                                $result = mysqli_query($conn, $sql);
+                                                // Fetch all values of col_deptname from the database
+                                                $sql = "SELECT col_deptname FROM dept_tb";
+                                                $result = mysqli_query($conn, $sql);
 
-                                $options = "";
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='". $row['department_name'] . "'>" .$row['department_name'].  "</option>";
-                                }
-                                ?>
+                                                // Store all values in an array
+                                                $dept_options = array();
+                                                while($row = mysqli_fetch_array($result)){
+                                                    $dept_options[] = $row['col_deptname'];
+                                                }
 
-                                
-                                <label for="depatment">Select Department</label><br>
-                                <select name="" id="">
-                                <option value disabled selected>Select Department</option>
-                                    <?php echo $options; ?>
-                                </select>
-                            
-                            </div>
+                                                // Generate the dropdown list
+                                                echo "<select class='form-select form-select-m' aria-label='.form-select-sm example'>";
+                                                foreach ($dept_options as $dept_option){
+                                                    echo " <option value disabled selected>Select Department</option>";
+                                                    echo "<option value='$dept_option'>$dept_option</option>";
+                                                }
+                                                echo "</select>";
+                                            ?>
+                                </div>
                         <div>
 
                             <?php
