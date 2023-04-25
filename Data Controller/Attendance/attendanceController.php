@@ -69,7 +69,7 @@ if(isset($_POST['importSubmit'])){
                 sun_timein,
                 sun_timeout
               FROM schedule_tb
-              WHERE id = 22 ';
+              WHERE id = 1 ';
                 
                 
             //     SELECT 

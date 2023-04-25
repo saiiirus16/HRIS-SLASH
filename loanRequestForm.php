@@ -107,7 +107,7 @@
                     </select>
                 </div> 
                     <div style="display:flex; align-items:center; height: 60px; margin-top: 27px;">  
-                        <button style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
+                        <button type="button" style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
                     </div>
                 </div>
                 <div class="form-group loan-remarks">
@@ -171,41 +171,57 @@
         </div>
     </div>
 
+
     <div class="loan-forecast-container" id="loanFormModal">
-            <div class="loan-forecast-content">
-                <div class="loan-forecast-title">
-                    <h1>Loan Forecast</h1>
-                    <div></div>
-                </div>
-                <div class="loan-forecast-balance">
-                    <p>Balance: 0</p>
-                </div>
-                <div class="loan-forecast-table">
-                    <table class="table table-hover table-bordered" style="margin-bottom: 50px;">
-                        <thead>
-                            <th>Year</th>
-                            <th>Month</th>
-                            <th>Cutoff No.</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-weight: 400">2022</td>
-                                <td style="font-weight: 400">January</td>
-                                <td style="font-weight: 400">1</td>
-                                <td style="font-weight: 400">200</td>
-                                <td style="font-weight: 400">UNPAID</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="loan-forecast-bar"></div>
-                <div class="loan-forecast-btn">
-                    <button id="loanFormClose" class="loanFormClose">Cancel</button>
-                </div>
-            </div>
+    <div class="loan-forecast-content">
+        <div class="loan-forecast-title">
+            <h1>Loan Forecast</h1>
+            <div></div>
         </div>
+        <div class="loan-forecast-balance">
+            <p>Balance: 0</p>
+        </div>
+        <div class="loan-forecast-table">
+            <table class="table table-hover table-bordered" style="margin-bottom: 50px;">
+                <thead>
+                    <th>Year</th>
+                    <th>Month</th>
+                    <th>Cutoff No.</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </thead>
+                <tbody>
+                    <?php
+                        $conn = mysqli_connect("localhost", "root", "" , "hris_db");
+                        $sql = "SELECT * FROM payroll_loan_tb AS payloan
+                                INNER JOIN employee_tb AS emp
+                                ON(payloan.empid = emp.empid)";
+                        $results = $conn->query($sql);
+
+                        if($results->num_rows > 0){
+                            while($rows = $results->fetch_assoc()){
+                                echo "<tr>
+                                        <td style='font-weight:400'>".$rows['year']."</td>
+                                        <td style='font-weight:400'>".$rows['month']."</td>
+                                        <td style='font-weight:400'>".$rows['cutoff_no']."</td>
+                                        <td style='font-weight:400'>".$rows['payable_amount']."</td>
+                                        <td style='font-weight:400' >".$rows['loan_status']."</td>
+                                    </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='5'>No loan payments found</td></tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="loan-forecast-bar"></div>
+        <div class="loan-forecast-btn">
+            <button id="loanFormClose" class="loanFormClose">Cancel</button>
+        </div>
+    </div>
+</div>
+
 
         <script>
     function calculate() {

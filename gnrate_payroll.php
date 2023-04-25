@@ -134,7 +134,7 @@
 
                                     <div class="table-responsive" style = "overflow-y: scroll;  max-height: 500px;">
                                         <form action="gnrate_payroll_view.php" method="post">
-                                        <input id="employeeID" name="Name_employeeID" type="text">         
+                                        <input id="employeeID" name="Name_employeeID" type="text" style= "display:none;">         
                                             <table id="order-listing" class="table">
                                                 <thead>
                                                     <tr>
@@ -152,8 +152,7 @@
                                         include 'config.php';
                                         //select data db
 
-                                         
-
+                                            
                                         $sql = "SELECT
                                                     employee_tb.`empid`,
                                                     CONCAT(
@@ -162,7 +161,7 @@
                                                         employee_tb.`lname`
                                                     ) AS `full_name`,
                                                     SUM(employee_tb.`drate`) AS NetPay,
-                                                    employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` + employee_tb.`allowance_amount` AS Total_allowance,
+                                                    employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` AS Total_allowance,
                                                     employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` AS Total_deduct,
                                                     attendances.late
                                                 FROM
@@ -174,6 +173,7 @@
                                                     `full_name`;
                                             ";
                                     $result = $conn->query($sql);
+                                
 
 
 

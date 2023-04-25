@@ -49,7 +49,8 @@
                 <tbody>
                     <?php 
                        $db = mysqli_connect("localhost", "root", "" , "hris_db");
-                       $result = $db->query("SELECT payroll_loan_tb.loan_type,
+                       $result = $db->query("SELECT payroll_loan_tb.id,
+                                        payroll_loan_tb.loan_type,
                                         payroll_loan_tb.year,
                                         payroll_loan_tb.month,
                                         payroll_loan_tb.cutoff_no,
@@ -69,7 +70,8 @@
                                 ORDER BY loan_date ASC");
                         
                         if($result->num_rows > 0){
-                            while($row = $result->fetch_assoc()){                       
+                            while($row = $result->fetch_assoc()){ 
+                               
                     ?>
                     <tr>  
                         <td style="font-weight: 400"><?php echo $row['full_name']?></td> 
@@ -79,7 +81,7 @@
                         <td style="font-weight: 400"><?php echo $row['payable_amount']?></td>
                         <td style="font-weight: 400"><?php echo $row['amortization']?></td>
                         <td style="font-weight: 400"><?php echo $row['payable_amount']?></td>
-                        <td style="font-weight: 400; outline:none;"><button style="border: none; background-color:inherit; outline:none;"><a href="" style="text-decoration:none;">Edit</a></button></td>
+                        <td style="font-weight: 400; outline:none;"><button style="border: none; background-color:inherit; outline:none;"><a href="editLoanRequest.php?id=<?php echo $row['id']?>" style="text-decoration:none;">Edit</a></button></td>
                     </tr>
                     <?php 
                             }

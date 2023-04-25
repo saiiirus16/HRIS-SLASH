@@ -86,7 +86,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                                    $options .= "<option value='".$row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }
                                 ?>
 
