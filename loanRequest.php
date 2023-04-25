@@ -31,12 +31,13 @@
                 <div></div>
             </div>
             <div class="loanreq-input">
-                <button>Create New</button>
+                <button><a style="color:white; text-decoration:none; outline:none;" href="loanRequestForm.php">Create New</a></button>
                 <input class="employeeList-search" type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome" id="search"/>
             </div>
 
             <table class="table-hover table table-borderless" style="width:95%; margin:auto; margin-top: 20px; border:none; ">
                 <thead style="background-color: #f4f4f4;">
+                    <th>Name</th>
                     <th style="" >Loan Type</th>
                     <th>Loan Date</th>
                     <th>Date Files</th>
@@ -46,21 +47,55 @@
                     <th>Action</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="">Salary Loan</td>
-                        <td>2023-3-3</td>
-                        <td>2023-3-3</td>
-                        <td>5000</td>
-                        <td>500</td>
-                        <td>5000</td>
-                        <td><button style="border: none; background-color:inherit;"><a href="" style="text-decoration:none;">Edit</a></button></td>
+                    <?php 
+                       $db = mysqli_connect("localhost", "root", "" , "hris_db");
+                       $result = $db->query("SELECT payroll_loan_tb.loan_type,
+                                        payroll_loan_tb.year,
+                                        payroll_loan_tb.month,
+                                        payroll_loan_tb.cutoff_no,
+                                        payroll_loan_tb.remarks,
+                                        payroll_loan_tb.loan_date,
+                                        payroll_loan_tb.payable_amount,
+                                        payroll_loan_tb.amortization,
+                                        payroll_loan_tb.applied_cutoff,
+                                        payroll_loan_tb.timestamp,
+                                        CONCAT(
+                                             employee_tb.`fname`,
+                                             ' ',
+                                             employee_tb.`lname`   
+                                            ) AS `full_name` 
+                                FROM payroll_loan_tb
+                                INNER JOIN employee_tb ON employee_tb.empid = payroll_loan_tb.empid
+                                ORDER BY loan_date ASC");
+                        
+                        if($result->num_rows > 0){
+                            while($row = $result->fetch_assoc()){                       
+                    ?>
+                    <tr>  
+                        <td style="font-weight: 400"><?php echo $row['full_name']?></td> 
+                        <td style="font-weight: 400"><?php echo $row['loan_type']?></td>
+                        <td style="font-weight: 400"><?php echo $row['loan_date']?></td>
+                        <td style="font-weight: 400"><?php echo $row['timestamp']?></td>
+                        <td style="font-weight: 400"><?php echo $row['payable_amount']?></td>
+                        <td style="font-weight: 400"><?php echo $row['amortization']?></td>
+                        <td style="font-weight: 400"><?php echo $row['payable_amount']?></td>
+                        <td style="font-weight: 400; outline:none;"><button style="border: none; background-color:inherit; outline:none;"><a href="" style="text-decoration:none;">Edit</a></button></td>
                     </tr>
+                    <?php 
+                            }
+                        } else{
+                            ?>
+                          <tr>
+                            <td style="font-weight: 400">No Loan Requests found...</td>
+                          </tr>
+                          <?php  
+                        }     
+                        ?>
                 </tbody>
             </table>
         </div>
     </div>
-
-     
+    <tr>
 
     
 <script type="text/javascript">

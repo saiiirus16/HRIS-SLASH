@@ -60,7 +60,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='". $row['department_name'] . "'>" .$row['department_name'].  "</option>";
+                                    $options .= "<option value='".$row['department_name']."'>" .$row['department_name'].  "</option>";
                                 }
                                 ?>
 
