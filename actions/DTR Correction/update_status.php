@@ -246,6 +246,15 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
             }  //Query run
 
         if ($type_dtr === 'OUT') {
+            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+            $check_in_result = mysqli_query($conn, $check_in_query);
+            $check_in_row = mysqli_fetch_assoc($check_in_result);
+            $num_rows = $check_in_row['num_rows'];
+            if ($num_rows == 0) {
+                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                exit();
+            }
+
           $result_emp_sched = mysqli_query($conn, "SELECT schedule_name FROM empschedule_tb WHERE empid = '$employeeid'");
           if (mysqli_num_rows($result_emp_sched) > 0) {
               $row_emp_sched = mysqli_fetch_assoc($result_emp_sched);
