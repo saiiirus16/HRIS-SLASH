@@ -16,6 +16,8 @@ if(isset($_POST['signIn'])){
             $row = mysqli_fetch_assoc($result);
             $_SESSION['username'] = $row ['username'];
             $_SESSION['password'] = $row['password'];
+            $_SESSION['userType'] = $row['userType'];
+
             
             header("Location: Dashboard.php");
         }else{

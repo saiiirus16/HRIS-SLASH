@@ -22,10 +22,10 @@
                     <img src="img/user.jpg" alt="" srcset="">
                 </div>
                 <div class="header-type">
-                    <h1><?php if(empty($_SESSION['role'])){
+                    <h1><?php if(empty($_SESSION['userType'])){
                             echo "No user type";
                         } else {
-                            echo $_SESSION['role'];
+                            echo $_SESSION['userType'];
                         }
                         
                         ?></h1>
