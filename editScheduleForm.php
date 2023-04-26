@@ -71,7 +71,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value=' ". $row['department_name'] . "'>" .$row['department_name'].  "</option>";
+                                    $options .= "<option value='".$row['department_name']."'>" .$row['department_name'].  "</option>";
                                 }
                                 ?>
 
@@ -97,7 +97,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value=' ". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                                    $options .= "<option value='".$row['empid']."'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }
                                 ?>
 
@@ -123,7 +123,7 @@
 
                                     $options = "";
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $options .= "<option value=' ". $row['schedule_name'] . "'>" .$row['schedule_name']."</option>";
+                                        $options .= "<option value='".$row['schedule_name']."'>" .$row['schedule_name']."</option>";
                                     }
                                     ?>
 

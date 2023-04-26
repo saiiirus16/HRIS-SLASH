@@ -81,7 +81,7 @@
                         <td style="font-weight: 400"><?php echo $row['payable_amount']?></td>
                         <td style="font-weight: 400"><?php echo $row['amortization']?></td>
                         <td style="font-weight: 400"><?php echo $row['payable_amount']?></td>
-                        <td style="font-weight: 400; outline:none;"><button style="border: none; background-color:inherit; outline:none;"><a href="editLoanRequest.php?id=<?php echo $row['id']?>" style="text-decoration:none;">Edit</a></button></td>
+                        <td style="font-weight: 400; outline:none;"><button style="border: none; background-color:inherit; outline:none;"><a href="editLoanRequestForm.php?id=<?php echo $row['id']?>" style="text-decoration:none;">Edit</a></button></td>
                     </tr>
                     <?php 
                             }

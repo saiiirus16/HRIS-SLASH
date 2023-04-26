@@ -1,9 +1,29 @@
 <?php
     session_start();
+
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
     }
-?>
+    
+
+        $server = "localhost";
+        $user = "root";
+        $pass ="";
+        $database = "hris_db";
+    
+        $conn = mysqli_connect($server, $user, $pass, $database);
+    
+        if(count($_POST) > 0){
+            mysqli_query($conn, "UPDATE payroll_loan_tb
+                                 SET empid='".$_POST['empid']."', loan_type='".$_POST['loan_type']."', year='".$_POST['year']."', month='".$_POST['month']."', cutoff_no='".$_POST['cutoff_no']."', remarks='".$_POST['remarks']."', loan_date='".$_POST['loan_date']."', payable_amount='".$_POST['payable_amount']."', amortization='".$_POST['amortization']."', applied_cutoff='".$_POST['applied_cutoff']."', loan_status='".$_POST['loan_status']."' WHERE id='".$_POST['id']."'");
+            header ("Location: loanRequest.php");
+        }
+            $resulta = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE id ='". $_GET['id']. "'");
+            $loanrow = mysqli_fetch_assoc($resulta);
+        
+        
+
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,13 +44,14 @@
         <?php include("header.php")?>
     </header>
 
-    <form action="Data Controller/Loan Request/loanRequestFormController.php" method="POST">
+    <form action="" method="POST">
     <div class="loan-req-form-container">
         <div class="payroll-loan-title">
             <h1>Payroll Loan Details</h1>
         </div>
         <div class="row" style="width:92%; margin: auto; margin-top:20px;">
-            <div class="col-6" style="padding: 0 30px 0 30px;">  
+            <div class="col-6" style="padding: 0 30px 0 30px;">
+            <input type="hidden" name="id" value="<?php echo $loanrow['id']; ?>">
                 <div class="form-group">
                     <?php
                         $server = "localhost";
@@ -49,93 +70,81 @@
                     ?>
 
                     <label for="employee">Employee</label><br>
-                    <select name="empid" id="" class="form-control" style="height:50px;" required>
-                        <option value disabled selected>Employee</option>
+                    <select name="empid" id="" class="form-control" style="height:50px;" readonly value="<?php echo $loanrow['empid'];?>" >
                         <?php echo $options; ?>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="loan_type">Loan Type</label><br>
-                    <select name="loan_type" class="form-control" style="height:50px;" required>
-                        <option value="" selected="selected" class="selectTag" style="color: gray;" >Select Loan Type</option>
-                        <option value="Company Emergency Loan">Company Emergency Loan</option>
-                        <option value="Pag-ibig Emergency Loan">Pag-ibig Emergency Loan</option>
-                        <option value="Company Loan Car"> Company Loan Car</option>
-                        <option value="SSS Salary Loan">SSS Salary Loan</option>
-                        <option value="GSIS Emergency Loan">GSIS Emergency Loan</option>
-                        <option value="Company Motorcycle Loan">Company Motorcycle Loan</option>
-                    </select>
+                    <input type="text" name="loan_type" value="<?php echo $loanrow['loan_type']; ?>" id="" readonly class="form-control" style="height:50px;">
                 </div>
                 <div class="form-group">
                     <label for="year">Year</label><br>
-                    <select name="year" class="form-control" style="height:50px;" required>
-                        <option value="" disabled selected>Year</option>
+                    <select name="year" class="form-control" style="height:50px;">
                         <?php
-                            $currentYear = date("Y");
-                            for ($year = 1990; $year <= $currentYear; $year++) {
-                                echo "<option value=\"$year\">$year</option>";
-                            }
-                            ?>
+                        $currentYear = date("Y");
+                        for ($year = 1990; $year <= $currentYear; $year++) {
+                            $selected = ($year == $loanrow['year']) ? "selected" : "";
+                            echo "<option value=\"$year\" $selected>$year</option>";
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="month">Month</label>
-                        <select name="month" id="" class="form-control" style="height:50px;" required>
-                            <option value="" disabled selected>Month</option>
-                            <option value="January">January</option>
-                            <option value="February">February</option>
-                            <option value="March">March</option>
-                            <option value="April">April</option>
-                            <option value="May">May</option>
-                            <option value="June">June</option>
-                            <option value="July">July</option>
-                            <option value="August">August</option>
-                            <option value="September">September</option>
-                            <option value="October">October</option>
-                            <option value="November">November</option>
-                            <option value="December">December</option>
-                        </select>
+                    <select name="month" id="" class="form-control" style="height:50px;">
+                        <option value="January" <?php if($loanrow['month'] == 'January') echo 'selected'; ?>>January</option>
+                        <option value="February" <?php if($loanrow['month'] == 'February') echo 'selected'; ?>>February</option>
+                        <option value="March" <?php if($loanrow['month'] == 'March') echo 'selected'; ?>>March</option>
+                        <option value="April" <?php if($loanrow['month'] == 'April') echo 'selected'; ?>>April</option>
+                        <option value="May" <?php if($loanrow['month'] == 'May') echo 'selected'; ?>>May</option>
+                        <option value="June" <?php if($loanrow['month'] == 'June') echo 'selected'; ?>>June</option>
+                        <option value="July" <?php if($loanrow['month'] == 'July') echo 'selected'; ?>>July</option>
+                        <option value="August" <?php if($loanrow['month'] == 'August') echo 'selected'; ?>>August</option>
+                        <option value="September" <?php if($loanrow['month'] == 'September') echo 'selected'; ?>>September</option>
+                        <option value="October" <?php if($loanrow['month'] == 'October') echo 'selected'; ?>>October</option>
+                        <option value="November" <?php if($loanrow['month'] == 'November') echo 'selected'; ?>>November</option>
+                        <option value="December" <?php if($loanrow['month'] == 'December') echo 'selected'; ?>>December</option>
+                    </select>
                 </div>
                 <div class="form-group cutoff-no" style="display:flex; flex-direction: row; height: 100px;">
-                <div>
-                    <label for="">Cutoff No.</label><br>
-                    <select name="cutoff_no" id="cutoff_no" class="form-control" style="width: 378px; height:50px;" onchange="calculate()" required>
-                        <option value="" selected disabled>0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="4">4</option>
-                    </select>
-                </div> 
+                    <div>
+                        <label for="">Cutoff No.</label><br>
+                        <select name="cutoff_no" id="cutoff_no" class="form-control" style="width: 378px; height:50px;" onchange="calculate()">
+                        <option value="1" <?php if ($loanrow['cutoff_no'] == '1') echo 'selected'; ?>>1</option>
+                        <option value="2" <?php if ($loanrow['cutoff_no'] == '2') echo 'selected'; ?>>2</option>
+                        <option value="4" <?php if ($loanrow['cutoff_no'] == '4') echo 'selected'; ?>>4</option>
+                        </select>
+                </div>
                     <div style="display:flex; align-items:center; height: 60px; margin-top: 27px;">  
                         <button type="button" style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
                     </div>
                 </div>
                 <div class="form-group loan-remarks">
                     <label for="remarks">Remarks</label><br>
-                    <textarea name="remarks" id="" rows="5" class="form-control"></textarea>
+                    <textarea name="remarks" id="" rows="5" class="form-control" ><?php echo $loanrow['remarks'];?></textarea>
                 </div>
             </div>
             <div class="col-6" style="padding: 0 30px 0 30px;">
                 <div class="form-group">
                     <label for="loan_date">Loan Date</label><br>
-                    <input type="date" name="loan_date" class="form-control" style="height:50px;" id="" required>
+                    <input type="date" name="loan_date" class="form-control" style="height:50px;" id="" value="<?php echo $loanrow['loan_date'];?>">
                 </div>
                 <div class="form-group">
                     <label for="payable_amount">Payable Amount</label><br>
-                    <input type="number" name="payable_amount" class="form-control" style="height:50px;" id="payable_amount" oninput="calculate()" required> 
+                    <input type="number" name="payable_amount" class="form-control" style="height:50px;" id="payable_amount" oninput="calculate()" value="<?php echo $loanrow['payable_amount'];?>"> 
                 </div>
 
                 <div class="form-group">
                     <label for="amortization">Amortization</label><br>
-                    <input type="text" name="amortization" class="form-control" id="amortization" style="height:50px" readonly>
+                    <input type="text" name="amortization" class="form-control" id="amortization" style="height:50px" readonly value="<?php echo $loanrow['amortization']; ?>">
                 </div>
                 <div class="form-group">
                     <label for="applied_cutoff">Applied Cutoff</label><br>
                     <select name="applied_cutoff" class="form-control" style="height:50px;" id="">
-                        <option value="" selected disabled>Cutoff</option>
-                        <option value="Every Cutoff">Every Cutoff</option>
-                        <option value="First Cutoff">First Cutoff</option>
-                        <option value="Last Cutoff">Last Cutoff</option>
+                        <option value="Every Cutoff" <?php if ($loanrow['applied_cutoff'] == 'Every Cutoff') echo 'selected'; ?>>Every Cutoff</option>
+                        <option value="First Cutoff" <?php if ($loanrow['applied_cutoff'] == 'First Cutoff') echo 'selected'; ?>>First Cutoff</option>
+                        <option value="Last Cutoff" <?php if ($loanrow['applied_cutoff'] == 'Last Cutoff') echo 'selected'; ?>>Last Cutoff</option>
                     </select>
                 </div>
                 <div class="form-group loan-req-btn">
