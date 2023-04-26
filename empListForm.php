@@ -223,7 +223,7 @@
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value=' ". $rows['id'] . "'>" .$rows['position'].  "</option>";
+                                                         $options .= "<option value=' ". $rows['position'] . "'>" .$rows['position'].  "</option>";
                                                      }
                                                      ?>
              
