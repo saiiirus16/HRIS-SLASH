@@ -1,14 +1,14 @@
 <?php
     
     $conn = mysqli_connect("localhost", "root", "", "hris_db");
-    if (isset($_GET['other_govern'])) {
-        $other_govern = $_GET['other_govern'];
+    if (isset($_GET['other_allowance'])) {
+        $other_allowance = $_GET['other_allowance'];
         $empid = $_GET['empid']; // add this line to get the id from the URL
     
         $results = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid = '$empid'");
         $rows = mysqli_fetch_assoc($results);
     
-        $sql = "DELETE FROM `governdeduct_tb` WHERE other_govern='$other_govern'";
+        $sql = "DELETE FROM `allowancededuct_tb` WHERE other_allowance='$other_allowance'";
         $result = mysqli_query($conn, $sql);
     
         if ($result) {

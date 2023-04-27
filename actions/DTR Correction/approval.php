@@ -284,8 +284,6 @@ if(isset($_POST['approve_btn']))
                                                         $scheduled_time = new DateTime($col_monday_timeout);
                                                         $interval = $time_out_datetime->diff($scheduled_time);
                                                         $overtime = $interval->format('%h:%i:%s');
-
-
                                                 }
                                                         $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                         if(mysqli_num_rows($result) > 0) {
@@ -296,6 +294,15 @@ if(isset($_POST['approve_btn']))
 
                                                         $total_work = strtotime($time_dtr) - strtotime($fetch_timein) - 7200;
                                                         $total_work = date('H:i:s', $total_work);
+                                                        
+                                                        $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+                                                        $check_in_result = mysqli_query($conn, $check_in_query);
+                                                        $check_in_row = mysqli_fetch_assoc($check_in_result);
+                                                        $num_rows = $check_in_row['num_rows'];
+                                                        if ($num_rows == 0) {
+                                                            header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                                                            exit();
+                                                        }
 
                                                         $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
                                                         $query_run = mysqli_query($conn, $query);
@@ -332,7 +339,6 @@ if(isset($_POST['approve_btn']))
                                                             $scheduled_time = new DateTime($col_tuesday_timeout);
                                                             $interval = $time_out_datetime->diff($scheduled_time);
                                                             $overtime = $interval->format('%h:%i:%s');
-
                                                     }
                                                             $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                             if(mysqli_num_rows($result) > 0) {
@@ -343,6 +349,15 @@ if(isset($_POST['approve_btn']))
 
                                                             $total_work = strtotime($time_dtr) - strtotime($fetch_timein) - 7200;
                                                             $total_work = date('H:i:s', $total_work);
+
+                                                            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+                                                            $check_in_result = mysqli_query($conn, $check_in_query);
+                                                            $check_in_row = mysqli_fetch_assoc($check_in_result);
+                                                            $num_rows = $check_in_row['num_rows'];
+                                                            if ($num_rows == 0) {
+                                                                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                                                                exit();
+                                                            }
 
                                                             $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
                                                             $query_run = mysqli_query($conn, $query);
@@ -379,8 +394,6 @@ if(isset($_POST['approve_btn']))
                                                             $scheduled_time = new DateTime($col_wednesday_timeout);
                                                             $interval = $time_out_datetime->diff($scheduled_time);
                                                             $overtime = $interval->format('%h:%i:%s');
-
-
                                                     }
                                                             $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                             if(mysqli_num_rows($result) > 0) {
@@ -391,6 +404,15 @@ if(isset($_POST['approve_btn']))
 
                                                             $total_work = strtotime($time_dtr) - strtotime($fetch_timein) - 7200;
                                                             $total_work = date('H:i:s', $total_work);
+
+                                                            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+                                                            $check_in_result = mysqli_query($conn, $check_in_query);
+                                                            $check_in_row = mysqli_fetch_assoc($check_in_result);
+                                                            $num_rows = $check_in_row['num_rows'];
+                                                            if ($num_rows == 0) {
+                                                                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                                                                exit();
+                                                            }
 
                                                             $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
                                                             $query_run = mysqli_query($conn, $query);
@@ -428,7 +450,6 @@ if(isset($_POST['approve_btn']))
                                                             $interval = $time_out_datetime->diff($scheduled_time);
                                                             $overtime = $interval->format('%h:%i:%s');
 
-
                                                     }
                                                             $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                             if(mysqli_num_rows($result) > 0) {
@@ -439,6 +460,15 @@ if(isset($_POST['approve_btn']))
 
                                                             $total_work = strtotime($time_dtr) - strtotime($fetch_timein) - 7200;
                                                             $total_work = date('H:i:s', $total_work);
+
+                                                            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+                                                            $check_in_result = mysqli_query($conn, $check_in_query);
+                                                            $check_in_row = mysqli_fetch_assoc($check_in_result);
+                                                            $num_rows = $check_in_row['num_rows'];
+                                                            if ($num_rows == 0) {
+                                                                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                                                                exit();
+                                                            }
 
                                                             $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
                                                             $query_run = mysqli_query($conn, $query);
@@ -475,8 +505,6 @@ if(isset($_POST['approve_btn']))
                                                             $scheduled_time = new DateTime($col_friday_timeout);
                                                             $interval = $time_out_datetime->diff($scheduled_time);
                                                             $overtime = $interval->format('%h:%i:%s');
-
-
                                                     }
                                                             $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                             if(mysqli_num_rows($result) > 0) {
@@ -487,6 +515,15 @@ if(isset($_POST['approve_btn']))
 
                                                             $total_work = strtotime($time_dtr) - strtotime($fetch_timein) - 7200;
                                                             $total_work = date('H:i:s', $total_work);
+
+                                                            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+                                                            $check_in_result = mysqli_query($conn, $check_in_query);
+                                                            $check_in_row = mysqli_fetch_assoc($check_in_result);
+                                                            $num_rows = $check_in_row['num_rows'];
+                                                            if ($num_rows == 0) {
+                                                                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                                                                exit();
+                                                            }
 
                                                             $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
                                                             $query_run = mysqli_query($conn, $query);
@@ -523,8 +560,6 @@ if(isset($_POST['approve_btn']))
                                                             $scheduled_time = new DateTime($col_saturday_timeout);
                                                             $interval = $time_out_datetime->diff($scheduled_time);
                                                             $overtime = $interval->format('%h:%i:%s');
-
-
                                                     }
                                                             $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                             if(mysqli_num_rows($result) > 0) {
@@ -535,6 +570,15 @@ if(isset($_POST['approve_btn']))
 
                                                             $total_work = strtotime($time_dtr) - strtotime($fetch_timein) - 7200;
                                                             $total_work = date('H:i:s', $total_work);
+
+                                                            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+                                                            $check_in_result = mysqli_query($conn, $check_in_query);
+                                                            $check_in_row = mysqli_fetch_assoc($check_in_result);
+                                                            $num_rows = $check_in_row['num_rows'];
+                                                            if ($num_rows == 0) {
+                                                                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                                                                exit();
+                                                            }
 
                                                             $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
                                                             $query_run = mysqli_query($conn, $query);
@@ -571,8 +615,6 @@ if(isset($_POST['approve_btn']))
                                                             $scheduled_time = new DateTime($col_sunday_timeout);
                                                             $interval = $time_out_datetime->diff($scheduled_time);
                                                             $overtime = $interval->format('%h:%i:%s');
-
-
                                                     }
                                                             $result = mysqli_query($conn, "SELECT time_in FROM attendances WHERE `date` = '$date_dtr'");
                                                             if(mysqli_num_rows($result) > 0) {
@@ -583,6 +625,15 @@ if(isset($_POST['approve_btn']))
 
                                                             $total_work = strtotime($time_dtr) - strtotime($fetch_timein) - 7200;
                                                             $total_work = date('H:i:s', $total_work);
+
+                                                            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
+                                                            $check_in_result = mysqli_query($conn, $check_in_query);
+                                                            $check_in_row = mysqli_fetch_assoc($check_in_result);
+                                                            $num_rows = $check_in_row['num_rows'];
+                                                            if ($num_rows == 0) {
+                                                                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
+                                                                exit();
+                                                            }
 
                                                             $query = "UPDATE emp_dtr_tb SET `status` ='Approved' WHERE `id`='$tableid'";
                                                             $query_run = mysqli_query($conn, $query);

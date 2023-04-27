@@ -17,7 +17,7 @@
             *  
         FROM
             `cutoff_tb`
-        WHERE `col_startDate` = '$strDate' and `col_endDate` = '$endDate' and `col_cutOffNum` = $Cut_num");
+        WHERE `col_frequency` = '$frequency' and  `col_cutOffNum` = $Cut_num");
 
         if(mysqli_num_rows($result_dept) > 0) {
             $row__dept = mysqli_fetch_assoc($result_dept);
@@ -26,12 +26,11 @@
           else{
 
                 // Prepare the SQL statement
-                $sql = "INSERT INTO cutoff_tb (`col_empId`, `col_type`, col_frequency, `col_month`, `col_year`, `col_startDate`, `col_endDate`, `col_cutOffNum`)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO cutoff_tb (`col_type`, col_frequency, `col_month`, `col_year`, `col_startDate`, `col_endDate`, `col_cutOffNum`)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                 // Sanitize the data
 
-                $I_empID = mysqli_real_escape_string($conn, $empID);
                 $I_type = mysqli_real_escape_string($conn, $type);
                 $I_frequency = mysqli_real_escape_string($conn, $frequency);
                 $I_month = mysqli_real_escape_string($conn, $month);
@@ -42,11 +41,47 @@
 
                 // Bind the values to the prepared statement
                 $stmt = mysqli_prepare($conn, $sql);
-                mysqli_stmt_bind_param($stmt, 'ssssssss',$I_empID, $I_type, $I_frequency, $I_month, $I_year, $I_strDate, $I_endDate, $I_Cut_num);
+                mysqli_stmt_bind_param($stmt, 'sssssss', $I_type, $I_frequency, $I_month, $I_year, $I_strDate, $I_endDate, $I_Cut_num);
 
                 // Execute the statement and check for errors
                 if (mysqli_stmt_execute($stmt)) {
-                    header("Location: ../../cutoff.php?msg=Successfully Added");
+                        $result = mysqli_query($conn, "SELECT
+                            *
+                        FROM
+                            `cutoff_tb`
+                        ORDER BY
+                            col_ID
+                        DESC
+                        LIMIT 1;");
+
+                        if(mysqli_num_rows($result) > 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            $ID =  $row['col_ID'];
+
+                                // Prepare the SQL statement
+                                $sql = "INSERT INTO empcutoff_tb (`cutOff_ID`, `emp_ID`)
+                                VALUES (?, ?)";
+
+                                // Sanitize the data
+
+                                $cutOff_ID = mysqli_real_escape_string($conn, $ID);
+                                $EmpID = mysqli_real_escape_string($conn, $empID);
+                            
+
+                                // Bind the values to the prepared statement
+                                $stmt = mysqli_prepare($conn, $sql);
+                                mysqli_stmt_bind_param($stmt, 'ss', $cutOff_ID, $EmpID);
+
+                                // Execute the statement and check for errors
+                                if (mysqli_stmt_execute($stmt)) {
+                                        header("Location: ../../cutoff.php?msg=Successfully Added");
+                                }else{
+                                    echo "Error inserting data: " . mysqli_error($conn);
+                                }
+                        } 
+                        else{
+                            echo "Error selecting data: " . mysqli_error($conn);
+                        }
                 
                 } else {
                     echo "Error inserting data: " . mysqli_error($conn);
@@ -61,15 +96,5 @@
 
     }
 
-    // if(isset($_POST['empIds'])) {
-    //     $empIds = $_POST['empIds'];
-    //     foreach($empIds as $empId) {
-    //         $stmt = $conn->prepare("INSERT INTO cutoff_tb (col_empId) VALUES (?)");
-    //         $stmt->bind_param("i", $empId);
-    //         $stmt->execute();
-    //         $stmt->close();
-    //     }
-    // }
-    // $conn->close();
 
 ?>
