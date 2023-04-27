@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!--  para sa pag pass sa colID sa modal in delete -->
+
+
     <!-- para sa font ng net pay -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
@@ -264,71 +267,122 @@
                 </ul>
 
                 <div class="tab-content">
-                    <form action="gnrate_payroll.php" method="post">
-                    <div class="tab-pane active" id= "Standard">
-                        <div class="scroll" style="max-height:500px; overflow: scroll;">
-                            
-                                <?php 
-                                    include 'config.php';
+                <form action="gnrate_payroll.php" method="post">
+    <div class="tab-pane" id="Standard">
+        <div class="scroll" style="max-height:500px; overflow: scroll;">
+            <?php 
+                include 'config.php';
+                // Fetch data from the MySQL table
+                $sql = "SELECT * FROM cutoff_tb WHERE col_type ='Standard'";
+                $result = mysqli_query($conn, $sql);
+                // Display data in div elements
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<div class="stndrd_div">';
+                            echo '<div class="head">';
+                                echo '<h3 class="ml-3 mt-4">'. $row["col_month"] .'</h3>';
+                                echo '<h3 class="ml-3 mt-4">'. $row["col_year"] .'</h3>';
+                                echo '<p class="tag">Preview</p>';
+                            echo '</div>';
+                            echo '<p class="type ml-3 mt-3">'. $row["col_type"] .'</p>';
+                            echo '<div class="div">';
+                                echo '<div class="head">';
+                                    echo '<p class="c1 ml-3 mt-4">Cutoff No. :</p>';
+                                    echo '<p class="c1 ml-2 mt-4">'. $row["col_cutOffNum"] .'</p>';
+                                echo '</div>';
+                                echo '<div class="head">';
+                                    echo '<p class="c1 ml-3">Period :</p>';
+                                    echo '<p class="c1 ml-2">'. $row["col_startDate"] . ' to '.'</p>';
+                                    echo '<p class="c1 ml-2">'. $row["col_endDate"] .'</p>';
+                                echo '</div>';
+                                echo '<div class="head">';
+                                    echo '<p class="c1 ml-3">Frequency :</p>';
+                                    echo '<p class="c1 ml-2">'. $row["col_frequency"] .'</p>';
+                                echo '</div>';
+                            echo '</div>';
+                            echo '<div class="foot">';
+                                echo '<button type="submit" name="name_btnview" value="'. $row["col_ID"] .'" class="btnq">[ View ]</button>';
+                                echo '<button type="button" class="btnq btn-delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="' . $row["col_ID"] . '">[ Delete ]</button>';
+                                echo '<button type="button" class="btnq btn-addEmp" data-bs-toggle="modal" data-bs-target="#modal_addEMp" data-id1="' . $row["col_ID"] . '">[ Add Employee ]</button>';
+                            echo '</div>';
+                        echo '</div>';
+                    }
+                } else {
+                    // No data found
+                }
+                // Close connection
+                mysqli_close($conn);  
+            ?>
+        </div>
+    </div>
+</form>
 
-                                    // Fetch data from the MySQL table
-                                    $sql = "SELECT * FROM cutoff_tb Where col_type ='Standard'";
-                                    $result = mysqli_query($conn, $sql);
-                                    
-                                    // Display data in div elements
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            // echo "<div style='border: 1px solid black;'>";
-                                            // echo "Column 1: " . $row["col_month"] . "<br>";
-                                            // echo "Column 2: " . $row["col_year"] . "<br>";
-                                            // echo "Column 3: " . $row["col_type"];
-                                            // echo "</div>";
 
-                                            echo '<div class="stndrd_div">';
-                                                echo '<div class="head">';
-                                                    echo '<h3 class="ml-3 mt-4" name="name_cutOff_ID" style="display:none;">'. $row["col_ID"] .'</h3>';
-                                                    echo '<h3 class="ml-3 mt-4">'. $row["col_month"] .'</h3>';
-                                                    echo '<h3 class="ml-3 mt-4">'. $row["col_year"] .'</h3>';
-                                                    echo '<p class="tag">Preview</p>';
-                                            echo '</div>';
-                                                echo '<p class="type ml-3 mt-3">'. $row["col_type"] .'</p>';
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form action="actions/Payroll/delete.php" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="name_CutoffID" id="modal-input">
+                Are you sure you want to delete this cutoff?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" name="btn_delete_modal"  class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>
 
-                                                echo '<div class="div">';
-                                                        echo '<div class="head">';
-                                                            echo '<p class="c1 ml-3 mt-4">Cutoff No. :</p>';
-                                                            echo '<p class="c1 ml-2 mt-4">'. $row["col_cutOffNum"] .'</p>';
-                                                        echo '</div>';
-                                                        echo '<div class="head">';
-                                                            echo '<p class="c1 ml-3">Period :</p>';
-                                                            echo '<p class="c1 ml-2">'. $row["col_startDate"] . ' to '.'</p>';
-                                                            echo '<p class="c1 ml-2">'. $row["col_endDate"] .'</p>';
-                                                        echo '</div>';
-                                                        echo '<div class="head">';
-                                                            echo '<p class="c1 ml-3">Frequency :</p>';
-                                                            echo '<p class="c1 ml-2">'. $row["col_frequency"] .'</p>';
-                                                        echo '</div>';
-                                                echo '</div>';
 
-                                                echo '<div class="foot">';
-                                                    echo '<button type="submit" name="name_btnview" class="btnq">[ View ]</button>';
-                                                    echo '<button type="button" class="btnq">[ Delete ]</button>';
-                                                    echo '<button type="button" class="btnq">[ Add Employee ]</button>';
-                                                echo '</div>';
+<!-- Modal -->
+<div class="modal fade" id="modal_addEMp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form action="actions/Payroll/addEmp.php" method="post">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <input type="hidden" name="name_AddEMp_CutoffID" id="ID_AddEMp_CutoffID">
+        
+            <div class="mb-3">
+                <label for="Select_dept" class="form-label">Select Employee :</label>
+                <?php
+                    include 'config.php';
 
-                                            echo '</div>';
-                                        }
-                                    } else {
-                                    
-                                    }
+                    // Fetch all values of fname and lname from the database
+                    $sql = "SELECT fname, lname, empid FROM employee_tb";
+                    $result = mysqli_query($conn, $sql);
 
-                                    // Close connection
-                                    mysqli_close($conn);  
-                                ?>
-                            
-                        </div>
-                        
-                    </div>
-                    </form>
+                    // Generate the dropdown list
+                    echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='add_name_emp' style=' height: 50px; width: 400px; cursor: pointer;'>";
+                    while ($row = mysqli_fetch_array($result)) {
+                            $emp_id = $row['empid'];
+                            $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
+                            echo "<option value='$emp_id'>$name</option>";
+                                            }
+                          echo "</select>";
+                ?>
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" name="btn_addEmp_modal" class="btn btn-primary">Add</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
                     <div class="tab-pane" id= "Allowance">
                         Allowance
                     </div>
@@ -344,26 +398,6 @@
         </div>  <!-- End Card-Body -->
     </div> <!-- End Card -->
  </div> <!-- End Container -->
-
-    <!-- <script>
-            $(document).ready(function() {
-            $('#btn_save').click(function() {
-                var empIds = $('input[name="name_empId[]"]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-                $.ajax({
-                    url: 'Data Controller/Payroll/Save_cutOff.php',
-                    type: 'POST',
-                    data: { empIds: empIds },
-                    success: function(data) {
-                        alert('Checkbox values inserted into MySQL table.');
-                    }
-                });
-            });
-        });
-
-    </script> -->
-
 
 
     

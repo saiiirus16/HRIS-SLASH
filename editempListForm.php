@@ -25,11 +25,11 @@
     }
     
     if(count($_POST) > 0){
-        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',otrate='".$_POST['otrate']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."',empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$_POST['emp_img_url']."'
+        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',schedule_name='".$_POST['schedule_name']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$_POST['emp_img_url']."', status='".$_POST['status']."'
         WHERE id ='".$_POST['id']."'");
         header ("Location: EmployeeList.php");
     }
-    $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE id ='". $_GET['id']. "'");
+    $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
     $row = mysqli_fetch_assoc($result);
     
     
@@ -119,14 +119,26 @@
                                 </div>
                                 <div class="emp-list-info-second-container">
                                     <div class="emp-head">
-                                        <img src="uploads/<?php echo $row['emp_img_url'];?>" alt="" srcset="" accept=".jpg, .jpeg, .png" title="<?php echo $row['emp_img_url']; ?>">
+                                        <img src="uploads/<?php echo $row['emp_img_url'];?>" alt="" srcset="" accept=".jpg, .jpeg, .png" title="<?php echo $row['emp_img_url']; ?> " value="uploads/<?php echo $row['emp_img_url'];?>">
                                     </div>
                                     <div class="emp-info">
                                         <h1><?php echo $row['fname']; ?> <?php echo $row['lname'];?></h1>
                                         <p><?php echo $row['empposition']?></p>
-                                        <div class="emp-stats">
-                                            <h4>Status: </h4>
-                                            <h4 style="color:blue; margin-left:5px;">Active</h4>
+                                        <div class="emp-stats" style="">
+                                        <?php $word = 'Hello';?>
+                                            <h4 style="margin-top:9px; margin-left: 50px;">Status: </h4>
+                                            <input type="text" name="status" id="status" value="<?php if(isset($row['status']) && !empty($row['status'])) { echo $row['status']; } else { echo 'Inactive'; }?>" style="width:65px; border:none; margin-top:1px; margin-left: 4px; color: blue; font-weight: 500; outline:none;" readonly>
+                                            <span onclick="changeWord()" class="fa-solid fa-rotate" style="cursor:pointer; margin-top:9px;"></span>
+                                            <script>
+                                                function changeWord() {
+                                                var statusInput = document.getElementById("status");
+                                                if (statusInput.value === "Inactive") {
+                                                    statusInput.value = "Active";
+                                                } else {
+                                                    statusInput.value = "Inactive";
+                                                }
+                                                }
+                                                </script>
                                         </div>
                                     </div>
                                     <div class="custom-file" style="width:300px; margin-top:10px;">
@@ -159,7 +171,7 @@
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
-                                        <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -170,7 +182,7 @@
                                     </div>
                                     <div>
                                     <label for="tinamount">Amount</label><br>
-                                        <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -181,7 +193,7 @@
                                     </div>
                                     <div>
                                     <label for="pagibigamount">Amount</label><br>
-                                        <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -192,7 +204,7 @@
                                     </div>
                                     <div>
                                     <label for="philhealth_amount">Amount</label><br>
-                                        <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; } else { echo '0'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
                             </div>
@@ -360,7 +372,7 @@
                         $conn = mysqli_connect($server, $user, $pass, $database);
                         $sql = "SELECT empid FROM employee_tb";
 
-                        $results = mysqli_query($conn, "SELECT * FROM employee_tb WHERE id ='". $_GET['id']. "'");
+                        $results = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
                         $rows = mysqli_fetch_assoc($results);
      
                                 
@@ -372,7 +384,7 @@
                         <script>
                             $(document).ready(function(){
 
-                                var html = '<tr><td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px"></td></tr>';
+                                var html = '<tr><td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
 
                                 var max = 5;
                                 var x = 1;
@@ -410,7 +422,7 @@
                                         <td><input type="number" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount"></td>
                                         <td><input type="button" value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px;" ></td>
                                         <td>
-                                        <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px">
+                                        <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
 
                                         </td>
                                     </tr>
@@ -432,28 +444,28 @@
                                             AS govern
                                             INNER JOIN employee_tb
                                             AS emp
-                                            ON(emp.id = govern.id_emp)
-                                            WHERE emp.id = '".$_GET['id']."'";
+                                            ON(emp.empid = govern.id_emp)
+                                            WHERE govern.id_emp = '".$_GET['empid']."'";
                                    $result = mysqli_query($conn, $sql);
                                    $totalAmount = 0;
                                    if (mysqli_num_rows($result) > 0) {
                                        while ($row = mysqli_fetch_assoc($result)) {
                                            $totalAmount += $row['govern_amount'];
                                            echo "<tr>";
-                                           echo "<td><input type='text' disabled class='emp-desc form-control' style='margin-top:10px;' name='other_govern[]' value='" . $row['other_govern'] . "'></td>";
-                                           echo "<td><input type='text'  style='margin-top:10px;'  class='emp-amount form-control' disabled name='govern_amount[]' value='" . $row['govern_amount'] . "'></td>";
-                                           echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/govern_delete.php?other_govern=".$row['other_govern']."&id=".$row['id']."' style='color:white;'>Delete</a></button></td>";
-                                           echo "<input type='hidden'disabled name='empid[]' value='" . $row['empid'] . "'>";
+                                           echo "<td><input type='text' readonly class='emp-desc form-control' style='margin-top:10px;' name='other_govern[]' value='" . $row['other_govern'] . "'></td>";
+                                           echo "<td><input type='text'  style='margin-top:10px;'  class='emp-amount form-control' readonly name='govern_amount[]' value='" . $row['govern_amount'] . "'></td>";
+                                           echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/govern_delete.php?other_govern=".$row['other_govern']."&empid=".$row['empid']."' style='color:white;'>Delete</a></button></td>";
+                                           echo "<input type='hidden'readonly name='empid[]' value='" . $row['empid'] . "'>";
                                            echo "</tr>";
                                        }
                                     }
                                    echo "<tr>";
                                    echo "<td>Total Amount:</td>";
-                                   echo "<td><input type='text' disabled style='margin-top:10px;'  class='emp-amount form-control' name='total_amount' value='" . $totalAmount . "'></td>";
+                                   echo "<td><input type='text' readonly style='margin-top:10px;'  class='emp-amount form-control' name='total_amount' value='" . $totalAmount . "'></td>";
                                    echo "</tr>";
                                    mysqli_close($conn);
                                 ?>
-                                <input type='hidden' name="id" value="<?php echo $rows['id'];?>">
+                                <input type='hidden' name="empid" value="<?php echo $rows['empid'];?>">
                                 
                                 </table>
                                 </div>
@@ -467,7 +479,22 @@
                     </form> 
                     
 
-                    <!-- Allowance modal-->
+                    Allowance modal
+
+                    <?php 
+                        $server = "localhost";
+                        $user = "root";
+                        $pass ="";
+                        $database = "hris_db";
+     
+                        $conn = mysqli_connect($server, $user, $pass, $database);
+                        $sql = "SELECT empid FROM employee_tb";
+
+                        $resultss = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
+                        $rowss = mysqli_fetch_assoc($resultss);
+     
+                                
+                    ?>
 
                    
                 <form action="Data Controller/Employee List/otherAllowanceController.php" method="POST">
@@ -480,7 +507,7 @@
                         $conn = mysqli_connect($server, $user, $pass, $database);
                         $sql = "SELECT empid FROM employee_tb";
 
-                        $results = mysqli_query($conn, "SELECT * FROM employee_tb WHERE id ='". $_GET['id']. "'");
+                        $results = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
                         $rows = mysqli_fetch_assoc($results);
      
                                 
@@ -490,7 +517,7 @@
                         <div class="allowance-modal-container">
                             <script>
                                 $(document).ready(function(){
-                                    var html = '<tr><td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px"></td></tr>';
+                                    var html = '<tr><td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
 
                                 var max = 5;
                                 var x = 1;
@@ -525,7 +552,7 @@
                                         <td><input type="number" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount"></td>
                                         <td><input type="button" value="Add" name="id_emp[]" id="allowanceAdd" class="btn btn-success" style="width: 73px;" ></td>
                                         <td>
-                                        <input type="hidden" name="id_emp[]" value="<?php echo $rows['id']?>" id="" style="width:30px">
+                                        <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
                                         </td>
                                     </tr>
                                 </table>
@@ -543,31 +570,31 @@
                                 <?php
                                      $conn = mysqli_connect("localhost", "root", "", "hris_db");
                                      $sql = "SELECT * FROM allowancededuct_tb
-                                              AS allow
-                                              INNER JOIN employee_tb
-                                              AS emp
-                                              ON(emp.id = allow.id_emp)
-                                              WHERE emp.id = '".$_GET['id']."'";
+                                            AS allow
+                                            INNER JOIN employee_tb
+                                            AS emp
+                                            ON(emp.empid = allow.id_emp)
+                                            WHERE allow.id_emp = '".$_GET['empid']."'";
                                      $resultd = mysqli_query($conn, $sql);
                                      $totalAmountd = 0;
                                      if (mysqli_num_rows($resultd) > 0) {
                                          while ($rowd = mysqli_fetch_assoc($resultd)) {
                                              $totalAmountd += $rowd['allowance_amount'];
                                              echo "<tr>";
-                                             echo "<td><input type='text' readonly class='form-control' style='margin-top:10px;' name='other_allowance[]' value='" . $rowd['other_allowance'] . "'></td>";
-                                             echo "<td><input type='text'  style='margin-top:10px;'  class='form-control' readonly name='allowance_amount[]' value='" . $rowd['allowance_amount'] . "' ></td>";
-                                             echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/govern_delete.php?other_allowance=".$rowd['other_allowance']."&id=".$rowd['id']."' style='color:white;'>Delete</a></button></td>";
+                                             echo "<td><input type='text' readonly class='form-control allowance-desc' style='margin-top:10px;' name='other_allowance[]' value='" . $rowd['other_allowance'] . "'></td>";
+                                             echo "<td><input type='text'  style='margin-top:10px;'  class='form-control allowance-amount' readonly name='allowance_amount[]' value='" . $rowd['allowance_amount'] . "' ></td>";
+                                             echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/allowance_delete.php?other_allowance=".$rowd['other_allowance']."&empid=".$rowd['empid']."' style='color:white;'>Delete</a></button></td>";
                                              echo "<input type='hidden'readonly name='empid[]' value='" . $rowd['empid'] . "'>";
                                              echo "</tr>";
                                          }
                                       }
                                      echo "<tr>";
                                      echo "<td>Total Amount:</td>";
-                                     echo "<td><input type='text' disabled style='margin-top:10px;'  class='form-control' name='total_amount' value='" . $totalAmountd . "'></td>";
+                                     echo "<td><input type='text' disabled style='margin-top:10px;'  class='form-control allowance-amount' name='total_amount' value='" . $totalAmountd . "'></td>";
                                      echo "</tr>";
                                      mysqli_close($conn);
                                   ?>
-                                  <input type='hidden' name="id" value="<?php echo $rows['id'];?>">
+                                  <input type='hidden' name="empid" value="<?php echo $rowss['empid'];?>">
                                 
                                 </table>
                                 </div>
@@ -591,6 +618,39 @@
           document.getElementById("form").submit();
       };
 </script> -->
+
+<script>
+    // sched form modal
+
+let allowanceModal = document.getElementById('allowance-modal');
+
+//get open modal
+let allowanceBtn = document.getElementById('allowance-update');
+
+//get close button modal
+let allowanceClose = document.getElementsByClassName('allowance-modal-close')[0];
+
+//event listener
+allowanceBtn.addEventListener('click', openAllowance);
+allowanceClose.addEventListener('click', exitAllowance);
+window.addEventListener('click', clickOutsides);
+
+//functions
+function openAllowance(){
+    allowanceModal.style.display ='block';
+}
+
+function exitAllowance(){
+    allowanceModal.style.display ='none';
+}
+
+function clickOutsides(e){
+    if(e.target == allowanceModal){
+        allowanceModal.style.display ='none';    
+    }
+}
+
+</script>
     
     
 <script>
@@ -637,37 +697,6 @@ function clickOutside(e){
 
 </script>
 
-<script>
-    // sched form modal
-
-let allowanceModal = document.getElementById('allowance-modal');
-
-//get open modal
-let allowanceBtn = document.getElementById('allowance-update');
-
-//get close button modal
-let allowanceClose = document.getElementsByClassName('allowance-modal-close')[0];
-
-//event listener
-allowanceBtn.addEventListener('click', openAllowance);
-allowanceClose.addEventListener('click', exitAllowance);
-window.addEventListener('click', clickOutsides);
-
-//functions
-function openAllowance(){
-    allowanceModal.style.display ='block';
-}
-
-function exitAllowance(){
-    allowanceModal.style.display ='none';
-}
-
-function clickOutsides(e){
-    if(e.target == allowanceModal){
-        allowanceModal.style.display ='none';    
-    }
-}
-</script>
                      
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>

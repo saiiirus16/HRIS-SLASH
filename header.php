@@ -65,9 +65,9 @@
                   
                 <li><a href="#" class="hoverable payroll-dd"><div><span class="fa-regular fa-credit-card"></span>PAYROLL</div><span class="fa-solid fa-chevron-right"></span></a>
                     <ul class="payroll-dd-show">
-                        <li><a href="#">LOAN REQUEST</a></li>
-                        <li><a href="gnrate_payroll.php">GENERATE PAYROLL</a></li>
-                        <li><a href="cutoff.php">GENERATE PAYSLIP</a></li>
+                        <li><a href="loanRequest.php">LOAN REQUEST</a></li>
+                        <li><a href="cutoff.php">GENERATE PAYROLL</a></li>
+                        <li><a href="generatePayslip.php">GENERATE PAYSLIP</a></li>
                     </ul> 
                 </li>
 
@@ -117,10 +117,13 @@
                 </li>
 
                 <li><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
-                    <ul class="sett-dd-show">
+                <ul class="sett-dd-show">
                         <li><a href="official_emp.php">OFFICIAL</a></li>
                         <li><a href="dtr_emp.php">DTR EMPLOYEE</a></li>
-                        
+                        <li><a href="my_schedule.php">MY SCHEDULE</a></li>
+                        <li><a href="overtime_req.php">OVERTIME REQUEST</a></li>
+                        <li><a href="undertime_req.php">UNDERTIME REQUEST</a></li>
+                        <li><a href="Wfh_request.php">WFH REQUEST</a></li>
                     </ul>
                 </li>
                 

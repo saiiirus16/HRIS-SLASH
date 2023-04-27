@@ -47,30 +47,31 @@
                             <div> </div>
                         </div>
                         <div class="schedule-select">
-                            <div class="mb-3">
-                                    <label for="Select_dept" class="form-label">Select Department</label>
-                                    <?php
-                                                include 'config.php';
+                            <div>
+                            <?php
+                                $server = "localhost";
+                                $user = "root";
+                                $pass ="";
+                                $database = "hris_db";
 
-                                                // Fetch all values of col_deptname from the database
-                                                $sql = "SELECT col_deptname FROM dept_tb";
-                                                $result = mysqli_query($conn, $sql);
+                                $conn = mysqli_connect($server, $user, $pass, $database);
+                                $sql = "SELECT department_name FROM employee_tb";
+                                $result = mysqli_query($conn, $sql);
 
-                                                // Store all values in an array
-                                                $dept_options = array();
-                                                while($row = mysqli_fetch_array($result)){
-                                                    $dept_options[] = $row['col_deptname'];
-                                                }
+                                $options = "";
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $options .= "<option value='".$row['department_name']."'>" .$row['department_name'].  "</option>";
+                                }
+                                ?>
 
-                                                // Generate the dropdown list
-                                                echo "<select class='form-select form-select-m' aria-label='.form-select-sm example'>";
-                                                foreach ($dept_options as $dept_option){
-                                                    echo " <option value disabled selected>Select Department</option>";
-                                                    echo "<option value='$dept_option'>$dept_option</option>";
-                                                }
-                                                echo "</select>";
-                                            ?>
-                                </div>
+                                
+                                <label for="depatment">Select Department</label><br>
+                                <select name="" id="">
+                                <option value disabled selected>Select Department</option>
+                                    <?php echo $options; ?>
+                                </select>
+                            
+                            </div>
                         <div>
 
                             <?php
@@ -85,7 +86,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                                    $options .= "<option value='".$row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }
                                 ?>
 
@@ -373,34 +374,34 @@ function clickOutside(e){
 
 
 
-//filter
+// filter
 
-function filter(item){
-$.ajax({
-type: "POST",
-url: "Data Controller/empListFormController.php",
-data: { value: item},
-success:function(data){
-  $("#results").html(data);
-}
-});
-}
+// function filter(item){
+// $.ajax({
+// type: "POST",
+// url: "Data Controller/empListFormController.php",
+// data: { value: item},
+// success:function(data){
+//   $("#results").html(data);
+// }
+// });
+// }
 
 
-function getEmployee(val){
-    $.ajax({
-        type: "POST",
-        url: "getEmployee.php",
-        data: 'empid='+val,
-        success:function(data){
-             $("employee-dd").html(data);
-             getEmployee();
-         }
-    });
-}
-</script>
+// function getEmployee(val){
+//     $.ajax({
+//         type: "POST",
+//         url: "getEmployee.php",
+//         data: 'empid='+val,
+//         success:function(data){
+//              $("employee-dd").html(data);
+//              getEmployee();
+//          }
+//     });
+// }
+// </script>
 
-<script type='text/javascript'>
+<!-- <script type='text/javascript'>
             $(document).ready(function(){
                 $('.schedule-info').click(function(){
                     var id = $(this).data('id');
@@ -415,7 +416,7 @@ function getEmployee(val){
                     });
                 });
             });
-</script>
+</script> -->
 
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>

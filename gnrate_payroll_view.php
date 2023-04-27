@@ -112,7 +112,9 @@
 
                                                 if(isset($_POST['name_btnView'])){
                                                     $emp_ID = $_POST['Name_employeeID'];
-                                                    
+                                                    $str_date = $_POST['name_cutOff_str'];
+                                                    $end_date = $_POST['name_cutOff_end'];
+                                                    $freq_date = $_POST['name_cutOff_freq'];
                                                     //para sa pag select sa empschedule base sa empid 
                                                     $sql_empSched = mysqli_query($conn, " SELECT
                                                                                                     *  
@@ -322,7 +324,7 @@
                                                                 {
                                                                     $row_emp = mysqli_fetch_assoc($sql_attndces);
                                                                        // Fetch all rows from attendances_tb
-                                                                    $query = "SELECT * FROM attendances WHERE empid = $emp_ID";
+                                                                    $query = "SELECT * FROM attendances WHERE empid = $emp_ID AND `date` BETWEEN  '$str_date' AND  '$end_date'";
                                                                     $result = $conn->query($query);
 
                                                                     // Check if any rows are fetched
@@ -613,7 +615,7 @@
                                                                 employee_tb.`tin_amount`,
                                                                 employee_tb.`pagibig_amount`,
                                                                 employee_tb.`philhealth_amount`,
-                                                                employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` + employee_tb.`allowance_amount` AS Total_allowanceStandard,
+                                                                employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` AS Total_allowanceStandard,
                                                                 employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` AS Total_deduct_governStANDARD,
                                                                 CONCAT(
                                                                         FLOOR( 
@@ -654,7 +656,7 @@
                                                             FROM
                                                                 employee_tb
                                                             INNER JOIN attendances ON employee_tb.empid = attendances.empid
-                                                            WHERE attendances.status = 'Present' AND employee_tb.empid = $emp_ID
+                                                            WHERE attendances.status = 'Present' AND employee_tb.empid = $emp_ID AND `date` BETWEEN  '$str_date' AND  '$end_date'
                                                                     ";
                                                 $result = $conn->query($sql);
 
@@ -818,7 +820,7 @@
                                                                 employee_tb.`tin_amount`,
                                                                 employee_tb.`pagibig_amount`,
                                                                 employee_tb.`philhealth_amount`,
-                                                                employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` + employee_tb.`allowance_amount` AS Total_allowanceStandard,
+                                                                employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empinternet`  AS Total_allowanceStandard,
                                                                 employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` AS Total_deduct_governStANDARD,
                                                                
                                                                 CONCAT(
@@ -839,11 +841,12 @@
                                                                             SUM(TIME_TO_SEC(attendances.overtime)) / 3600
                                                                         ),
                                                                         ' Hour/s'
-                                                                    ) AS total_hoursOT
+                                                                    ) AS total_hoursOT,
+                                                                COUNT(attendances.`status`) AS Number_of_days_work
                                                             FROM
                                                                 employee_tb
                                                             INNER JOIN attendances ON employee_tb.empid = attendances.empid
-                                                            WHERE attendances.status = 'Present' AND employee_tb.empid = $emp_ID");
+                                                            WHERE attendances.status = 'Present' AND employee_tb.empid = $emp_ID AND `date` BETWEEN  '$str_date' AND  '$end_date'");
                                             
                                             if(mysqli_num_rows($sql_attendanaaa) > 0) {
                                             $row_atteeee= mysqli_fetch_assoc($sql_attendanaaa);
@@ -878,7 +881,41 @@
                             </div>
                             <div class="modal-body" style="height: 640px;">
 
+                           <?php 
+                            $_POST['name_cutOff_freq'];
+                            if ($_POST['name_cutOff_freq'] === 'Monthly'){
+                                $cutoFF_divide = ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) / 2;
+                                //echo $cutoFF_divide;
+ 
+                                 $cutOff_SSS_deduct = $row_atteeee['sss_amount'];
+                                 $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'];
+                                 $cutOff_tin_deduct = $row_atteeee['tin_amount'];
+                                 $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'];
+                                 $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'];
+                             }
+                            else if ($_POST['name_cutOff_freq'] === 'Semi-Month'){
+                               $cutoFF_divide = ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) / 2;
+                               //echo $cutoFF_divide;
+
+                                $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 2;
+                                $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 2;
+                                $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 2;
+                                $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'] / 2;
+                                $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'] / 2;
+                            }
+                            else if ($_POST['name_cutOff_freq'] === 'Weekly'){
+                                $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 4;
+                                $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 4;
+                                $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 4;
+                                $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'] / 4;
+                                $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'] / 4;
+
+                            }
                            
+                           
+                           
+                           ?>
+
                                 <div class="header_view">
                                     <img src="icons/logo_hris.png" width="70px" alt="">
                                     <p class="lbl_cnfdntial">CONFIDENTIAL SLIP</p>
@@ -887,9 +924,9 @@
                                 <div class="div1_mdl">
                                     <p class="comp_name">Slash Tech Solutions Inc.</p>
                                     <p class="lbl_payPeriod">Pay Period :</p>
-                                    <p class="dt_mdl_from">07/01/22</p>
+                                    <p class="dt_mdl_from"><?php echo $str_date; ?></p>
                                     <p class="lbl_to">TO</p>
-                                    <p class="dt_mdl_TO">08/01/22</p>
+                                    <p class="dt_mdl_TO"><?php echo $end_date; ?></p>
 
                                     <p class="lbl_stats">Employee Status :</p>
                                     <p class="p_statss"><?php echo $row_emp['status']; ?></p>
@@ -971,7 +1008,7 @@
                                     <div class="div_mdlcontnt_left2">
                                         <p class="lbl_bsc_pay">Allowance</p>
                                         <p class="p_Thrs"></p>
-                                        <p class="p_Tamount"><?php echo $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']; ?></p>
+                                        <p class="p_Tamount"><?php echo ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) * $row_atteeee['Number_of_days_work']; ?></p>
                                         
 
                                     </div>
@@ -995,11 +1032,11 @@
                                         <p class="hdmf_L">HDMF LOAN</p>
                                     </div>
                                     <div class="div_mdlcontnt_mid_right">
-                                        <p class="lbl_sss_se"><?php echo $row_atteeee['sss_amount']; ?></p>
-                                        <p class="lbl_philhlt_c"><?php echo $row_atteeee['philhealth_amount']; ?></p>
-                                        <p class="lbl_sss_se"><?php echo $row_atteeee['tin_amount']; ?></p>
-                                        <p class="lbl_philhlt_c"><?php echo $row_atteeee['pagibig_amount']; ?></p>
-                                        <p class="lbl_philhlt_c"><?php echo $row_governDeduct['total_sum_othe_deduct']; ?></p>
+                                        <p class="lbl_sss_se"><?php echo $cutOff_SSS_deduct; ?></p>
+                                        <p class="lbl_philhlt_c"><?php echo $cutOff_philhealth_deduct; ?></p>
+                                        <p class="lbl_sss_se"><?php echo $cutOff_tin_deduct ?></p>
+                                        <p class="lbl_philhlt_c"><?php echo $cutOff_pagibig_deduct ?></p>
+                                        <p class="lbl_philhlt_c"><?php echo $cutoff_deductGovern?></p>
                                         <p class="lbl_philhlt_c"><?php echo $UT_LATE_DEDUCT_TOTAL ?></p>
 
                                         <p class="lbl_advnc_p">00.00</p>
@@ -1016,7 +1053,7 @@
                                 <div class="headbdy_pnl33">
                                     <div class="div_mdlcontnt_right">
                                     <p class="p_balance"><?php echo ($row_atteeee['Salary_of_Month'] + ( $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) + $TOTAL_ADD_OT)
-                                        - ( $row_atteeee['sss_amount'] + $row_atteeee['philhealth_amount'] +  $row_atteeee['tin_amount'] +  $row_atteeee['pagibig_amount'] +  $row_governDeduct['total_sum_othe_deduct'] +  $UT_LATE_DEDUCT_TOTAL );
+                                        - ($cutOff_SSS_deduct + $cutOff_philhealth_deduct +  $cutOff_tin_deduct +  $cutOff_pagibig_deduct +  $cutoff_deductGovern +  $UT_LATE_DEDUCT_TOTAL );
                                     ?></p>
                                     
                                     </div>
@@ -1031,7 +1068,7 @@
 
                                 <div class="headbdy_pnl2">
                                     <p class="lbl_deduct">Total Deduction : </p>
-                                    <p class="lbl_Amount2"><?php echo  $row_atteeee['sss_amount'] + $row_atteeee['philhealth_amount'] +  $row_atteeee['tin_amount'] +  $row_atteeee['pagibig_amount'] +  $row_governDeduct['total_sum_othe_deduct'] +  $UT_LATE_DEDUCT_TOTAL ;?></p>
+                                    <p class="lbl_Amount2"><?php echo  $cutOff_SSS_deduct + $cutOff_philhealth_deduct +  $cutOff_tin_deduct +  $cutOff_pagibig_deduct +  $cutoff_deductGovern +  $UT_LATE_DEDUCT_TOTAL ;?></p>
                                 </div>
 
                                 <div class="headbdy_pnl3">

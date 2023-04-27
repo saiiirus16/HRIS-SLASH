@@ -34,12 +34,8 @@
             <!-- <a href="#" class="empList-btn">Create New</a>         -->
                 <div>
                     <?php
-                        $server = "localhost";
-                        $user = "root";
-                        $pass ="";
-                        $database = "hris_db";
-
-                        $conn = mysqli_connect($server, $user, $pass, $database);
+                       include('config.php');
+                       
                         $sql = "SELECT department_name FROM employee_tb";
                         $result = mysqli_query($conn, $sql);
 

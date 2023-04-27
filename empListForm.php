@@ -289,13 +289,27 @@
 
                             <div class="emp-schedule-first-input">
                                 <div class="emp-schedule-accessID">
-                                    <label for="empschedule_type">Schedule Type</label><br>
-                                    <select name="empschedule_type" id="" placeholder="Select Schedule Type">
-                                            <option value="" selected="selected" class="selectTag" style="color: gray;">Select Schedule Type</option>
-                                            <option value="Work From Home">Work From Home</option>
-                                            <option value="Office Base">Office Base</option>
-                                            <option value="Skeletal Base">Skeletal Base</option>
-                                        </select>                                    
+                                <?php
+                                        $server = "localhost";
+                                        $user = "root";
+                                        $pass ="";
+                                        $database = "hris_db";
+
+                                        $conn = mysqli_connect($server, $user, $pass, $database);
+                                        $sql = "SELECT * FROM schedule_tb";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        $options = "";
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $options .= "<option value='". $row['id'] . "'>" .$row['schedule_name'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
+                                        }
+                                        ?>
+
+                                    <label for="schedule_name">Select Schedule Type</label><br>
+                                        <select name="schedule_name" id="" required>
+                                        <option value disabled selected>Select Schedule Type</option>
+                                          <?php echo $options; ?>
+                                        </select>                            
                                 </div>
                                 <div class="emp-schedule-startDate">
                                     <label for="empstart_date">Start Date</label><br>
