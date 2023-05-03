@@ -82,7 +82,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <form action="Data Controller/DTR Employee/dtr_conn.php" method="POST">
+      <form action="Data Controller/DTR Employee/dtr_conn.php" method="POST" enctype="multipart/form-data">
       <div class="modal-body">
       
         <div class="mb-3">
@@ -107,12 +107,12 @@
 
         <div class="mb-3">
             <label for="exampleInputDate" class="form-label">Date</label>
-            <input name="date" type="date" class="form-control" id="date_input" required>
+            <input name="date_dtr" type="date" class="form-control" id="date_input" required>
         </div>
 
         <div class="mb-3">
             <label for="exampleInputTime" class="form-label">Time</label>
-            <input name="time" type="time" class="form-control" id="time_input" required>
+            <input name="time_dtr" type="time" class="form-control" id="time_input" required>
         </div>
 
         <div class="mb-3">
@@ -131,12 +131,11 @@
         
          <div class="input-group mb-3">
                  <input type="file" name="file_upload" class="form-control" id="inputGroupFile02">
-                 <label class="input-group-text"  for="inputGroupFile02" required>Upload</label>
           </div>
       </div> <!--Modal body div close tag-->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         <button type="submit" name="add_data" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
       </form>
 
@@ -191,6 +190,32 @@
   </div>
 </div>
 <!---------------------------------------View Modal End Here --------------------------------------->
+
+<!---------------------------------------Download Modal Start Here -------------------------------------->
+<div class="modal fade" id="download_dtr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="actions/DTR Correction/download_dtr.php" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="table_id" id="id_table">
+        <input type="hidden" name="table_name" id="name_table">
+        <h3>Are you sure you want download the PDF File?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="yes_dl" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------Download Modal End Here --------------------------------------->
 
 
 <!----------------------------------------------Class in overall design--------------------------------------------------------->
@@ -265,6 +290,7 @@
                                                 <th>Time</th>
                                                 <th>Type</th>
                                                 <th>Reason</th>
+                                                <th>File Attachment</th>
                                                 <th style="display: none;">View Button</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -273,7 +299,6 @@
 
                                             <tbody>
                                                 <?php 
-
                                                     $conn = mysqli_connect("localhost","root","","hris_db");
 
                                                     $query = "SELECT
@@ -288,10 +313,11 @@
                                                     emp_dtr_tb.time,
                                                     emp_dtr_tb.type,
                                                     emp_dtr_tb.reason,
+                                                    emp_dtr_tb.file_attach,
                                                     emp_dtr_tb.status
                                                 FROM
                                                     employee_tb
-                                                INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.emp_id;";
+                                                INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.empid;";
                                                     $result = mysqli_query($conn, $query);
                                                     while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
@@ -304,6 +330,13 @@
                                                                 <td><?php echo $row['type']?></td>
                                                                 <td  style="display: none;"><?php echo $row['reason'];?></td>
                                                                 <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_dtr_modal">View</a></td>
+                                                                <?php if(!empty($row['file_attach'])): ?>
+                                                                <td>
+                                                                <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_dtr">Download</button>
+                                                                </td>
+                                                                <?php else: ?>
+                                                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
+                                                                <?php endif; ?>
                                                                 <td> 
                                                                     <p><?php echo $row['status']?></p>
                                                                 </td>
@@ -357,13 +390,42 @@
 
                     console.log(data);
 
-                    $('#delete_id').val(data[0]);
-                    
-
+                    $('#delete_id').val(data[0]);                  
                 });
             });
         </script>
 <!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
+
+<!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>
+<script>
+  document.getElementById('inputfile').addEventListener('change', function(event) {
+    var fileInput = event.target;
+    var file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Please select a PDF file.');
+      fileInput.value = ''; // Clear the file input field
+    }
+  });
+</script>
+<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+
+<!------------------------------------Script para sa download modal------------------------------------------------->
+<script>
+     $(document).ready(function(){
+               $('.downloadbtn').on('click', function(){
+                 $('#download').modal('show');
+                      $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#id_table').val(data[0]);
+                   $('#name_table').val(data[2]);
+               });
+             });
+</script>
+<!---------------------------------End ng Script para download modal------------------------------------------>
 
 <!-----------------------Script para sa automatic na pagdisapper ng alert message------------------------------->
 <!-- <script>

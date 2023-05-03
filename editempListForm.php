@@ -38,9 +38,7 @@
         header ("Location: EmployeeList.php");
     }
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
-    $row = mysqli_fetch_assoc($result);
-    
-    
+    $row = mysqli_fetch_assoc($result);  
 ?>
 
 <!DOCTYPE html>

@@ -31,4 +31,3 @@ searchBar.addEventListener("input", () => {
    }
   }
 });
-

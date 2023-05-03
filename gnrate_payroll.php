@@ -34,6 +34,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h2 class="head_text">Generate Payroll</h2>
+                             
+                           
 
                             <div class="row">
                     
@@ -151,8 +153,25 @@
                                                 <?php 
                                         include 'config.php';
                                         //select data db
+                                        $cutOffID = $_POST['name_btnview'];
 
-                                            
+                                        $result_cutOff= mysqli_query($conn, "SELECT
+                                            *  
+                                        FROM
+                                            `cutoff_tb`
+                                        WHERE col_ID = $cutOffID");
+                                        if(mysqli_num_rows($result_cutOff) > 0) {
+                                        $row_cutoff= mysqli_fetch_assoc($result_cutOff);
+                                        $str_date =  $row_cutoff['col_startDate'];
+                                        $end_date =  $row_cutoff['col_endDate'];
+                                        $cut_off_freq =  $row_cutoff['col_frequency'];
+                                            echo '<input type="text" name="name_cutOff_str"  value="'. $str_date .'" style="display: none;">';
+                                            echo '<input type="text" name="name_cutOff_end"  value="'. $end_date .'" style="display: none;">';
+                                            echo '<input type="text" name="name_cutOff_freq"  value="'. $cut_off_freq .'" style="display: none;">';
+                                        } else {
+                                            echo "No results found.";
+                                        }
+         
                                         $sql = "SELECT
                                                     employee_tb.`empid`,
                                                     CONCAT(
@@ -167,7 +186,7 @@
                                                 FROM
                                                     employee_tb
                                                 INNER JOIN attendances ON employee_tb.empid = attendances.empid
-                                                WHERE attendances.status = 'Present'
+                                                WHERE attendances.status = 'Present' AND `attendances`.`date` BETWEEN  '$str_date' AND  '$end_date'
                                                 GROUP BY
                                                     employee_tb.`empid`,
                                                     `full_name`;
