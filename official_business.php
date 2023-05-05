@@ -267,7 +267,7 @@ session_start();
                                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
                                                 </td>
                                                 <?php else: ?>
-                                                <td></td> <!-- Show an empty cell if there is no file attachment -->
+                                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                                 <?php endif; ?>
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>

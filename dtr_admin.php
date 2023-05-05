@@ -63,6 +63,7 @@
     .content-wrapper{
          width: 85%
     }
+    
 </style>
 
 
@@ -265,9 +266,7 @@
                                         <?php else: ?>
                                         <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                         <?php endif; ?>
-                                        <td> 
-                                        <label class=""><?php echo $row['status'];?></label>
-                                        </td>
+                                        <td><?php echo $row['status'];?></td>
                                         <td>
                                         <button type="submit" name="approve_btn" class="btn btn-outline-success viewbtn">Approve</button>
                                         <button type="submit" name="reject_btn" class="btn btn-outline-danger viewbtn">Reject</button>
@@ -403,7 +402,7 @@
                    $('#view_emp_type').val(data[5]);
                    $('#view_employee_r').val(data[6]);
                    $('#view_emp_file').val(data[8]);
-                   var status = $tr.find('td:eq(9) p').text();
+                   var status = $tr.find('td:eq(9)').text();
                    $('#view_emp_stats').val(status);
                });
              });

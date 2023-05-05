@@ -116,7 +116,7 @@
                     </ul>
                 </li>
 
-                <li><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
+                <li style="display: none;"><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
                     <ul class="sett-dd-show">
                         <li><a href="official_emp.php">OFFICIAL</a></li>
                         <li><a href="dtr_emp.php">DTR EMPLOYEE</a></li>

@@ -274,7 +274,7 @@ session_start();
                                                  <!---------------------------------- BREAK ------------------------------>
 
                                                 <div class="mt-3">
-                                                    <label for="formFileMultiple" class="form-label fs-4">Attach File :</label>
+                                                    <label for="formFileMultiple" class="form-label fs-4">Attach File:</label>
                                                     <input class="form-control" name="name_file" type="file" id="formFileMultiple" multiple required>
                                                 </div>
 
