@@ -6,6 +6,7 @@ include '../../config.php';
      if(isset($_POST['name_approved'])){
 
         $IDLEAVE_TABLE = $_SESSION["ID_applyleave"];
+        $approver = $_SESSION["username"];
        
 //Para sa pag select ng mga data galing sa APPLYLEAVE TABLE
         $result = mysqli_query($conn, " SELECT
@@ -49,6 +50,9 @@ if($row['col_status'] === 'Approved' ){
 else if($row['col_status'] === 'Rejected' ){
     header("Location: ../../leavereq.php?error=You cannot APPROVED a request that is already REJECTED");
 }
+else if($row['col_status'] === 'Cancelled'){
+    header("Location: ../../leavereq.php?error=You cannot REJECT a request that is already CANCELLED");
+    }
 else{
 
 //--------------------------------------------PARA SA PAG MINUS NG CREDITS IF firsthalf HALfDAY-------------------------------------------------
@@ -222,7 +226,7 @@ else{
                                         VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
                                           if(mysqli_query($conn,$sql2))
                                           {
-                                            $sql3 ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime' WHERE col_ID = $IDLEAVE_TABLE";
+                                            $sql3 ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
                                             $query_run = mysqli_query($conn, $sql3);
                                 
                                 
@@ -423,7 +427,7 @@ else{
                                         VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
                                           if(mysqli_query($conn,$sql2))
                                           {
-                                            $sql3 ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime' WHERE col_ID = $IDLEAVE_TABLE";
+                                            $sql3 ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
                                             $query_run = mysqli_query($conn, $sql3);
                                 
                                 
@@ -717,7 +721,7 @@ else{
                                 VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
                                   if(mysqli_query($conn,$sql1))
                                   {
-                                    $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime' WHERE col_ID = $IDLEAVE_TABLE";
+                                    $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
                                     $query_run = mysqli_query($conn, $sql);
                         
                         
@@ -772,7 +776,7 @@ else{
          VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
            if(mysqli_query($conn,$sql1))
            {
-             $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime' WHERE col_ID = $IDLEAVE_TABLE";
+             $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
              $query_run = mysqli_query($conn, $sql);
  
  

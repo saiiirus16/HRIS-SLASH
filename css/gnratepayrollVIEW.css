@@ -1,53 +1,53 @@
 .header_view{
-    background-color: #FFFFFF;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-bottom: 1px solid #E7DEDE ;
-    
-}
-.lbl_cnfdntial{
-  background-color: #FFFFFF;
-  font-size: 10px;
-  color: #BABBBF;
-  position: absolute;
-  right: 10px;
-}
-.div1_mdl{
   background-color: #FFFFFF;
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
   align-items: center;
+  border-bottom: 1px solid #E7DEDE ;
+  
+}
+.lbl_cnfdntial{
+background-color: #FFFFFF;
+font-size: 10px;
+color: #BABBBF;
+position: absolute;
+right: 10px;
+}
+.div1_mdl{
+background-color: #FFFFFF;
+display: flex;
+flex-direction: row;
+margin-top: 10px;
+align-items: center;
 }
 .comp_name{
-  background-color: #FFFFFF;
-  color: #656464;
-  font-size: small;
+background-color: #FFFFFF;
+color: #656464;
+font-size: small;
 }
 .lbl_payPeriod{
-  background-color: #FFFFFF;
-  color: #656464;
-  font-size: small;
-  margin-left: 100px;
+background-color: #FFFFFF;
+color: #656464;
+font-size: small;
+margin-left: 100px;
 }
 .dt_mdl_from{
-  background-color: #FFFFFF;
-  color: #4B49AC;
-  font-size: small;
-  margin-left: 10px;
+background-color: #FFFFFF;
+color: #4B49AC;
+font-size: small;
+margin-left: 10px;
 }
 .lbl_to{
-  background-color: #FFFFFF;
-  color: #656464;
-  font-size: small;
-  margin-left: 5px;
-  margin-right: 5px;
+background-color: #FFFFFF;
+color: #656464;
+font-size: small;
+margin-left: 5px;
+margin-right: 5px;
 }
 .dt_mdl_TO{
-  background-color: #FFFFFF;
-  color: #4B49AC;
-  font-size: small;
+background-color: #FFFFFF;
+color: #4B49AC;
+font-size: small;
 }
 .lbl_stats{
 background-color: #FFFFFF;
@@ -114,16 +114,16 @@ position: relative;
 
 }
 .headbdy_pnl1{
-    background-color: transparent;
-    flex-direction: row;
-    display: flex;
-    float: left;
-    align-items: center;
-    text-align: center;
-    border-right: 1px solid #9E9E9E;
-    border-bottom: 1px solid #9E9E9E;
-    padding: 10px;
-    width: 35%;
+  background-color: transparent;
+  flex-direction: row;
+  display: flex;
+  float: left;
+  align-items: center;
+  text-align: center;
+  border-right: 1px solid #9E9E9E;
+  border-bottom: 1px solid #9E9E9E;
+  padding: 10px;
+  width: 35%;
 }
 .lbl_sss{
 background-color: transparent;
@@ -282,17 +282,17 @@ text-align: center;
 width: 30%;
 }
 .lbl_Balance{
- background-color: transparent;
+background-color: transparent;
 color: #656464;
 font-size: small;
 margin: auto;
 }
 
 .headbody3{
-background-color: #ffffff;
-flex-direction: row;
-display: flex;
-height: 320px;
+  background-color: #ffffff;
+  flex-direction: row;
+  display: flex;
+  height: 420px;
 }
 
 .headbdy_pnl11{
@@ -313,21 +313,21 @@ flex-direction: row;
 display: flex;
 }
 .div_mdlcontnt_left1{ /* para sa allowance */
+background-color: transparent;
+color: #656464;
+font-size: small;
+flex-direction: row;
+display: flex;
+margin-top: 30px;
+}
+.div_mdlcontnt_left2{ /* para sa overtime */
   background-color: transparent;
   color: #656464;
   font-size: small;
   flex-direction: row;
   display: flex;
-  margin-top: 30px;
+  margin-top: 60px;
   }
-  .div_mdlcontnt_left2{ /* para sa overtime */
-    background-color: transparent;
-    color: #656464;
-    font-size: small;
-    flex-direction: row;
-    display: flex;
-    margin-top: 60px;
-    }
 .lbl_bsc_pay{
 background-color: transparent;
 position: fixed;
