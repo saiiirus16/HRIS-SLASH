@@ -219,6 +219,7 @@ if(!empty($_GET['status'])){
                                     </thead>
                             <tbody>
                             <?php
+                            include 'config.php';
                             $result = $conn->query("SELECT * FROM daily_time_records_tb ORDER BY id DESC");
                             if($result->num_rows > 0){
                                 while($row = $result->fetch_assoc()){

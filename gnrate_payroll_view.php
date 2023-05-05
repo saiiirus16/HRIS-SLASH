@@ -46,28 +46,7 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <h2 class="head_text">Please select date of range to generate: </h2>
-
-                <div class="row">
-                    <div class="col-6">
-                        <div class="mb-1">
-                            <label for="id_strdate" class="form-label">Date Range :</label>
-                            <form class="form-floating">
-                                <input type="date" class="form-control" id="id_inpt_strdate" style=' height: 50px; width: 400px;cursor: pointer;' >
-                                <label for="id_inpt_strdate">Start Date :</label>
-                            </form>
-                        </div> <!-- mb-1 end-->
-                    </div> <!-- col-6 end-->
-                    <div class="col-6">
-                        <div class="mb-1">
-                            <label for="id_strdate" class="form-label"></label>
-                            <form class="form-floating">
-                                <input type="date" class="form-control" id="id_inpt_strdate" style=' height: 50px; width: 400px;cursor: pointer;' >
-                                <label for="id_inpt_strdate">End Date :</label>
-                            </form>
-                        </div> <!-- mb-1 end-->
-                    </div> <!-- col-6 end-->
-                </div> <!-- ROW end-->
+            
 
 
                         <!--------------------------------------- Break ----------------------------------------->
@@ -115,6 +94,7 @@
                                                     $str_date = $_POST['name_cutOff_str'];
                                                     $end_date = $_POST['name_cutOff_end'];
                                                     $freq_date = $_POST['name_cutOff_freq'];
+                                                    $freq_date = $_POST['name_cutOff_num'];
                                                     //para sa pag select sa empschedule base sa empid 
                                                     $sql_empSched = mysqli_query($conn, " SELECT
                                                                                                     *  
@@ -767,38 +747,48 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Code</th>
-                                                            <th>Amount</th> 
-                                                            <th>Total</th> 
+                                                            <th>Payable Amount</th> 
+                                                            <th>Amortization</th>
+                                                            <th>Payable Balance</th> 
+                                                            <th>CutOff</th> 
+                                                            <th>Applied Cutoff</th> 
+                                                            <th>Loan Status</th>
+                                                            <th>Loan Date</th> 
+                                                            <th>Date Applied</th> 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
 
                                                     <?php 
-                                            include 'config.php';
-                                            //select data db
+                                                        include 'config.php';
+                                                        //select data db
 
 
-                                            $sql = "SELECT
-                                                        *
-                                                    FROM
-                                                        employee_tb
-                                                    INNER JOIN allowancededuct_tb ON employee_tb.empid = allowancededuct_tb.id_emp
-                                                    WHERE employee_tb.empid = $emp_ID
-                                                    Group By employee_tb.empid
-                                                ";
-                                        $result = $conn->query($sql);
-                                    
-                                            //read data
-                                            while($row = $result->fetch_assoc()){
-                                                echo "<tr>
-                                                        <td>0</td>
-                                                        <td>0</td>   
-                                                        <td>
+                                                        $sql = "SELECT
+                                                                    *
+                                                                FROM
+                                                                    payroll_loan_tb
                                                             
-                                                        </td>                                           
-                                                     </tr>"; 
-                                            }
-                                            ?>  
+                                                                WHERE empid = $emp_ID
+                                                                
+                                                            ";
+                                                    $result = $conn->query($sql);
+                                                
+                                                        //read data
+                                                        while($row = $result->fetch_assoc()){
+                                                            echo "<tr>
+                                                                    <td>" . $row['loan_type'] . "</td>
+                                                                    <td>" . $row['payable_amount'] . "</td>   
+                                                                    <td>" . $row['amortization'] . "</td>       
+                                                                    <td>" . $row['col_BAL_Amount'] . "</td>       
+                                                                    <td>" . $row['cutoff_no'] . "</td>   
+                                                                    <td>" . $row['applied_cutoff'] . "</td>  
+                                                                    <td>" . $row['loan_status'] . "</td> 
+                                                                    <td>" . $row['loan_date'] . "</td>     
+                                                                    <td>" . $row['timestamp'] . "</td>                                          
+                                                                </tr>"; 
+                                                        }
+                                                    ?>  
                                 
                                         </tbody>
                                     </table>
@@ -871,229 +861,297 @@
                                         $row_addAllowance = mysqli_fetch_assoc($result_allowance);
                                                                                                         ?>
 
-                <!-- Modal -->
+                <!-- Modal PAYSLIP -->
                 <div class="modal fade"  id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" >
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">PAYSLIP</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="height: 640px;">
-
-                           <?php 
-                            $_POST['name_cutOff_freq'];
-                            if ($_POST['name_cutOff_freq'] === 'Monthly'){
-                                $cutoFF_divide = ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) / 2;
-                                //echo $cutoFF_divide;
- 
-                                 $cutOff_SSS_deduct = $row_atteeee['sss_amount'];
-                                 $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'];
-                                 $cutOff_tin_deduct = $row_atteeee['tin_amount'];
-                                 $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'];
-                                 $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'];
-                             }
-                            else if ($_POST['name_cutOff_freq'] === 'Semi-Month'){
-                               $cutoFF_divide = ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) / 2;
-                               //echo $cutoFF_divide;
-
-                                $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 2;
-                                $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 2;
-                                $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 2;
-                                $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'] / 2;
-                                $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'] / 2;
-                            }
-                            else if ($_POST['name_cutOff_freq'] === 'Weekly'){
-                                $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 4;
-                                $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 4;
-                                $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 4;
-                                $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'] / 4;
-                                $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'] / 4;
-
-                            }
-                           
-                           
-                           
-                           ?>
-
-                                <div class="header_view">
-                                    <img src="icons/logo_hris.png" width="70px" alt="">
-                                    <p class="lbl_cnfdntial">CONFIDENTIAL SLIP</p>
+                    <div class="modal-dialog modal-xl" style=" margin-top: 60px;">
+                        <form action="generate-pdf.php" method="post">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">PAYSLIP</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
+                                <div class="modal-body" style="height: 700px;">
 
-                                <div class="div1_mdl">
-                                    <p class="comp_name">Slash Tech Solutions Inc.</p>
-                                    <p class="lbl_payPeriod">Pay Period :</p>
-                                    <p class="dt_mdl_from"><?php echo $str_date; ?></p>
-                                    <p class="lbl_to">TO</p>
-                                    <p class="dt_mdl_TO"><?php echo $end_date; ?></p>
+                                <?php 
+                                    $_POST['name_cutOff_freq'];
+                                    if ($_POST['name_cutOff_freq'] === 'Monthly'){
+                                        $cutoFF_divide = ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) / 2;
+                                        //echo $cutoFF_divide;
+        
+                                        $cutOff_SSS_deduct = $row_atteeee['sss_amount'];
+                                        $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'];
+                                        $cutOff_tin_deduct = $row_atteeee['tin_amount'];
+                                        $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'];
+                                        $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'];
+                                    }
+                                    else if ($_POST['name_cutOff_freq'] === 'Semi-Month'){
+                                    $cutoFF_divide = ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) / 2;
+                                    //echo $cutoFF_divide;
 
-                                    <p class="lbl_stats">Employee Status :</p>
-                                    <p class="p_statss"><?php echo $row_emp['status']; ?></p>
-                                </div>
+                                        $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 2;
+                                        $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 2;
+                                        $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 2;
+                                        $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'] / 2;
+                                        $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'] / 2;
+                                    }
+                                    else if ($_POST['name_cutOff_freq'] === 'Weekly'){
+                                        $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 4;
+                                        $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 4;
+                                        $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 4;
+                                        $cutOff_pagibig_deduct = $row_atteeee['pagibig_amount'] / 4;
+                                        $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'] / 4;
 
-                                <div class="div1_mdl">
-                                    <p class="emp_no">EMPLOYEE NO.   :</p>
-                                    <p class="p_empid"> <?php echo $emp_ID ?></p>
-                                    <p class="p_payout">Payout        :</p>
-                                    <p class="dt_pyout"><?php
-                                                            date_default_timezone_set('Asia/Manila');
-                                                            $current_date = date('Y / m / d');
-                                                            echo $current_date;
-                                                        ?>
-                                    </p>
-                                </div>
+                                    }
+                            
+                            
+                            
+                            ?>
 
-                                <div class="div1_mdl">
-                                    <p class="emp_name">EMPLOYEE NAME  :</p>
-                                    <p class="p_emp_name"><?php echo $row_emp['full_name']; ?></p>
-                                </div>
+                                    <div class="header_view">
+                                        <img src="icons/logo_hris.png" width="70px" alt="">
+                                        <p class="lbl_cnfdntial">CONFIDENTIAL SLIP</p>
+                                    </div>
 
-                                <div class="headbody">
-                                <div class="headbdy_pnl1">
-                                    <p class="lbl_sss">SSS # : </p>
-                                    <p class="p_sss"><?php echo $row_emp['empsss']; ?></p>
-                                    <p class="lbl_tin">Tin : </p>
-                                    <p class="p_tin"><?php echo $row_emp['emptin']; ?></p>
-                                </div>
+                                    <div class="div1_mdl">
+                                        <p class="comp_name">Slash Tech Solutions Inc.</p>
+                                        <p class="lbl_payPeriod">Pay Period :</p>
+                                        <p class="dt_mdl_from"><?php echo $str_date; ?></p>
+                                        <p class="lbl_to">TO</p>
+                                        <p class="dt_mdl_TO"><?php echo $end_date; ?></p>
 
-                                <div class="headbdy_pnl2">
-                                    <p class="lbl_phl">PHILHEALTH # :</p>
-                                    <P class="p_phl"><?php echo $row_emp['empphilhealth']; ?></P>
-                                </div>
+                                        <p class="lbl_stats">Employee Status :</p>
+                                        <p class="p_statss"><?php echo $row_emp['status']; ?></p>
+                                    </div>
 
-                                <div class="headbdy_pnl3">
-                                    <p class="lbl_pgibg">PAG-IBIG # :</p>
-                                    <P class="p_pgibg"><?php echo $row_emp['emppagibig']; ?></P>
-                                </div>
+                                    <div class="div1_mdl">
+                                        <p class="emp_no">EMPLOYEE NO.   :</p>
+                                        <p class="p_empid"> <?php echo $emp_ID ?></p>
+                                        <p class="p_payout">Payout        :</p>
+                                        <p class="dt_pyout"><?php
+                                                                date_default_timezone_set('Asia/Manila');
+                                                                $current_date = date('Y / m / d');
+                                                                echo $current_date;
+                                                            ?>
+                                        </p>
+                                    </div>
 
-                                </div>
+                                    <div class="div1_mdl">
+                                        <p class="emp_name">EMPLOYEE NAME  :</p>
+                                        <p class="p_emp_name"> <?php echo $row_emp['full_name']; ?> </p>
+                                    </div>
 
-                                <div class="headbody2">
-                                <div class="headbdy_pnl1">
-                                    <p class="lbl_earnings">Earnings</p>
-                                    <p class="lbl_Hours">Hours</p>
-                                    <p class="lbl_Amount">Amount</p>
-                                </div>
+                                    <div class="headbody">
+                                    <div class="headbdy_pnl1">
+                                        <p class="lbl_sss"> </p>
+                                        <p class="p_sss"></p>
+                                        <p class="lbl_tin"></p>
+                                        <p class="p_tin"></p>
+                                    </div>
 
-                                <div class="headbdy_pnl2">
-                                    <p class="lbl_deduct">Deduction</p>
-                                    <p class="lbl_Amount2">Amount</p>
-                                </div>
+                                    <div class="headbdy_pnl2">
+                                        <p class="lbl_phl"></p>
+                                        <P class="p_phl"></P>
+                                    </div>
 
-                                <div class="headbdy_pnl3">
-                                    <p class="lbl_Balance">NET PAY</p>
-                                </div>
-
-                                </div>
-
-                                <div class="headbody3">
-                                <div class="headbdy_pnl11">
-                                    <div class="div_mdlcontnt_left">
-                                        <p class="lbl_bsc_pay">Basic Pay</p>
-                                        <p class="p_Thrs"><?php echo $row_atteeee['total_hoursWORK']; ?></p>
-                                        <p class="p_Tamount"><?php echo $row_atteeee['Salary_of_Month']; ?></p>
-                                        
+                                    <div class="headbdy_pnl3">
+                                        <p class="lbl_pgibg"></p>
+                                        <P class="p_pgibg"></P>
+                                    </div>
 
                                     </div>
 
-                                    <div class="div_mdlcontnt_left1">
-                                        <p class="lbl_bsc_pay">Overtime Pay</p>
-                                        <p class="p_Thrs"><?php echo $row_atteeee['total_hoursOT']; ?></p>
-                                        <p class="p_Tamount"><?php echo $TOTAL_ADD_OT; ?></p>
-                                        
+                                    <div class="headbody2">
+                                    <div class="headbdy_pnl1">
+                                        <p class="lbl_earnings">Earnings</p>
+                                        <p class="lbl_Hours">Hours</p>
+                                        <p class="lbl_Amount">Amount</p>
+                                    </div>
+
+                                    <div class="headbdy_pnl2">
+                                        <p class="lbl_deduct">Deduction</p>
+                                        <p class="lbl_Amount2">Amount</p>
+                                    </div>
+
+                                    <div class="headbdy_pnl3">
+                                        <p class="lbl_Balance">NET PAY</p>
+                                    </div>
 
                                     </div>
 
-                                    <div class="div_mdlcontnt_left2">
-                                        <p class="lbl_bsc_pay">Allowance</p>
-                                        <p class="p_Thrs"></p>
-                                        <p class="p_Tamount"><?php echo ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) * $row_atteeee['Number_of_days_work']; ?></p>
-                                        
+                                    <div class="headbody3">
+                                    <div class="headbdy_pnl11">
+                                        <div class="div_mdlcontnt_left">
+                                            <p class="lbl_bsc_pay">Basic Pay</p>
+                                            <p class="p_Thrs"><?php echo $row_atteeee['total_hoursWORK']; ?></p>
+                                            <p class="p_Tamount"><?php echo $row_atteeee['Salary_of_Month']; ?></p>
+                                            
 
-                                    </div>
-                                   
-                                </div>
+                                        </div>
 
-                                <div class="headbdy_pnl22">
-                                    <div class="div_mdlcontnt_mid">
-                                    <div class="div_mdlcontnt_mid_left">
-                                        <p class="lbl_sss_se">SSS SE CONTRI</p>
-                                        <p class="lbl_philhlt_c">PHILHEALTH CONTRI</p>
-                                        <p class="lbl_sss_se">TIN CONTRI</p>
-                                        <p class="lbl_philhlt_c">PAGIBIG CONTRI</p>
-                                        <p class="lbl_hdmf">OTHER CONTRI</p>
-                                        <p class="lbl_hdmf">Late & Undertime</p>
-                                        
+                                        <div class="div_mdlcontnt_left1">
+                                            <p class="lbl_bsc_pay">Overtime Pay</p>
+                                            <p class="p_Thrs"><?php echo $row_atteeee['total_hoursOT']; ?></p>
+                                            <p class="p_Tamount"><?php echo $TOTAL_ADD_OT; ?></p>
+                                            
 
-                                        <p class="lbl_advnc_p">ADVANCE PAYMENT</p>
-                                        <p class="lbl_sssL">SSS LOAN</p>
-                                        <p class="phlhlt_L">PHILHEALTH LOAN</p>
-                                        <p class="hdmf_L">HDMF LOAN</p>
-                                    </div>
-                                    <div class="div_mdlcontnt_mid_right">
-                                        <p class="lbl_sss_se"><?php echo $cutOff_SSS_deduct; ?></p>
-                                        <p class="lbl_philhlt_c"><?php echo $cutOff_philhealth_deduct; ?></p>
-                                        <p class="lbl_sss_se"><?php echo $cutOff_tin_deduct ?></p>
-                                        <p class="lbl_philhlt_c"><?php echo $cutOff_pagibig_deduct ?></p>
-                                        <p class="lbl_philhlt_c"><?php echo $cutoff_deductGovern?></p>
-                                        <p class="lbl_philhlt_c"><?php echo $UT_LATE_DEDUCT_TOTAL ?></p>
+                                        </div>
 
-                                        <p class="lbl_advnc_p">00.00</p>
-                                        <p class="lbl_sssL">----</p>
-                                        <p class="phlhlt_L">----</p>
-                                        <p class="hdmf_L">----</p>
-                                    </div>
-                                        
+                                        <div class="div_mdlcontnt_left2">
+                                            <p class="lbl_bsc_pay">Allowance</p>
+                                            <p class="p_Thrs"></p>
+                                            <p class="p_Tamount"><?php echo ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) * $row_atteeee['Number_of_days_work']; ?></p>
+                                            
+
+                                        </div>
                                     
                                     </div>
-                                    
-                                </div>
 
-                                <div class="headbdy_pnl33">
-                                    <div class="div_mdlcontnt_right">
-                                    <p class="p_balance"><?php echo ($row_atteeee['Salary_of_Month'] + ( $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) + $TOTAL_ADD_OT)
-                                        - ($cutOff_SSS_deduct + $cutOff_philhealth_deduct +  $cutOff_tin_deduct +  $cutOff_pagibig_deduct +  $cutoff_deductGovern +  $UT_LATE_DEDUCT_TOTAL );
-                                    ?></p>
-                                    
+                                    <div class="headbdy_pnl22">
+                                        <div class="div_mdlcontnt_mid">
+                                        <div class="div_mdlcontnt_mid_left">
+                                            <p class="lbl_sss_se">SSS SE CONTRI</p>
+                                            <p class="lbl_philhlt_c">PHILHEALTH CONTRI</p>
+                                            <p class="lbl_sss_se">TIN CONTRI</p>
+                                            <p class="lbl_philhlt_c">PAGIBIG CONTRI</p>
+                                            <p class="lbl_hdmf">OTHER CONTRI</p>
+                                            <p class="lbl_hdmf">Late & Undertime</p>
+                                            
+
+                                            <p class="lbl_advnc_p">
+                                                <?php 
+
+
+                                                    //dapat if first cutoff ang naka lagay ay dapat sa 1 cutoff lang siya ma view same sa last cutoff
+                                                    $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' ";
+                                                    $result = $conn->query($query);
+
+                                                    // Check if any rows are fetched
+                                                    if ($result->num_rows > 0) 
+                                                    {
+                                                    
+                                                        while($row = $result->fetch_assoc()) 
+                                                        {
+                                                            echo $loan_type = $row["loan_type"] . '<br>';             
+                                                        
+                                                        } //end while 
+                                                
+                                                    }
+                                                ?>
+                                            </p>
+                                            <!-- <p class="lbl_sssL">SSS LOAN</p>
+                                            <p class="phlhlt_L">PHILHEALTH LOAN</p>
+                                            <p class="hdmf_L">HDMF LOAN</p>
+                                            <p class="lbl_advnc_p">ADVANCE PAYMENT</p>
+                                            <p class="lbl_sssL">SSS LOAN</p>
+                                            <p class="phlhlt_L">PHILHEALTH LOAN</p>
+                                            <p class="hdmf_L">HDMF LOAN</p> -->
+                                        </div>
+                                        <div class="div_mdlcontnt_mid_right">
+                                            <p class="lbl_sss_se"><?php echo $cutOff_SSS_deduct; ?></p>
+                                            <p class="lbl_philhlt_c"><?php echo $cutOff_philhealth_deduct; ?></p>
+                                            <p class="lbl_sss_se"><?php echo $cutOff_tin_deduct ?></p>
+                                            <p class="lbl_philhlt_c"><?php echo $cutOff_pagibig_deduct ?></p>
+                                            <p class="lbl_philhlt_c"><?php echo $cutoff_deductGovern?></p>
+                                            <p class="lbl_philhlt_c"><?php echo $UT_LATE_DEDUCT_TOTAL ?></p>
+
+                                            <p class="lbl_advnc_p">
+                                                <?php 
+                                                    $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' ";
+                                                    $result = $conn->query($query);
+
+                                                    // Check if any rows are fetched
+                                                    if ($result->num_rows > 0) 
+                                                    {
+                                                    
+                                                          //$ammortizationArray = array(); // Array to store the dates
+                                                    
+                                                        // Loop through each row
+                                                        while($row = $result->fetch_assoc()) 
+                                                        {
+                                                        
+                                                            echo $loan_amortization = $row["amortization"] . '<br>';             
+                                                        
+                                                            //$ammortizationArray[] = array('ammortization' => $loan_amortization); // Append the fetched date and late and Undertime and Overtime value to the array
+                                                            
+                                                        } //end while
+                                                
+                                                    }
+                                                ?>
+                                            </p>
+                                            <!-- <p class="lbl_sssL">----</p>
+                                            <p class="phlhlt_L">----</p>
+                                            <p class="hdmf_L">----</p>
+                                            <p class="lbl_advnc_p">00.00</p>
+                                            <p class="lbl_sssL">----</p>
+                                            <p class="phlhlt_L">----</p>
+                                            <p class="hdmf_L">----</p> -->
+                                        </div>
+                                            
+                                        
+                                        </div>
+                                        
                                     </div>
+
+                                    <?php 
+                                        $result_loanDeduct = mysqli_query($conn, " SELECT
+                                        SUM(amortization) AS total_sum_loan_deduct 
+                                        FROM 
+                                        `payroll_loan_tb`
+                                        WHERE `empid`=  '$emp_ID' AND loan_status != 'PAID'");
+                                        $row_loanDeduct = mysqli_fetch_assoc($result_loanDeduct);
+                                    ?>
+                                    <input type="hidden" name="name_empID" value="<?php  echo $emp_ID ?>">
+
+                                    <div class="headbdy_pnl33">
+                                        <div class="div_mdlcontnt_right">
+                                        <p class="p_balance">
+                                            <?php echo ($row_atteeee['Salary_of_Month'] + ( $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) + $TOTAL_ADD_OT)
+                                                - ($cutOff_SSS_deduct + $cutOff_philhealth_deduct +  $cutOff_tin_deduct +  $cutOff_pagibig_deduct +  $cutoff_deductGovern +  $UT_LATE_DEDUCT_TOTAL + $row_loanDeduct['total_sum_loan_deduct'] );
+                                            ?>
+                                        </p>
+                                        
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="headbody2">
+                                    <div class="headbdy_pnl1">
+                                        <p class="lbl_earnings">Total Earnings :</p>
+                                        <p class="lbl_Hours"><?php echo $row_atteeee['Salary_of_Month'] + ( $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) + $TOTAL_ADD_OT; ?></p>
+                                    </div>
+                                
+
+                                    
+
+                                
+
+                                    <div class="headbdy_pnl2">
+                                        <p class="lbl_deduct">Total Deduction : </p>
+                                        <p class="lbl_Amount2"><?php echo $cutOff_SSS_deduct + $cutOff_philhealth_deduct +  $cutOff_tin_deduct +  $cutOff_pagibig_deduct +  $cutoff_deductGovern +  $UT_LATE_DEDUCT_TOTAL + $row_loanDeduct['total_sum_loan_deduct'];?></p>
+                                    </div>
+
+                                    <div class="headbdy_pnl3">
+                                        <!-- <p class="lbl_deduct">Net Total : </p> -->
+                                        <p class="lbl_Balance"><?php //echo ($row_atteeee['Salary_of_Month'] + ( $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) + $TOTAL_ADD_OT)
+                                        // - ( $row_atteeee['sss_amount'] + $row_atteeee['philhealth_amount'] +  $row_atteeee['tin_amount'] +  $row_atteeee['pagibig_amount'] +  $row_governDeduct['total_sum_othe_deduct'] +  $UT_LATE_DEDUCT_TOTAL );
+                                        ?></p>
+                                    </div>
+
+                                    </div>
+
                                 </div>
-                                </div>
-
-                                <div class="headbody2">
-                                <div class="headbdy_pnl1">
-                                    <p class="lbl_earnings">Total Earnings :</p>
-                                    <p class="lbl_Hours"><?php echo $row_atteeee['Salary_of_Month'] + ( $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) + $TOTAL_ADD_OT; ?></p>
-                                </div>
-
-                                <div class="headbdy_pnl2">
-                                    <p class="lbl_deduct">Total Deduction : </p>
-                                    <p class="lbl_Amount2"><?php echo  $cutOff_SSS_deduct + $cutOff_philhealth_deduct +  $cutOff_tin_deduct +  $cutOff_pagibig_deduct +  $cutoff_deductGovern +  $UT_LATE_DEDUCT_TOTAL ;?></p>
-                                </div>
-
-                                <div class="headbdy_pnl3">
-                                    <!-- <p class="lbl_deduct">Net Total : </p> -->
-                                    <p class="lbl_Balance"><?php //echo ($row_atteeee['Salary_of_Month'] + ( $row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) + $TOTAL_ADD_OT)
-                                       // - ( $row_atteeee['sss_amount'] + $row_atteeee['philhealth_amount'] +  $row_atteeee['tin_amount'] +  $row_atteeee['pagibig_amount'] +  $row_governDeduct['total_sum_othe_deduct'] +  $UT_LATE_DEDUCT_TOTAL );
-                                    ?></p>
-                                </div>
+                                <!-- <div class="input-group mb-3">
+                                    <h5 style="margin-left: 30px ; margin-top : 10px; ">NET SALARY: </h5>
+                                    <span class="input-group-text" style=" margin-top : 5px;">23123</span>
+                                </div> -->
+                            
+                            
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" name="btn_download_pdf" class="btn btn-primary" id="download-pdf">Download PDF</button>
 
                                 </div>
-
-                            </div>
-                             <!-- <div class="input-group mb-3">
-                                <h5 style="margin-left: 30px ; margin-top : 10px; ">NET SALARY: </h5>
-                                <span class="input-group-text" style=" margin-top : 5px;">23123</span>
-                            </div> -->
-                           
-                           
-
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="download-pdf">Download PDF</button>
-
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -1110,11 +1168,9 @@
                         });
                     </script> -->
                 </div><!--  End Modal -->
-
         </div> <!--  End card-body -->
     </div> <!--  End card -->
 </div><!--  End Container -->
-
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

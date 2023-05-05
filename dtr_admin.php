@@ -125,7 +125,7 @@
 <!---------------------------------------View Modal End Here --------------------------------------->
 
 <!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="download_dtr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -158,14 +158,14 @@
                         include 'config.php';
 
                         // Fetch all values of empid and date from the database
-                        $sql = "SELECT `emp_id` FROM `emp_dtr_tb`";
+                        $sql = "SELECT `empid` FROM `emp_dtr_tb`";
                         $result = mysqli_query($conn, $sql);
 
                         // Generate the dropdown list
                         echo "<select class='select_custom form-select-m' aria-label='.form-select-sm example' name='name_emp''>";
                         echo "<option value=''>Select Employee</option>"; // Add a default option
                         while ($row = mysqli_fetch_array($result)) {
-                        $emp_id = $row['emp_id'];
+                        $emp_id = $row['empid'];
                         echo "<option value='$emp_id'>$emp_id</option>"; // Set the value to emp_id|date
                         }
                         echo "</select>";
@@ -240,11 +240,11 @@
                             emp_dtr_tb.time,
                             emp_dtr_tb.type,
                             emp_dtr_tb.reason,
-                            emp_dtr_tb.upl_file,
+                            emp_dtr_tb.file_attach,
                             emp_dtr_tb.status
                         FROM
                             employee_tb
-                        INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.emp_id;";
+                        INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.empid;";
                             $result = mysqli_query($conn, $query);
                             while ($row = mysqli_fetch_assoc($result)) {
                          ?>
@@ -260,10 +260,10 @@
                                         <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_dtr_modal">View</a></td>
                                         <?php if(!empty($row['upl_file'])): ?>
                                         <td>
-                                        <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
+                                        <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_dtr">Download</button>
                                         </td>
                                         <?php else: ?>
-                                        <td></td> <!-- Show an empty cell if there is no file attachment -->
+                                        <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                         <?php endif; ?>
                                         <td> 
                                         <label class=""><?php echo $row['status'];?></label>
@@ -402,8 +402,8 @@
                    $('#view_emp_time').val(data[4]);
                    $('#view_emp_type').val(data[5]);
                    $('#view_employee_r').val(data[6]);
-                   $('#view_emp_file').val(data[7]);
-                   var status = $tr.find('td:eq(8) p').text();
+                   $('#view_emp_file').val(data[8]);
+                   var status = $tr.find('td:eq(9) p').text();
                    $('#view_emp_stats').val(status);
                });
              });
@@ -422,6 +422,24 @@
   });
 </script>
 <!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+
+<!------------------------------------Script para sa download modal------------------------------------------------->
+<script>
+     $(document).ready(function(){
+               $('.downloadbtn').on('click', function(){
+                 $('#download').modal('show');
+                      $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#id_table').val(data[0]);
+                   $('#name_table').val(data[2]);
+               });
+             });
+</script>
+<!---------------------------------End ng Script para download modal------------------------------------------>
 
 
 <!-- End custom js for this page-->

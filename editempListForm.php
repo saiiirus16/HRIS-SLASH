@@ -1,19 +1,15 @@
-
 <?php
     session_start();
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
     }
     
-    // $empid = $_POST['empid'];
-
     $server = "localhost";
     $user = "root";
-    $pass ="";
+    $pass = "";
     $database = "hris_db";
     
     $conn = mysqli_connect($server, $user, $pass, $database);
-    
     if(isset($_FILES['emp_img'])) {
         $file_name = $_FILES['emp_img']['name'];
         $file_tmp = $_FILES['emp_img']['tmp_name'];
@@ -24,15 +20,25 @@
         $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
     }
     
+    if(isset($row['emp_img_url'])) {
+        $image_url = $row['emp_img_url'];
+    } else {
+        $image_url = "default_image.png";
+    }
+    
+    // Get file extension from image URL
+    $file_ext = pathinfo($image_url, PATHINFO_EXTENSION);
+    
+    // Remove any additional extensions from the image URL
+    $image_url = str_replace("." . $file_ext, "", $image_url);
+    
     if(count($_POST) > 0){
-        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',schedule_name='".$_POST['schedule_name']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$_POST['emp_img_url']."', status='".$_POST['status']."'
+        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',schedule_name='".$_POST['schedule_name']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$image_url.".".$file_ext."', status='".$_POST['status']."'
         WHERE id ='".$_POST['id']."'");
         header ("Location: EmployeeList.php");
     }
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
-    $row = mysqli_fetch_assoc($result);
-    
-    
+    $row = mysqli_fetch_assoc($result);  
 ?>
 
 <!DOCTYPE html>
@@ -117,9 +123,20 @@
                                             <input type="date" name="empdate_hired" id="" placeholder="Date Hired" value="<?php echo $row['empdate_hired'] ?>">
                                     </div>
                                 </div>
-                                <div class="emp-list-info-second-container">
+                                <div class="emp-list-info-second-container"> 
                                     <div class="emp-head">
-                                        <img src="uploads/<?php echo $row['emp_img_url'];?>" alt="" srcset="" accept=".jpg, .jpeg, .png" title="<?php echo $row['emp_img_url']; ?> " value="uploads/<?php echo $row['emp_img_url'];?>">
+                                        <?php
+                                        if(!empty($row['emp_img_url'])) {
+                                            $image_url = $row['emp_img_url'];
+                                        } else {
+                                            $image_url = "default_image.png";
+                                        }
+                                        // Get file extension from image URL
+                                        $file_ext = pathinfo($image_url, PATHINFO_EXTENSION);
+                                        ?>
+                                        <img src="uploads/<?php echo $image_url; ?>" alt="" srcset="" accept=".jpg, .jpeg, .png" title="<?php echo $image_url; ?>" >
+                                        <!-- Set hidden input value to image URL with file extension -->
+                                        <input type="hidden" name="emp_img_url" value="<?php echo $image_url; ?>">
                                     </div>
                                     <div class="emp-info">
                                         <h1><?php echo $row['fname']; ?> <?php echo $row['lname'];?></h1>

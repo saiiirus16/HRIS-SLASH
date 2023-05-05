@@ -188,7 +188,7 @@
     </form> -->
     
 
-<?php require 'script.php'; ?>    
+
 
 <script>
 // sched form modal

@@ -509,6 +509,7 @@ session_start();
                                                                 applyleave_tb.`col_strDate`,
                                                                 applyleave_tb.`_datetime`,
                                                                 applyleave_tb.`col_dt_action`,
+                                                                applyleave_tb.`col_approver`,
                                                                 applyleave_tb.`col_status`
                                                             FROM
                                                                 applyleave_tb
@@ -534,24 +535,23 @@ session_start();
                                                             <td>" . $row['col_strDate'] . "</td>
                                                             <td>" . $row['_datetime'] . "</td>
                                                             <td>" . $row['col_dt_action'] . "</td>
-                                                            <td>" . 'Admin'. "</td>
+                                                            <td>" . $row['col_approver']. "</td>
                                                             <td>" . " <div class='row'>
          
-
-                                                                        <div class='col-12'>
+                                                            <div class='col-12'>
                                                                         <button type='button' class= 'border-0 btn_view_file' title = 'View' data-bs-toggle='modal' data-bs-target='#id_view_file' style=' background: transparent;'>
                                                                             <img src='icons/view_file.png' alt='...'>
                                                                         </button>
                                                                         </div>
-                                                                    </div>  " . "</td>
+                                                                    </div>  " 
+                                                            . "</td>
                                                             <td>" . $row['col_status'] . "</td>
                                                         </tr>";
                                                     }
                                                 ?>  
                                         </tbody>   
                                 </table>
-                                
-                    
+                  
                         </form>
                     </div> <!--table my-3 end-->   
                 <!----------------------------------Break------------------------------------->

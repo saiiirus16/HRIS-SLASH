@@ -6,6 +6,11 @@
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css"> 
 </head> -->
+<?php 
+
+session_start();
+
+?>
 <body>
 
 
@@ -22,15 +27,15 @@
                     <img src="img/user.jpg" alt="" srcset="">
                 </div>
                 <div class="header-type">
-                    <h1><?php if(empty($_SESSION['role'])){
-                            echo "No user type";
+                    <h1><?php if(empty($_SESSION['userType'])){
+                            echo "No user ";
                         } else {
-                            echo $_SESSION['role'];
+                            echo $_SESSION['userType'];
                         }
                         
                         ?></h1>
                     <p class="user-name"><?php if(empty($_SESSION['username'])){
-                                echo "User";
+                                echo "";
                             }else{
                                 echo $_SESSION['username'];
                             }

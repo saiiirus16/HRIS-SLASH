@@ -303,12 +303,12 @@ include 'header.php';
                          ?>
                                         <tr>
                                         <td style="display: none;"><?php echo $row['id']?></td>
-                                        <td><?php echo $row['branch_name']?></td>
-                                        <td><?php echo $row['branch_address']?></td>
-                                        <td><?php echo $row['zip_code']?></td>
-                                        <td><?php echo $row['email']?></td>
-                                        <td><?php echo $row['telephone']?></td>
-                                        <td>
+                                        <td style="font-weight: 400"><?php echo $row['branch_name']?></td>
+                                        <td style="font-weight: 400" ><?php echo $row['branch_address']?></td>
+                                        <td style="font-weight: 400"><?php echo $row['zip_code']?></td>
+                                        <td style="font-weight: 400"><?php echo $row['email']?></td>
+                                        <td style="font-weight: 400"><?php echo $row['telephone']?></td>
+                                        <td style="font-weight: 400">
                                                 <button class='link-dark editbtn border-0'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='EDIT'></i></button> 
                                                 <button class='link-dark deletebtn border-0'><i class='fa-solid fa-trash fs-5 me-3' title='DELETE'></i></button> 
                                         </td>
@@ -316,7 +316,7 @@ include 'header.php';
                           <?php
                                } 
                           ?>
-        
+        2
                          </tbody>
                       </table>
                         </div>

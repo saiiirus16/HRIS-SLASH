@@ -223,7 +223,7 @@
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value=' ". $rows['id'] . "'>" .$rows['position'].  "</option>";
+                                                         $options .= "<option value=' ". $rows['position'] . "'>" .$rows['position'].  "</option>";
                                                      }
                                                      ?>
              
@@ -301,7 +301,7 @@
 
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            $options .= "<option value='". $row['id'] . "'>" .$row['schedule_name'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
+                                            $options .= "<option value='".$row['id']."'>".$row['schedule_name']."</option>"; //I-integer yung data column ng department name sa employee_tb
                                         }
                                         ?>
 
