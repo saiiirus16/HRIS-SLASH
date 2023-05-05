@@ -1,18 +1,7 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    } else {
-        // Check if the user's role is not "admin"
-        if($_SESSION['role'] != 'admin'){
-            // If the user's role is not "admin", log them out and redirect to the logout page
-            session_unset();
-            session_destroy();
-            header("Location: logout.php");
-            exit();
-        }
-    }
+session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -520,6 +509,7 @@
                                                                 applyleave_tb.`col_strDate`,
                                                                 applyleave_tb.`_datetime`,
                                                                 applyleave_tb.`col_dt_action`,
+                                                                applyleave_tb.`col_approver`,
                                                                 applyleave_tb.`col_status`
                                                             FROM
                                                                 applyleave_tb
@@ -545,24 +535,23 @@
                                                             <td>" . $row['col_strDate'] . "</td>
                                                             <td>" . $row['_datetime'] . "</td>
                                                             <td>" . $row['col_dt_action'] . "</td>
-                                                            <td>" . 'Admin'. "</td>
+                                                            <td>" . $row['col_approver']. "</td>
                                                             <td>" . " <div class='row'>
          
-
-                                                                        <div class='col-12'>
+                                                            <div class='col-12'>
                                                                         <button type='button' class= 'border-0 btn_view_file' title = 'View' data-bs-toggle='modal' data-bs-target='#id_view_file' style=' background: transparent;'>
                                                                             <img src='icons/view_file.png' alt='...'>
                                                                         </button>
                                                                         </div>
-                                                                    </div>  " . "</td>
+                                                                    </div>  " 
+                                                            . "</td>
                                                             <td>" . $row['col_status'] . "</td>
                                                         </tr>";
                                                     }
                                                 ?>  
                                         </tbody>   
                                 </table>
-                                
-                    
+                  
                         </form>
                     </div> <!--table my-3 end-->   
                 <!----------------------------------Break------------------------------------->

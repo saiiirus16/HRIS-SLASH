@@ -1,18 +1,3 @@
-<?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    } else {
-        // Check if the user's role is not "admin"
-        if($_SESSION['role'] != 'admin'){
-            // If the user's role is not "admin", log them out and redirect to the logout page
-            session_unset();
-            session_destroy();
-            header("Location: logout.php");
-            exit();
-        }
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -157,9 +142,9 @@
                                                     <tr>
                                                         <th>Employee ID</th>
                                                         <th>Employee Name</th>
-                                                        <th>Net Salary</th> 
-                                                        <th>Allowances</th>
-                                                        <th>Deductions</th>
+                                                        <th>Type</th> 
+                                                        <th>Cut off Start</th>
+                                                        <th>Cut off End</th>
                                                         <th>Action</th> 
                                                     </tr>
                                                 </thead>
@@ -180,9 +165,11 @@
                                         $str_date =  $row_cutoff['col_startDate'];
                                         $end_date =  $row_cutoff['col_endDate'];
                                         $cut_off_freq =  $row_cutoff['col_frequency'];
+                                        $cut_off_num =  $row_cutoff['col_cutOffNum'];
                                             echo '<input type="text" name="name_cutOff_str"  value="'. $str_date .'" style="display: none;">';
                                             echo '<input type="text" name="name_cutOff_end"  value="'. $end_date .'" style="display: none;">';
                                             echo '<input type="text" name="name_cutOff_freq"  value="'. $cut_off_freq .'" style="display: none;">';
+                                            echo '<input type="text" name="name_cutOff_num"  value="'. $cut_off_num .'" style="display: none;">';
                                         } else {
                                             echo "No results found.";
                                         }
@@ -194,19 +181,16 @@
                                                         ' ',
                                                         employee_tb.`lname`
                                                     ) AS `full_name`,
-                                                    SUM(employee_tb.`drate`) AS NetPay,
-                                                    employee_tb.`emptranspo` + employee_tb.`empmeal` + employee_tb.`empmeal` AS Total_allowance,
-                                                    employee_tb.`sss_amount` + employee_tb.`tin_amount` + employee_tb.`pagibig_amount` + employee_tb.`philhealth_amount` AS Total_deduct,
-                                                    attendances.late
+                                                    cutoff_tb.col_type,
+                                                    cutoff_tb.col_startDate,
+                                                    cutoff_tb.col_enddate
                                                 FROM
                                                     employee_tb
-                                                INNER JOIN attendances ON employee_tb.empid = attendances.empid
-                                                WHERE attendances.status = 'Present' AND `attendances`.`date` BETWEEN  '$str_date' AND  '$end_date'
-                                                GROUP BY
-                                                    employee_tb.`empid`,
-                                                    `full_name`;
-                                            ";
+                                                INNER JOIN empcutoff_tb ON employee_tb.empid = empcutoff_tb.emp_ID
+                                                INNER JOIN cutoff_tb ON empcutoff_tb.cutOff_ID = cutoff_tb.col_ID
+                                                WHERE empcutoff_tb.cutOff_ID = $cutOffID";
                                     $result = $conn->query($sql);
+
                                 
 
 
@@ -218,9 +202,10 @@
                                             echo "<tr>
                                                 <td>" . $row['empid'] . "</td>
                                                 <td>" . $row['full_name'] . "</td>
-                                                <td>" . $row['NetPay'] . "</td>
-                                                <td class= 'text-center'>" . $row['Total_allowance'] . "</td>
-                                                <td class= 'text-center'>" . $row['Total_deduct'] . "</td>
+                                                <td>" . $row['col_type'] . "</td>
+                                                <td>" . $row['col_startDate'] . "</td>
+                                                <td>" . $row['col_enddate'] . "</td>
+                                                
                                                 <td>
                                                 <button type='submit' name='name_btnView' class='border-light viewbtn' title='View'>
                                                     <img src='icons/visible.png' alt='...'>
