@@ -39,15 +39,16 @@
    $emptranspo = $_POST['emptranspo'];
    $empmeal = $_POST['empmeal'];
    $empinternet = $_POST['empinternet'];
-   $empschedule_type = $_POST['schedule_name'];
-   $empstart_date = $_POST['empstart_date'];
-   $empend_date = $_POST['empend_date'];
    $empaccess_id = $_POST['empaccess_id'];
    $username = $_POST['username'];
    $role = $_POST['role'];
    $email = $_POST['email'];
    $password = $_POST['password'];
    $cpassword = $_POST['cpassword'];
+
+   $empschedule_type = $_POST['schedule_name'];
+   $empstart_date = $_POST['sched_from'];
+   $empend_date = $_POST['sched_to'];
 
 //    $errorEmpty = false;
 //    $errorEmail = false;
@@ -69,14 +70,19 @@
     die;
    }else{
    
-        $stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `schedule_name`, `empstart_date`, `empend_date`, `empaccess_id`, `username`, `role`, `email`, `password`, `cpassword`)
-                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("sssssssssssssssssssssssssssssss", $fname,  $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empschedule_type, $empstart_date, $empend_date, $empaccess_id, $username, $role, $email, $password, $cpassword);
+        $stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`, `cpassword`)
+                                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("ssssssssssssssssssssssssssss", $fname,  $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $password, $cpassword);
         $stmt->execute();
-        header("Location: ../../EmployeeList.php");
         $stmt->close();
-        $conn->close();
 
+        $stmt1 = $conn->prepare("INSERT INTO empschedule_tb (`empid`, `schedule_name`, `sched_from`, `sched_to`)
+                                VALUES (?,?,?,?)");
+        $stmt1->bind_param("ssss", $empid, $empschedule_type, $empstart_date, $empend_date);
+        $stmt1->execute();
+        $stmt1->close();
+        header("Location: ../../EmployeeList.php");
+        $conn->close();
     }
    }
 }

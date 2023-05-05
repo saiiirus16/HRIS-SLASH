@@ -8,7 +8,7 @@
 body{
     font-family: 'Roboto', sans-serif;
     width: 100%;
-    color: black;  
+    color: black;
 }
 
 /* Validation */
@@ -2007,9 +2007,11 @@ header{
     height: 100vh;
     width: 100%;
     z-index: 100;
-    position: fixed;
+    position: absolute;
     background-color: rgba(0,0,0,0.5);
+    
     display: none;
+    margin-top: -48px;
 }
 
 .schedule-modal-container{

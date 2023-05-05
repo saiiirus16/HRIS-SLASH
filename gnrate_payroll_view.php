@@ -1,3 +1,18 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
+?>
 <!DOCTYPE html>
 <!-- PLEASE READ**: THIS IS FOR DEVELOPER THAT TRYING TO DEBUG.  -->
 <!-- IF YOU SEE A "@" IN THE VARIABLE, THEN TRY TO DELETE IT AND DEBUG TO ACHIEVE YOUR OBJECTIVE. I PUT IT IN THE VARIABLE SINCE MY OBJECTIVE IS CORRECT AND WELL FUNCTION BUT IT ALWAYAS SAY UNDEFINED. -->

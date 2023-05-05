@@ -1,42 +1,59 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
+  
+   session_start();
+   if(!isset($_SESSION['username'])){
+       header("Location: login.php"); 
+   } else {
+       // Check if the user's role is not "admin"
+       if($_SESSION['role'] != 'admin'){
+           // If the user's role is not "admin", log them out and redirect to the logout page
+           session_unset();
+           session_destroy();
+           header("Location: logout.php");
+           exit();
+       }
+   }
+
+    
+   $server = "localhost";
+$user = "root";
+$pass = "";
+$database = "hris_db";
+
+$conn = mysqli_connect($server, $user, $pass, $database);
+if(isset($_FILES['emp_img'])) {
+    $file_name = $_FILES['emp_img']['name'];
+    $file_tmp = $_FILES['emp_img']['tmp_name'];
+    $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+    $new_file_name = uniqid() . "." . $file_ext;
+    move_uploaded_file($file_tmp, "uploads/" . $new_file_name);
+    echo '<img src="uploads/'.$new_file_name.'" alt="My Image">';
+    $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
+}
+
+if(isset($row['emp_img_url'])) {
+    $image_url = $row['emp_img_url'];
+} else {
+    $image_url = "default_image.png";
+}
+
+// Get file extension from image URL
+$file_ext = pathinfo($image_url, PATHINFO_EXTENSION);
+
+// Remove any additional extensions from the image URL
+$image_url = str_replace("." . $file_ext, "", $image_url);
+
+if(count($_POST) > 0){
+    $emp_img_url = "";
+    if (isset($_POST['emp_img_url'])) {
+        $emp_img_url = ", emp_img_url='".$new_file_name."'";
     }
-    
-    $server = "localhost";
-    $user = "root";
-    $pass = "";
-    $database = "hris_db";
-    
-    $conn = mysqli_connect($server, $user, $pass, $database);
-    if(isset($_FILES['emp_img'])) {
-        $file_name = $_FILES['emp_img']['name'];
-        $file_tmp = $_FILES['emp_img']['tmp_name'];
-        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
-        $new_file_name = uniqid() . "." . $file_ext;
-        move_uploaded_file($file_tmp, "uploads/" . $new_file_name);
-        echo '<img src="uploads/'.$new_file_name.'" alt="My Image">';
-        $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
-    }
-    
-    if(isset($row['emp_img_url'])) {
-        $image_url = $row['emp_img_url'];
-    } else {
-        $image_url = "default_image.png";
-    }
-    
-    // Get file extension from image URL
-    $file_ext = pathinfo($image_url, PATHINFO_EXTENSION);
-    
-    // Remove any additional extensions from the image URL
-    $image_url = str_replace("." . $file_ext, "", $image_url);
-    
-    if(count($_POST) > 0){
-        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',schedule_name='".$_POST['schedule_name']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$image_url.".".$file_ext."', status='".$_POST['status']."'
-        WHERE id ='".$_POST['id']."'");
-        header ("Location: EmployeeList.php");
-    }
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+    WHERE id ='".$_POST['id']."'");
+    header ("Location: EmployeeList.php");
+}
+
+
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
     $row = mysqli_fetch_assoc($result);  
 ?>
@@ -329,25 +346,17 @@
                                 </div>
                                 <div class="worksched-scedule">
                                     <label for="schedule_name">Schedule Setup</label><br>
-                                    <?php
-                                    include 'config.php';
-
-                                    $conn =mysqli_connect("localhost", "root", "" , "hris_db");
-                                    $stmt = "SELECT * FROM empschedule_tb
-                                            AS esched
-                                            INNER JOIN employee_tb
-                                            AS emp
-                                            ON(emp.empid = esched.empid)";
+                                        <?php
+                                        include 'config.php';
                                    
-                                    $results = mysqli_query($conn,$stmt);
-                                        $options = "";
-                                        while($rows = mysqli_fetch_assoc($results)){
-                                            $options .="<option value='".$rows['schedule_name']."'>".$rows['schedule_name']."</option>";
+                                            $result_emp_sched = mysqli_query($conn, "SELECT schedule_name FROM empschedule_tb WHERE empid ='". $_GET['empid']. "'");
+                                            if(mysqli_num_rows($result_emp_sched) > 0) {
+                                            $row_emp_sched = mysqli_fetch_assoc($result_emp_sched);
+                                            $schedID = $row_emp_sched['schedule_name'];
                                         }
-                                        ?>
-                                        <select name="schedule_name" id="" value="<?php echo $row['schedule_name']; ?>">
-                                            <?php echo $options; ?>
-                                        </select>
+                                        
+                                            ?>
+                                        <input type="text" name="schedule_name" value="<?php echo $schedID?>" id="" readonly>                                       
                                 </div>
                             </div>
                         </div>

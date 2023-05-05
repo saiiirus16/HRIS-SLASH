@@ -1,5 +1,17 @@
 <?php
-session_start();
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +78,10 @@ session_start();
       width: 1500px;
       height: 780px;
 
+    }
+
+    body{
+      overflow:hidden;
     }
 
 
@@ -162,7 +178,7 @@ session_start();
 <!---------------------------------------------------END OF DELETE MODAL------------------------------------------------------------------->
 
 <!-----------------------------------------ETO ANG HEADER INCLUDING ANG DROP-DOWN-------------------------------------------------------->
-<div class="main-panel mt-5" style="margin-left: 15%;">
+<div class="main-panel mt-2" style="margin-left: 15%;">
         <div class="content-wrapper mt-5">
           <div class="card">
             <div class="card-body">

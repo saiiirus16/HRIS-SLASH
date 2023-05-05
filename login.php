@@ -17,6 +17,7 @@ if(isset($_POST['signIn'])){
             $_SESSION['username'] = $row ['username'];
             $_SESSION['password'] = $row['password'];
             $_SESSION['userType'] = $row['userType'];
+            $_SESSION['role'] = $row['role'];
 
             
             header("Location: Dashboard.php");

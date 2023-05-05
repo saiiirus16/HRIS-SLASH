@@ -42,76 +42,48 @@ if(isset($_POST['importSubmit'])){
                 $total_work = '';
                 $total_rest = '';
 
+                $conn = mysqli_connect("localhost", "root", "", "hris_db");
                 $sql = "SELECT * FROM empschedule_tb WHERE empid = $empid";
-                $resulta = mysqli_query($db, $sql);
-                    if(mysqli_num_rows($resulta) > 0){
-                        $row1 = mysqli_fetch_assoc($sql);
+                $resulta = mysqli_query($conn, $sql);
+                if(mysqli_num_rows($resulta) > 0){
+                    $row1 = mysqli_fetch_assoc($resulta);
+                
+                    $stmt = "SELECT 
+                        CAST(monday AS DATE) AS monday_date,
+                        CAST(tuesday AS DATE) AS tuesday_date,
+                        CAST(wednesday AS DATE) AS wednesday_date,
+                        CAST(thursday AS DATE) AS thursday_date,
+                        CAST(friday AS DATE) AS friday_date,
+                        CAST(saturday AS DATE) AS saturday_date,
+                        CAST(sunday AS DATE) AS sunday_date,
+                        mon_timein,
+                        mon_timeout,
+                        tues_timein,
+                        tues_timeout,
+                        wed_timein,
+                        wed_timeout,
+                        thurs_timein,
+                        thurs_timeout,
+                        fri_timein,
+                        fri_timeout,
+                        sat_timein,
+                        sat_timeout,
+                        sun_timein,
+                        sun_timeout
+                    FROM schedule_tb
+                    WHERE schedule_name = '".$row1['schedule_name']."' ";
 
-                        $stmt = 'SELECT 
-                            CAST(monday AS DATE) AS monday_date,
-                            CAST(tuesday AS DATE) AS tuesday_date,
-                            CAST(wednesday AS DATE) AS wednesday_date,
-                            CAST(thursday AS DATE) AS thursday_date,
-                            CAST(friday AS DATE) AS friday_date,
-                            CAST(saturday AS DATE) AS saturday_date,
-                            CAST(sunday AS DATE) AS sunday_date,
-                            mon_timein,
-                            mon_timeout,
-                            tues_timein,
-                            tues_timeout,
-                            wed_timein,
-                            wed_timeout,
-                            thurs_timein,
-                            thurs_timeout,
-                            fri_timein,
-                            fri_timeout,
-                            sat_timein,
-                            sat_timeout,
-                            sun_timein,
-                            sun_timeout
-                        FROM schedule_tb
-                        WHERE schedule_name = '.$row1['schedule_name'].' ';
-                    } else{
-                        echo 'no found';
-                    }
+                } else{
+                    echo 'no found';
+                }
                 
-                
-                
-                
-            //     SELECT 
-            //     CAST(monday AS DATE) AS monday_date, 
-            //     mon_timein, 
-            //     mon_timeout
-            //     -- CAST(tuesday AS DATE) AS tuesday_date, 
-            //     -- tue_timein, 
-            //     -- tue_timeout,
-            //     -- CAST(wednesday AS DATE) AS wednesday_date, 
-            //     -- wed_timein, 
-            //     -- wed_timeout,
-            //     -- CAST(thursday AS DATE) AS thursday_date, 
-            //     -- thu_timein, 
-            //     -- thu_timeout,
-            //     -- CAST(friday AS DATE) AS friday_date, 
-            //     -- fri_timein, 
-            //     -- fri_timeout,
-            //     -- CAST(saturday AS DATE) AS saturday_date, 
-            //     -- sat_timein, 
-            //     -- sat_timeout,
-            //     -- CAST(sunday AS DATE) AS sunday_date, 
-            //     -- sun_timein, 
-            //     -- sun_timeout
-            //   FROM schedule_tb 
-            //   WHERE id = 14";
 
 
                 $result = mysqli_query($conn, $stmt);
                 while($time = mysqli_fetch_assoc($result)){
 
-                // $date = date('Y-m-d', strtotime($date));
+            
 
-                // $day_of_week = date('l', strtotime($date)); // get the day of the week using the "l" format specifier                
-               
-                // $day = $day_of_week;
 
                 $monday = strtr($time['monday_date'], '/' , '-');
                 $mondays = date('Y-m-d', strtotime($date));
@@ -467,7 +439,8 @@ if(isset($_POST['importSubmit'])){
                 
                 if($prevResult->num_rows > 0){
                     // Update member data in the database
-                    $db->query("UPDATE attendances SET status = '".$status."', name = '".$name."', date = '".$date."', time_in = '".$time_in."', time_out = '".$time_out."', late = '".$late."', early_out = '".$early_out."', overtime = '".$overtime."', total_work = '".$total_work."', total_rest = '".$total_rest."',modified = NOW() WHERE empid = '".$empid."'");
+                    $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                    VALUES ('".$status."', '".$empid."', '".$name."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
                 }else{
                     // Insert member data in the database
                     $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)

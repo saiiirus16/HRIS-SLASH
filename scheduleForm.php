@@ -2,12 +2,16 @@
     session_start();
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
     }
-
-    // include  'Data Controller/scheduleFormModalController.php';
-
-    // $data = new DataController();
-    // $languages = $data->getLanguage();
 ?>
 
 
@@ -33,11 +37,15 @@
         <?php include("header.php")?>
     </header>
 
+    <style>
+    body{
+        overflow: hidden;
+    }
+</style>
+
     <button id="schedFormBtn" class="schedFormBtn" > Assign to Employese</button>
 
-    <?php
-        include("editScheduleForms.php")
-    ?>
+    
     <form action="Data Controller/Schedules/empSchedule.php" method="POST">
         <div class="schedule-modal" id="schedFormModal" style="display:none;">
             <div class="schedule-modal-container"  id="schedFormModal">
