@@ -1,17 +1,6 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    } else {
-        // Check if the user's role is not "admin"
-        if($_SESSION['role'] != 'admin'){
-            // If the user's role is not "admin", log them out and redirect to the logout page
-            session_unset();
-            session_destroy();
-            header("Location: logout.php");
-            exit();
-        }
-    }
+session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,7 +136,6 @@
 
                                 <div class="input-group mb-3">
                                     <input type="file" name="file_upload" class="form-control" id="inputfile" >
-                                    <label class="input-group-text"  for="inputGroupFile02">Upload</label>
                                 </div>
 
                                 <div class="mb-3">
@@ -331,7 +319,7 @@
                                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
                                                 </td>
                                                 <?php else: ?>
-                                                <td></td> <!-- Show an empty cell if there is no file attachment -->
+                                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                                 <?php endif; ?>
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>
@@ -373,7 +361,7 @@
 </script>
 <!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
 
-<!------------------------------------Script para lumabas ang modal------------------------------------------------->
+<!------------------------------------Script para lumabas download ang modal------------------------------------------------->
 <script>
      $(document).ready(function(){
                $('.downloadbtn').on('click', function(){

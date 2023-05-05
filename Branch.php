@@ -1,17 +1,9 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    } else {
-        // Check if the user's role is not "admin"
-        if($_SESSION['role'] != 'admin'){
-            // If the user's role is not "admin", log them out and redirect to the logout page
-            session_unset();
-            session_destroy();
-            header("Location: logout.php");
-            exit();
-        }
-    }
+
+session_start();
+
+include ("config.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +34,7 @@ include 'header.php';
 </header>
 
 <style>
+
 .header-container .header-type .user-name{
       margin-top:1px;
     }
@@ -81,10 +74,6 @@ include 'header.php';
 
     .table {
          width: 99.7%;
-    }
-
-    body{
-      overflow: hidden;
     }
 </style>
 
@@ -223,7 +212,7 @@ include 'header.php';
 <!---------------------------------------------------END OF DELETE BRANCH INFO MODAL------------------------------------------------------------------->
 
 
-<div class="main-panel mt-2" style="margin-left: 15%;">
+<div class="main-panel mt-5" style="margin-left: 15%;">
         <div class="content-wrapper mt-5">
           <div class="card" style="width:1550px; height: 780px;">
             <div class="card-body">
@@ -314,12 +303,12 @@ include 'header.php';
                          ?>
                                         <tr>
                                         <td style="display: none;"><?php echo $row['id']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['branch_name']?></td>
-                                        <td style="font-weight: 400" ><?php echo $row['branch_address']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['zip_code']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['email']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['telephone']?></td>
-                                        <td style="font-weight: 400">
+                                        <td><?php echo $row['branch_name']?></td>
+                                        <td><?php echo $row['branch_address']?></td>
+                                        <td><?php echo $row['zip_code']?></td>
+                                        <td><?php echo $row['email']?></td>
+                                        <td><?php echo $row['telephone']?></td>
+                                        <td>
                                                 <button class='link-dark editbtn border-0'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='EDIT'></i></button> 
                                                 <button class='link-dark deletebtn border-0'><i class='fa-solid fa-trash fs-5 me-3' title='DELETE'></i></button> 
                                         </td>
@@ -327,7 +316,7 @@ include 'header.php';
                           <?php
                                } 
                           ?>
-        2
+        
                          </tbody>
                       </table>
                         </div>

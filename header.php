@@ -133,12 +133,7 @@
 
                 <li><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
                 <ul class="sett-dd-show">
-                        <li><a href="official_emp.php">OFFICIAL</a></li>
-                        <li><a href="dtr_emp.php">DTR EMPLOYEE</a></li>
-                        <li><a href="my_schedule.php">MY SCHEDULE</a></li>
-                        <li><a href="overtime_req.php">OVERTIME REQUEST</a></li>
-                        <li><a href="undertime_req.php">UNDERTIME REQUEST</a></li>
-                        <li><a href="Wfh_request.php">WFH REQUEST</a></li>
+                        
                     </ul>
                 </li>
                 
