@@ -9,7 +9,6 @@ $database = "hris_db";
 $db = mysqli_connect($server, $user, $pass, $database);
 
 
-
 if(isset($_POST['importSubmit'])){
     
     // Allowed mime types
@@ -43,15 +42,13 @@ if(isset($_POST['importSubmit'])){
                 $total_work = '';
                 $total_rest = '';
 
-              
-                
                 $conn = mysqli_connect("localhost", "root", "", "hris_db");
-                $sql = "SELECT empid, schedule_name FROM empschedule_tb WHERE empid = `$empid`";
-                $attResult = mysqli_query($conn, $sql);
-                    while(mysqli_num_rows($attResult) > 0){
-                        $attRow = mysqli_fetch_assoc($sql);
-
-                        $stmt = "SELECT
+                $sql = "SELECT * FROM empschedule_tb WHERE empid = $empid";
+                $resulta = mysqli_query($conn, $sql);
+                if(mysqli_num_rows($resulta) > 0){
+                    $row1 = mysqli_fetch_assoc($resulta);
+                
+                    $stmt = "SELECT 
                         CAST(monday AS DATE) AS monday_date,
                         CAST(tuesday AS DATE) AS tuesday_date,
                         CAST(wednesday AS DATE) AS wednesday_date,
@@ -73,47 +70,20 @@ if(isset($_POST['importSubmit'])){
                         sat_timeout,
                         sun_timein,
                         sun_timeout
-                        FROM schedule_tb
-                        WHERE schedule_name = '".$row1['schedule_name']."'";
+                    FROM schedule_tb
+                    WHERE schedule_name ='".$row1['schedule_name']."'";
+
+                } else{
+                    echo 'no found';
                 }
-           
                 
-                
-                
-            //     SELECT 
-            //     CAST(monday AS DATE) AS monday_date, 
-            //     mon_timein, 
-            //     mon_timeout
-            //     -- CAST(tuesday AS DATE) AS tuesday_date, 
-            //     -- tue_timein, 
-            //     -- tue_timeout,
-            //     -- CAST(wednesday AS DATE) AS wednesday_date, 
-            //     -- wed_timein, 
-            //     -- wed_timeout,
-            //     -- CAST(thursday AS DATE) AS thursday_date, 
-            //     -- thu_timein, 
-            //     -- thu_timeout,
-            //     -- CAST(friday AS DATE) AS friday_date, 
-            //     -- fri_timein, 
-            //     -- fri_timeout,
-            //     -- CAST(saturday AS DATE) AS saturday_date, 
-            //     -- sat_timein, 
-            //     -- sat_timeout,
-            //     -- CAST(sunday AS DATE) AS sunday_date, 
-            //     -- sun_timein, 
-            //     -- sun_timeout
-            //   FROM schedule_tb 
-            //   WHERE id = 14";
 
 
                 $result = mysqli_query($conn, $stmt);
                 while($time = mysqli_fetch_assoc($result)){
 
-                // $date = date('Y-m-d', strtotime($date));
+            
 
-                // $day_of_week = date('l', strtotime($date)); // get the day of the week using the "l" format specifier                
-               
-                // $day = $day_of_week;
 
                 $monday = strtr($time['monday_date'], '/' , '-');
                 $mondays = date('Y-m-d', strtotime($date));

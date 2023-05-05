@@ -71,7 +71,7 @@ if(isset($_POST['importSubmit'])){
                         sun_timein,
                         sun_timeout
                     FROM schedule_tb
-                    WHERE schedule_name = '".$row1['schedule_name']."' ";
+                    WHERE schedule_name ='".$row1['schedule_name']."'";
 
                 } else{
                     echo 'no found';

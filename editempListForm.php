@@ -294,8 +294,23 @@ if(count($_POST) > 0){
                                         </select> 
                                 </div>
                                 <div class="empInfo-branch">
+                                        <?php
+                                                include 'config.php';
+
+                                                $sql = "SELECT * FROM branch_tb";
+                                                $results = mysqli_query($conn, $sql);
+                    
+                                                    $options = "";
+                                                    while ($rows = mysqli_fetch_assoc($results)) {
+                                                    $options .= "<option value='".$rows['branch_name']."'>" .$rows['branch_name'].  "</option>";
+                                                    }
+                                            ?>
+                    
                                     <label for="empbranch">Branch</label><br>
-                                        <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['empbranch'] ?>" >
+                                    <select name="empbranch" id="" value="<?php echo $row['empbranch'];?>">
+                                    <!-- <option value disabled selected>Select Department</option> -->
+                                        <?php echo $options; ?>
+                                    </select>
                                 </div>
                                 <div class="empInfo-department">
                                     <?php

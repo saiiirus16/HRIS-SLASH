@@ -193,7 +193,7 @@
 
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            $options .= "<option value='". $row['id'] . "'>" .$row['branch_name'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
+                                            $options .= "<option value='". $row['branch_name'] . "'>" .$row['branch_name'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
                                         }
                                         ?>
 
