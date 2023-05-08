@@ -12,6 +12,11 @@
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="vendors/feather/feather.css">
+        <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+        <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -24,6 +29,12 @@
     <header>
         <?php include("header.php")?>
     </header>
+
+    <style>
+    body{
+        overflow: hidden;
+    }
+</style>
 
     <div class="empList-container">
         <div class="empList-title">
@@ -77,7 +88,34 @@
                 </div>
                 <button class="emplistBtn">Go</button>
         </div>
-        <table id="empList-table" class="table table-hover">
+
+        <style>
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                max-height: 450px;
+                height: 450px;
+                
+                
+            }
+            tbody {
+                display: table;
+                width: 100%;
+            }
+            tr {
+                width: 100% !important;
+                display: table !important;
+                table-layout: fixed !important;
+            }
+            th, td {
+                text-align: left !important;
+                width: 14.28% !important;
+            }
+        </style>
+        
+        <div style="width: 95%; margin:auto; margin-top: 30px;">
+        <table id="order-listing" class="table" style="width: 100%;">
                 <thead>
                     <th>Employee</th>
                     <th>Time Entry</th>
@@ -118,6 +156,7 @@
                     ?>
                 </tbody>
         </table>
+        </div>
     </div>
 
     <!-- <form action="">
@@ -187,8 +226,7 @@
     </div>
     </form> -->
     
-
-
+  
 
 <script>
 // sched form modal
@@ -226,5 +264,11 @@ function clickOutside(e){
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="main.js"></script>
+
+    <script src="vendors/js/vendor.bundle.base.js"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="bootstrap js/template.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
 </body>
 </html>

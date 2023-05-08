@@ -195,6 +195,7 @@ include 'header.php';
       <div class="modal-body">
 
         <input type="hidden" name="delete_id" id="delete_id">
+        <input type="hidden" name="designation" id="designate">
 
         <h4>Do you want to delete?</h4>
 
@@ -280,7 +281,10 @@ include 'header.php';
 
             <div class="row">
                 <div class="col-12 mt-5">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow: hidden;">
+                      <form action="View_branch.php" method="post">
+                        <input type="hidden" id="id_branch_name" name="name_branch">
+                        <input type="hidden" id="table_id_branch" name="branch_id">
                         <table id="order-listing" class="table" >
                         <thead>
                             <tr>
@@ -290,35 +294,60 @@ include 'header.php';
                                 <th>Zip Code</th>
                                 <th>Email</th>
                                 <th>Telephone</th>
+                                <th>Designation</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                     <tbody>
-                        <?php 
-                            include "config.php";
+                           <?php
+                                include 'config.php';
 
-                            $sql = "SELECT * FROM `branch_tb`";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_assoc($result)) {
-                         ?>
-                                        <tr>
-                                        <td style="display: none;"><?php echo $row['id']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['branch_name']?></td>
-                                        <td style="font-weight: 400" ><?php echo $row['branch_address']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['zip_code']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['email']?></td>
-                                        <td style="font-weight: 400"><?php echo $row['telephone']?></td>
-                                        <td style="font-weight: 400">
-                                                <button class='link-dark editbtn border-0'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='EDIT'></i></button> 
-                                                <button class='link-dark deletebtn border-0'><i class='fa-solid fa-trash fs-5 me-3' title='DELETE'></i></button> 
-                                        </td>
-                                        </tr>
-                          <?php
-                               } 
-                          ?>
-        2
+                                // Query the department table to retrieve department names
+                                $dept_query = "SELECT * FROM branch_tb";
+                                $dept_result = mysqli_query($conn, $dept_query);
+
+                                // Generate the HTML table header
+
+
+                                // Loop over the departments and count the employees
+                                while ($dept_row = mysqli_fetch_assoc($dept_result)) {
+                                    $branch_id = $dept_row['id'];
+                                    $branch_name = $dept_row['branch_name'];
+                                    $branch_address = $dept_row['branch_address'];
+                                    $branch_zip = $dept_row['zip_code'];
+                                    $branch_email = $dept_row['email'];
+                                    $branch_telephone = $dept_row['telephone'];
+                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE empbranch = '$branch_id'";
+                                    $emp_result = mysqli_query($conn, $emp_query);
+                                    $emp_row = mysqli_fetch_assoc($emp_result);
+                                    $emp_count = $emp_row['count'];
+
+                                    // Generate the HTML table row
+                                    echo "<tr>
+                                            <td style= 'display: none;'>$branch_id</td>
+                                            <td>$branch_name</td>
+                                            <td>$branch_address</td>
+                                            <td>$branch_zip</td>
+                                            <td>$branch_email</td>
+                                            <td>$branch_telephone</td>
+                                            <td>$emp_count</td>
+                                            <td>
+                                                <button type='submit'  name='view_data' class='link-dark editbtn border-0 viewbtn' title = 'View'><i class='fa-solid fa-eye fs-5 me-3'></i></button>
+                                                <button type='button' class='link-dark editbtn border-0' data-bs-toggle='modal' data-bs-target='#editmodal'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
+                                                <button type='button' class='link-dark deletebtn border-0' data-bs-toggle='modal' data-bs-target='#deletemodal'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
+                                            </td>
+                                        </tr>";
+                                }
+
+                                // Close the HTML table
+
+                                // Close the database connection
+                                mysqli_close($conn);
+                            ?>
+        
                          </tbody>
                       </table>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -374,12 +403,33 @@ include 'header.php';
                     console.log(data);
 
                     $('#delete_id').val(data[0]);
+                    $('#designate').val(data[6]);
                     
 
                 });
             });
         </script>
 <!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
+
+
+<script>
+            $(document).ready(function(){
+                                    $('.viewbtn').on('click', function(){
+                                        $('#IDview_deptMDL').modal('show');
+                                        $tr = $(this).closest('tr');
+
+                                        var data = $tr.children("td").map(function () {
+                                            return $(this).text();
+                                        }).get();
+
+                                        console.log(data);
+                                        //id_colId
+                                        $('#table_id_branch').val(data[0]);
+                                        $('#id_branch_name').val(data[1]);
+                                    });
+                                });
+</script>
+
 
     <!--Bootstrap Js-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

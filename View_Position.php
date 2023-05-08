@@ -36,6 +36,7 @@
                     if(isset($_POST['view_data'])){
 
                         $emp_position = $_POST['name_position'];
+                        $position_id = $_POST['position_id'];
                         
                             echo "
                             <div class='card-header'>
@@ -59,37 +60,40 @@
                                         <thead style='color: #787BDB;
                                                     font-size: 19px;'>
                                             <tr> 
-                                                    <th> Employee ID </th>  
-                                                    <th> Employee FullName  </th>
-                                                    <th> Employee Department </th>                   
+                                                    <th>Employee ID</th>  
+                                                    <th>Employee FullName </th>
+                                                    <th>Employee Position</th>                   
                                             </tr>
                                         </thead>
                                         <tbody>";
                                                 include 'config.php';
 
                                                 // Query the department table to retrieve department names
-                                                $dept_query = "SELECT * FROM employee_tb WHERE empposition = '$emp_position'";
+                                                $pos_query = "SELECT positionn_tb.id,
+                                                                employee_tb.empid,
+                                                                CONCAT(
+                                                                    employee_tb.`fname`,
+                                                                    ' ',
+                                                                    employee_tb.`lname`
+                                                                ) AS `full_name`,
+                                                                positionn_tb.position
+                                                                FROM employee_tb INNER JOIN positionn_tb ON employee_tb.empposition = positionn_tb.id 
+                                                            WHERE employee_tb.empposition = '$position_id'";
 
-                                                $result = mysqli_query($conn, $dept_query);
-
-                                                // Generate the HTML table header
+                                                $result = mysqli_query($conn, $pos_query);
 
                                                 // Loop over the departments and count the employees
                                                 while ($row = mysqli_fetch_array($result)) {
-                                                    $fullname = $row['fname'] . ' ' . $row['lname'];
 
                                                     // Generate the HTML table row
                                                     echo "<tr>
                                                         <td>" . $row['empid'] . "</td>
-                                                        <td>" . $fullname . "</td>
-                                                        <td>" . $row['empposition'] . "</td>
+                                                        <td>" . $row['full_name'] . "</td>
+                                                        <td>" . $row['position'] . "</td>
 
                                                         </tr>";
                                                 }
 
-                                                // Close the HTML table
-
-                                                // Close the database connection
                                                 mysqli_close($conn);
                             echo "          
                                         </tbody>   

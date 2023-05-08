@@ -3,7 +3,17 @@
     session_start();
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
     }
+
  
     $server = "localhost";
     $user = "root";
@@ -40,6 +50,11 @@
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="vendors/feather/feather.css">
+        <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+        <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -64,6 +79,20 @@
 
 
 <body onload="displayCurrentDate()">
+
+<style>
+    body{
+        overflow: hidden;
+    }
+
+    .email-col {
+        width: 25% !important; /* adjust the width as needed */
+    }
+    #order-listing th.email-col,
+    #order-listing td.email-col {
+        text-align: left; /* optional, aligns text to the left */
+    }
+</style>
 
     <header>
         <?php include("header.php")?>
@@ -125,7 +154,7 @@
 
             
                 <div class="att-excel-input">
-                    <form action="Data Controller/Attendance/attendanceController.php"  enctype="multipart/form-data" method="POST">
+                    <form action="Data Controller/Attendance/attImportController.php"  enctype="multipart/form-data" method="POST">
                             <input type="file" name="file" />
                             <input type="submit" value="Submit" name="importSubmit" class="btn btn-primary">
                     </form>
@@ -138,25 +167,46 @@
             <h1 id="current-date"></h1>
         </div>
         
-    
-        <div class="att-search">
-        <input class="employeeList-search" type="text" placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome;" id="search" style="outline:none;"/>
-        </div>
 
+        <style>
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                max-height: 300px;
+                height: 300px;
+                
+            }
+            tbody {
+                display: table;
+                width: 100%;
+            }
+            tr {
+                width: 100% !important;
+                display: table !important;
+                table-layout: fixed !important;
+            }
+            th, td {
+                text-align: left !important;
+                width: 14.28% !important;
+            }
+        </style>
       
-        <table class="table table-hover" id="att-table">
+        <div style="width: 95%; margin:auto; margin-top: 30px;">
+        <table id="order-listing" class="table" style="width: 100%;">
     <thead>
         <th>Status</th>
         <th>Employee ID</th>
-        <th>Name</th>
+        <th class="email-col">Name</th>
         <th>Date</th>
         <th>Time in</th>
         <th>Time out</th>
         <th>Late</th>
-        <th>Early Out</th>
+        <th>Undertime</th>
         <th>Overtime</th>
         <th>Total Work</th>
         <th>Total Rest</th>
+        <th>Remarks</th>
     </thead>
     <tbody id="myTable" >
         <?php
@@ -185,15 +235,71 @@
                 <tr>
                     <td style="font-weight: 400;"><?php echo $row['status']; ?></td>
                     <td style="font-weight: 400;"><?php echo $row['empid']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['full_name']; ?> </td>
+                    <td class="email-col" style="font-weight: 400;"><?php echo $row['full_name']; ?> </td>
                     <td style="font-weight: 400;"><?php echo $row['date']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['time_in']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['time_out']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['late']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['early_out']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['overtime']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['total_work']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['total_rest']; ?></td>
+                            <!-------- td  for time out ----------->
+                    <td 
+                        <?php 
+                            if($row['time_in'] === '00:00:00')
+                                {
+                                    echo 'style="color: #FF5D5E;" ';
+                                }
+                            else
+                            {
+                                echo 'style="font-weight: 400;"';
+                            }
+                        ?>
+                    > <!--close td -->
+                        <?php 
+                            echo $row['time_in']; 
+                        ?>
+                    </td>
+                            <!-------- td  for time out ----------->
+                    <td  
+                        <?php 
+                            if($row['time_out'] === '00:00:00')
+                                {
+                                    echo 'style="color: #FF5D5E;" ';
+                                }
+                            else
+                            {
+                                echo 'style="font-weight: 400;"';
+                            }
+                        ?>
+                    > <!--close td -->
+                        <?php 
+                            echo $row['time_out']; 
+                        ?>
+                    </td>
+                    
+                    <td style="font-weight: 400; color:red;"><?php echo $row['late']; ?></td>
+                    <td style="font-weight: 400; color: blue"><?php echo $row['early_out']; ?></td>
+                    <td style="font-weight: 400; color: orange;"><?php echo $row['overtime']; ?></td>
+                    <td style="font-weight: 400; color:green;"><?php echo $row['total_work']; ?></td>
+                    <td style="font-weight: 400; color:gray;"><?php echo $row['total_rest']; ?></td>
+                    <td 
+                        <?php 
+                            if($row['time_in'] === '00:00:00' || $row['time_out'] === '00:00:00')
+                            {
+                                echo 'style="color: #FF5D5E;  text-align: center;"';} else{echo 'style="font-weight: 400; text-align: center;"';
+                            }
+                        ?> 
+                    > <!--close td -->
+                        <?php
+                            if($row['time_in'] === '00:00:00')
+                                {
+                                    echo 'NO TIME IN';
+                                }
+                            else if($row['time_out'] === '00:00:00')
+                                {
+                                    echo 'NO TIME OUT';
+                                }
+                            else
+                                {
+                                    echo 'N/A';
+                                }
+                         ?>
+                    </td>
                 </tr> 
                 <?php        
             }
@@ -208,6 +314,7 @@
         ?>
     </tbody>
 </table>
+    </div>
 
     
         <div class="att-export-btn">
@@ -223,8 +330,14 @@
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="main.js"></script>
+    
+    <script src="vendors/js/vendor.bundle.base.js"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="bootstrap js/template.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
 
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function(){
             $('#search').keyup(function(){
                 search_table($(this).val());
@@ -246,7 +359,7 @@
                 });
             }
         });
-    </script>
+    </script> -->
 
 </body>
 </html>

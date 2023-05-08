@@ -6,10 +6,20 @@
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css"> 
 </head> -->
-<?php 
-
-session_start();
-
+<?php
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
 ?>
 <body>
 
@@ -123,12 +133,7 @@ session_start();
 
                 <li><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
                 <ul class="sett-dd-show">
-                        <li><a href="official_emp.php">OFFICIAL</a></li>
-                        <li><a href="dtr_emp.php">DTR EMPLOYEE</a></li>
-                        <li><a href="my_schedule.php">MY SCHEDULE</a></li>
-                        <li><a href="overtime_req.php">OVERTIME REQUEST</a></li>
-                        <li><a href="undertime_req.php">UNDERTIME REQUEST</a></li>
-                        <li><a href="Wfh_request.php">WFH REQUEST</a></li>
+                        
                     </ul>
                 </li>
                 

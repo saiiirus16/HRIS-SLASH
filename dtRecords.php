@@ -155,41 +155,41 @@ if(!empty($_GET['status'])){
                         }
                         echo "</select>";
                       ?>
-            </div>
-            
-            <div class="input-container">
-              <p class="demm-text">Employee</p>
-                <?php
-                        include 'config.php';
+                </div>
+                
+                <div class="input-container">
+                <p class="demm-text">Employee</p>
+                    <?php
+                            include 'config.php';
 
-                        // Fetch all values of empid and date from the database
-                        $sql = "SELECT `employee_id` FROM `daily_time_records_tb`";
-                        $result = mysqli_query($conn, $sql);
+                            // Fetch all values of empid and date from the database
+                            $sql = "SELECT `employee_id` FROM `daily_time_records_tb`";
+                            $result = mysqli_query($conn, $sql);
 
-                        // Generate the dropdown list
-                        echo "<select class='select-btn form-select-m' aria-label='.form-select-sm example' name='name_emp''>";
-                        echo "<option value='Select All Employee' default>Select Employee</option>"; // Add a default option
-                        while ($row = mysqli_fetch_array($result)) {
-                        $employee_id = $row['employee_id'];
-                        echo "<option value='$employee_id'>$employee_id</option>"; // Set the value to emp_id|date
-                        }
-                        echo "</select>";
-                      ?>
-            </div>
+                            // Generate the dropdown list
+                            echo "<select class='select-btn form-select-m' aria-label='.form-select-sm example' name='name_emp''>";
+                            echo "<option value='Select All Employee' default>Select Employee</option>"; // Add a default option
+                            while ($row = mysqli_fetch_array($result)) {
+                            $employee_id = $row['employee_id'];
+                            echo "<option value='$employee_id'>$employee_id</option>"; // Set the value to emp_id|date
+                            }
+                            echo "</select>";
+                        ?>
+                </div>
 
-            <div class="input-container">
-              <p class="demm-text">Month From</p>
-              <input class="select-btn" type="date" name="" id="datestart" required>
+                <div class="input-container">
+                <p class="demm-text">Month From</p>
+                <input class="select-btn" type="date" name="" id="datestart" required>
+                </div>
+                <div class="input-container">
+                <div class="notif">
+                <p class="demm-text">Month To</p>
+                <p id="validate" class="validation">End date must beyond the start date</p>
+                </div>
+                <input class="select-btn" type="date" id="enddate" onchange="datefunct()" required>
+                </div>
+                <button id="arrowBtn"> &rarr; Apply Filter</button>
             </div>
-            <div class="input-container">
-              <div class="notif">
-              <p class="demm-text">Month To</p>
-              <p id="validate" class="validation">End date must beyond the start date</p>
-            </div>
-              <input class="select-btn" type="date" id="enddate" onchange="datefunct()" required>
-            </div>
-            <button id="arrowBtn"> &rarr; Apply Filter</button>
-          </div>
 <!----------------------------------------select button and text input--------------------------------------->
 
 
@@ -227,7 +227,7 @@ if(!empty($_GET['status'])){
                                         <tr>
                                             <td><?php echo $row['employee_id'];?></td>
                                             <td><?php echo $row['name'];?></td>
-                                            <td><?php echo $row['date'];?></td>
+                                            <td><?php echo $row['date_records'];?></td>
                                             <td><?php echo $row['department'];?></td>
                                             <td><?php echo $row['schedule_type'];?></td>
                                             <td><?php echo $row['time_entry'];?></td>

@@ -136,7 +136,6 @@ session_start();
 
                                 <div class="input-group mb-3">
                                     <input type="file" name="file_upload" class="form-control" id="inputfile" >
-                                    <label class="input-group-text"  for="inputGroupFile02">Upload</label>
                                 </div>
 
                                 <div class="mb-3">
@@ -320,7 +319,7 @@ session_start();
                                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
                                                 </td>
                                                 <?php else: ?>
-                                                <td></td> <!-- Show an empty cell if there is no file attachment -->
+                                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                                 <?php endif; ?>
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>
@@ -362,7 +361,7 @@ session_start();
 </script>
 <!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
 
-<!------------------------------------Script para lumabas ang modal------------------------------------------------->
+<!------------------------------------Script para lumabas download ang modal------------------------------------------------->
 <script>
      $(document).ready(function(){
                $('.downloadbtn').on('click', function(){

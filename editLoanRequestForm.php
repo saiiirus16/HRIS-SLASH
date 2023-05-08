@@ -1,9 +1,19 @@
 <?php
-    session_start();
+   
+   session_start();
+   if(!isset($_SESSION['username'])){
+       header("Location: login.php"); 
+   } else {
+       // Check if the user's role is not "admin"
+       if($_SESSION['role'] != 'admin'){
+           // If the user's role is not "admin", log them out and redirect to the logout page
+           session_unset();
+           session_destroy();
+           header("Location: logout.php");
+           exit();
+       }
+   }
 
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    }
     
 
         $server = "localhost";
@@ -18,8 +28,11 @@
                                  SET empid='".$_POST['empid']."', loan_type='".$_POST['loan_type']."', year='".$_POST['year']."', month='".$_POST['month']."', cutoff_no='".$_POST['cutoff_no']."', remarks='".$_POST['remarks']."', loan_date='".$_POST['loan_date']."', payable_amount='".$_POST['payable_amount']."', amortization='".$_POST['amortization']."', applied_cutoff='".$_POST['applied_cutoff']."', loan_status='".$_POST['loan_status']."' WHERE id='".$_POST['id']."'");
             header ("Location: loanRequest.php");
         }
-            $resulta = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE id ='". $_GET['id']. "'");
+            $resulta = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE id ='". $_GET['id']. "' ");
             $loanrow = mysqli_fetch_assoc($resulta);
+
+            $resultb = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE empid ='".$loanrow['empid']. "' ");
+            $loanrows = mysqli_fetch_assoc($resultb);
         
         
 
@@ -53,26 +66,20 @@
             <div class="col-6" style="padding: 0 30px 0 30px;">
             <input type="hidden" name="id" value="<?php echo $loanrow['id']; ?>">
                 <div class="form-group">
-                    <?php
-                        $server = "localhost";
-                        $user = "root";
-                        $pass ="";
-                        $database = "hris_db";
-
-                        $conn = mysqli_connect($server, $user, $pass, $database);
-                        $sql = "SELECT * FROM employee_tb ORDER BY empid ASC";
-                        $result = mysqli_query($conn, $sql);
-                            
-                        $options = "";
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $options .= "<option value='".$row['empid']."'>".$row['empid']." - ".$row['fname']." ".$row['lname']."</option>";
-                            }
-                    ?>
-
-                    <label for="employee">Employee</label><br>
-                    <select name="empid" id="" class="form-control" style="height:50px;" readonly value="<?php echo $loanrow['empid'];?>" >
-                        <?php echo $options; ?>
-                    </select>
+                <?php 
+                    include 'config.php';
+                    $empid = $loanrow['empid']; 
+                    
+                    $sql = "SELECT payroll_loan_tb.id,
+                                employee_tb.empid,
+                                CONCAT(employee_tb.fname, ' ', employee_tb.lname) AS full_name
+                            FROM payroll_loan_tb
+                            INNER JOIN employee_tb ON employee_tb.empid = payroll_loan_tb.empid
+                            WHERE payroll_loan_tb.empid = $empid";
+                    $result = $conn->query($sql);
+                    $nameRow = mysqli_fetch_assoc($result);
+                ?>
+                <input type="text" name="empid" value="<?php echo $nameRow['full_name']?>" class="form-control" style="height:50px;" readonly>
                 </div>
                 <div class="form-group">
                     <label for="loan_type">Loan Type</label><br>
@@ -117,7 +124,9 @@
                         </select>
                 </div>
                     <div style="display:flex; align-items:center; height: 60px; margin-top: 27px;">  
+                        
                         <button type="button" style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
+
                     </div>
                 </div>
                 <div class="form-group loan-remarks">
@@ -132,12 +141,12 @@
                 </div>
                 <div class="form-group">
                     <label for="payable_amount">Payable Amount</label><br>
-                    <input type="number" name="payable_amount" class="form-control" style="height:50px;" id="payable_amount" oninput="calculate()" value="<?php echo $loanrow['payable_amount'];?>"> 
+                    <input type="number" name="payable_amount" class="form-control" style="height:50px;" id="payable_amount" oninput="calculate()" value="<?php echo $loanrows['payable_amount'];?>"> 
                 </div>
 
                 <div class="form-group">
                     <label for="amortization">Amortization</label><br>
-                    <input type="text" name="amortization" class="form-control" id="amortization" style="height:50px" readonly value="<?php echo $loanrow['amortization']; ?>">
+                    <input type="text" name="amortization" class="form-control" id="amortization" style="height:50px" readonly value="<?php echo $loanrows['amortization']; ?>">
                 </div>
                 <div class="form-group">
                     <label for="applied_cutoff">Applied Cutoff</label><br>
@@ -187,8 +196,15 @@
             <h1>Loan Forecast</h1>
             <div></div>
         </div>
+        <?php 
+            include 'config.php';
+
+            $sql = "SELECT * FROM payroll_loan_tb WHERE id ='". $_GET['id']. "'";
+            $resulta = $conn->query($sql);
+            $rows = mysqli_fetch_assoc($resulta);
+        ?>
         <div class="loan-forecast-balance">
-            <p>Balance: 0</p>
+            <p>Balance: <?php echo $rows['col_BAL_amount']?></p>
         </div>
         <div class="loan-forecast-table">
             <table class="table table-hover table-bordered" style="margin-bottom: 50px;">
@@ -202,9 +218,7 @@
                 <tbody>
                     <?php
                         $conn = mysqli_connect("localhost", "root", "" , "hris_db");
-                        $sql = "SELECT * FROM payroll_loan_tb AS payloan
-                                INNER JOIN employee_tb AS emp
-                                ON(payloan.empid = emp.empid)";
+                        $sql = "SELECT * FROM payroll_loan_tb WHERE empid = '".$loanrow['empid']."' ";
                         $results = $conn->query($sql);
 
                         if($results->num_rows > 0){

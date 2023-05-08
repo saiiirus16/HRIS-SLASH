@@ -1,42 +1,59 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
+  
+   session_start();
+   if(!isset($_SESSION['username'])){
+       header("Location: login.php"); 
+   } else {
+       // Check if the user's role is not "admin"
+       if($_SESSION['role'] != 'admin'){
+           // If the user's role is not "admin", log them out and redirect to the logout page
+           session_unset();
+           session_destroy();
+           header("Location: logout.php");
+           exit();
+       }
+   }
+
+    
+   $server = "localhost";
+$user = "root";
+$pass = "";
+$database = "hris_db";
+
+$conn = mysqli_connect($server, $user, $pass, $database);
+if(isset($_FILES['emp_img'])) {
+    $file_name = $_FILES['emp_img']['name'];
+    $file_tmp = $_FILES['emp_img']['tmp_name'];
+    $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+    $new_file_name = uniqid() . "." . $file_ext;
+    move_uploaded_file($file_tmp, "uploads/" . $new_file_name);
+    echo '<img src="uploads/'.$new_file_name.'" alt="My Image">';
+    $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
+}
+
+if(isset($row['emp_img_url'])) {
+    $image_url = $row['emp_img_url'];
+} else {
+    $image_url = "default_image.png";
+}
+
+// Get file extension from image URL
+$file_ext = pathinfo($image_url, PATHINFO_EXTENSION);
+
+// Remove any additional extensions from the image URL
+$image_url = str_replace("." . $file_ext, "", $image_url);
+
+if(count($_POST) > 0){
+    $emp_img_url = "";
+    if (isset($_POST['emp_img_url'])) {
+        $emp_img_url = ", emp_img_url='".$new_file_name."'";
     }
-    
-    $server = "localhost";
-    $user = "root";
-    $pass = "";
-    $database = "hris_db";
-    
-    $conn = mysqli_connect($server, $user, $pass, $database);
-    if(isset($_FILES['emp_img'])) {
-        $file_name = $_FILES['emp_img']['name'];
-        $file_tmp = $_FILES['emp_img']['tmp_name'];
-        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
-        $new_file_name = uniqid() . "." . $file_ext;
-        move_uploaded_file($file_tmp, "uploads/" . $new_file_name);
-        echo '<img src="uploads/'.$new_file_name.'" alt="My Image">';
-        $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
-    }
-    
-    if(isset($row['emp_img_url'])) {
-        $image_url = $row['emp_img_url'];
-    } else {
-        $image_url = "default_image.png";
-    }
-    
-    // Get file extension from image URL
-    $file_ext = pathinfo($image_url, PATHINFO_EXTENSION);
-    
-    // Remove any additional extensions from the image URL
-    $image_url = str_replace("." . $file_ext, "", $image_url);
-    
-    if(count($_POST) > 0){
-        mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',schedule_name='".$_POST['schedule_name']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."', emp_img_url='".$image_url.".".$file_ext."', status='".$_POST['status']."'
-        WHERE id ='".$_POST['id']."'");
-        header ("Location: EmployeeList.php");
-    }
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+    WHERE id ='".$_POST['id']."'");
+    header ("Location: EmployeeList.php");
+}
+
+
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
     $row = mysqli_fetch_assoc($result);  
 ?>
@@ -73,7 +90,7 @@
                     <div class="employeeList-modal" id="Modal">
                         <div class="employeeList-info-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
-                                <h1>Personal Information</h1>
+                            <h1>Employment Information</h1>
                                 <span class="fa-solid fa-pen-to-square" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px;"></span>  
                             </div>
                             <div class="emp-list-main">
@@ -188,7 +205,7 @@
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
-                                        <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -199,7 +216,7 @@
                                     </div>
                                     <div>
                                     <label for="tinamount">Amount</label><br>
-                                        <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -210,7 +227,7 @@
                                     </div>
                                     <div>
                                     <label for="pagibigamount">Amount</label><br>
-                                        <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -221,7 +238,7 @@
                                     </div>
                                     <div>
                                     <label for="philhealth_amount">Amount</label><br>
-                                        <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +268,7 @@
 
                         <div class="emp-empInfo-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
-                                <h1>Employee Information</h1>
+                            <h1>Employment Credentials</h1>
                             </div>
                             <div class="emp-empInfo-first-container">
                                 <div class="empInfo-empid">
@@ -259,45 +276,60 @@
                                         <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>" >
                                 </div>
                                 <div class="empInfo-position">
-                                    <label for="empposition">Job Position</label><br>
-                                    <select name="empposition" id="" placeholder="Select Job Position" value="<?php echo $row['empposition'];?>">
-                                        <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Department</option> -->
-                                        <option value="Admin Staff">Admin Staff</option>
-                                        <option value="Software Developer">Software dev</option>
-                                        <option value="IT Sales Associate">IT Sales Associate</option>
-                                    </select>
+                                <?php
+                                include 'config.php';
+
+                                $sql = "SELECT * FROM positionn_tb";
+                                $results = mysqli_query($conn, $sql);
+
+                                $options = "";
+                                while ($rows = mysqli_fetch_assoc($results)) {
+                                    $selected = ($rows['id'] == $row['empposition']) ? 'selected' : '';
+                                    $options .= "<option value='".$rows['id']."' ".$selected.">" .$rows['position'].  "</option>";
+                                }
+                                ?>
+                                <label for="empposition">Job Position</label><br>
+                                <select name="empposition" id="" placeholder="Select Job Position" value="<?php echo $row['position'];?>">
+                                    <?php echo $options; ?>
+                                </select>
                                 </div>
                                 <div class="empInfo-role">
                                     <label for="role">Role</label><br>
-                                        <select name="role" id="" placeholder="Select Schedule Type" value="<?php echo $row['role'] ?>">
-                                            <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Role</option> -->
+                                    <select name="role" value="<?php echo $row['role'] ?>">
+                                            <option selected="selected" class="selectTag" style="color: gray;" value="<?php echo $row['role'] ?>"><?php echo $row['role'];?></option>
                                             <option value="Employee">Employee</option>
                                             <option value="Admin">Admin</option>
                                             <option value="Superadmin">Superadmin</option>  
                                         </select> 
                                 </div>
                                 <div class="empInfo-branch">
+                                    <?php
+                                        $result = mysqli_query($conn, "SELECT * FROM employee_tb 
+                                        INNER JOIN branch_tb
+                                        ON employee_tb.empbranch = branch_tb.id 
+                                        WHERE employee_tb.empbranch  ='". $row['empbranch'] . "'");
+                                        $row_branch = mysqli_fetch_assoc($result); 
+                                    ?>
                                     <label for="empbranch">Branch</label><br>
-                                        <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['empbranch'] ?>" >
+                                        <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row_branch['branch_name'];?>" >
                                 </div>
                                 <div class="empInfo-department">
                                     <?php
                                         include 'config.php';
 
-                                        $sql = "SELECT col_deptname FROM dept_tb";
+                                        $sql = "SELECT * FROM dept_tb";
                                         $results = mysqli_query($conn, $sql);
-             
-                                            $options = "";
-                                            while ($rows = mysqli_fetch_assoc($results)) {
-                                            $options .= "<option value='".$rows['col_deptname']."'>" .$rows['col_deptname'].  "</option>";
-                                            }
-                                    ?>
-             
-                                    <label for="depatment">Department</label><br>
-                                    <select name="department_name" id="" value="<?php echo $row['col_deptname'];?>">
-                                    <!-- <option value disabled selected>Select Department</option> -->
-                                        <?php echo $options; ?>
-                                    </select>
+                                        $options = "";
+                                        while ($rows = mysqli_fetch_assoc($results)) {
+                                            $selected = ($rows['col_ID'] == $row['department_name']) ? 'selected' : '';
+                                            $options .= "<option value='".$rows['col_ID']."' ".$selected.">" .$rows['col_deptname'].  "</option>";
+                                        }
+                                        ?>
+                                        
+                                        <label for="department_name">Department</label><br>
+                                        <select name="department_name" id="" placeholder="Select Job Position" value="<?php echo $row['col_deptname'];?>">
+                                            <?php echo $options; ?>
+                                        </select>
                                 </div>
                                 <div class="empInfo-classification">
                                      <label for="classification">Classification</label><br>
@@ -329,25 +361,17 @@
                                 </div>
                                 <div class="worksched-scedule">
                                     <label for="schedule_name">Schedule Setup</label><br>
-                                    <?php
-                                    include 'config.php';
-
-                                    $conn =mysqli_connect("localhost", "root", "" , "hris_db");
-                                    $stmt = "SELECT * FROM empschedule_tb
-                                            AS esched
-                                            INNER JOIN employee_tb
-                                            AS emp
-                                            ON(emp.empid = esched.empid)";
+                                        <?php
+                                        include 'config.php';
                                    
-                                    $results = mysqli_query($conn,$stmt);
-                                        $options = "";
-                                        while($rows = mysqli_fetch_assoc($results)){
-                                            $options .="<option value='".$rows['schedule_name']."'>".$rows['schedule_name']."</option>";
+                                            $result_emp_sched = mysqli_query($conn, "SELECT schedule_name FROM empschedule_tb WHERE empid ='". $_GET['empid']. "'");
+                                            if(mysqli_num_rows($result_emp_sched) > 0) {
+                                            $row_emp_sched = mysqli_fetch_assoc($result_emp_sched);
+                                            $schedID = $row_emp_sched['schedule_name'];
                                         }
-                                        ?>
-                                        <select name="schedule_name" id="" value="<?php echo $row['schedule_name']; ?>">
-                                            <?php echo $options; ?>
-                                        </select>
+                                        
+                                            ?>
+                                        <input type="text" name="schedule_name" value="<?php echo $schedID?>" id="" readonly>                                       
                                 </div>
                             </div>
                         </div>

@@ -10,14 +10,14 @@ if(isset($_POST['signIn'])){
     $password = $_POST['password'];
     $userType = $_POST['userType'];
 
-    $sql = "SELECT * FROM user_tb WHERE `username` = '$username' AND `password` = '$password'";
-
+    $sql = "SELECT * FROM user_tb WHERE username = '$username' AND `password` = '$password'";
     $result = mysqli_query($conn, $sql);
         if($result->num_rows > 0){
             $row = mysqli_fetch_assoc($result);
             $_SESSION['username'] = $row ['username'];
             $_SESSION['password'] = $row['password'];
             $_SESSION['userType'] = $row['userType'];
+            $_SESSION['role'] = $row['role'];
 
             
             header("Location: Dashboard.php");
@@ -26,20 +26,6 @@ if(isset($_POST['signIn'])){
             echo 'alert("Wrong Email or Password!");';
             echo '</script>';
         }
-        // if ($result->num_rows > 0) {
-        //     $row = mysqli_fetch_assoc($result);
-        //     $hashed_password = $row['password'];
-        //     if (password_verify($password, $hashed_password)) {
-        //         header("Location: Dashboard.php");
-        //     } else {
-        //         echo '<script type="text/javascript">';
-        //         echo 'alert("Wrong Email or Passwordeee!");';
-        //         echo '</script>';
-        //     }
-        // } else {
-        //     // No user was found with the provided username
-        // }
-        
 }
 
 ?>

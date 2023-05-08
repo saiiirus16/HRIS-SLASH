@@ -1,9 +1,19 @@
 
 <?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    }
+ 
+  session_start();
+  if(!isset($_SESSION['username'])){
+      header("Location: login.php"); 
+  } else {
+      // Check if the user's role is not "admin"
+      if($_SESSION['role'] != 'admin'){
+          // If the user's role is not "admin", log them out and redirect to the logout page
+          session_unset();
+          session_destroy();
+          header("Location: logout.php");
+          exit();
+      }
+  }
     
     $server = "localhost";
     $user = "root";

@@ -17,7 +17,7 @@ if(!$db){
  
 
 // Fetch records from database 
-$query = $db->query("SELECT * FROM attendance_tb ORDER BY id ASC"); 
+$query = $db->query("SELECT * FROM attendances ORDER BY id ASC"); 
  
 if($query->num_rows > 0){ 
     $delimiter = ","; 
@@ -27,12 +27,12 @@ if($query->num_rows > 0){
     $f = fopen('php://memory', 'w'); 
      
     // Set column headers 
-    $fields = array('STATUS', 'EMPLOYEE ID', 'NAME', 'DATE', 'TIME IN', 'TIME OUT', 'LATE', 'EARLY OUT', 'OVERTIME', 'TOTAL WORK', 'TOTAL REST'); 
+    $fields = array('STATUS', 'EMPLOYEE ID', 'DATE', 'TIME IN', 'TIME OUT', 'LATE', 'EARLY OUT', 'OVERTIME', 'TOTAL WORK', 'TOTAL REST'); 
     fputcsv($f, $fields, $delimiter); 
      
     // Output each row of the data, format line as csv and write to file pointer 
     while($row = $query->fetch_assoc()){ 
-        $lineData = array($row['status'], $row['empid'], $row['name'], $row['date'], $row['time_in'], $row['time_out'], $row['late'], $row['early_out'], $row['overtime'], $row['total_work'], $row['total_rest']); 
+        $lineData = array($row['status'], $row['empid'], $row['date'], $row['time_in'], $row['time_out'], $row['late'], $row['early_out'], $row['overtime'], $row['total_work'], $row['total_rest']); 
         fputcsv($f, $lineData, $delimiter); 
     } 
      

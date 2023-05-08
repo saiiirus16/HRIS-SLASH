@@ -128,6 +128,10 @@
                 <div class="form-group">
                     <label for="amortization">Amortization</label><br>
                     <input type="text" name="amortization" class="form-control" id="amortization" style="height:50px" readonly>
+
+                    <!-- hidden type  -->
+                    <input type="hidden" name="loan_status" value="PENDING">
+                    
                 </div>
                 <div class="form-group">
                     <label for="applied_cutoff">Applied Cutoff</label><br>
