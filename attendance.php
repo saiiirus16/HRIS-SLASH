@@ -238,11 +238,11 @@
                     <td style="font-weight: 400;"><?php echo $row['date']; ?></td>
                     <td style="font-weight: 400;"><?php echo $row['time_in']; ?></td>
                     <td style="font-weight: 400;"><?php echo $row['time_out']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['late']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['early_out']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['overtime']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['total_work']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['total_rest']; ?></td>
+                    <td style="font-weight: 400; color:red;"><?php echo $row['late']; ?></td>
+                    <td style="font-weight: 400; color:blue"><?php echo $row['early_out']; ?></td>
+                    <td style="font-weight: 400; color: orange"><?php echo $row['overtime']; ?></td>
+                    <td style="font-weight: 400; color:green;"><?php echo $row['total_work']; ?></td>
+                    <td style="font-weight: 400; color:gray"><?php echo $row['total_rest']; ?></td>
                 </tr> 
                 <?php        
             }

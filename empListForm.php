@@ -96,9 +96,8 @@
                             </div>
                             <div class="emp-info-first-input">
                                 <div class="emp-info-fname">
-                                        <label for="fname">First Name</label><br>
-                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" id="fname" onkeyup='saveValue(this);' required >
-                                        
+                                    <label for="fname">First Name</label><br>
+                                    <input id="form-fname" type="text" name="fname" placeholder="First Name" id="fname" onkeyup='saveValue(this);' required >
                                 </div>
                                 <div class="emp-info-lname">
                                         <label for="lname">Last Name</label><br>
@@ -106,9 +105,9 @@
                                         
                                 </div>
                                 <div class="emp-info-empID">
-                                        <label for="empid">Employee ID</label><br>
-                                        <input type="text" name="empid" id="form-empid" placeholder="Employee ID" required>
-                                        
+                                    <label for="empid">Employee ID</label><br>
+                                    <input type="text" name="empid" id="form-empid" placeholder="Employee ID" required maxlength="6">  
+                                    <span id="empid-error" style="color: red;"></span>
                                 </div>
                             </div>
                             <div class="emp-info-second-input">

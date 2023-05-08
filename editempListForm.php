@@ -90,7 +90,7 @@ if(count($_POST) > 0){
                     <div class="employeeList-modal" id="Modal">
                         <div class="employeeList-info-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
-                                <h1>Personal Information</h1>
+                                <h1>Employment Information</h1>
                                 <span class="fa-solid fa-pen-to-square" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px;"></span>  
                             </div>
                             <div class="emp-list-main">
@@ -205,7 +205,7 @@ if(count($_POST) > 0){
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
-                                        <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -216,7 +216,7 @@ if(count($_POST) > 0){
                                     </div>
                                     <div>
                                     <label for="tinamount">Amount</label><br>
-                                        <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -227,7 +227,7 @@ if(count($_POST) > 0){
                                     </div>
                                     <div>
                                     <label for="pagibigamount">Amount</label><br>
-                                        <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
 
@@ -238,7 +238,7 @@ if(count($_POST) > 0){
                                     </div>
                                     <div>
                                     <label for="philhealth_amount">Amount</label><br>
-                                        <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; } else { echo 'Input Deduction'; }?>" style="color:gray; font-size: 15px;">
+                                        <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; }?>" style="color:gray; font-size: 15px;">
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@ if(count($_POST) > 0){
 
                         <div class="emp-empInfo-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
-                                <h1>Employee Information</h1>
+                                <h1>Employment Credentials</h1>
                             </div>
                             <div class="emp-empInfo-first-container">
                                 <div class="empInfo-empid">
@@ -276,60 +276,67 @@ if(count($_POST) > 0){
                                         <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>" >
                                 </div>
                                 <div class="empInfo-position">
-                                    <label for="empposition">Job Position</label><br>
-                                    <select name="empposition" id="" placeholder="Select Job Position" value="<?php echo $row['empposition'];?>">
-                                        <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Department</option> -->
-                                        <option value="Admin Staff">Admin Staff</option>
-                                        <option value="Software Developer">Software dev</option>
-                                        <option value="IT Sales Associate">IT Sales Associate</option>
-                                    </select>
+                                <?php
+                                include 'config.php';
+
+                                $sql = "SELECT * FROM positionn_tb";
+                                $results = mysqli_query($conn, $sql);
+
+                                $options = "";
+                                while ($rows = mysqli_fetch_assoc($results)) {
+                                    $selected = ($rows['id'] == $row['empposition']) ? 'selected' : '';
+                                    $options .= "<option value='".$rows['id']."' ".$selected.">" .$rows['position'].  "</option>";
+                                }
+                                ?>
+                                <label for="empposition">Job Position</label><br>
+                                <select name="empposition" id="" placeholder="Select Job Position" value="<?php echo $row['position'];?>">
+                                    <?php echo $options; ?>
+                                </select>
                                 </div>
                                 <div class="empInfo-role">
                                     <label for="role">Role</label><br>
-                                        <select name="role" id="" placeholder="Select Schedule Type" value="<?php echo $row['role'] ?>">
-                                            <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Role</option> -->
+                                        <select name="role" value="<?php echo $row['role'] ?>">
+                                            <option selected="selected" class="selectTag" style="color: gray;" value="<?php echo $row['role'] ?>"><?php echo $row['role'];?></option>
                                             <option value="Employee">Employee</option>
                                             <option value="Admin">Admin</option>
                                             <option value="Superadmin">Superadmin</option>  
                                         </select> 
                                 </div>
                                 <div class="empInfo-branch">
-                                        <?php
-                                                include 'config.php';
+                                    <?php
+                                    include 'config.php';
 
-                                                $sql = "SELECT * FROM branch_tb";
-                                                $results = mysqli_query($conn, $sql);
-                    
-                                                    $options = "";
-                                                    while ($rows = mysqli_fetch_assoc($results)) {
-                                                    $options .= "<option value='".$rows['branch_name']."'>" .$rows['branch_name'].  "</option>";
-                                                    }
-                                            ?>
-                    
-                                    <label for="empbranch">Branch</label><br>
-                                    <select name="empbranch" id="" value="<?php echo $row['empbranch'];?>">
-                                    <!-- <option value disabled selected>Select Department</option> -->
+                                    $sql = "SELECT * FROM branch_tb";
+                                    $results = mysqli_query($conn, $sql);
+
+                                    $options = "";
+                                    while ($rows = mysqli_fetch_assoc($results)) {
+                                        $selected = ($rows['id'] == $row['empbranch']) ? 'selected' : '';
+                                        $options .= "<option value='".$rows['id']."' ".$selected.">" .$rows['branch_name'].  "</option>";
+                                    }
+                                    ?>
+                                    <label for="branch">Branch</label><br>
+                                    <select name="empbranch" id="" placeholder="Select Job Position" value="<?php echo $row['branch_name'];?>">
                                         <?php echo $options; ?>
                                     </select>
                                 </div>
                                 <div class="empInfo-department">
-                                    <?php
-                                        include 'config.php';
+                                <?php
+                                    include 'config.php';
 
-                                        $sql = "SELECT col_deptname FROM dept_tb";
-                                        $results = mysqli_query($conn, $sql);
-             
-                                            $options = "";
-                                            while ($rows = mysqli_fetch_assoc($results)) {
-                                            $options .= "<option value='".$rows['col_deptname']."'>" .$rows['col_deptname'].  "</option>";
-                                            }
+                                    $sql = "SELECT * FROM dept_tb";
+                                    $results = mysqli_query($conn, $sql);
+
+                                    $options = "";
+                                    while ($rows = mysqli_fetch_assoc($results)) {
+                                        $selected = ($rows['col_ID'] == $row['department_name']) ? 'selected' : '';
+                                        $options .= "<option value='".$rows['col_ID']."' ".$selected.">" .$rows['col_deptname'].  "</option>";
+                                    }
                                     ?>
-             
-                                    <label for="depatment">Department</label><br>
-                                    <select name="department_name" id="" value="<?php echo $row['col_deptname'];?>">
-                                    <!-- <option value disabled selected>Select Department</option> -->
+                                    <label for="department_name">Department</label><br>
+                                    <select name="department_name" id="" placeholder="Select Job Position" value="<?php echo $row['col_deptname'];?>">
                                         <?php echo $options; ?>
-                                    </select>
+                                    </select>      
                                 </div>
                                 <div class="empInfo-classification">
                                      <label for="classification">Classification</label><br>
