@@ -154,7 +154,7 @@
 
             
                 <div class="att-excel-input">
-                    <form action="Data Controller/Attendance/attendanceController.php"  enctype="multipart/form-data" method="POST">
+                    <form action="Data Controller/Attendance/attImportController.php"  enctype="multipart/form-data" method="POST">
                             <input type="file" name="file" />
                             <input type="submit" value="Submit" name="importSubmit" class="btn btn-primary">
                     </form>
@@ -202,10 +202,11 @@
         <th>Time in</th>
         <th>Time out</th>
         <th>Late</th>
-        <th>Early Out</th>
+        <th>Undertime</th>
         <th>Overtime</th>
         <th>Total Work</th>
         <th>Total Rest</th>
+        <th>Remarks</th>
     </thead>
     <tbody id="myTable" >
         <?php
@@ -236,13 +237,69 @@
                     <td style="font-weight: 400;"><?php echo $row['empid']; ?></td>
                     <td class="email-col" style="font-weight: 400;"><?php echo $row['full_name']; ?> </td>
                     <td style="font-weight: 400;"><?php echo $row['date']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['time_in']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['time_out']; ?></td>
+                            <!-------- td  for time out ----------->
+                    <td 
+                        <?php 
+                            if($row['time_in'] === '00:00:00')
+                                {
+                                    echo 'style="color: #FF5D5E;" ';
+                                }
+                            else
+                            {
+                                echo 'style="font-weight: 400;"';
+                            }
+                        ?>
+                    > <!--close td -->
+                        <?php 
+                            echo $row['time_in']; 
+                        ?>
+                    </td>
+                            <!-------- td  for time out ----------->
+                    <td  
+                        <?php 
+                            if($row['time_out'] === '00:00:00')
+                                {
+                                    echo 'style="color: #FF5D5E;" ';
+                                }
+                            else
+                            {
+                                echo 'style="font-weight: 400;"';
+                            }
+                        ?>
+                    > <!--close td -->
+                        <?php 
+                            echo $row['time_out']; 
+                        ?>
+                    </td>
+                    
                     <td style="font-weight: 400; color:red;"><?php echo $row['late']; ?></td>
-                    <td style="font-weight: 400; color:blue"><?php echo $row['early_out']; ?></td>
-                    <td style="font-weight: 400; color: orange"><?php echo $row['overtime']; ?></td>
+                    <td style="font-weight: 400; color: blue"><?php echo $row['early_out']; ?></td>
+                    <td style="font-weight: 400; color: orange;"><?php echo $row['overtime']; ?></td>
                     <td style="font-weight: 400; color:green;"><?php echo $row['total_work']; ?></td>
-                    <td style="font-weight: 400; color:gray"><?php echo $row['total_rest']; ?></td>
+                    <td style="font-weight: 400; color:gray;"><?php echo $row['total_rest']; ?></td>
+                    <td 
+                        <?php 
+                            if($row['time_in'] === '00:00:00' || $row['time_out'] === '00:00:00')
+                            {
+                                echo 'style="color: #FF5D5E;  text-align: center;"';} else{echo 'style="font-weight: 400; text-align: center;"';
+                            }
+                        ?> 
+                    > <!--close td -->
+                        <?php
+                            if($row['time_in'] === '00:00:00')
+                                {
+                                    echo 'NO TIME IN';
+                                }
+                            else if($row['time_out'] === '00:00:00')
+                                {
+                                    echo 'NO TIME OUT';
+                                }
+                            else
+                                {
+                                    echo 'N/A';
+                                }
+                         ?>
+                    </td>
                 </tr> 
                 <?php        
             }

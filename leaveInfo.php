@@ -366,13 +366,14 @@ session_start();
                                                     leaveinfo_tb.`col_ID`,
                                                     employee_tb.`empid`,
                                                     CONCAT(employee_tb.`fname`, ' ', employee_tb.`lname`) AS `full_name`,
-                                                    employee_tb.department_name,
+                                                    dept_tb.col_deptname,
                                                     leaveinfo_tb.`col_vctionCrdt`,
                                                     leaveinfo_tb.`col_sickCrdt`,
                                                     leaveinfo_tb.`col_brvmntCrdt`
                                                 FROM
                                                     employee_tb
-                                                INNER JOIN leaveinfo_tb ON employee_tb.empid = leaveinfo_tb.`col_empID`;
+                                                INNER JOIN leaveinfo_tb ON employee_tb.empid = leaveinfo_tb.`col_empID`
+                                                INNER JOIN dept_tb ON employee_tb.department_name = dept_tb.`col_ID`;
                                                 ";
                                         $result = $conn->query($sql);
 
@@ -384,7 +385,7 @@ session_start();
                                                 <td style= 'display: none;'>" . $row['col_ID']. "</td>
                                                 <td>" . $row['empid'] . "</td>
                                                 <td>" . $row['full_name'] . "</td>
-                                                <td>" . $row['department_name'] . "</td>
+                                                <td>" . $row['col_deptname'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_vctionCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_sickCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_brvmntCrdt'] . "</td>

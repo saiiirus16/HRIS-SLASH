@@ -157,7 +157,8 @@
 
                 <div class="table table-responsive">
                     <form action="departmentEmployee.php" method="post">
-                     <input id="id_deptname_tb" name="name_deptname_tb" type="text" style="display: none;">
+                     <input id="id_deptname_tb" name="name_deptID_tb" type="text" style="display: none;">
+                     <input id="id_textdept" name="name_deptname_tb" type="text" style="display: none;">
                   <table id="data_table" class="table table-sortable  caption-top">
                     <caption class="text-end">List of Company Department</caption>
                     <thead  class="table-light" style="color: #787BDB;
@@ -184,7 +185,7 @@
                                 while ($dept_row = mysqli_fetch_assoc($dept_result)) {
                                     $dept_id = $dept_row['col_ID'];
                                     $dept_name = $dept_row['col_deptname'];
-                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE department_name = '$dept_name'";
+                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE department_name = '$dept_id'";
                                     $emp_result = mysqli_query($conn, $emp_query);
                                     $emp_row = mysqli_fetch_assoc($emp_result);
                                     $emp_count = $emp_row['count'];
@@ -300,8 +301,8 @@
 
                                         console.log(data);
                                         //id_colId
-                                        $('#id_textdept').val(data[1]);
-                                        $('#id_deptname_tb').val(data[1]);
+                                        $('#id_textdept').val(data[1]);//deptname
+                                        $('#id_deptname_tb').val(data[0]);//deptID
                                     });
                                 });
             //FOR VIEW TRANSFER MODAL END

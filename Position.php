@@ -233,6 +233,7 @@ session_start();
                     <div class="table-responsive" style="overflow: hidden;">
                       <form action="View_Position.php" method="post">
                       <input type="hidden" id="id_position_name" name="name_position">
+                      <input type="hidden" id="table_id_position" name="position_id">
                         <table id="order-listing" class="table">
                         <thead>
                             <tr>
@@ -257,7 +258,7 @@ session_start();
                                 while ($dept_row = mysqli_fetch_assoc($dept_result)) {
                                     $pos_id = $dept_row['id'];
                                     $pos_name = $dept_row['position'];
-                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE empposition = '$pos_name'";
+                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE empposition = '$pos_id'";
                                     $emp_result = mysqli_query($conn, $emp_query);
                                     $emp_row = mysqli_fetch_assoc($emp_result);
                                     $emp_count = $emp_row['count'];
@@ -373,6 +374,7 @@ session_start();
                                         console.log(data);
                                         //id_colId
                                         //$('#id_textdept').val(data[1]);
+                                        $('#table_id_position').val(data[0]);
                                         $('#id_position_name').val(data[1]);
                                     });
                                 });
