@@ -8,7 +8,7 @@
 body{
     font-family: 'Roboto', sans-serif;
     width: 100%;
-    color: black;  
+    color: black;
 }
 
 /* Validation */
@@ -2007,9 +2007,11 @@ header{
     height: 100vh;
     width: 100%;
     z-index: 100;
-    position: fixed;
+    position: absolute;
     background-color: rgba(0,0,0,0.5);
+    
     display: none;
+    margin-top: -48px;
 }
 
 .schedule-modal-container{
@@ -2702,4 +2704,189 @@ table th:first-child{
     font-weight: 400;
     font-size: 21px;
     outline: none;
+}
+
+/* dashboard */
+
+.dashboard-container{
+    width: 1620px;
+    height: 872px;
+    position: absolute;
+    right: 0px;
+    bottom: 0;
+    border: none;
+    
+}
+
+.dashboard-title{
+    width: 100%;
+    margin-top: 20px;
+}
+
+.dashboard-title h1{
+    font-size: 32px;
+    font-weight: 700;
+    margin-left: 50px;
+    color: rgb(80, 63, 233);
+}
+
+#dashboard-contents{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.employee-status-overview{
+    width: 870px;
+    background: rgb(2,0,36);
+background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, rgb(187, 204, 207) 100%);
+    border-radius: 8px;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+
+}
+
+.emp-status-title{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    
+}
+
+.emp-status-title p:nth-child(1){
+    font-size: 21px;
+    font-weight: 400;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.emp-status-title p:nth-child(2){
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.5);
+    font-style: italic;
+    margin-top: -20px;
+    margin-left: 30px;
+}
+
+.emp-status-title div{
+    width: 110px;
+    border: black 1px solid;
+    margin-left: 25px;
+    margin-top: -15px;
+}
+
+.emp-status-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 25px;
+    margin-left: -10px;
+}
+
+.emp-status-container div{
+    display: flex;
+    flex-direction: column;
+    width: 110px;
+    
+}
+
+.emp-status-container div input{
+    border: none;
+    background-color: inherit;
+    outline: none;
+    font-size: 35px;
+}
+
+.emp-status-container div label{
+    color: rgba(0, 0, 0, 0.7);
+    margin-top: -13px;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.emp-request-list-container{
+    width: 870px;
+    background-color: #f4f4f4;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    border-radius: 10px;
+    height: 560px;
+}
+.emp-btn-container{
+    height: 80px;
+
+    background: rgb(2,0,36);
+    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, #f4f4f4 0%, rgb(187, 204, 207) 100%);
+}
+
+.emp-request-btn{
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+    justify-content: space-evenly;
+
+}
+
+.emp-request-btn button{
+    border: none;
+    background-color: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 20px;
+    outline: none;
+}
+
+.emp-request-btn button p{
+    margin-bottom: -1px;
+    margin-left: 10px;
+    background-color: rgb(255, 94, 0);
+    border-radius: 50%;
+    width: 30px;
+    color: white;
+    
+}
+
+.emp-table-adjust{
+    width: 600px;
+}
+
+.announcement-container{
+    height: 330px;
+   background-color: #f4f4f4;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    border-radius: 10px;
+    margin-top: 7px;
+    width: 680px;
+    margin-left: 10px;
+}
+
+.event-container{
+    width: 680px;
+    background-color: #f4f4f4;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    border-radius: 10px;
+    height: 310px;
+    margin-left: 10px;
+}
+
+.event-title{
+    display: flex;
+    background: rgb(2,0,36);
+    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, #f4f4f4 0%, rgb(187, 204, 207) 100%);
+    flex-direction: row;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.event-title div:nth-child(1){
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.event-title div:nth-child(1) p {
+    font-size: 22px;
+}
+
+.event-title div:nth-child(2) p{
+    margin-top: 15px;
+    margin-right: 15px;
 }
