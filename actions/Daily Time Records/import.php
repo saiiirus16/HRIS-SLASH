@@ -67,23 +67,18 @@ if(isset($_POST['importSubmit'])){
                         $col_sunday_timeout =  $row_sched_tb['sun_timeout'];
     
                         $day_of_week = date('l', strtotime($date_dtrecords)); // get the day of the week using the "l" format specifier 
-                        //echo  $day_of_week;
 
                         if($day_of_week === 'Monday'){
-                            // Calculate the total work hours
                             $total_hours = strtotime($time_out) - strtotime($time_entry) - 7200;
                             $total_hours = date('H:i:s', $total_hours);
 
-                            // Check if the employee is late
                             if($time_entry > $col_monday_timein){
-                                // Calculate the amount of late
                                 $time_in_datetime = new DateTime($time_entry);
                                 $scheduled_time = new DateTime($col_monday_timein);
                                 $interval = $time_in_datetime->diff($scheduled_time);
                                 $tardiness = $interval->format('%h:%i:%s');
 
-                            }
-                            
+                            }                           
                             if($time_out < $col_monday_timeout){
                                 $time_out_datetime1 = new DateTime($time_out);
                                 $scheduled_outs = new DateTime($col_monday_timeout);
@@ -93,35 +88,27 @@ if(isset($_POST['importSubmit'])){
                             } else { 
                                 $undertime = '00:00:00';
                             }
-
                             if ($time_out > $col_monday_timeout) {
-                                // Calculate overtime
                                 $time_out_datetime = new DateTime($time_out);
                                 $scheduled_timeout = new DateTime( $col_monday_timeout);
                                 $intervals = $time_out_datetime->diff($scheduled_timeout);
                                 $overtime = $intervals->format('%h:%i:%s');
-
                             } else {
                                 $overtime = '00:00:00';
                             }
-
                         } //Close bracket Monday
 
                         else if($day_of_week === 'Tuesday'){
-                            // Calculate the total work hours
                             $total_hours = strtotime($time_out) - strtotime($time_entry) - 7200;
                             $total_hours = date('H:i:s', $total_hours);
 
-                            // Check if the employee is late
                             if($time_entry > $col_tuesday_timein){
-                                // Calculate the amount of late
                                 $time_in_datetime = new DateTime($time_entry);
                                 $scheduled_time = new DateTime($col_tuesday_timein);
                                 $interval = $time_in_datetime->diff($scheduled_time);
                                 $tardiness = $interval->format('%h:%i:%s');
 
-                            }
-                            
+                            }                            
                             if($time_out < $col_tuesday_timeout){
                                 $time_out_datetime1 = new DateTime($time_out);
                                 $scheduled_outs = new DateTime($col_tuesday_timeout);
@@ -131,9 +118,7 @@ if(isset($_POST['importSubmit'])){
                             } else { 
                                 $undertime = '00:00:00';
                             }
-
                             if ($time_out > $col_tuesday_timeout) {
-                                // Calculate overtime
                                 $time_out_datetime = new DateTime($time_out);
                                 $scheduled_timeout = new DateTime( $col_tuesday_timeout);
                                 $intervals = $time_out_datetime->diff($scheduled_timeout);
@@ -142,7 +127,6 @@ if(isset($_POST['importSubmit'])){
                             } else {
                                 $overtime = '00:00:00';
                             }
-
                         } //Close bracket Tuesday
 
                                 else if($day_of_week === 'Wednesday'){
@@ -342,12 +326,11 @@ if(isset($_POST['importSubmit'])){
                         $query = "";
                         if($prevResult->num_rows > 0){
                             // Update member data in the database
-                            $query = "UPDATE daily_time_records_tb SET `employee_id` = '".$employee_id."', `name` = '".$name."', `date` = '".$date_dtrecords."', `department` = '".$department."', `schedule_type` = '".$schedule_type."', 
-                            `time_entry` = '".$time_entry."', `time_out` = '".$time_out."', `total_hours` = '".$total_hours."', `tardiness` = '".$tardiness."',
-                            `undertime` = '".$undertime."', `overtime` = '".$overtime."', modified = NOW() WHERE `employee_id` = '".$employee_id."'";
+                            $query = "INSERT INTO daily_time_records_tb (`employee_id`, `name`, `date_records`, `department`, `schedule_type`, `time_entry`, `time_out`, `total_hours`, `tardiness`, `undertime`, `overtime`) 
+                            VALUES ('".$employee_id."', '".$name."', '".$date_dtrecords."', '".$department."', '".$schedule_type."', '".$time_entry."', '".$time_out."', '".$total_hours."', '".$tardiness."', '".$undertime."', '".$overtime."')";
                         }else{
                             // Insert member data in the database
-                            $query = "INSERT INTO daily_time_records_tb (`employee_id`, `name`, `date`, `department`, `schedule_type`, `time_entry`, `time_out`, `total_hours`, `tardiness`, `undertime`, `overtime`) 
+                            $query = "INSERT INTO daily_time_records_tb (`employee_id`, `name`, `date_records`, `department`, `schedule_type`, `time_entry`, `time_out`, `total_hours`, `tardiness`, `undertime`, `overtime`) 
                             VALUES ('".$employee_id."', '".$name."', '".$date_dtrecords."', '".$department."', '".$schedule_type."', '".$time_entry."', '".$time_out."', '".$total_hours."', '".$tardiness."', '".$undertime."', '".$overtime."')";
                         }
                         //echo $query;

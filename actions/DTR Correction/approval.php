@@ -885,7 +885,7 @@ if(isset($_POST['reject_btn']))
     else if($status_dtr === 'Rejected'){
         header("Location: ../../dtr_admin.php?error=You cannot REJECT a request that is already REJECTED");
     }else{
-        $query = "UPDATE emp_dtr_tb SET `status` ='Rejected' WHERE `id`='$empid'";
+        $query = "UPDATE emp_dtr_tb SET `status` ='Rejected' WHERE `id`='$tableid'";
         $query_run = mysqli_query($conn, $query);
     
         if($query_run)

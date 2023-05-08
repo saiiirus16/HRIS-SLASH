@@ -1,5 +1,11 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "hris_db");
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "hris_db";
+
+
+    $conn = mysqli_connect($servername, $username,  $password, $dbname);
 
 $query = "SELECT * FROM emp_dtr_tb WHERE `status`='Pending'";
 $result = mysqli_query($conn, $query);
@@ -27,7 +33,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
         $result = mysqli_query($conn, "SELECT * FROM emp_dtr_tb WHERE `status`='Approved'");
 
           while ($row_dtr = mysqli_fetch_assoc($result)) {
-          $employeeid = $row_dtr['emp_id'];
+          $employeeid = $row_dtr['empid'];
           $date_dtr = $row_dtr['date'];
           $time_dtr = $row_dtr['time'];
           $type_dtr = $row_dtr['type'];
@@ -65,23 +71,36 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                                $interval = $time_in_datetime->diff($scheduled_time);
                                $late = $interval->format('%h:%i:%s');       
                        }
-                       $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr' AND `time_in`='$time_dtr'");
+                       $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr'");
 
                        if (mysqli_num_rows($result_attendance) == 0) {
-                         $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
+                        $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
+                        $result_attendance = mysqli_query($conn, $sql);
+                        
+                        if (!$result_attendance) {
+                          $msg = "Failed to insert into the attendances table: " . mysqli_error($conn);
+                          $error = true;
+                          break; 
+                        }
+                        if (!$error) {
+                         $msg = "You Approved all requests successfully.";
+                       }
+                       header("Location: ../../dtr_admin.php?msg=$msg");
+                      }else{
+                         $sql = "UPDATE attendances SET `time_in` = '$time_dtr' , `late` = '$late' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
                          $result_attendance = mysqli_query($conn, $sql);
-                         
+                        
                          if (!$result_attendance) {
-                           $msg = "Failed to insert into the attendances table: " . mysqli_error($conn);
+                           $msg = "Failed to update the attendances table: " . mysqli_error($conn);
                            $error = true;
                            break; 
                          }
-                       }
-                        if (!$error) {
+                         if (!$error) {
                           $msg = "You Approved all requests successfully.";
                         }
                         header("Location: ../../dtr_admin.php?msg=$msg");
-                      } //Monday Close Bracket
+                      }
+                    } //Monday Close Bracket
 
                       else if($day_of_week === 'Tuesday'){
                         $late = '';
@@ -91,7 +110,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $interval = $time_in_datetime->diff($scheduled_time);
                             $late = $interval->format('%h:%i:%s');       
                         }
-                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr' AND `time_in`='$time_dtr'");
+                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr'");
 
                         if (mysqli_num_rows($result_attendance) == 0) {
                           $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
@@ -102,11 +121,24 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $error = true;
                             break; 
                           }
-                        }
-                        if (!$error) {
-                          $msg = "You Approved all requests successfully.";
-                        }
-                        header("Location: ../../dtr_admin.php?msg=$msg");
+                          if (!$error) {
+                           $msg = "You Approved all requests successfully.";
+                         }
+                         header("Location: ../../dtr_admin.php?msg=$msg");
+                        }else{
+                           $sql = "UPDATE attendances SET `time_in` = '$time_dtr' , `late` = '$late' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
+                           $result_attendance = mysqli_query($conn, $sql);
+                          
+                           if (!$result_attendance) {
+                             $msg = "Failed to update the attendances table: " . mysqli_error($conn);
+                             $error = true;
+                             break; 
+                           }
+                           if (!$error) {
+                            $msg = "You Approved all requests successfully.";
+                          }
+                          header("Location: ../../dtr_admin.php?msg=$msg");
+                        }                      
                       } //Tuesday Close Bracket
 
                       else if($day_of_week === 'Wednesday'){
@@ -117,7 +149,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $interval = $time_in_datetime->diff($scheduled_time);
                             $late = $interval->format('%h:%i:%s');       
                         }
-                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr' AND `time_in`='$time_dtr'");
+                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr'");
 
                         if (mysqli_num_rows($result_attendance) == 0) {
                           $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
@@ -128,11 +160,24 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $error = true;
                             break; 
                           }
+                          if (!$error) {
+                           $msg = "You Approved all requests successfully.";
+                         }
+                         header("Location: ../../dtr_admin.php?msg=$msg");
+                        }else{
+                           $sql = "UPDATE attendances SET `time_in` = '$time_dtr' , `late` = '$late' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
+                           $result_attendance = mysqli_query($conn, $sql);
+                          
+                           if (!$result_attendance) {
+                             $msg = "Failed to update the attendances table: " . mysqli_error($conn);
+                             $error = true;
+                             break; 
+                           }
+                           if (!$error) {
+                            $msg = "You Approved all requests successfully.";
+                          }
+                          header("Location: ../../dtr_admin.php?msg=$msg");
                         }
-                        if (!$error) {
-                          $msg = "You Approved all requests successfully.";
-                        }
-                        header("Location: ../../dtr_admin.php?msg=$msg");
                       } //Wednesday Close Bracket
 
                       else if($day_of_week === 'Thursday'){
@@ -143,7 +188,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $interval = $time_in_datetime->diff($scheduled_time);
                             $late = $interval->format('%h:%i:%s');       
                         }
-                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr' AND `time_in`='$time_dtr'");
+                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr'");
 
                         if (mysqli_num_rows($result_attendance) == 0) {
                           $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
@@ -154,11 +199,24 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $error = true;
                             break; 
                           }
+                          if (!$error) {
+                           $msg = "You Approved all requests successfully.";
+                         }
+                         header("Location: ../../dtr_admin.php?msg=$msg");
+                        }else{
+                           $sql = "UPDATE attendances SET `time_in` = '$time_dtr' , `late` = '$late' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
+                           $result_attendance = mysqli_query($conn, $sql);
+                          
+                           if (!$result_attendance) {
+                             $msg = "Failed to update the attendances table: " . mysqli_error($conn);
+                             $error = true;
+                             break; 
+                           }
+                           if (!$error) {
+                            $msg = "You Approved all requests successfully.";
+                          }
+                          header("Location: ../../dtr_admin.php?msg=$msg");
                         }
-                        if (!$error) {
-                          $msg = "You Approved all requests successfully.";
-                        }
-                        header("Location: ../../dtr_admin.php?msg=$msg");
                       } //Thursday Close Bracket
 
                       else if($day_of_week === 'Friday'){
@@ -169,7 +227,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $interval = $time_in_datetime->diff($scheduled_time);
                             $late = $interval->format('%h:%i:%s');       
                         }
-                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr' AND `time_in`='$time_dtr'");
+                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr'");
 
                         if (mysqli_num_rows($result_attendance) == 0) {
                           $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
@@ -180,11 +238,24 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $error = true;
                             break; 
                           }
+                          if (!$error) {
+                           $msg = "You Approved all requests successfully.";
+                         }
+                         header("Location: ../../dtr_admin.php?msg=$msg");
+                        }else{
+                           $sql = "UPDATE attendances SET `time_in` = '$time_dtr' , `late` = '$late' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
+                           $result_attendance = mysqli_query($conn, $sql);
+                          
+                           if (!$result_attendance) {
+                             $msg = "Failed to update the attendances table: " . mysqli_error($conn);
+                             $error = true;
+                             break; 
+                           }
+                           if (!$error) {
+                            $msg = "You Approved all requests successfully.";
+                          }
+                          header("Location: ../../dtr_admin.php?msg=$msg");
                         }
-                        if (!$error) {
-                          $msg = "You Approved all requests successfully.";
-                        }
-                        header("Location: ../../dtr_admin.php?msg=$msg");
                       } //Friday Close Bracket
 
                       else if($day_of_week === 'Saturday'){
@@ -195,7 +266,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $interval = $time_in_datetime->diff($scheduled_time);
                             $late = $interval->format('%h:%i:%s');       
                         }
-                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr' AND `time_in`='$time_dtr'");
+                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr'");
 
                         if (mysqli_num_rows($result_attendance) == 0) {
                           $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
@@ -206,11 +277,24 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $error = true;
                             break; 
                           }
+                          if (!$error) {
+                           $msg = "You Approved all requests successfully.";
+                         }
+                         header("Location: ../../dtr_admin.php?msg=$msg");
+                        }else{
+                           $sql = "UPDATE attendances SET `time_in` = '$time_dtr' , `late` = '$late' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
+                           $result_attendance = mysqli_query($conn, $sql);
+                          
+                           if (!$result_attendance) {
+                             $msg = "Failed to update the attendances table: " . mysqli_error($conn);
+                             $error = true;
+                             break; 
+                           }
+                           if (!$error) {
+                            $msg = "You Approved all requests successfully.";
+                          }
+                          header("Location: ../../dtr_admin.php?msg=$msg");
                         }
-                        if (!$error) {
-                          $msg = "You Approved all requests successfully.";
-                        }
-                        header("Location: ../../dtr_admin.php?msg=$msg");
                       } //Saturday Close Bracket
 
                       else if($day_of_week === 'Sunday'){
@@ -221,7 +305,7 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $interval = $time_in_datetime->diff($scheduled_time);
                             $late = $interval->format('%h:%i:%s');       
                         }
-                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr' AND `time_in`='$time_dtr'");
+                        $result_attendance = mysqli_query($conn, "SELECT * FROM attendances WHERE `empid`='$employeeid' AND `date`='$date_dtr'");
 
                         if (mysqli_num_rows($result_attendance) == 0) {
                           $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_in`, `late`) VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$late')";
@@ -232,11 +316,24 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                             $error = true;
                             break; 
                           }
+                          if (!$error) {
+                           $msg = "You Approved all requests successfully.";
+                         }
+                         header("Location: ../../dtr_admin.php?msg=$msg");
+                        }else{
+                           $sql = "UPDATE attendances SET `time_in` = '$time_dtr' , `late` = '$late' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
+                           $result_attendance = mysqli_query($conn, $sql);
+                          
+                           if (!$result_attendance) {
+                             $msg = "Failed to update the attendances table: " . mysqli_error($conn);
+                             $error = true;
+                             break; 
+                           }
+                           if (!$error) {
+                            $msg = "You Approved all requests successfully.";
+                          }
+                          header("Location: ../../dtr_admin.php?msg=$msg");
                         }
-                        if (!$error) {
-                          $msg = "You Approved all requests successfully.";
-                        }
-                        header("Location: ../../dtr_admin.php?msg=$msg");
                       } //Sunday Close Bracket
 
 
@@ -246,15 +343,6 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
             }  //Query run
 
         if ($type_dtr === 'OUT') {
-            $check_in_query = "SELECT COUNT(*) AS num_rows FROM emp_dtr_tb WHERE `emp_id` = '$employeeid' AND `type` = 'IN' AND `status` = 'Approved' AND `date` = '$date_dtr'";
-            $check_in_result = mysqli_query($conn, $check_in_query);
-            $check_in_row = mysqli_fetch_assoc($check_in_result);
-            $num_rows = $check_in_row['num_rows'];
-            if ($num_rows == 0) {
-                header("Location: ../../dtr_admin.php?error=You Cannot Approve TIME-OUT without approving TIME-IN first");
-                exit();
-            }
-
           $result_emp_sched = mysqli_query($conn, "SELECT schedule_name FROM empschedule_tb WHERE empid = '$employeeid'");
           if (mysqli_num_rows($result_emp_sched) > 0) {
               $row_emp_sched = mysqli_fetch_assoc($result_emp_sched);
@@ -326,21 +414,35 @@ if (isset($_POST['approve_all']) || isset($_POST['reject_all'])) {
                       $total_work = date('H:i:s', $total_work);
                       // echo $total_work;
                   }
-                  $result_attendance = mysqli_query($conn, "SELECT id FROM `attendances` WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'");
-                  if(mysqli_num_rows($result_attendance) > 0) {
-                      $row_attendance = mysqli_fetch_assoc($result_attendance);
-                      $attend_id = $row_attendance['id'];
-                      // echo $attend_id;
-
-                      $update_attendance_query = "UPDATE attendances SET `time_out`='$time_dtr', `early_out`='$early_out',
-                      `overtime`='$overtime', `total_work`='$total_work' WHERE `id`='$attend_id'";
-                      $update_attendance_result = mysqli_query($conn, $update_attendance_query);
-                    if($update_attendance_result){
-                        header("Location: ../../dtr_admin.php?msg=You Approved All Request Successfully");
-                    } else {
-                        echo "Failed: " . mysqli_error($conn);
+                  if (mysqli_num_rows($result_attendance) == 0) {
+                    $sql = "INSERT INTO attendances (`status`, `empid`, `date`, `time_out`, `early_out`, `overtime`, `total_work`) 
+                            VALUES ('Present', '$employeeid', '$date_dtr', '$time_dtr', '$early_out', '$overtime', '$total_work')";
+                    
+                    if (!$result_attendance) {
+                      $msg = "Failed to insert into the attendances table: " . mysqli_error($conn);
+                      $error = true;
+                      break; 
                     }
-                  } //$result_attendance close bracket                      
+                    if (!$error) {
+                     $msg = "You Approved all requests successfully.";
+                   }
+                   header("Location: ../../dtr_admin.php?msg=$msg");
+                  }else{
+                     $sql = "UPDATE attendances SET `time_out`='$time_dtr', `early_out`='$early_out',
+                     `overtime`='$overtime', `total_work`='$total_work' WHERE `empid` = '$employeeid' AND `date` = '$date_dtr'";
+                     $result_attendance = mysqli_query($conn, $sql);
+                    
+                     if (!$result_attendance) {
+                       $msg = "Failed to insert into the attendances table: " . mysqli_error($conn);
+                       $error = true;
+                       break; 
+                     }
+                     if (!$error) {
+                      $msg = "You Approved all requests successfully.";
+                    }
+                    header("Location: ../../dtr_admin.php?msg=$msg");
+                  }
+                                        
                 }
               }
             } // $type_dtr close bracket
