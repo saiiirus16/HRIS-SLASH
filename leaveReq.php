@@ -523,30 +523,38 @@ session_start();
                                                     while($row = $result->fetch_assoc()){
 
                                                         echo "<tr>
-                                                            <td>" . $row['col_ID'] . "</td>
-                                                            <td>" . $row['col_req_emp'] . "</td>
-                                                            <td scope='row' >
-                                                                    <button type='submit' name='view_data' class= 'viewbtn' title = 'View' style=' border: none; background: transparent;
-                                                                    text-transform: capitalize; text-decoration: underline; cursor: pointer; color: #787BDB; font-size: 19px;}'>
-                                                                    " . $row['full_name'] . "
+                                                                <td>" . $row['col_ID'] . "</td>
+                                                                <td>" . $row['col_req_emp'] . "</td>
+                                                                <td scope='row'>
+                                                                    <button type='submit' name='view_data' class='viewbtn' title='View' style='border: none; background: transparent;
+                                                                        text-transform: capitalize; text-decoration: underline; cursor: pointer; color: #787BDB; font-size: 19px;'>
+                                                                        " . $row['full_name'] . "
                                                                     </button>
-                                                            </td>
-                                                            <td>" . $row['col_LeaveType'] . "</td>
-                                                            <td>" . $row['col_strDate'] . "</td>
-                                                            <td>" . $row['_datetime'] . "</td>
-                                                            <td>" . $row['col_dt_action'] . "</td>
-                                                            <td>" . $row['col_approver']. "</td>
-                                                            <td>" . " <div class='row'>
-         
-                                                            <div class='col-12'>
-                                                                        <button type='button' class= 'border-0 btn_view_file' title = 'View' data-bs-toggle='modal' data-bs-target='#id_view_file' style=' background: transparent;'>
-                                                                            <img src='icons/view_file.png' alt='...'>
-                                                                        </button>
+                                                                </td>
+                                                                <td>" . $row['col_LeaveType'] . "</td>
+                                                                <td>" . $row['col_strDate'] . "</td>
+                                                                <td>" . $row['_datetime'] . "</td>
+                                                                <td>" . $row['col_dt_action'] . "</td>
+                                                                <td>" . $row['col_approver']. "</td>
+                                                                <td>
+                                                                    <div class='row'>
+                                                                        <div class='col-12'>
+                                                                            <button type='button' class='border-0 btn_view_file' title='View' data-bs-toggle='modal' data-bs-target='#id_view_file' style='background: transparent;'>
+                                                                                <img src='icons/view_file.png' alt='...'>
+                                                                            </button>
                                                                         </div>
-                                                                    </div>  " 
-                                                            . "</td>
-                                                            <td>" . $row['col_status'] . "</td>
-                                                        </tr>";
+                                                                    </div>
+                                                                </td>
+                                                                <td" . ($row['col_status'] === 'Approved' ? " style='color: blue;'" :
+                                                                            ($row['col_status'] === 'Rejected' ? " style='color: red;'" :
+                                                                                ($row['col_status'] === 'Cancelled' ? " style='color: orange;'" :
+                                                                                    ($row['col_status'] === 'Pending' ? " style='color: green;'" :
+                                                                                    "") 
+                                                                                )
+                                                                            )
+                                                                        ) . ">" . $row['col_status'] . "</td>
+                                                            </tr>";
+
                                                     }
                                                 ?>  
                                         </tbody>   
