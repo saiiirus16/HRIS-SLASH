@@ -240,13 +240,19 @@
                             <!-------- td  for time out ----------->
                     <td 
                         <?php 
-                            if($row['time_in'] === '00:00:00')
+                            if ($row['status'] === 'LWOP'){
+                                echo 'style="font-weight: 400; text-align: center;"';
+                            }
+                            else{
+                                if($row['time_in'] === '00:00:00')
                                 {
                                     echo 'style="color: #FF5D5E;" ';
                                 }
-                            else
-                            {
-                                echo 'style="font-weight: 400;"';
+                                else
+                                {
+                                    echo 'style="font-weight: 400;"';
+                                }
+                                
                             }
                         ?>
                     > <!--close td -->
@@ -257,14 +263,22 @@
                             <!-------- td  for time out ----------->
                     <td  
                         <?php 
-                            if($row['time_out'] === '00:00:00')
+
+                            if ($row['status'] === 'LWOP'){
+                                echo 'style="font-weight: 400; text-align: center;"';
+                            }
+                            else{
+                                if($row['time_out'] === '00:00:00')
                                 {
                                     echo 'style="color: #FF5D5E;" ';
                                 }
-                            else
-                            {
-                                echo 'style="font-weight: 400;"';
+                                else
+                                {
+                                    echo 'style="font-weight: 400;"';
+                                }
+                                
                             }
+                           
                         ?>
                     > <!--close td -->
                         <?php 
@@ -279,14 +293,28 @@
                     <td style="font-weight: 400; color:gray;"><?php echo $row['total_rest']; ?></td>
                     <td 
                         <?php 
+                        if ($row['status'] === 'LWOP'){
+                            echo 'style="font-weight: 400; text-align: center;"';
+                        }
+                        else{
                             if($row['time_in'] === '00:00:00' || $row['time_out'] === '00:00:00')
                             {
-                                echo 'style="color: #FF5D5E;  text-align: center;"';} else{echo 'style="font-weight: 400; text-align: center;"';
+                                echo 'style="color: #FF5D5E;  text-align: center;"';
+                            } 
+                            else{
+                                echo 'style="font-weight: 400; text-align: center;"';
                             }
+                            
+                        }
+                            
+                            
                         ?> 
                     > <!--close td -->
                         <?php
-                            if($row['time_in'] === '00:00:00')
+                            if($row['status'] === 'LWOP'){
+                                echo 'N/A';
+                            }else{
+                                if($row['time_in'] === '00:00:00')
                                 {
                                     echo 'NO TIME IN';
                                 }
@@ -298,6 +326,8 @@
                                 {
                                     echo 'N/A';
                                 }
+                            }
+                            
                          ?>
                     </td>
                 </tr> 
