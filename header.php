@@ -133,9 +133,6 @@
 
                 <li><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
                 <ul class="sett-dd-show">
-                <li><a href="dtr_emp.php">BRANCH</a></li>
-                        <li><a href="Department.php">DEPARTMENT</a></li>
-                        <li><a href="Position.php">POSITION</a></li>
                         
                     </ul>
                 </li>

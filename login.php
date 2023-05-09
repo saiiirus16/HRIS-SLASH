@@ -10,7 +10,7 @@ if(isset($_POST['signIn'])){
     $password = $_POST['password'];
     $userType = $_POST['userType'];
 
-    $sql = "SELECT * FROM user_tb WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM user_tb WHERE username = '$username' AND `password` = '$password'";
     $result = mysqli_query($conn, $sql);
         if($result->num_rows > 0){
             $row = mysqli_fetch_assoc($result);

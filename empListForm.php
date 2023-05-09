@@ -96,8 +96,9 @@
                             </div>
                             <div class="emp-info-first-input">
                                 <div class="emp-info-fname">
-                                    <label for="fname">First Name</label><br>
-                                    <input id="form-fname" type="text" name="fname" placeholder="First Name" id="fname" onkeyup='saveValue(this);' required >
+                                        <label for="fname">First Name</label><br>
+                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" id="fname" onkeyup='saveValue(this);' required >
+                                        
                                 </div>
                                 <div class="emp-info-lname">
                                         <label for="lname">Last Name</label><br>
@@ -105,7 +106,7 @@
                                         
                                 </div>
                                 <div class="emp-info-empID">
-                                    <label for="empid">Employee ID</label><br>
+                                <label for="empid">Employee ID</label><br>
                                     <input type="text" name="empid" id="form-empid" placeholder="Employee ID" required maxlength="6">  
                                     <span id="empid-error" style="color: red;"></span>
                                 </div>
@@ -192,7 +193,7 @@
 
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            $options .= "<option value='". $row['branch_name'] . "'>" .$row['branch_name'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
+                                            $options .= "<option value='". $row['id'] . "'>" .$row['branch_name'].  "</option>"; //I-integer yung data column ng department name sa employee_tb
                                         }
                                         ?>
 
@@ -269,6 +270,7 @@
 
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
+                                            
                                             $options .= "<option value='".$row['approver']."'>".$row['fname']. " ". " " ." ".$row['fname']." </option>";
                                         }
                                         ?>
@@ -277,6 +279,7 @@
                                         <label for="approver">Immediate Superior/Approver</label><br>
                                         <select name="approver" id="">
                                         <option value disabled selected>Select Approver</option>
+                                        <option value="admin">admin</option>
                                             <?php echo $options; ?>
                                         </select>
                                     

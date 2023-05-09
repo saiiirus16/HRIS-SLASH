@@ -25,6 +25,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -99,11 +101,9 @@
                                 ?>
 
                                 <label for="emp">Select Employee</label><br>
-                                <select name="empid" id="employee-dd">
-                                <option value disabled selected>Select Employee</option>
-                                    <?php echo $options; ?>
+                                <select class="js-example-basic-multiple" name="empid" id="employee-dd" multiple="multiple" style="width: 98%; padding: 80px; font-size: 20px; background-color: white; border: 1px solid gray;">
+                                <?php echo $options; ?>
                                 </select>
-
                             </div>
                         </div>
                         <div class="sched-type">
@@ -381,7 +381,6 @@ function clickOutside(e){
 }
 
 
-
 // filter
 
 // function filter(item){
@@ -426,7 +425,11 @@ function clickOutside(e){
             });
 </script> -->
 
-
+<script>
+    $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+</script>
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="main.js"></script>
