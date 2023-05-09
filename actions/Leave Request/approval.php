@@ -772,12 +772,14 @@ else{
          $Status = $_SESSION["col_status"];
          $reason = $_POST["name_approvedtResn"]; 
 
+         
+
          $sql1 = "INSERT into actiontaken_tb(`col_applyID`, `col_remarks`,`col_status`) 
          VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
            if(mysqli_query($conn,$sql1))
            {
-             $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
-             $query_run = mysqli_query($conn, $sql);
+             $sql2 ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
+             $query_run = mysqli_query($conn, $sql2);
  
  
                  if($query_run){

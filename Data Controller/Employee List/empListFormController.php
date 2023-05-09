@@ -1,5 +1,14 @@
 <?php  
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../../phpmailer/src/Exception.php';
+
+require '../../phpmailer/src/PHPMailer.php';
+
+require '../../phpmailer/src/SMTP.php';
+
 // Define an array to hold any validation errors
 $errors = array();
 
@@ -11,7 +20,7 @@ if (empty($_POST['lname'])) {
     $errors[] = 'Last name is required';
 }
 if (empty($_POST['empid'])) {
-    $errors[] = 'Employee ID is required';
+    $errors[] = 'Employee ID is required'; 
 }
 // Add more checks for other required fields
 
@@ -132,14 +141,44 @@ if ($stmt1->errno) {
     // Both queries were successful, redirect to EmployeeList.php
     echo '<script>alert("Employee successfully added.")</script>';
     echo "<script>window.location.href = '../../empListForm.php';</script>";
+    
+
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'hris.payroll.mailer@gmail.com'; //gmail name
+    $mail->Password = 'ndehozbugmfnhmes'; // app password
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
+
+    $mail->setFrom('hris.payroll.mailer@gmail.com'); //gmail name
+
+    $mail->addAddress($email);
+
+    $mail->isHTML(true);
+
+    $imgData = file_get_contents('../../panget.png');
+    $imgData64 = base64_encode($imgData);
+    $imgSrc = 'data:image/png;base64,' . $imgData64;
+    $mail->Body .= '<img src="' . $imgSrc . '">';
+   
+    
+    $mail->Body .= '<h1>Hello, ' . $fname . ' ' . $lname . '</h1>';
+    $mail->Body .= '<h2>Your account has been successfully created. Enter your given credential to access the website.</h2>';
+    $mail->Body .= '<h3>Your account details:</h3>';
+    $mail->Body .= '<p>Username: ' . $username . '</p>';
+    $mail->Body .= '<p>Password: ' . $password . '</p>';
+    
+
+    $mail->send();
   }
+
+ 
   $stmt1->close();
   $conn->close();
    
-
-
-
-
    ?>
 
    <!-- <script>

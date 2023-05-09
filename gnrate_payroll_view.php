@@ -887,7 +887,8 @@
                                     else if ($_POST['name_cutOff_freq'] === 'Semi-Month'){
                                     $cutoFF_divide = ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) / 2;
                                     //echo $cutoFF_divide;
-
+                                        $first_cutOFf = '1';
+                                        $last_cutoff ='2';
                                         $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 2;
                                         $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 2;
                                         $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 2;
@@ -895,6 +896,9 @@
                                         $cutoff_deductGovern =  $row_governDeduct['total_sum_othe_deduct'] / 2;
                                     }
                                     else if ($_POST['name_cutOff_freq'] === 'Weekly'){
+
+                                        $first_cutOFf = '1';
+                                        $last_cutoff ='4';
                                         $cutOff_SSS_deduct = $row_atteeee['sss_amount'] / 4;
                                         $cutOff_philhealth_deduct = $row_atteeee['philhealth_amount'] / 4;
                                         $cutOff_tin_deduct = $row_atteeee['tin_amount'] / 4;
@@ -1018,24 +1022,113 @@
                                             
 
                                             <p class="lbl_advnc_p">
-                                                <?php 
-
-
-                                                    //dapat if first cutoff ang naka lagay ay dapat sa 1 cutoff lang siya ma view same sa last cutoff
-                                                    $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' ";
-                                                    $result = $conn->query($query);
-
-                                                    // Check if any rows are fetched
-                                                    if ($result->num_rows > 0) 
+                                                <?php
+                                                 if( $_POST['name_cutOff_num'] === $first_cutOFf)
                                                     {
-                                                    
-                                                        while($row = $result->fetch_assoc()) 
+
+                                                 $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' AND `applied_cutoff` = 'First Cutoff'";
+                                                           $result = $conn->query($query);
+    
+                                                           // Check if any rows are fetched 
+                                                           if ($result->num_rows > 0) 
+                                                           {
+                                                                //$loan_Unpaid_array = array(); // Array to store the dates
+                                                                //$row_L = mysqli_fetch_assoc($result);
+                                                                while($row = $result->fetch_assoc()) 
+                                                                {
+                                                                    echo $loan_ID = $row["id"];    
+                                                                    //$loan_Unpaid_array[] = array('col_ID' => $loan_ID);         
+                                                                } //end while 
+                                                                // foreach ($loan_Unpaid_array as $loan_Unpaid) 
+                                                                // {
+                                                                //     $col_ID = $loan_Unpaid['col_ID'];
+
+                                                                //     $query = "SELECT * FROM payroll_loan_tb WHERE id = $col_ID AND loan_status != 'PAID'";
+                                                                //     $result = $conn->query($query);
+             
+                                                                //     // Check if any rows are fetched 
+                                                                //     if ($result->num_rows > 0) 
+                                                                //     {
+
+                                                                //     }
+                                                                // }
+                                                                
+
+                                                                        // if( $_POST['name_cutOff_num'] === $first_cutOFf)
+                                                                        //     {
+                                                                        //         $applied_cutoff = $row_L['applied_cutoff'];
+                                                                        //         $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' AND `applied_cutoff` = 'First Cutoff'";
+
+                                                                        //         $result = $conn->query($query);
+                            
+                                                                        //         // Check if any rows are fetched 
+                                                                        //         if ($result->num_rows > 0) 
+                                                                        //         {
+                                                                        //             $row_L = mysqli_fetch_assoc($result);
+                                                                                    
+                                                                        //         }
+                                                                        //         else{
+                                                                        //             echo '';
+                                                                        //         }
+                                                                        //     }
+                                                          
+                                                           }else{
+                                                            echo '';
+                                                           }
+                                                        }else if($_POST['name_cutOff_num'] === $last_cutoff)
                                                         {
-                                                            echo $loan_type = $row["loan_type"] . '<br>';             
-                                                        
-                                                        } //end while 
-                                                
-                                                    }
+                                                            $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' AND `applied_cutoff` = 'Last Cutoff'";
+                                                            $result = $conn->query($query);
+     
+                                                            // Check if any rows are fetched 
+                                                            if ($result->num_rows > 0) 
+                                                            {
+                                                                 //$loan_Unpaid_array = array(); // Array to store the dates
+                                                                 //$row_L = mysqli_fetch_assoc($result);
+                                                                 while($row = $result->fetch_assoc()) 
+                                                                 {
+                                                                     echo $loan_ID = $row["id"];    
+                                                                     //$loan_Unpaid_array[] = array('col_ID' => $loan_ID);         
+                                                                 } //end while 
+                                                                 // foreach ($loan_Unpaid_array as $loan_Unpaid) 
+                                                                 // {
+                                                                 //     $col_ID = $loan_Unpaid['col_ID'];
+ 
+                                                                 //     $query = "SELECT * FROM payroll_loan_tb WHERE id = $col_ID AND loan_status != 'PAID'";
+                                                                 //     $result = $conn->query($query);
+              
+                                                                 //     // Check if any rows are fetched 
+                                                                 //     if ($result->num_rows > 0) 
+                                                                 //     {
+ 
+                                                                 //     }
+                                                                 // }
+                                                                 
+ 
+                                                                         // if( $_POST['name_cutOff_num'] === $first_cutOFf)
+                                                                         //     {
+                                                                         //         $applied_cutoff = $row_L['applied_cutoff'];
+                                                                         //         $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' AND `applied_cutoff` = 'First Cutoff'";
+ 
+                                                                         //         $result = $conn->query($query);
+                             
+                                                                         //         // Check if any rows are fetched 
+                                                                         //         if ($result->num_rows > 0) 
+                                                                         //         {
+                                                                         //             $row_L = mysqli_fetch_assoc($result);
+                                                                                     
+                                                                         //         }
+                                                                         //         else{
+                                                                         //             echo '';
+                                                                         //         }
+                                                                         //     }
+                                                           
+                                                            }else{
+                                                             echo '';
+                                                            }
+                                                        }
+                                                    
+                                                    
                                                 ?>
                                             </p>
                                             <!-- <p class="lbl_sssL">SSS LOAN</p>
@@ -1056,26 +1149,25 @@
 
                                             <p class="lbl_advnc_p">
                                                 <?php 
-                                                    $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' ";
-                                                    $result = $conn->query($query);
+                                                    // error_reporting(0);
+                                                     //dapat if first cutoff ang naka lagay ay dapat sa 1 cutoff lang siya ma view same sa last cutoff
+                                                    //  $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' ";
+                                                    //  $result = $conn->query($query);
 
-                                                    // Check if any rows are fetched
-                                                    if ($result->num_rows > 0) 
-                                                    {
-                                                    
-                                                          //$ammortizationArray = array(); // Array to store the dates
-                                                    
-                                                        // Loop through each row
-                                                        while($row = $result->fetch_assoc()) 
-                                                        {
-                                                        
-                                                            echo $loan_amortization = $row["amortization"] . '<br>';             
-                                                        
-                                                            //$ammortizationArray[] = array('ammortization' => $loan_amortization); // Append the fetched date and late and Undertime and Overtime value to the array
-                                                            
-                                                        } //end while
-                                                
-                                                    }
+                                                    //  // Check if any rows are fetched 
+                                                    //  if ($result->num_rows > 0) 
+                                                    //  {
+
+                                                    //      while($row = $result->fetch_assoc()) 
+                                                    //      {
+                                                    //          echo $loan_type = $row["loan_type"] . '<br>';             
+                                                         
+                                                    //      } //end while 
+
+                                                    //  }
+
+
+                                              
                                                 ?>
                                             </p>
                                             <!-- <p class="lbl_sssL">----</p>
@@ -1098,7 +1190,7 @@
                                         FROM 
                                         `payroll_loan_tb`
                                         WHERE `empid`=  '$emp_ID' AND loan_status != 'PAID'");
-                                        $row_loanDeduct = mysqli_fetch_assoc($result_loanDeduct);
+                                        @$row_loanDeduct = mysqli_fetch_assoc($result_loanDeduct);
                                     ?>
                                     <input type="hidden" name="name_empID" value="<?php  echo $emp_ID ?>">
 
