@@ -154,7 +154,7 @@
 
             
                 <div class="att-excel-input">
-                    <form action="Data Controller/Attendance/attImportController.php"  enctype="multipart/form-data" method="POST">
+                    <form action="Data Controller/Attendance/attendanceController.php"  enctype="multipart/form-data" method="POST">
                             <input type="file" name="file" />
                             <input type="submit" value="Submit" name="importSubmit" class="btn btn-primary">
                     </form>

@@ -48,7 +48,7 @@ if(count($_POST) > 0){
     if (isset($_POST['emp_img_url'])) {
         $emp_img_url = ", emp_img_url='".$new_file_name."'";
     }
-    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
     WHERE id ='".$_POST['id']."'");
     header ("Location: EmployeeList.php");
 }
@@ -123,7 +123,7 @@ if(count($_POST) > 0){
                                             <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>">
                                     </div>
                                     <div class="emp-cstatus">
-                                        <label for="cstatus">Martial Status</label><br>
+                                        <label for="cstatus">Marital Status</label><br>
                                             <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $row['cstatus'];?>" >
                                             <!-- <option selected="selected" class="selectTag" style="color: gray;">Select Status</option> -->
                                                 <option value="Single" >Single</option>
@@ -136,7 +136,7 @@ if(count($_POST) > 0){
                                         <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>">
                                     </div>
                                     <div class="emp-datehired">
-                                        <label for="empdate_hired">Date of Joining</label><br>
+                                        <label for="empdate_hired">Date Joined</label><br>
                                             <input type="date" name="empdate_hired" id="" placeholder="Date Hired" value="<?php echo $row['empdate_hired'] ?>">
                                     </div>
                                 </div>
@@ -304,15 +304,23 @@ if(count($_POST) > 0){
                                 </div>
                                 <div class="empInfo-branch">
                                     <?php
-                                        $result = mysqli_query($conn, "SELECT * FROM employee_tb 
-                                        INNER JOIN branch_tb
-                                        ON employee_tb.empbranch = branch_tb.id 
-                                        WHERE employee_tb.empbranch  ='". $row['empbranch'] . "'");
-                                        $row_branch = mysqli_fetch_assoc($result); 
+                                        include 'config.php';
+
+                                        $sql = "SELECT * FROM branch_tb";
+                                        $results = mysqli_query($conn, $sql);
+                                        $options = "";
+                                        while ($rows = mysqli_fetch_assoc($results)) {
+                                            $selected = ($rows['id'] == $row['empbranch']) ? 'selected' : '';
+                                            $options .= "<option value='".$rows['id']."' ".$selected.">" .$rows['branch_name'].  "</option>";
+                                        }
                                     ?>
-                                    <label for="empbranch">Branch</label><br>
-                                        <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row_branch['branch_name'];?>" >
+                                        
+                                        <label for="empbranch">Branch</label><br>
+                                        <select name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['branch_name'];?>">
+                                            <?php echo $options; ?>
+                                        </select>
                                 </div>
+
                                 <div class="empInfo-department">
                                     <?php
                                         include 'config.php';
@@ -334,18 +342,42 @@ if(count($_POST) > 0){
                                 <div class="empInfo-classification">
                                      <label for="classification">Classification</label><br>
                                         <select name="classification" id="" placeholder="Select Schedule Type" value="<?php echo $row['classification'] ?>">
-                                            <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Role</option> -->
+                                            <option value="<?php echo $row['classification'] ?>" selected readonly selected="selected" class="selectTag" style="color: gray;"><?php echo $row['classification']?></option>
                                             <option value="Provisionary">Provisionary</option>
-                                            <option value="Regular">Regular</option> 
+                                            <option value="Regular">Regular</option>
+                                            <option value="Full-time">Full-time</option> 
+                                            <option value="Part-time">Part-time</option> 
+                                            <option value="Contract">Contract</option> 
+                                            <option value="Temporary">Temporary</option> 
+                                            <option value="Volunteer">Volunteer</option>
+                                            <option value="Internship">Internship</option>
                                         </select>
                                 </div>
                                 <div class="empInfo-salary">
                                     <label for="empbsalary">Basic Salary</label><br>
-                                        <input type="text" name="empbsalary" id="" placeholder="Basic Salary" value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>">
+                                        <input type="number" name="empbsalary" id="" placeholder="Basic Salary" value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>">
                                 </div>
                                 <div class="empInfo-otrate">
                                     <label for="otrate">OT Rate</label><br>
-                                        <input type="text" name="otrate" id="" placeholder="OT Rate" value="<?php if(isset($row['otrate'])&& !empty($row['otrate'])) { echo $row['otrate']; } else { echo 'n/a'; }?>">
+                                        <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php if(isset($row['otrate'])&& !empty($row['otrate'])) { echo $row['otrate']; } else { echo 'n/a'; }?>">
+                                </div>
+                                <div class="empInfo-approver">
+                                <?php
+                                        include 'config.php';
+
+                                        $sql = "SELECT * FROM employee_tb";
+                                        $results = mysqli_query($conn, $sql);
+                                        $options = "";
+                                        while ($rows = mysqli_fetch_assoc($results)) {
+                                            $selected = ($rows['id'] == $row['approver']) ? 'selected' : '';
+                                            $options .= "<option value='".$rows['approver']."' ".$selected.">" .$rows['fname']. " ".$rows['lname']. "</option>";
+                                        }
+                                    ?>
+                                        
+                                        <label for="approver">Approver</label><br>
+                                        <select name="approver" id="" placeholder="Select Branch" value="<?php echo $row['approver'];?>">
+                                            <?php echo $options; ?>
+                                        </select>
                                 </div>
                                
                             </div>

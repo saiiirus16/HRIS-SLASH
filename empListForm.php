@@ -16,7 +16,7 @@
    }
 
     if(isset($_GET['empidError'])){
-        $empidError = "Employee ID does exist.";
+        $empidError = "Employee aD does exist.";
         echo "<script> alert('$empidError')</script>";
     }
 
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="emp-info-contact">
                                         <label for="contact">Contact Number</label><br>
-                                        <input type="text" name="contact" id="form-contact" placeholder="Contact Number" pattern="[0-9]{11,11}" title="Max length is 11 numbers only" required>
+                                        <input type="text" name="contact" id="form-contact" placeholder="Contact Number" pattern="[0-9]{11,11}" title="Max length is 11 numbers only" required maxlength="11">
                                         
                                 </div>
                             </div>
@@ -248,13 +248,27 @@
                                 </div>
                             </div>
                             <div class="emp-empDetail-second-input">
+                                <script>
+                                    function calculateDailyRate() {
+                                        const basicSalary = document.getElementById('empbsalary').value;
+                                        const dailyRateInput = document.getElementById('drate');
+                                        if (basicSalary.trim() === '') {
+                                            dailyRateInput.setAttribute('placeholder', 'Daily Rate');
+                                            dailyRateInput.value = '';
+                                        } else {
+                                            const dailyRate = parseFloat(basicSalary) / 22;
+                                            dailyRateInput.removeAttribute('placeholder');
+                                            dailyRateInput.value = dailyRate.toFixed(2);
+                                        }
+                                    }
+                                </script>
                                 <div class="emp-empDetail-bsalary">
-                                        <label for="empbsalary">Basic Salary</label><br>
-                                        <input type="text" name="empbsalary" id="" placeholder="Input Salary" required>
+                                    <label for="empbsalary">Basic Salary</label><br>
+                                    <input type="text" id="empbsalary" name="empbsalary" oninput="calculateDailyRate()" required placeholder="Basic Salary"/>
                                 </div>
                                 <div class="emp-empDetail-drate">
-                                        <label for="drate">Daily Rate</label><br>
-                                        <input type="text" name="drate" id="" placeholder="Daily Rate" required>
+                                    <label for="drate">Daily Rate</label><br>
+                                    <input type="text" name="drate" id="drate" placeholder="Daily Rate" required readonly class="form-control" style="height: 50px;">
                                 </div>
                                 <div class="emp-empDetail-approver">
                                 <div>
@@ -271,7 +285,7 @@
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             
-                                            $options .= "<option value='".$row['approver']."'>".$row['fname']. " ". " " ." ".$row['fname']." </option>";
+                                            $options .= "<option value='".$row['approver']."'>".$row['fname']. " ". " " ." ".$row['lname']." </option>";
                                         }
                                         ?>
 

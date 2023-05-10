@@ -32,10 +32,9 @@ if(isset($_POST['importSubmit'])){
                 // Get row data
                 $status   = $line[0];
                 $empid  = $line[1];
-                $name  = $line[2];
-                $date = $line[3];
-                $time_in = $line[4];
-                $time_out = $line[5];
+                $date = $line[2];
+                $time_in = $line[3];
+                $time_out = $line[4];
                 $late = '';
                 $early_out = '';
                 $overtime = '';  
@@ -439,12 +438,12 @@ if(isset($_POST['importSubmit'])){
                 
                 if($prevResult->num_rows > 0){
                     // Update member data in the database
-                    $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
-                    VALUES ('".$status."', '".$empid."', '".$name."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+                    $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                    VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
                 }else{
                     // Insert member data in the database
-                    $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
-                                VALUES ('".$status."', '".$empid."', '".$name."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+                    $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                                VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
                 }
             }
         }
