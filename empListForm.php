@@ -316,15 +316,15 @@
                             <div class="emp-allowance-first-input">
                                 <div class="emp-allowance-transpo">
                                     <label for="emptranspo">Transportation</label><br>
-                                    <input type="text" name="emptranspo" placeholder="0.00">   
+                                    <input type="number" name="emptranspo" placeholder="0.00">   
                                 </div>
                                 <div class="emp-allowance-meal">
                                     <label for="empmeal">Meal Allowance</label><br>
-                                    <input type="text" name="empmeal" placeholder="0.00">  
+                                    <input type="number" name="empmeal" placeholder="0.00">  
                                 </div>
                                 <div class="emp-allowance-internet">
                                     <label for="empinternet">Internet Allowance</label><br>
-                                    <input type="text" name="empinternet" placeholder="0.00">  
+                                    <input type="number" name="empinternet" placeholder="0.00">  
                                 </div>
                             </div>
                         </div>
@@ -429,13 +429,18 @@
 var today = new Date();
 var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
-// Format the maxDate as YYYY-MM-DD
+
+var minDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+
+// Format the maxDate and minDate as YYYY-MM-DD
 var maxDateFormatted = maxDate.toISOString().split("T")[0];
+var minDateFormatted = minDate.toISOString().split("T")[0];
 
-// Set the max attribute of the input element
+// Set the max and min attributes of the input element
 document.getElementById("empdob").setAttribute("max", maxDateFormatted);
-
+document.getElementById("empdob").setAttribute("min", minDateFormatted);
 </script>
+
 
 
 

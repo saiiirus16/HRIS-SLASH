@@ -78,26 +78,69 @@ $empschedule_type = $_POST['schedule_name'];
 $empstart_date = $_POST['sched_from'];
 $empend_date = $_POST['sched_to'];
 
-$conn = mysqli_connect("localhost", "root", "", "hris_db");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-$stmt = $conn->prepare("SELECT COUNT(*) FROM employee_tb WHERE empid = ? OR empsss = ? OR emptin = ? OR emppagibig = ? OR empphilhealth = ?");
+// Check if the employee already exists in the database
+$name_dob = $fname . ' ' . $lname . ' ' . $empdob;
+$stmt = $conn->prepare("SELECT COUNT(*) FROM employee_tb WHERE CONCAT(fname, ' ', lname, ' ', empdob) = ? OR empid = ? OR empsss = ? OR emptin = ? OR emppagibig = ? OR empphilhealth = ? OR contact = ?");
 if (!$stmt) {
     die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$stmt->bind_param("sssss", $empid, $empsss, $emptin, $emppagibig, $empphilhealth);
+$stmt->bind_param("sssssss", $name_dob, $empid, $empsss, $emptin, $emppagibig, $empphilhealth, $contact);
+$stmt->execute();
+$stmt->bind_result($count);
+$stmt->fetch();
+
+if ($count > 0) {
+    // Display an error message and stop the script from continuing
+    echo "<script>alert('Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+}
+
+
+$stmt->close();
+
+// Calculate the date 18 years ago
+$minDate = new DateTime('1990-01-01');
+
+// Check if the employee's date of birth is valid
+$empdobDateTime = DateTime::createFromFormat('Y-m-d', $empdob);
+if (!$empdobDateTime || $empdobDateTime > new DateTime() || $empdobDateTime < $minDate) {
+    echo "<script>alert('Invalid date of birth.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+}
+
+if (!preg_match("/^[a-zA-Z' -]+$/", $fname)) {
+    echo "<script>alert('Invalid first name.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+  }
+  
+  if (!preg_match("/^[a-zA-Z' -]+$/", $lname)) {
+    echo "<script>alert('Invalid last name.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+  }
+  
+// Combine first and last name
+$fullname = $fname . ' ' . $lname;
+
+// Check if the combined name and employee DOB already exist in the database
+$stmt = $conn->prepare("SELECT COUNT(*) FROM employee_tb WHERE empdob = ? AND CONCAT(fname, ' ', lname) = ?");
+if (!$stmt) {
+  die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
+
+$stmt->bind_param("ss", $empdob, $fullname);
 $stmt->execute();
 $stmt->bind_result($count);
 $stmt->fetch();
 
 if ($count > 0) {
   // Display an error message and stop the script from continuing
-  echo "<script>alert('Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database.');</script>";
-  echo "<script>window.location.href = '../../empListForm.php';</script>";
-
+  echo "<script>alert('Employee with the same name and date of birth already exists in the database.');</script>";
+  echo "<script>window.location.href = '../../empForm.php';</script>";
   exit;
 }
 

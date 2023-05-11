@@ -108,7 +108,7 @@ if(count($_POST) > 0){
                                     <div class="emp-gender">
                                         <label for="gender">Gender</label><br>
                                         <select name="gender" id="" placeholdber="Select Gender" value="<?php echo $row['gender'];?>">
-                                        <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Gender</option> -->
+                                        <option value="<?php echo $row['gender']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['gender']?></option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
@@ -120,12 +120,12 @@ if(count($_POST) > 0){
                                     </div>
                                     <div class="emp-contact">
                                         <label for="contact">Contact Number</label><br>
-                                            <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>">
+                                            <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>" maxlength="11" pattern="[0-9]{11,11}">
                                     </div>
                                     <div class="emp-cstatus">
                                         <label for="cstatus">Marital Status</label><br>
                                             <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $row['cstatus'];?>" >
-                                            <!-- <option selected="selected" class="selectTag" style="color: gray;">Select Status</option> -->
+                                            <option value="<?php echo $row['cstatus']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['cstatus']?></option>
                                                 <option value="Single" >Single</option>
                                                 <option value="Married">Married</option>
                                                 <option value="Other">Other</option>
@@ -273,7 +273,7 @@ if(count($_POST) > 0){
                             <div class="emp-empInfo-first-container">
                                 <div class="empInfo-empid">
                                     <label for="empid">Employee ID</label><br>
-                                        <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>" >
+                                        <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>" readonly class="form-control" style="height:50px;">
                                 </div>
                                 <div class="empInfo-position">
                                 <?php
@@ -359,7 +359,7 @@ if(count($_POST) > 0){
                                 </div>
                                 <div class="empInfo-otrate">
                                     <label for="otrate">OT Rate</label><br>
-                                        <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php if(isset($row['otrate'])&& !empty($row['otrate'])) { echo $row['otrate']; } else { echo 'n/a'; }?>">
+                                        <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php echo $row['otrate']?>">
                                 </div>
                                 <div class="empInfo-approver">
                                 <?php
@@ -728,14 +728,19 @@ function clickOutsides(e){
     
 <script>
  // Calculate the date 18 years ago
-var today = new Date();
+ var today = new Date();
 var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
-// Format the maxDate as YYYY-MM-DD
-var maxDateFormatted = maxDate.toISOString().split("T")[0];
 
-// Set the max attribute of the input element
+var minDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+
+// Format the maxDate and minDate as YYYY-MM-DD
+var maxDateFormatted = maxDate.toISOString().split("T")[0];
+var minDateFormatted = minDate.toISOString().split("T")[0];
+
+// Set the max and min attributes of the input element
 document.getElementById("empdob").setAttribute("max", maxDateFormatted);
+document.getElementById("empdob").setAttribute("min", minDateFormatted);
 
 
 // sched form modal

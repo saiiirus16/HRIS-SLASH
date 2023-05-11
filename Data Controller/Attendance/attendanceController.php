@@ -41,6 +41,7 @@ if(isset($_POST['importSubmit'])){
                 $total_work = '';
                 $total_rest = '';
 
+    
                 $conn = mysqli_connect("localhost", "root", "", "hris_db");
                 $sql = "SELECT * FROM empschedule_tb WHERE empid = $empid";
                 $resulta = mysqli_query($conn, $sql);
@@ -75,8 +76,6 @@ if(isset($_POST['importSubmit'])){
                 } else{
                     echo 'no found';
                 }
-                
-
 
                 $result = mysqli_query($conn, $stmt);
                 while($time = mysqli_fetch_assoc($result)){
@@ -431,39 +430,62 @@ if(isset($_POST['importSubmit'])){
             }
 
         }
+               // Check if empid exists in the employee_tb
+                $empQuery = "SELECT * FROM employee_tb WHERE empid = '$empid'";
+                $empResult = $db->query($empQuery);
+                if(mysqli_num_rows($empResult) < 1) {
+                    echo '<script>alert("Error: Unable to insert data for non-existing Employee ID because the Employee ID does not exist in the database.")</script>';
+                    echo "<script>window.location.href = '../../attendance.php';</script>";
+                    exit;
+                } else {
+                    $empid = $line[1];
+                    $prevQuery = "SELECT id FROM attendances WHERE empid = '".$line[1]."'";
+                    $prevResult = $db->query($prevQuery);
 
-                // Check whether member already exists in the database with the same email
-                $prevQuery = "SELECT id FROM attendances WHERE empid = '".$line[1]."'";
-                $prevResult = $db->query($prevQuery);
-                
-                if($prevResult->num_rows > 0){
-                    // Update member data in the database
-                    $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
-                    VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
-                }else{
-                    // Insert member data in the database
-                    $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
-                                VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+                    if($prevResult->num_rows > 0){
+                        // Check if empid exists in the employee_tb
+                        $empQuery = "SELECT id FROM employee_tb WHERE empid = '".$empid."' ";
+                        $empResult = $db->query($empQuery);
+
+                        if($empResult->num_rows == 0){
+                            // Store alert message in session
+                            $_SESSION['alert_msg'] = "The employee with empid ".$empid." does not exist in the database.";
+                        } else {
+                            // Insert member data in the database
+                            $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                                        VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+                        }
+                    } else {
+                        // Insert member data in the database
+                        $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                                    VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+
+                        // Check if empid exists in the employee_tb
+                        $empQuery = "SELECT id FROM employee_tb WHERE empid = '".$empid."' ";
+                        $empResult = $db->query($empQuery);
+
+                        if($empResult->num_rows == 0){
+                            // Store alert message in session
+                            $_SESSION['alert_msg'] = "The employee with empid ".$empid." does not exist in the database.";
+                        }
+                    }        
+                }   
                 }
             }
-        }
-
-        
-
 
             
           // Close opened CSV file
           fclose($csvFile);
             
-          $qstring = '?status=succ';
-      }else{
-          $qstring = '?status=err';
-      }
-  }else{
-      $qstring = '?status=invalid_file';
-  }
 }
-     
+            }
+        }
+    
 
+     
+if (isset($_SESSION['alert_msg'])) {
+    echo '<script>alert("'.$_SESSION['alert_msg'].'");</script>';
+    unset($_SESSION['alert_msg']);
+}
 // Redirect to the listing page
 header("Location: ../../attendance.php".$qstring);

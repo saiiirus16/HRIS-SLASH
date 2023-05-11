@@ -1,6 +1,13 @@
 
 <?php
     session_start();
+    if(isset($_SESSION['alert_msg'])){
+        $alert_msg = $_SESSION['alert_msg'];
+        echo "<script>alert('$alert_msg');</script>";
+        unset($_SESSION['alert_msg']);
+    }
+
+    
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
     } else {
@@ -42,6 +49,8 @@
                 $statusMsg = '';
         }
     }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -190,13 +199,17 @@
                 text-align: left !important;
                 width: 14.28% !important;
             }
+
+            .empid-width{
+                width: 20% !important;
+            }
         </style>
       
         <div style="width: 95%; margin:auto; margin-top: 30px;">
         <table id="order-listing" class="table" style="width: 100%;">
     <thead>
         <th>Status</th>
-        <th>Employee ID</th>
+        <th class="empid-width">Employee ID</th>
         <th class="email-col">Name</th>
         <th>Date</th>
         <th>Time in</th>
@@ -234,7 +247,7 @@
                 ?>
                 <tr>
                     <td style="font-weight: 400;"><?php echo $row['status']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['empid']; ?></td>
+                    <td class="empid-width" style="font-weight: 400;"><?php echo $row['empid']?></td>
                     <td class="email-col" style="font-weight: 400;"><?php echo $row['full_name']; ?> </td>
                     <td style="font-weight: 400;"><?php echo $row['date']; ?></td>
                             <!-------- td  for time out ----------->
