@@ -1,6 +1,19 @@
 
 <?php
-    session_start();
+  
+   session_start();
+   if(!isset($_SESSION['username'])){
+       header("Location: login.php"); 
+   } else {
+       // Check if the user's role is not "admin"
+       if($_SESSION['role'] != 'admin'){
+           // If the user's role is not "admin", log them out and redirect to the logout page
+           session_unset();
+           session_destroy();
+           header("Location: logout.php");
+           exit();
+       }
+   }
 
     if(isset($_GET['empidError'])){
         $empidError = "Employee ID does exist.";
@@ -223,7 +236,7 @@
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value=' ". $rows['id'] . "'>" .$rows['position'].  "</option>";
+                                                         $options .= "<option value='".$rows['id']."'>" .$rows['position'].  "</option>";
                                                      }
                                                      ?>
              
@@ -244,12 +257,33 @@
                                         <input type="text" name="drate" id="" placeholder="Daily Rate" required>
                                 </div>
                                 <div class="emp-empDetail-approver">
-                                    <label for="approver">Immediate Superior/Approver</label><br>
-                                        <select name="approver" id="" placeholder="Select Superior/Approver" required >
-                                            <option value="" selected="selected" class="selectTag" style="color: gray;">Select Superior/Approver</option>
-                                            <option value="Cyrus Machete">Cyrus Machete</option>
-                                            <option value="Regis Legaspi">Regin Legaspi</option>
+                                <div>
+                                    <?php
+                                        $server = "localhost";
+                                        $user = "root";
+                                        $pass ="";
+                                        $database = "hris_db";
+
+                                        $conn = mysqli_connect($server, $user, $pass, $database);
+                                        $sql = "SELECT * FROM employee_tb";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        $options = "";
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            
+                                            $options .= "<option value='".$row['approver']."'>".$row['fname']. " ". " " ." ".$row['fname']." </option>";
+                                        }
+                                        ?>
+
+                                        
+                                        <label for="approver">Immediate Superior/Approver</label><br>
+                                        <select name="approver" id="">
+                                        <option value disabled selected>Select Approver</option>
+                                        <option value="admin">admin</option>
+                                            <?php echo $options; ?>
                                         </select>
+                                    
+                                    </div>
                                 </div>
                             </div>
                             <div class="emp-empDetail-third-input">
@@ -268,15 +302,15 @@
                             <div class="emp-allowance-first-input">
                                 <div class="emp-allowance-transpo">
                                     <label for="emptranspo">Transportation</label><br>
-                                    <input type="text" name="emptranspo" placeholder="0.00">   
+                                    <input type="number" name="emptranspo" placeholder="0.00">   
                                 </div>
                                 <div class="emp-allowance-meal">
                                     <label for="empmeal">Meal Allowance</label><br>
-                                    <input type="text" name="empmeal" placeholder="0.00">  
+                                    <input type="number" name="empmeal" placeholder="0.00">  
                                 </div>
                                 <div class="emp-allowance-internet">
                                     <label for="empinternet">Internet Allowance</label><br>
-                                    <input type="text" name="empinternet" placeholder="0.00">  
+                                    <input type="number" name="empinternet" placeholder="0.00">  
                                 </div>
                             </div>
                         </div>
@@ -289,21 +323,35 @@
 
                             <div class="emp-schedule-first-input">
                                 <div class="emp-schedule-accessID">
-                                    <label for="empschedule_type">Schedule Type</label><br>
-                                    <select name="empschedule_type" id="" placeholder="Select Schedule Type">
-                                            <option value="" selected="selected" class="selectTag" style="color: gray;">Select Schedule Type</option>
-                                            <option value="Work From Home">Work From Home</option>
-                                            <option value="Office Base">Office Base</option>
-                                            <option value="Skeletal Base">Skeletal Base</option>
-                                        </select>                                    
+                                <?php
+                                        $server = "localhost";
+                                        $user = "root";
+                                        $pass ="";
+                                        $database = "hris_db";
+
+                                        $conn = mysqli_connect($server, $user, $pass, $database);
+                                        $sql = "SELECT * FROM schedule_tb";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        $options = "";
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $options .= "<option value='".$row['schedule_name']."'>".$row['schedule_name']."</option>"; //I-integer yung data column ng department name sa employee_tb
+                                        }
+                                        ?>
+
+                                    <label for="schedule_name">Select Schedule Type</label><br>
+                                        <select name="schedule_name" id="" required>
+                                        <option value disabled selected>Select Schedule Type</option>
+                                          <?php echo $options; ?>
+                                        </select>                            
                                 </div>
                                 <div class="emp-schedule-startDate">
-                                    <label for="empstart_date">Start Date</label><br>
-                                    <input type="date" name="empstart_date" placeholder="Start Date">  
+                                    <label for="sched_from">Start Date</label><br>
+                                    <input type="date" name="sched_from" placeholder="Start Date">  
                                 </div>
                                 <div class="emp-schedule-endDate">
-                                    <label for="empend_date">End Date</label><br>
-                                    <input type="date" name="empend_date" placeholder="End Date">  
+                                    <label for="sched_to">End Date</label><br>
+                                    <input type="date" name="sched_to" placeholder="End Date">  
                                 </div>
                             </div>
                         </div>
@@ -327,7 +375,7 @@
                                             <option value="" selected="selected" class="selectTag" style="color: gray;" >Select Role</option>
                                             <option value="Employee">Employee</option>
                                             <option value="Admin">Admin</option>
-                                            <option value="Superadmin">Superadmin</option>
+                                            <option value="Supervisor">Supervisor</option>
                                             
                                     </select>  
                                 </div>

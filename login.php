@@ -10,13 +10,16 @@ if(isset($_POST['signIn'])){
     $password = $_POST['password'];
     $userType = $_POST['userType'];
 
-    $sql = "SELECT * FROM employee_tb WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM user_tb WHERE username = '$username' AND `password` = '$password'";
     $result = mysqli_query($conn, $sql);
         if($result->num_rows > 0){
             $row = mysqli_fetch_assoc($result);
             $_SESSION['username'] = $row ['username'];
             $_SESSION['password'] = $row['password'];
+            $_SESSION['userType'] = $row['userType'];
             $_SESSION['role'] = $row['role'];
+
+            
             header("Location: Dashboard.php");
         }else{
             echo '<script type="text/javascript">';
@@ -35,6 +38,8 @@ if(isset($_POST['signIn'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="backup/style.css">
     <title>HRIS | LOG IN</title>
 </head>
@@ -57,7 +62,8 @@ if(isset($_POST['signIn'])){
                 <div class="form-container">
                     <form action="" method="POST">
                         <input class="input-text" type="text" name="username" id="" placeholder="Username" value="<?php echo $username; ?>" required>
-                        <input class="input-text" type="password" name="password" id="" placeholder="Password" required>
+                        <input class="input-text" type="password" name="password" id="password" placeholder="Password" required>
+                        <i class="fa fa-eye" aria-hidden="true" id="eye" onclick="toggle()"></i>
                         <div class="remember-forgot">
                             <div class="chkbox-container">
                                 <input class="checkbox" type="checkbox" name="" id="">
@@ -73,7 +79,23 @@ if(isset($_POST['signIn'])){
         </div>
     </div>
 
+<script>
+function toggle() {
+  var password = document.getElementById("password");
+  var eye = document.getElementById("eye");
+  if (password.type === "password") {
+    password.type = "text";
+    eye.classList.remove("fa-eye");
+    eye.classList.add("fa-eye-slash");
+  } else {
+    password.type = "password";
+    eye.classList.remove("fa-eye-slash");
+    eye.classList.add("fa-eye");
+  }
+}
+</script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
