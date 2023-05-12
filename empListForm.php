@@ -236,7 +236,7 @@
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value='".$rows['position']."'>" .$rows['position'].  "</option>";
+                                                         $options .= "<option value='".$rows['id']."'>" .$rows['position'].  "</option>";
                                                      }
                                                      ?>
              
@@ -285,7 +285,7 @@
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             
-                                            $options .= "<option value='".$row['approver']."'>".$row['fname']. " ". " " ." ".$row['lname']." </option>";
+                                            $options .= "<option value='".$row['fname']. " ". " " ." ".$row['lname']."'>".$row['fname']. " ". " " ." ".$row['lname']." </option>";
                                         }
                                         ?>
 
@@ -439,6 +439,18 @@ var minDateFormatted = minDate.toISOString().split("T")[0];
 // Set the max and min attributes of the input element
 document.getElementById("empdob").setAttribute("max", maxDateFormatted);
 document.getElementById("empdob").setAttribute("min", minDateFormatted);
+
+const dateHiredInput = document.querySelector('[name="empdate_hired"]');
+  const startDateInput = document.querySelector('[name="sched_from"]');
+  const endDateInput = document.querySelector('[name="sched_to"]');
+
+  dateHiredInput.addEventListener('change', () => {
+    const selectedDate = dateHiredInput.value;
+    startDateInput.min = selectedDate;
+    endDateInput.min = selectedDate;
+    startDateInput.disabled = false;
+    endDateInput.disabled = false;
+  });
 </script>
 
 

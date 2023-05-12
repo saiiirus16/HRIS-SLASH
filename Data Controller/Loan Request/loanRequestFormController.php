@@ -39,4 +39,3 @@
     header("Location: ../../loanRequest.php");
     $stmt->close();
     $conn->close();
-

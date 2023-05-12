@@ -96,25 +96,27 @@
                 </thead>
                 <tbody id="myTable">
                     <?php
-                        $conn =mysqli_connect("localhost", "root", "" , "hris_db");
+                        $conn = mysqli_connect("localhost", "root", "", "hris_db");
                         $stmt = "SELECT * FROM employee_tb";
                         $result = $conn->query($stmt);
 
-                        if($result->num_rows > 0){
-                            while($row = $result->fetch_assoc()){
-                                echo "
-                                <tr class='lh-1'>
-                                <td style='font-weight: 400;'>".$row["empid"]. "</td>
-                                <td style='font-weight: 400;'>".$row["fname"]. " " .$row["lname"]. "</td>
-                                <td style='font-weight: 400;' class='email-col'>".$row["email"]. "</td>
-                                <td style='font-weight: 400;'>".$row["contact"]. "</td>
-                                <td style='font-weight: 400;'>".$row["role"]." </td>
-                                <td style='font-weight: 400;'>".$row["status"]."</td>
-                                <td class='tbody-btn' style='width:120px;'>
-                                    <button class='tb-view' style='border:none;background-color:inherit; outline:none;'><a href='editempListForm.php?empid=$row[empid]' style='color:gray;'>View</span></a></button>
-                                   
-                                </td>
-                            </tr>";
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr class='lh-1'>";
+                                echo "<td style='font-weight: 400;'>" . $row["empid"] . "</td>";
+                                echo "<td style='font-weight: 400;'>" . $row["fname"] . " " . $row["lname"] . "</td>";
+                                echo "<td style='font-weight: 400;' class='email-col'>" . $row["email"] . "</td>";
+                                echo "<td style='font-weight: 400;'>" . $row["contact"] . "</td>";
+                                echo "<td style='font-weight: 400;'>" . $row["role"] . " </td>";
+                                if ($row["status"] == "Active") {
+                                    echo "<td style='font-weight: 400; color: blue;'>" . $row["status"] . "</td>";
+                                } else {
+                                    echo "<td style='font-weight: 400; color: red;'>" . $row["status"] . "</td>";
+                                }
+                                echo "<td class='tbody-btn' style='width:120px;'>";
+                                echo "<button class='tb-view' style='border:none;background-color:inherit; outline:none;'><a href='editempListForm.php?empid=$row[empid]' style='color:gray;'>View</a></button>";
+                                echo "</td>";
+                                echo "</tr>";
                             }
                         }
                     ?>

@@ -184,10 +184,9 @@ if ($stmt1->errno) {
     // Both queries were successful, redirect to EmployeeList.php
     echo '<script>alert("Employee successfully added.")</script>';
     echo "<script>window.location.href = '../../empListForm.php';</script>";
-    
-
+  
     $mail = new PHPMailer(true);
-
+  
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
@@ -195,28 +194,30 @@ if ($stmt1->errno) {
     $mail->Password = 'ndehozbugmfnhmes'; // app password
     $mail->SMTPSecure = 'ssl';
     $mail->Port = 465;
-
+  
     $mail->setFrom('hris.payroll.mailer@gmail.com'); //gmail name
-
+  
     $mail->addAddress($email);
-
+  
     $mail->isHTML(true);
-
+  
     $imgData = file_get_contents('../../panget.png');
     $imgData64 = base64_encode($imgData);
+    $cid = md5(uniqid(time()));
     $imgSrc = 'data:image/png;base64,' . $imgData64;
-    $mail->Body .= '<img src="' . $imgSrc . '">';
-   
-    
+    $mail->addEmbeddedImage('../../panget.png', $cid, 'panget.png');
+  
+    $mail->Body .= '<img src="cid:' . $cid . '" style="height: 100px; width: 200px;">';
     $mail->Body .= '<h1>Hello, ' . $fname . ' ' . $lname . '</h1>';
     $mail->Body .= '<h2>Your account has been successfully created. Enter your given credential to access the website.</h2>';
     $mail->Body .= '<h3>Your account details:</h3>';
     $mail->Body .= '<p>Username: ' . $username . '</p>';
     $mail->Body .= '<p>Password: ' . $password . '</p>';
-    
-
+    $mail->Body .= '<p>Click <a href="http://192.168.0.107:8080/hris/login.php">here</a> to access the website.</p>';
+  
     $mail->send();
   }
+  
 
  
   $stmt1->close();
@@ -240,4 +241,3 @@ if ($stmt1->errno) {
     }
    </script>
  -->
-

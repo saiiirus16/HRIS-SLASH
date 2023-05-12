@@ -115,7 +115,7 @@ include 'header.php';
              <div class="row mt-2">
                 <div class="col-6">
                      <label for="zip" class="form-label">Zip Code:</label>
-                     <input type="number" name="zip_code" class="form-control" id="start_time" required>
+                     <input  ype="number" maxlength="4" name="zip_code" class="form-control" id="start_time" required>
                 </div>
              <div class="col-6">
                      <label for="email" class="form-label">Email:</label>
@@ -125,7 +125,7 @@ include 'header.php';
 
                   <div class="mb-3 mt-2">
                      <label for="tele_phone" class="form-label">Telephone:</label>
-                     <input type="number" name="telephone" class="form-control" id="location_id" required>
+                     <input type="number" maxlength="10" name="telephone" class="form-control" id="location_id" required>
                   </div>
 
 
