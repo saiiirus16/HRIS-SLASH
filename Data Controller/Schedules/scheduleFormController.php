@@ -98,19 +98,7 @@
     mysqli_stmt_execute($stmt);
 
     header("Location: ../../scheduleForm.php");
-    
-    
-    
-    
-
-    
-
-
-
-
-
 
 
 
   ?>
-

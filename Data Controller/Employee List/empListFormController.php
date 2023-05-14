@@ -1,4 +1,14 @@
-<?
+<?php  
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../../phpmailer/src/Exception.php';
+
+require '../../phpmailer/src/PHPMailer.php';
+
+require '../../phpmailer/src/SMTP.php';
+
 // Define an array to hold any validation errors
 $errors = array();
 
@@ -10,7 +20,7 @@ if (empty($_POST['lname'])) {
     $errors[] = 'Last name is required';
 }
 if (empty($_POST['empid'])) {
-    $errors[] = 'Employee ID is required';
+    $errors[] = 'Employee ID is required'; 
 }
 // Add more checks for other required fields
 
@@ -29,10 +39,9 @@ if (!empty($errors)) {
     foreach ($errors as $error) {
         echo "<script>alert('$error');</script>";
     }
-   }
     echo "<script>window.location.href = '../../empListForm.php';</script>";
     exit;
-
+}
 // If there are no errors, insert the data into the database
 $conn = new mysqli('localhost', 'root', '', 'hris_db');
 
@@ -69,26 +78,69 @@ $empschedule_type = $_POST['schedule_name'];
 $empstart_date = $_POST['sched_from'];
 $empend_date = $_POST['sched_to'];
 
-$conn = mysqli_connect("localhost", "root", "", "hris_db");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-$stmt = $conn->prepare("SELECT COUNT(*) FROM employee_tb WHERE empid = ? OR empsss = ? OR emptin = ? OR emppagibig = ? OR empphilhealth = ?");
+// Check if the employee already exists in the database
+$name_dob = $fname . ' ' . $lname . ' ' . $empdob;
+$stmt = $conn->prepare("SELECT COUNT(*) FROM employee_tb WHERE CONCAT(fname, ' ', lname, ' ', empdob) = ? OR empid = ? OR empsss = ? OR emptin = ? OR emppagibig = ? OR empphilhealth = ? OR contact = ?");
 if (!$stmt) {
     die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$stmt->bind_param("sssss", $empid, $empsss, $emptin, $emppagibig, $empphilhealth);
+$stmt->bind_param("sssssss", $name_dob, $empid, $empsss, $emptin, $emppagibig, $empphilhealth, $contact);
+$stmt->execute();
+$stmt->bind_result($count);
+$stmt->fetch();
+
+if ($count > 0) {
+    // Display an error message and stop the script from continuing
+    echo "<script>alert('Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+}
+
+
+$stmt->close();
+
+// Calculate the date 18 years ago
+$minDate = new DateTime('1990-01-01');
+
+// Check if the employee's date of birth is valid
+$empdobDateTime = DateTime::createFromFormat('Y-m-d', $empdob);
+if (!$empdobDateTime || $empdobDateTime > new DateTime() || $empdobDateTime < $minDate) {
+    echo "<script>alert('Invalid date of birth.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+}
+
+if (!preg_match("/^[a-zA-Z' -]+$/", $fname)) {
+    echo "<script>alert('Invalid first name.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+  }
+  
+  if (!preg_match("/^[a-zA-Z' -]+$/", $lname)) {
+    echo "<script>alert('Invalid last name.');</script>";
+    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    exit;
+  }
+  
+// Combine first and last name
+$fullname = $fname . ' ' . $lname;
+
+// Check if the combined name and employee DOB already exist in the database
+$stmt = $conn->prepare("SELECT COUNT(*) FROM employee_tb WHERE empdob = ? AND CONCAT(fname, ' ', lname) = ?");
+if (!$stmt) {
+  die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
+
+$stmt->bind_param("ss", $empdob, $fullname);
 $stmt->execute();
 $stmt->bind_result($count);
 $stmt->fetch();
 
 if ($count > 0) {
   // Display an error message and stop the script from continuing
-  echo "<script>alert('Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database.');</script>";
-  echo "<script>window.location.href = '../../empListForm.php';</script>";
-
+  echo "<script>alert('Employee with the same name and date of birth already exists in the database.');</script>";
+  echo "<script>window.location.href = '../../empForm.php';</script>";
   exit;
 }
 
@@ -132,12 +184,60 @@ if ($stmt1->errno) {
     // Both queries were successful, redirect to EmployeeList.php
     echo '<script>alert("Employee successfully added.")</script>';
     echo "<script>window.location.href = '../../empListForm.php';</script>";
+  
+    $mail = new PHPMailer(true);
+  
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'hris.payroll.mailer@gmail.com'; //gmail name
+    $mail->Password = 'ndehozbugmfnhmes'; // app password
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
+  
+    $mail->setFrom('hris.payroll.mailer@gmail.com'); //gmail name
+  
+    $mail->addAddress($email);
+  
+    $mail->isHTML(true);
+  
+    $imgData = file_get_contents('../../panget.png');
+    $imgData64 = base64_encode($imgData);
+    $cid = md5(uniqid(time()));
+    $imgSrc = 'data:image/png;base64,' . $imgData64;
+    $mail->addEmbeddedImage('../../panget.png', $cid, 'panget.png');
+  
+    $mail->Body .= '<img src="cid:' . $cid . '" style="height: 100px; width: 200px;">';
+    $mail->Body .= '<h1>Hello, ' . $fname . ' ' . $lname . '</h1>';
+    $mail->Body .= '<h2>Your account has been successfully created. Enter your given credential to access the website.</h2>';
+    $mail->Body .= '<h3>Your account details:</h3>';
+    $mail->Body .= '<p>Username: ' . $username . '</p>';
+    $mail->Body .= '<p>Password: ' . $password . '</p>';
+    $mail->Body .= '<p>Click <a href="http://192.168.0.107:8080/hris/login.php">here</a> to access the website.</p>';
+  
+    $mail->send();
   }
+  
+
+ 
   $stmt1->close();
   $conn->close();
-
-
-
-
-
+   
    ?>
+
+   <!-- <script>
+    $("#form-fname, #form-lname, #form-empid, #form-contact, #form-email").removeClass("input-error");
+
+    var errorEmpty = "
+    
+    if(errorEmpty == true){
+        $("#form-fname, #form-lname, #form-empid, #form-contact").addClass("input-error");
+    }
+    if(errorEmail == true){
+        $("#form-email").addClass("input-error");        
+    }
+    if(errorEmpty == false && errorEmail == false){
+        $("#form-fname, #form-lname, #form-empid, #form-contact").val("")
+    }
+   </script>
+ -->
