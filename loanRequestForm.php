@@ -2,8 +2,18 @@
     session_start();
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
     }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,8 +132,16 @@
                 </div>
                 <div class="form-group">
                     <label for="payable_amount">Payable Amount</label><br>
-                    <input type="number" name="payable_amount" class="form-control" style="height:50px;" id="payable_amount" oninput="calculate()" required> 
+                    <input type="number" name="payable_amount" class="form-control" style="height:50px; text-decoration: none;" id="payable_amount" oninput="calculate()" required> 
                 </div>
+                <style>
+                      /* Para mawala ang up and down arrow if input type is number */
+                    input[type="number"]::-webkit-inner-spin-button,
+                    input[type="number"]::-webkit-outer-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                         }
+                </style>
 
                 <div class="form-group">
                     <label for="amortization">Amortization</label><br>

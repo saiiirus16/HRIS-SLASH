@@ -1,3 +1,20 @@
+<?php 
+session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if($_SESSION['role'] != 'admin'){
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -258,18 +275,19 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" data-bs-toggle="tab" href="#Standard">Standard</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#Allowance">----</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#Loan">----</a>
-                    </li>
+                    </li> -->
                 </ul>
 
-                <div class="tab-content">
-                <form action="gnrate_payroll.php" method="post">
-    <div class="tab-pane" id="Standard">
-        <div class="scroll" style="max-height:500px; overflow: scroll;">
+    <div class="tab-content">
+        <form action="gnrate_payroll.php" method="post">
+            <div class="tab-pane" id="Standard">
+            
+            <div class="scroll" style="max-height:500px; overflow: scroll;">
             <?php 
                 include 'config.php';
                 // Fetch data from the MySQL table
@@ -347,14 +365,14 @@
     <div class="modal-content">
     <form action="actions/Payroll/addEmp.php" method="post">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <input type="hidden" name="name_AddEMp_CutoffID" id="ID_AddEMp_CutoffID">
         
             <div class="mb-3">
-                <label for="Select_dept" class="form-label">Select Employee :</label>
+                <h4>Select Employee: </h4>
                 <?php
                     include 'config.php';
 
@@ -383,12 +401,12 @@
   </div>
 </div>
 
-                    <div class="tab-pane" id= "Allowance">
+                    <!-- <div class="tab-pane" id= "Allowance">
                         Allowance
                     </div>
                     <div class="tab-pane" id= "Loan">
                             Loan
-                    </div>
+                    </div> -->
 
                     
 

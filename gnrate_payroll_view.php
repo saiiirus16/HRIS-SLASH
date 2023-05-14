@@ -1,3 +1,18 @@
+<?php 
+session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if($_SESSION['role'] != 'admin'){
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
+?>
 <!DOCTYPE html>
 <!-- PLEASE READ**: THIS IS FOR DEVELOPER THAT TRYING TO DEBUG.  -->
 <!-- IF YOU SEE A "@" IN THE VARIABLE, THEN TRY TO DELETE IT AND DEBUG TO ACHIEVE YOUR OBJECTIVE. I PUT IT IN THE VARIABLE SINCE MY OBJECTIVE IS CORRECT AND WELL FUNCTION BUT IT ALWAYAS SAY UNDEFINED. -->
@@ -7,7 +22,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Payroll Summary</title>
-
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/gnrate_payroll.css">
+    <link rel="stylesheet" href="css/gnratepayrollVIEW.css">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Para sa datatables -->
@@ -21,9 +39,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/gnrate_payroll.css">
-    <link rel="stylesheet" href="css/gnratepayrollVIEW.css">
+ 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 
     <!-- para sa font ng net pay -->

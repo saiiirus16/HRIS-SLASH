@@ -1,5 +1,17 @@
 <?php
 session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if($_SESSION['role'] != 'admin'){
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -169,7 +181,8 @@ session_start();
                                                 <div class="col-6">
                                                     <div class="mb-3">
                                                         <label for="Select_dept" class="form-label">Leave Type :</label>
-                                                        <select class='form-select form-select-m' name="name_LeaveT" aria-label='.form-select-sm example' style=' cursor: pointer;'>
+                                                        <select class='form-select form-select-m' onchange="leavetype()" id="leavetype_id" name="name_LeaveT" aria-label='.form-select-sm example' style=' cursor: pointer;'>
+                                                            <option selected disabled value=''>Select</option>
                                                             <option value='Vacation Leave'>Vacation Leave</option>
                                                             <option value='Sick Leave'>Sick Leave</option>
                                                             <option value='Bereavement Leave'>Bereavement Leave</option>
@@ -202,9 +215,10 @@ session_start();
                                                 <div class="col-6">
                                                     <div class="mb-3">
                                                             <label for="Select_dept" class="form-label">Leave Period :</label>
-                                                            <select id="id_leavePeriod" name="name_LeaveP" onchange="halfdaysides()" class='form-select form-select-m' aria-label='.form-select-sm example' style='cursor: pointer;'>
+                                                            <select style id="id_leavePeriod" disabled name="name_LeaveP" onchange="halfdaysides()" class='form-select form-select-m' aria-label='.form-select-sm example' style='cursor: pointer;'>
+                                                                <option disabled selected value=''>Select</option>
                                                                 <option value='Full Day'>Full Day</option>
-                                                                <option value='Half Day'>Half Day</option>
+                                                                <option value='Half Day'>Half Day</option> 
                                                             </select>
                                                     </div> <!-- Second mb-3 end-->
                                                 </div> <!-- Second col-6 end-->
@@ -242,7 +256,7 @@ session_start();
                                                     <div class="col-6">
                                                         <div class="mb-1">
                                                             <label for="id_inpt_strdate">Start Date :</label>
-                                                            <input type="date" onchange =" strvalidate() " name="name_STRdate" class="form-control" id="id_inpt_strdate" style='cursor: pointer;' required>
+                                                            <input type="date" onchange =" strvalidate() " name="name_STRdate" class="form-control" id="id_inpt_strdate" style='cursor: pointer;' disabled required>
                                                         </div> <!-- Second mb-3 end-->
                                                     </div>  <!-- col-6 end-->
                                                     <div class="col-6">

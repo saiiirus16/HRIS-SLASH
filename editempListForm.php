@@ -21,14 +21,15 @@ $pass = "";
 $database = "hris_db";
 
 $conn = mysqli_connect($server, $user, $pass, $database);
-if(isset($_FILES['emp_img'])) {
+
+// Check if there is a file uploaded
+if(isset($_FILES['emp_img']) && $_FILES['emp_img']['size'] > 0) {
     $file_name = $_FILES['emp_img']['name'];
     $file_tmp = $_FILES['emp_img']['tmp_name'];
     $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
     $new_file_name = uniqid() . "." . $file_ext;
     move_uploaded_file($file_tmp, "uploads/" . $new_file_name);
-    echo '<img src="uploads/'.$new_file_name.'" alt="My Image">';
-    $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
+    $_POST['emp_img_url'] = $new_file_name;
 }
 
 if(isset($row['emp_img_url'])) {
@@ -46,16 +47,19 @@ $image_url = str_replace("." . $file_ext, "", $image_url);
 if(count($_POST) > 0){
     $emp_img_url = "";
     if (isset($_POST['emp_img_url'])) {
-        $emp_img_url = ", emp_img_url='".$new_file_name."'";
+        $emp_img_url = ", emp_img_url='".$_POST['emp_img_url']."'";
     }
-    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', approver='".$_POST['approver']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
     WHERE id ='".$_POST['id']."'");
     header ("Location: EmployeeList.php");
 }
 
 
+
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
     $row = mysqli_fetch_assoc($result);  
+
+
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +112,7 @@ if(count($_POST) > 0){
                                     <div class="emp-gender">
                                         <label for="gender">Gender</label><br>
                                         <select name="gender" id="" placeholdber="Select Gender" value="<?php echo $row['gender'];?>">
-                                        <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Gender</option> -->
+                                        <option value="<?php echo $row['gender']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['gender']?></option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
@@ -120,12 +124,12 @@ if(count($_POST) > 0){
                                     </div>
                                     <div class="emp-contact">
                                         <label for="contact">Contact Number</label><br>
-                                            <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>">
+                                            <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>" maxlength="11" pattern="[0-9]{11,11}">
                                     </div>
                                     <div class="emp-cstatus">
-                                        <label for="cstatus">Martial Status</label><br>
+                                        <label for="cstatus">Marital Status</label><br>
                                             <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $row['cstatus'];?>" >
-                                            <!-- <option selected="selected" class="selectTag" style="color: gray;">Select Status</option> -->
+                                            <option value="<?php echo $row['cstatus']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['cstatus']?></option>
                                                 <option value="Single" >Single</option>
                                                 <option value="Married">Married</option>
                                                 <option value="Other">Other</option>
@@ -133,10 +137,10 @@ if(count($_POST) > 0){
                                     </div>
                                     <div class="emp-email">
                                         <label for="email">Email</label><br>
-                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>">
+                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}" title="Must be a valid email.">
                                     </div>
                                     <div class="emp-datehired">
-                                        <label for="empdate_hired">Date of Joining</label><br>
+                                        <label for="empdate_hired">Date Joined</label><br>
                                             <input type="date" name="empdate_hired" id="" placeholder="Date Hired" value="<?php echo $row['empdate_hired'] ?>">
                                     </div>
                                 </div>
@@ -201,7 +205,7 @@ if(count($_POST) > 0){
                                 <div class="gov-sss" style="display:flex">
                                     <div>
                                     <label for="empsss">SSS #</label><br>
-                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>"><br> 
+                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>" ><br> 
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
@@ -246,7 +250,7 @@ if(count($_POST) > 0){
 
                         <div class="emp-allowance-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
-                                <h1>Allowances</h1>
+                                <h1>Employee Allowance</h1>
                                 <span id="allowance-update" id="allowance-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </span>
 
                             </div>
@@ -273,7 +277,7 @@ if(count($_POST) > 0){
                             <div class="emp-empInfo-first-container">
                                 <div class="empInfo-empid">
                                     <label for="empid">Employee ID</label><br>
-                                        <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>" >
+                                        <input type="text" name="empid" id="" placeholder="Employee ID" value="<?php echo $row['empid'] ?>" readonly class="form-control" style="height:50px;">
                                 </div>
                                 <div class="empInfo-position">
                                 <?php
@@ -304,15 +308,23 @@ if(count($_POST) > 0){
                                 </div>
                                 <div class="empInfo-branch">
                                     <?php
-                                        $result = mysqli_query($conn, "SELECT * FROM employee_tb 
-                                        INNER JOIN branch_tb
-                                        ON employee_tb.empbranch = branch_tb.id 
-                                        WHERE employee_tb.empbranch  ='". $row['empbranch'] . "'");
-                                        $row_branch = mysqli_fetch_assoc($result); 
+                                        include 'config.php';
+
+                                        $sql = "SELECT * FROM branch_tb";
+                                        $results = mysqli_query($conn, $sql);
+                                        $options = "";
+                                        while ($rows = mysqli_fetch_assoc($results)) {
+                                            $selected = ($rows['id'] == $row['empbranch']) ? 'selected' : '';
+                                            $options .= "<option value='".$rows['id']."' ".$selected.">" .$rows['branch_name'].  "</option>";
+                                        }
                                     ?>
-                                    <label for="empbranch">Branch</label><br>
-                                        <input type="text" name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row_branch['branch_name'];?>" >
+                                        
+                                        <label for="empbranch">Branch</label><br>
+                                        <select name="empbranch" id="" placeholder="Select Branch" value="<?php echo $row['branch_name'];?>">
+                                            <?php echo $options; ?>
+                                        </select>
                                 </div>
+
                                 <div class="empInfo-department">
                                     <?php
                                         include 'config.php';
@@ -334,25 +346,55 @@ if(count($_POST) > 0){
                                 <div class="empInfo-classification">
                                      <label for="classification">Classification</label><br>
                                         <select name="classification" id="" placeholder="Select Schedule Type" value="<?php echo $row['classification'] ?>">
-                                            <!-- <option value="" selected="selected" class="selectTag" style="color: gray;">Select Role</option> -->
+                                            <option value="<?php echo $row['classification'] ?>" selected readonly selected="selected" class="selectTag" style="color: gray;"><?php echo $row['classification']?></option>
                                             <option value="Provisionary">Provisionary</option>
-                                            <option value="Regular">Regular</option> 
+                                            <option value="Regular">Regular</option>
+                                            <option value="Full-time">Full-time</option> 
+                                            <option value="Part-time">Part-time</option> 
+                                            <option value="Contract">Contract</option> 
+                                            <option value="Temporary">Temporary</option> 
+                                            <option value="Volunteer">Volunteer</option>
+                                            <option value="Internship">Internship</option>
                                         </select>
                                 </div>
                                 <div class="empInfo-salary">
                                     <label for="empbsalary">Basic Salary</label><br>
-                                        <input type="text" name="empbsalary" id="" placeholder="Basic Salary" value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>">
+                                        <input type="number" name="empbsalary" id="" placeholder="Basic Salary" value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>">
                                 </div>
                                 <div class="empInfo-otrate">
                                     <label for="otrate">OT Rate</label><br>
-                                        <input type="text" name="otrate" id="" placeholder="OT Rate" value="<?php if(isset($row['otrate'])&& !empty($row['otrate'])) { echo $row['otrate']; } else { echo 'n/a'; }?>">
+                                        <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php echo $row['otrate']?>">
                                 </div>
-                               
+                                <div class="empInfo-approver">
+                                  <?php
+                                        $server = "localhost";
+                                        $user = "root";
+                                        $pass ="";
+                                        $database = "hris_db";
+
+                                        $conn = mysqli_connect($server, $user, $pass, $database);
+                                        $sql = "SELECT * FROM employee_tb";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        $options = "";
+                                        while ($rows = mysqli_fetch_assoc($result)) {
+                                            
+                                            $options .= "<option value='".$rows['fname']. " ". " " ." ".$rows['lname']."'>".$rows['fname']. " ". " " ." ".$rows['lname']." </option>";
+                                        }
+                                    ?>
+
+                                        
+                                        <label for="approver">Immediate Superior/Approver</label><br>
+                                        <select name="approver" id="">
+                                        <option value selected disabled><?php echo $row['approver'] ?></option>
+                                            <?php echo $options; ?>
+                                        </select>
+                                    
                             </div>
                         </div>
                         <div class="emp-worksched-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
-                                <h1>Work Schedule</h1>
+                                <h1>Employment Work Schedule</h1>
                             </div>
                             <div class="emp-worksched-first-container">
                                 <div class="worksched-restday">
@@ -377,7 +419,7 @@ if(count($_POST) > 0){
                         </div>
                         <div class="emp-payroll-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
-                                <h1>Payroll Detail</h1>
+                                <h1>Employment Payroll Details</h1>
                             </div>
                             <div class="emp-payroll-first-container">
                                 <div class="payroll-bank-name">
@@ -519,8 +561,6 @@ if(count($_POST) > 0){
                     </div>
                     </form> 
                     
-
-                    Allowance modal
 
                     <?php 
                         $server = "localhost";
@@ -696,14 +736,19 @@ function clickOutsides(e){
     
 <script>
  // Calculate the date 18 years ago
-var today = new Date();
+ var today = new Date();
 var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
-// Format the maxDate as YYYY-MM-DD
-var maxDateFormatted = maxDate.toISOString().split("T")[0];
 
-// Set the max attribute of the input element
+var minDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+
+// Format the maxDate and minDate as YYYY-MM-DD
+var maxDateFormatted = maxDate.toISOString().split("T")[0];
+var minDateFormatted = minDate.toISOString().split("T")[0];
+
+// Set the max and min attributes of the input element
 document.getElementById("empdob").setAttribute("max", maxDateFormatted);
+document.getElementById("empdob").setAttribute("min", minDateFormatted);
 
 
 // sched form modal

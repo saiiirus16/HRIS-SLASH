@@ -16,7 +16,7 @@
    }
 
     if(isset($_GET['empidError'])){
-        $empidError = "Employee ID does exist.";
+        $empidError = "Employee aD does exist.";
         echo "<script> alert('$empidError')</script>";
     }
 
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="emp-info-contact">
                                         <label for="contact">Contact Number</label><br>
-                                        <input type="text" name="contact" id="form-contact" placeholder="Contact Number" pattern="[0-9]{11,11}" title="Max length is 11 numbers only" required>
+                                        <input type="text" name="contact" id="form-contact" placeholder="Contact Number" pattern="[0-9]{11,11}" title="Max length is 11 numbers only" required maxlength="11">
                                         
                                 </div>
                             </div>
@@ -236,7 +236,7 @@
              
                                                      $options = "";
                                                      while ($rows = mysqli_fetch_assoc($results)) {
-                                                         $options .= "<option value='".$rows['position']."'>" .$rows['position'].  "</option>";
+                                                         $options .= "<option value='".$rows['id']."'>" .$rows['position'].  "</option>";
                                                      }
                                                      ?>
              
@@ -248,13 +248,27 @@
                                 </div>
                             </div>
                             <div class="emp-empDetail-second-input">
+                                <script>
+                                    function calculateDailyRate() {
+                                        const basicSalary = document.getElementById('empbsalary').value;
+                                        const dailyRateInput = document.getElementById('drate');
+                                        if (basicSalary.trim() === '') {
+                                            dailyRateInput.setAttribute('placeholder', 'Daily Rate');
+                                            dailyRateInput.value = '';
+                                        } else {
+                                            const dailyRate = parseFloat(basicSalary) / 22;
+                                            dailyRateInput.removeAttribute('placeholder');
+                                            dailyRateInput.value = dailyRate.toFixed(2);
+                                        }
+                                    }
+                                </script>
                                 <div class="emp-empDetail-bsalary">
-                                        <label for="empbsalary">Basic Salary</label><br>
-                                        <input type="text" name="empbsalary" id="" placeholder="Input Salary" required>
+                                    <label for="empbsalary">Basic Salary</label><br>
+                                    <input type="text" id="empbsalary" name="empbsalary" oninput="calculateDailyRate()" required placeholder="Basic Salary"/>
                                 </div>
                                 <div class="emp-empDetail-drate">
-                                        <label for="drate">Daily Rate</label><br>
-                                        <input type="text" name="drate" id="" placeholder="Daily Rate" required>
+                                    <label for="drate">Daily Rate</label><br>
+                                    <input type="text" name="drate" id="drate" placeholder="Daily Rate" required readonly class="form-control" style="height: 50px;">
                                 </div>
                                 <div class="emp-empDetail-approver">
                                 <div>
@@ -271,7 +285,7 @@
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             
-                                            $options .= "<option value='".$row['approver']."'>".$row['fname']. " ". " " ." ".$row['fname']." </option>";
+                                            $options .= "<option value='".$row['fname']. " ". " " ." ".$row['lname']."'>".$row['fname']. " ". " " ." ".$row['lname']." </option>";
                                         }
                                         ?>
 
@@ -302,15 +316,15 @@
                             <div class="emp-allowance-first-input">
                                 <div class="emp-allowance-transpo">
                                     <label for="emptranspo">Transportation</label><br>
-                                    <input type="text" name="emptranspo" placeholder="0.00">   
+                                    <input type="number" name="emptranspo" placeholder="0.00">   
                                 </div>
                                 <div class="emp-allowance-meal">
                                     <label for="empmeal">Meal Allowance</label><br>
-                                    <input type="text" name="empmeal" placeholder="0.00">  
+                                    <input type="number" name="empmeal" placeholder="0.00">  
                                 </div>
                                 <div class="emp-allowance-internet">
                                     <label for="empinternet">Internet Allowance</label><br>
-                                    <input type="text" name="empinternet" placeholder="0.00">  
+                                    <input type="number" name="empinternet" placeholder="0.00">  
                                 </div>
                             </div>
                         </div>
@@ -415,13 +429,30 @@
 var today = new Date();
 var maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
-// Format the maxDate as YYYY-MM-DD
+
+var minDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+
+// Format the maxDate and minDate as YYYY-MM-DD
 var maxDateFormatted = maxDate.toISOString().split("T")[0];
+var minDateFormatted = minDate.toISOString().split("T")[0];
 
-// Set the max attribute of the input element
+// Set the max and min attributes of the input element
 document.getElementById("empdob").setAttribute("max", maxDateFormatted);
+document.getElementById("empdob").setAttribute("min", minDateFormatted);
 
+const dateHiredInput = document.querySelector('[name="empdate_hired"]');
+  const startDateInput = document.querySelector('[name="sched_from"]');
+  const endDateInput = document.querySelector('[name="sched_to"]');
+
+  dateHiredInput.addEventListener('change', () => {
+    const selectedDate = dateHiredInput.value;
+    startDateInput.min = selectedDate;
+    endDateInput.min = selectedDate;
+    startDateInput.disabled = false;
+    endDateInput.disabled = false;
+  });
 </script>
+
 
 
 

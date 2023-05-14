@@ -1,6 +1,13 @@
 
 <?php
     session_start();
+    if(isset($_SESSION['alert_msg'])){
+        $alert_msg = $_SESSION['alert_msg'];
+        echo "<script>alert('$alert_msg');</script>";
+        unset($_SESSION['alert_msg']);
+    }
+
+    
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
     } else {
@@ -42,6 +49,8 @@
                 $statusMsg = '';
         }
     }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -154,7 +163,7 @@
 
             
                 <div class="att-excel-input">
-                    <form action="Data Controller/Attendance/attImportController.php"  enctype="multipart/form-data" method="POST">
+                    <form action="Data Controller/Attendance/attendanceController.php"  enctype="multipart/form-data" method="POST">
                             <input type="file" name="file" />
                             <input type="submit" value="Submit" name="importSubmit" class="btn btn-primary">
                     </form>
@@ -163,7 +172,7 @@
 
         </div>
 
-        <div class="att-date">
+        <div id="att-listing" class="att-date">
             <h1 id="current-date"></h1>
         </div>
         
@@ -190,13 +199,17 @@
                 text-align: left !important;
                 width: 14.28% !important;
             }
+
+            .empid-width{
+                width: 20% !important;
+            }
         </style>
       
         <div style="width: 95%; margin:auto; margin-top: 30px;">
         <table id="order-listing" class="table" style="width: 100%;">
     <thead>
         <th>Status</th>
-        <th>Employee ID</th>
+        <th class="empid-width">Employee ID</th>
         <th class="email-col">Name</th>
         <th>Date</th>
         <th>Time in</th>
@@ -234,7 +247,7 @@
                 ?>
                 <tr>
                     <td style="font-weight: 400;"><?php echo $row['status']; ?></td>
-                    <td style="font-weight: 400;"><?php echo $row['empid']; ?></td>
+                    <td class="empid-width" style="font-weight: 400;"><?php echo $row['empid']?></td>
                     <td class="email-col" style="font-weight: 400;"><?php echo $row['full_name']; ?> </td>
                     <td style="font-weight: 400;"><?php echo $row['date']; ?></td>
                             <!-------- td  for time out ----------->
@@ -348,7 +361,7 @@
 
     
         <div class="att-export-btn">
-         <p>Export options: <a href="excel-att.php" class=""></i>Excel</a><span> |</span> <a href="#">PDF</a></p>
+         <p>Export options: <a href="excel-att.php" class="" style="color:green"></i>Excel</a><span> |</span> <input type="button" id="btnExport" value="PDF" style="background-color: inherit; border:none; color: red"/></p>
          
         </div>
    
@@ -360,36 +373,33 @@
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="main.js"></script>
-    
+
     <script src="vendors/js/vendor.bundle.base.js"></script>
     <script src="vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="bootstrap js/template.js"></script>
     <script src="bootstrap js/data-table.js"></script>
 
-    <!-- <script type="text/javascript">
-        $(document).ready(function(){
-            $('#search').keyup(function(){
-                search_table($(this).val());
-            });
 
-            function search_table(value){
-                $('#myTable tr').each(function(){
-                    var found = 'false';
-                    $(this).each(function(){
-                        if($(this).text().toLowerCase().indexOf(value.toLowerCase())>= 0){
-                            found = 'true';
-                        }
-                    });
-                    if(found == 'true'){
-                        $(this).show();
-                    }else{
-                        $(this).hide();
-                    }
-                });
-            }
-        });
-    </script> -->
+    <!-- PDF -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+  $("body").on("click", "#btnExport", function () {
+    var title = "Employee Attendance";
+    var tableId = "order-listing";
+
+    html2canvas(document.getElementById(tableId)).then(function (canvas) {
+      var imgData = canvas.toDataURL("image/png");
+      var pdf = new jsPDF();
+      pdf.text(title, 10, 10);
+      pdf.addImage(imgData, "PNG", 10, 20);
+      pdf.save("attendance.pdf");
+    });
+  });
+</script>
 
 </body>
 </html>
