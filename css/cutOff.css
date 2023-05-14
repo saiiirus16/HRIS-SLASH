@@ -28,10 +28,7 @@
   padding-left: 50px;
   padding-right: 50px;
 }
-form {
-  margin: 0;
-  padding: 0;
-}
+
 .stndrd_div{
   border-bottom: 1px solid #BECF69;
   border-top: 1px solid #D5D5D6;
@@ -42,7 +39,6 @@ form {
   height: 300px;
   border-radius: 10px;
   position: relative;
-  
 }
 .head{
   display: flex;
@@ -79,13 +75,13 @@ h3{
 }
 .btnq{
   font-family: 'Poppins', sans-serif;
-  color: #BDBDBB;
+  color: black;
   border: none;
   font-size: medium;
 }
 .btnq:hover{
   text-decoration: underline;
-  color: #BECF69;
+  color: blue;
 }
 .lbl_emp{
   background-color: #ffffff;

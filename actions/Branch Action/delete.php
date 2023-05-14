@@ -13,7 +13,7 @@ if(isset($_POST['delete_data']))
     $designate = $_POST['designation'];
 
     if ($designate > 0) {
-        header("Location: ../../Branch.php?error=You cannot delete a position that has employee designated");
+        header("Location: ../../Branch.php?error=You cannot delete a branch that has employee designated");
     }
     else
     {
