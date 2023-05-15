@@ -146,6 +146,9 @@ if ($count > 0) {
 
 $stmt->close();
 
+$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+$cpasswordHash = password_hash($cpassword, PASSWORD_DEFAULT);
+
 $stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`, `cpassword`)
                         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
@@ -153,7 +156,7 @@ if (!$stmt) {
     die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$stmt->bind_param("ssssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $password, $cpassword);
+$stmt->bind_param("ssssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $passwordHash, $cpasswordHash);
 
 $stmt->execute();
 
@@ -213,7 +216,7 @@ if ($stmt1->errno) {
     $mail->Body .= '<h3>Your account details:</h3>';
     $mail->Body .= '<p>Username: ' . $username . '</p>';
     $mail->Body .= '<p>Password: ' . $password . '</p>';
-    $mail->Body .= '<p>Click <a href="http://192.168.0.107:8080/hris/login.php">here</a> to access the website.</p>';
+    $mail->Body .= '<p>Click <a href="http://localhost:8080/hris/empChangePassword.php">here</a> to change your preferred password and to access the website.</p>';
   
     $mail->send();
   }

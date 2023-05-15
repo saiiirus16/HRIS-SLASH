@@ -2851,7 +2851,7 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
 
 .announcement-container{
     height: 330px;
-   background-color: #f4f4f4;
+    background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, rgb(187, 204, 207) 100%);
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
     border-radius: 10px;
     margin-top: 7px;
@@ -2889,4 +2889,91 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
 .event-title div:nth-child(2) p{
     margin-top: 15px;
     margin-right: 15px;
+}
+
+
+/* employee change password*/
+.emp-changepass-logo{
+    background-color: black;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    
+}
+
+.changepass-login-btn{
+    font-size: 20px;
+    color: #f4f4f4;
+    text-decoration: none;
+}
+
+.changepass-login-btn:hover{
+    color: gold;
+    transition: ease-in 0.3s;
+}
+
+.emp-changepass-container{
+    width: 40%;
+    border-radius: 10px;
+    height: 700px;
+    margin-top: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    background-color: #f1eeee;
+}
+
+.emp-changepass-content{
+   margin: 0 40px 40px 40px;
+}
+
+.changepass-title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    width: 100%;
+
+    
+}
+
+.changepass-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.changepass-form input{
+    width: 600px;
+    height: 50px;
+   
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.changepass-form label{
+    margin-bottom: -7px;
+}
+
+.changepass-update{
+    background-color: #555;
+    color: rgb(233, 198, 1);
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: ease-in-out 0.4s;
+    outline: none;
+}
+.changepass-update:hover{
+    background-color: rgb(233, 198, 1);
+    color: #555;
+    transition: ease-in 0.4s;
 }
