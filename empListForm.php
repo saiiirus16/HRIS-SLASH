@@ -354,7 +354,7 @@
                                         ?>
 
                                     <label for="schedule_name">Select Schedule Type</label><br>
-                                        <select name="schedule_name" id="" required>
+                                        <select name="schedule_name" id="" >
                                         <option value disabled selected>Select Schedule Type</option>
                                           <?php echo $options; ?>
                                         </select>                            
@@ -402,20 +402,22 @@
                                 </div>
                                 <div class="emp-Access-password">
                                         <label for="password">Password</label><br>
-                                        <input type="password" pattern="[a-zA-Z0-9]{5,}" title="Must be at least 5 characters." name="password" id="" placeholder="Password" required>
+                                        <input type="password" pattern="[a-zA-Z0-9]{5,}" title="Must be at least 5 characters." onchange="Pass()" name="password" id="pass" placeholder="Password" required>
                                         
                                 </div>
                                 <div class="emp-Access-cpassword">
                                     <label for="cpassword">Confirm Password</label><br>
-                                        <input type="password" pattern="[a-zA-Z0-9]{5,}" title="Must be at least 5 characters." name="cpassword" id="" placeholder="Confirm Password"required>
+                                        <input type="password" pattern="[a-zA-Z0-9]{5,}" title="Must be at least 5 characters." disabled onchange="matchPass()" name="cpassword" id="cpass" placeholder="Confirm Password" required>
+                                        
                                 </div>
                             </div>
+                            <p  id="id_pValidate"style="margin-top: 5px; margin-right: 340px; color: red; display: none; text-align: right;">* Passwords don't match!</p>
                         </div>
 
                     <div class="empList-save-btn">
                         <div>
                             <span class="closeModal" id="closeModal">Cancel</span>
-                            <span class="modalSave"> <input class="submit" type="submit" value="Save"  ></span>
+                            <span class="modalSave"> <input class="submit" id="btn_save" type="submit" value="Save"></span>
                         </div>
                     </div>
                 </div>
@@ -451,6 +453,48 @@ const dateHiredInput = document.querySelector('[name="empdate_hired"]');
     startDateInput.disabled = false;
     endDateInput.disabled = false;
   });
+
+function Pass(){
+    let pass = document.getElementById('pass').value;
+    let cpass = document.getElementById('cpass').value;
+   
+    if(pass === ""){
+        document.getElementById('cpass').disabled = true;
+    }
+    else{
+        document.getElementById('cpass').disabled = false;
+
+        
+    if(cpass != pass){
+        
+        document.getElementById('id_pValidate').style.display = "";
+        document.getElementById('btn_save').style.cursor = "no-drop";
+        document.getElementById('btn_save').disabled = true;
+    }
+    else{
+        document.getElementById('id_pValidate').style.display = "none";
+        document.getElementById('btn_save').style.cursor = "pointer";
+        document.getElementById('btn_save').disabled = false;
+    }
+    }
+}
+function matchPass(){
+    let pass = document.getElementById('pass').value;
+    let cpass = document.getElementById('cpass').value;
+
+    if(pass != cpass){
+        
+        document.getElementById('id_pValidate').style.display = "";
+        document.getElementById('btn_save').style.cursor = "no-drop";
+        document.getElementById('btn_save').disabled = true;
+    }
+    else{
+        document.getElementById('id_pValidate').style.display = "none";
+        document.getElementById('btn_save').style.cursor = "pointer";
+        document.getElementById('btn_save').disabled = false;
+    }
+}
+
 </script>
 
 
