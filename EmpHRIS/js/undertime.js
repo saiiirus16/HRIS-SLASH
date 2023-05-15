@@ -24,3 +24,21 @@ function undertime_hours() {
   // Set the value of the total undertime input field
   document.getElementById("under_id").value = total_undertime;
 }
+
+//Start time and End time Validation
+function validateUndertimeInputs() {
+  let under_time_from_id = document.getElementById('under_time_from_id').value;
+  let under_time_to_id = document.getElementById('under_time_to_id').value;
+
+  if (under_time_from_id === '') {
+    // alert('Please fill out the Start Time field first and Take note Start time is lower than End Time');
+    document.getElementById('under_time_from_id').focus();
+    document.getElementById('submit-btn').disabled = true;
+  } else if (under_time_from_id < under_time_to_id) {
+    alert('End Time must be less than Start Time');
+    document.getElementById("under_id").value = '00:00:00';
+    document.getElementById('undertime_add').disabled = true;
+  } else {
+    document.getElementById('undertime_add').disabled = false;
+  }
+}
