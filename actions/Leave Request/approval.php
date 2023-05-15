@@ -199,7 +199,7 @@ else{
 
 
                     $sql1 = "INSERT into attendances(`status`, `empid`,`date`, `time_in`, `time_out`, `total_work` ) 
-                                VALUES('Present','$employee_ID', '$str_date',  '$time_in', '$time_out', '$total_work')";
+                                VALUES('On-Leave','$employee_ID', '$str_date',  '$time_in', '$time_out', '$total_work')";
                                   if(mysqli_query($conn,$sql1))
                                   {
                                     $result_att = mysqli_query($conn, " SELECT
@@ -400,7 +400,7 @@ else{
                     $IDLEAVE_TABLE = $_SESSION["ID_applyleave"];
         
                     $sql1 = "INSERT into attendances(`status`, `empid`,`date`, `time_in`, `time_out`, `total_work` ) 
-                                VALUES('Present','$employee_ID', '$str_date',  '$time_in', '$time_out', '$total_work')";
+                                VALUES('On-Leave','$employee_ID', '$str_date',  '$time_in', '$time_out', '$total_work')";
                                   if(mysqli_query($conn,$sql1))
                                   {
                                     $result_att = mysqli_query($conn, " SELECT
@@ -697,7 +697,7 @@ else{
 
                             $sql3 = "INSERT INTO attendances (`status`, `empid`,`date`, `time_in`, `time_out`, `total_work`) VALUES (?,?,?,?,?,?)";
                             $stmt = $conn->prepare($sql3);
-                            $status = 'Present';
+                            $status = 'On-Leave';
                             // $timein = '08:00';
                             // $timeout = '17:00';
                             // $total = '08:00';
