@@ -28,12 +28,16 @@ if(isset($_POST['signIn'])){
     //     }
 
             // Query the employee table
-        $employeeQuery = "SELECT * FROM employee_tb WHERE BINARY `username` = '$username' AND BINARY `password` = '$password'";
+        $employeeQuery = "SELECT * FROM employee_tb WHERE BINARY `username` = '$username' AND BINARY `password` = '$password' AND `role` = 'Employee'";
         $employeeResult = mysqli_query($conn, $employeeQuery);
 
         // Query the admin table
-        $adminQuery = "SELECT * FROM user_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password'";
+        $adminQuery = "SELECT * FROM employee_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password' AND `role` = 'Admin'";
         $adminResult = mysqli_query($conn, $adminQuery);
+
+        // Query the admin table
+        $SuperadminQuery = "SELECT * FROM user_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password'";
+        $SuperadminResult = mysqli_query($conn, $SuperadminQuery);
 
         // Check if employee login is successful
         if (mysqli_num_rows($employeeResult) == 1) {
@@ -51,11 +55,14 @@ if(isset($_POST['signIn'])){
         elseif (mysqli_num_rows($adminResult) == 1) {
             // Start session and set user type
 
-            $row_admin = mysqli_fetch_assoc($adminResult);
-            $_SESSION['username'] = $row_admin ['username'];
-            $_SESSION['password'] = $row_admin['password'];
-            $_SESSION['userType'] = $row_admin['userType'];
-            $_SESSION['role'] = $row_admin['role'];
+            
+        }
+        else if (mysqli_num_rows($SuperadminResult) == 1){
+            $row_Superadmin = mysqli_fetch_assoc($SuperadminResult);
+            $_SESSION['username'] = $row_Superadmin ['username'];
+            $_SESSION['password'] = $row_Superadmin['password'];
+            $_SESSION['userType'] = $row_Superadmin['userType'];
+            $_SESSION['role'] = $row_Superadmin['role'];
         
             header("Location: Dashboard.php"); // Redirect to admin dashboard
             exit();

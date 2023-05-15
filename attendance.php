@@ -64,6 +64,9 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
         <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -361,7 +364,7 @@
 
     
         <div class="att-export-btn">
-         <p>Export options: <a href="excel-att.php" class="" style="color:green"></i>Excel</a><span> |</span> <input type="button" id="btnExport" value="PDF" style="background-color: inherit; border:none; color: red"/></p>
+         <p>Export options: <a href="excel-att.php" class="" style="color:green"></i>Excel</a><span> |</span> <button id="btnExport" style="background-color: inherit; border:none; color: red">Export to PDF</button></p>
          
         </div>
    
@@ -382,23 +385,35 @@
 
 
     <!-- PDF -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
 
-<script type="text/javascript">
-  $("body").on("click", "#btnExport", function () {
-    var title = "Employee Attendance";
-    var tableId = "order-listing";
 
-    html2canvas(document.getElementById(tableId)).then(function (canvas) {
-      var imgData = canvas.toDataURL("image/png");
-      var pdf = new jsPDF();
-      pdf.text(title, 10, 10);
-      pdf.addImage(imgData, "PNG", 10, 20);
-      pdf.save("attendance.pdf");
+    <script>
+$(document).ready(function () {
+    $("#btnExport").click(function () {
+        $.ajax({
+            url: "att-pdf.php",
+            method: "POST",
+            data: {format: 'pdf'},
+            success: function(response){
+                // Create a blob object from the PDF data returned by the server
+                var blob = new Blob([response], {type: 'application/pdf'});
+                // Generate a URL for the PDF blob object
+                var url = URL.createObjectURL(blob);
+                // Create a link element to download the PDF
+                var link = document.createElement('a');
+                link.href = url;
+                link.download = "attendances.pdf";
+                // Trigger the click event of the link element to start the download
+                link.click();
+            },
+            error: function(){
+                alert('Error generating PDF!');
+            }
+        });
     });
-  });
+});
 </script>
 
 </body>
