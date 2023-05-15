@@ -217,7 +217,7 @@ if(!isset($_SESSION['username'])){
         <form action="actions/Official Business/approve_reject.php" method="POST">
                 <div class="row">
                     <div class="col-12 mt-2">
-                        <input style="display: none;" type="text" id="check_id" name="id_check">
+                        <input type="hidden" id="check_id" name="id_check" value="<?php echo $row['id']?>">
                               <div class="table-responsive" style="90%;">
                                     <table id="order-listing" class="table">
                                         <thead>
@@ -284,12 +284,23 @@ if(!isset($_SESSION['username'])){
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>
                                                 <a href="" class="btn btn-primary showbtn" data-bs-toggle="modal" data-bs-target="#viewmodal">View</a>   
-                                                <td> 
-                                                <label class=""><?php echo $row['status'];?></label>
-                                                </td>
+                                                <td <?php if ($row['status'] == 'Approved') {echo 'style="color:green;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} ?>><?php echo $row['status']; ?></td>
                                                 <td>
-                                                <button type="submit" name="btn_approve" class="btn btn-outline-success check_btn">Approve</button>
-                                                <button type="submit" name="btn_reject" class="btn btn-outline-danger check_btn">Reject</button>
+                                                <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected'): ?>
+                                                  <button type="submit" class="btn btn-outline-success viewbtn" name="btn_approve" style="display: none;" disabled>
+                                                    Approve
+                                                  </button>
+                                                  <button type="submit" class="btn btn-outline-danger viewbtn" name="btn_reject" style="display: none;" disabled>
+                                                    Reject
+                                                  </button>
+                                                <?php else: ?>
+                                                  <button type="submit" class="btn btn-outline-success viewbtn" name="btn_approve">
+                                                    Approve
+                                                  </button>
+                                                  <button type="submit" class="btn btn-outline-danger viewbtn" name="btn_reject">
+                                                    Reject
+                                                  </button>
+                                                <?php endif; ?>
                                                 </td>
                                             </tr>
                                                  <?php
@@ -314,7 +325,7 @@ if(!isset($_SESSION['username'])){
 <!-------------------------------Script para matest kung naseselect ba ang I.D---------------------------------------->        
 <script> 
             $(document).ready(function(){
-               $('.check_btn').on('click', function(){
+               $('.viewbtn').on('click', function(){
                  $().modal('show');
                       $tr = $(this).closest('tr');
 

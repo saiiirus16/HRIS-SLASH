@@ -115,17 +115,17 @@ include 'header.php';
              <div class="row mt-2">
                 <div class="col-6">
                      <label for="zip" class="form-label">Zip Code:</label>
-                     <input  ype="number" maxlength="4" name="zip_code" class="form-control" id="start_time" required>
+                     <input type="number" name="zip_code" class="form-control" maxlength="4" id="zip_code_id" required >
                 </div>
              <div class="col-6">
                      <label for="email" class="form-label">Email:</label>
-                     <input type="email" name="email" class="form-control" id="end_time" required>
+                     <input type="email" name="email" class="form-control" id="email_id" required>
              </div>
                 </div>
 
                   <div class="mb-3 mt-2">
                      <label for="tele_phone" class="form-label">Telephone:</label>
-                     <input type="number" maxlength="10" name="telephone" class="form-control" id="location_id" required>
+                     <input type="number" name="telephone" class="form-control" maxlength="10" id="telephone_id" required >
                   </div>
 
 
@@ -168,7 +168,7 @@ include 'header.php';
              <div class="row mt-2">
                 <div class="col-6">
                      <label for="zip" class="form-label">Zip Code:</label>
-                     <input type="number" name="zip_code" class="form-control" id="update_branch_zip" required>
+                     <input type="number" name="zip_code" class="form-control" id="update_branch_zip" required maxlength="4">
                 </div>
              <div class="col-6">
                      <label for="email" class="form-label">Email:</label>
@@ -178,7 +178,7 @@ include 'header.php';
 
                   <div class="mb-3 mt-2">
                      <label for="tele_phone" class="form-label">Telephone:</label>
-                     <input type="number" name="telephone" class="form-control" id="update_branch_telephone" required>
+                     <input type="number" name="telephone" class="form-control" id="update_branch_telephone" required maxlength="10">
                   </div>
 
       </div> <!--Modal body div close tag-->
@@ -199,7 +199,7 @@ include 'header.php';
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Row</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -398,6 +398,43 @@ include 'header.php';
             });
         </script>
 <!----------------------------------------------End ng Script sa pagpop-up ng modal para maedit------------------------------------------------------->
+
+<!---------------------------------------------------Start Script for limiting the number input----------------------------------->
+<script>
+  $(document).ready(function() {
+  $('#zip_code_id').on('input', function() {
+    if ($(this).val().length > 4) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+
+$(document).ready(function() {
+  $('#telephone_id').on('input', function() {
+    if ($(this).val().length > 10) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+
+$(document).ready(function() {
+  $('#update_branch_zip').on('input', function() {
+    if ($(this).val().length > 4) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+
+$(document).ready(function() {
+  $('#update_branch_telephone').on('input', function() {
+    if ($(this).val().length > 10) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+</script>
+<!---------------------------------------------------End Script for limiting the number input----------------------------------->
+
 
 <!---------------------------------------Script sa pagpop-up ng modal para madelete--------------------------------------------->          
 <script>
