@@ -21,15 +21,14 @@ $pass = "";
 $database = "hris_db";
 
 $conn = mysqli_connect($server, $user, $pass, $database);
-
-// Check if there is a file uploaded
-if(isset($_FILES['emp_img']) && $_FILES['emp_img']['size'] > 0) {
+if(isset($_FILES['emp_img'])) {
     $file_name = $_FILES['emp_img']['name'];
     $file_tmp = $_FILES['emp_img']['tmp_name'];
     $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
     $new_file_name = uniqid() . "." . $file_ext;
     move_uploaded_file($file_tmp, "uploads/" . $new_file_name);
-    $_POST['emp_img_url'] = $new_file_name;
+    echo '<img src="uploads/'.$new_file_name.'" alt="My Image">';
+    $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
 }
 
 if(isset($row['emp_img_url'])) {
@@ -47,19 +46,16 @@ $image_url = str_replace("." . $file_ext, "", $image_url);
 if(count($_POST) > 0){
     $emp_img_url = "";
     if (isset($_POST['emp_img_url'])) {
-        $emp_img_url = ", emp_img_url='".$_POST['emp_img_url']."'";
+        $emp_img_url = ", emp_img_url='".$new_file_name."'";
     }
-    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', approver='".$_POST['approver']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
     WHERE id ='".$_POST['id']."'");
     header ("Location: EmployeeList.php");
 }
 
 
-
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
     $row = mysqli_fetch_assoc($result);  
-
-
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +70,7 @@ if(count($_POST) > 0){
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/styles.css"> 
+    <link rel="stylesheet" href="css/editEmpList.css"> 
     <title>HRIS | Employee List Form</title>
 </head>
 <body>
@@ -137,7 +133,7 @@ if(count($_POST) > 0){
                                     </div>
                                     <div class="emp-email">
                                         <label for="email">Email</label><br>
-                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}" title="Must be a valid email.">
+                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>">
                                     </div>
                                     <div class="emp-datehired">
                                         <label for="empdate_hired">Date Joined</label><br>
@@ -205,7 +201,7 @@ if(count($_POST) > 0){
                                 <div class="gov-sss" style="display:flex">
                                     <div>
                                     <label for="empsss">SSS #</label><br>
-                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>" ><br> 
+                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>"><br> 
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
@@ -366,30 +362,24 @@ if(count($_POST) > 0){
                                         <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php echo $row['otrate']?>">
                                 </div>
                                 <div class="empInfo-approver">
-                                  <?php
-                                        $server = "localhost";
-                                        $user = "root";
-                                        $pass ="";
-                                        $database = "hris_db";
+                                <?php
+                                        include 'config.php';
 
-                                        $conn = mysqli_connect($server, $user, $pass, $database);
                                         $sql = "SELECT * FROM employee_tb";
-                                        $result = mysqli_query($conn, $sql);
-
+                                        $results = mysqli_query($conn, $sql);
                                         $options = "";
-                                        while ($rows = mysqli_fetch_assoc($result)) {
-                                            
-                                            $options .= "<option value='".$rows['fname']. " ". " " ." ".$rows['lname']."'>".$rows['fname']. " ". " " ." ".$rows['lname']." </option>";
+                                        while ($rows = mysqli_fetch_assoc($results)) {
+                                            $selected = ($rows['id'] == $row['approver']) ? 'selected' : '';
+                                            $options .= "<option value='".$rows['approver']."' ".$selected.">" .$rows['fname']. " ".$rows['lname']. "</option>";
                                         }
                                     ?>
-
                                         
-                                        <label for="approver">Immediate Superior/Approver</label><br>
-                                        <select name="approver" id="">
-                                        <option value selected disabled><?php echo $row['approver'] ?></option>
+                                        <label for="approver">Approver</label><br>
+                                        <select name="approver" id="" placeholder="Select Branch" value="<?php echo $row['approver'];?>">
                                             <?php echo $options; ?>
                                         </select>
-                                    
+                                </div>
+                               
                             </div>
                         </div>
                         <div class="emp-worksched-container">
