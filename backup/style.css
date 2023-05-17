@@ -58,6 +58,7 @@ main{
 .logo-img{
     height: 100%;
     width: 65%;
+
 }
 
 .logo-img img{
@@ -68,6 +69,7 @@ main{
     background-repeat: no-repeat;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
     position: relative;
+   
 }
 
 .logo-img .waves{
@@ -160,9 +162,18 @@ main{
     justify-content: center;   
 }
 
-.signin-logo-img h1{
-    font-size: 50px;
-    letter-spacing: 5px;
+.signin-logo-img{
+    background-color: #000;
+    border-radius: 10px;
+    height: 100px;
+    width: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signin-logo-img img{
+    height: 120px;
 }
 
 .form-container{
@@ -950,4 +961,8 @@ main{
    right: 0;
    background-color: white;
    border:1px solid black;
+}
+
+#eye{
+    margin-top: 58px;
 }

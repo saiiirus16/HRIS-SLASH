@@ -40,12 +40,13 @@ if(isset($_POST['signIn'])){
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="backup/style.css">
     <title>HRIS | LOG IN</title>
 </head>
 <body class="login-container" style="overflow:hidden;">
     <div class="container">
-        <div class="logo-img">
+        <div class="logo-img" >
             <img src="img/bio5.jpg" alt="" srcset="">
             <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                 <path fill="#f4f4f4" fill-opacity="1" d="M0,64L48,74.7C96,85,192,107,288,101.3C384,96,480,64,576,74.7C672,85,768,139,864,133.3C960,128,1056,64,1152,64C1248,64,1344,128,1392,160L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
@@ -56,7 +57,7 @@ if(isset($_POST['signIn'])){
             <div class="signin-card">
 
                 <div class="signin-logo-img">
-                    <h1>HRIS</h1>
+                    <img src="img/Slash Tech Solutions.png" class="logo" alt="" srcset="" >
                 </div>   
                 
                 <div class="form-container">
@@ -72,7 +73,7 @@ if(isset($_POST['signIn'])){
         
                             <a href="#">Forgot Password?</a>
                         </div>
-                        <button type="submit" name="signIn">Sign in </button>
+                        <button type="submit" name="signIn" class="signin-btn">Sign in </button>
                     </form>
                 </div>
             </div>

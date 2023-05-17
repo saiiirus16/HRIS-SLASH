@@ -35,19 +35,30 @@
                     <div class="changepass-form form-group" style="margin-top: 40px;">
                         <div class="form-group">
                             <label for="username">Username:</label><br>
-                            <input type="text" name="username" class="form-control" placeholder="Enter Username" style="padding: 20px">
+                            <input type="text" name="username" class="form-control" placeholder="Enter Username" style="padding: 20px" >
+                            
                         </div>
                         <div class="form-group">
                             <label for="oldpw">Old Password:</label><br>
-                            <input type="password" name="password" class="form-control" placeholder="Enter Old Password" style="padding: 20px">
+                            <div class="show-pass">
+                                <input type="password" name="password" class="form-control" placeholder="Enter Old Password" style="padding: 20px" id="password">
+                                <i class="fa fa-eye" aria-hidden="true" id="eye" onclick="toggle()"></i>
+                            </div>
+                            
                         </div>
                         <div class="form-group">
                             <label for="password">New Password:</label><br>
-                            <input type="password" name="newPassword" class="form-control" placeholder="New Password" style="padding: 20px">
+                            <div class="show-pass">
+                                <input type="password" name="newPassword" class="form-control" placeholder="Enter Old Password" style="padding: 20px" id="newPassword">
+                                <i class="fa fa-eye" aria-hidden="true" id="eye2" onclick="toggle2()"></i>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="cpassword">Confirm New password:</label><br>
-                            <input type="password" name="cpassword" class="form-control" placeholder="Confirm New Password" style="padding: 20px">
+                            <div class="show-pass">
+                                <input type="password" name="cpassword" class="form-control" placeholder="Enter Old Password" style="padding: 20px" id="cpassword">
+                                <i class="fa fa-eye" aria-hidden="true" id="eye3" onclick="toggle3()"></i>
+                            </div>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Update" name="update" class="form-control changepass-update">
@@ -59,6 +70,49 @@
 
 
     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script>
+function toggle() {
+  var password = document.getElementById("password");
+  var eye = document.getElementById("eye");
+  if (password.type === "password") {
+    password.type = "text";
+    eye.classList.remove("fa-eye");
+    eye.classList.add("fa-eye-slash");
+  } else {
+    password.type = "password";
+    eye.classList.remove("fa-eye-slash");
+    eye.classList.add("fa-eye");
+  }
+}
+
+function toggle2() {
+  var password = document.getElementById("newPassword");
+  var eye = document.getElementById("eye2");
+  if (password.type === "password") {
+    password.type = "text";
+    eye.classList.remove("fa-eye");
+    eye.classList.add("fa-eye-slash");
+  } else {
+    password.type = "password";
+    eye.classList.remove("fa-eye-slash");
+    eye.classList.add("fa-eye");
+  }
+}
+
+function toggle3() {
+  var password = document.getElementById("cpassword");
+  var eye = document.getElementById("eye3");
+  if (password.type === "password") {
+    password.type = "text";
+    eye.classList.remove("fa-eye");
+    eye.classList.add("fa-eye-slash");
+  } else {
+    password.type = "password";
+    eye.classList.remove("fa-eye-slash");
+    eye.classList.add("fa-eye");
+  }
+}
+</script>
 
 </body>
 </html>

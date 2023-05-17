@@ -1,0 +1,73 @@
+@media(max-width: 1350px){
+    /* .login-container{
+        overflow-x: hidden !important;
+    } */
+
+    .form-container{
+        transition: ease-in-out 1s;
+        margin-left: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .form-container .input-text{
+        width: 520px;
+        margin-left: 50px;
+        transition: ease-in-out 1s;
+
+    }
+    .remember-forgot{
+        width: 520px !important; 
+        transition: ease-in-out 1s;
+    }
+
+    .signin-btn{
+        width: 520px !important;
+        transition: ease-in-out 1s;
+    }
+    .waves{
+        margin-right: 43px !important;
+        margin-top: 325px;
+        transition: ease-in-out 1s;
+    }
+    #eye{
+        position: absolute;
+        right: 40px;
+        transition: ease-in-out 1s;
+        margin-top: 30px;
+    }
+    .signin-logo-img{
+        background-color: #000;
+        margin-left: 150px;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+        border-radius: 10px;
+        width: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .signin-logo-img img{
+        height: 100px;
+    }
+
+}
+
+@media(max-width: 720px){
+    .waves{
+        display: none !important;
+    }
+    .logo-img img{
+        height: 123% !important;
+        width: 250%;
+    }
+}
+
+@media(max-width: 769px){
+    .waves{
+        margin-left: 50px;
+    }
+}
