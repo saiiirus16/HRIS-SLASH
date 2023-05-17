@@ -129,7 +129,7 @@
                         </thead>
                         <tbody>
                         <?php 
-                            $username = $_SESSION['username'];
+                            $employeeid = $_SESSION['empid'];
                             $conn = mysqli_connect("localhost","root","","hris_db");
                             date_default_timezone_set('Asia/Manila'); // set the timezone to Manila
 
@@ -152,7 +152,7 @@
                             FROM
                             empschedule_tb
                             INNER JOIN schedule_tb ON empschedule_tb.schedule_name = schedule_tb.schedule_name
-                            INNER JOIN employee_tb ON empschedule_tb.empid = employee_tb.empid WHERE employee_tb.username = '$username';";
+                            INNER JOIN employee_tb ON empschedule_tb.empid = employee_tb.empid WHERE employee_tb.empid = '$employeeid';";
 
                             $result = mysqli_query($conn, $query);
                             while ($row = mysqli_fetch_assoc($result)) {

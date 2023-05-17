@@ -83,7 +83,7 @@ session_start();
                     
                     <form action="Data Controller/Overtime Request/ot_insert.php" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label for="Select_emp" class="form-label">Employee Name</label>
                                 <?php
                                     include 'config.php';
@@ -334,6 +334,7 @@ session_start();
                         </thead>
                          <?php
                          $conn = mysqli_connect("localhost","root","","hris_db");
+                         $employeeid = $_SESSION['empid'];
                          
                          $query = "SELECT
                          overtime_tb.id,
@@ -351,7 +352,7 @@ session_start();
                          overtime_tb.date_filed
                          FROM
                             employee_tb
-                         INNER JOIN overtime_tb ON employee_tb.empid = overtime_tb.empid;";
+                         INNER JOIN overtime_tb ON employee_tb.empid = overtime_tb.empid WHERE overtime_tb.empid = $employeeid;";
                          $result = mysqli_query($conn, $query);
                          while ($row = mysqli_fetch_assoc($result)){  
 
@@ -399,35 +400,6 @@ session_start();
 
 <!------------------------------------Script for Checking date if may nabago------------------------------------------------->               
 <script>
-// function checkSchedule() {
-//     var date = document.getElementById("date_id").value;
-
-//     // AJAX request to check if there is a schedule for the selected date
-//     var xhttp = new XMLHttpRequest();
-//     xhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             var schedule = this.responseText;
-//             // Remove double quotes from schedule
-//             schedule = schedule.replace(/"/g, "");
-//             if (schedule == "no schedule") {
-//                 alert("Sorry, you don't have a schedule on that date.");
-//                 document.getElementById("schedule_id").value = "";
-//             } else {
-//                 document.getElementById("schedule_id").value = schedule;
-
-//                 // Parse the schedule value to get the time out
-//                 var timeOut = schedule.split(' - ')[1];
-
-//                 // Set the value of the time_from_id input field to the time out
-//                 document.getElementById("time_from_id").value = timeOut;
-//             }
-//         }
-//     };
-//     xhttp.open("POST", "check_schedule.php", true);
-//     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//     xhttp.send("date=" + date);
-// }
-
 function checkSchedule() {
     var date = document.getElementById("date_id").value;
     var addButton = document.getElementById("overtime_add");

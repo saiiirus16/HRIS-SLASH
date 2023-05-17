@@ -80,7 +80,7 @@ session_start();
                     
                     <form action="Data Controller/Official Employee/official_conn.php" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
-                        <div class="mb-3">
+                        <div class="mb-3" style="display: none;">
                             <label for="Select_emp" class="form-label">Employee Name</label>
                             <?php
                                 include 'config.php';
@@ -282,6 +282,7 @@ session_start();
                                         </thead>
                                         <?php 
                                             $conn = mysqli_connect("localhost","root","","hris_db");
+                                            $employeeid = $_SESSION['empid'];
 
                                             $query = "SELECT
                                             emp_official_tb.id,
@@ -302,7 +303,7 @@ session_start();
                                             emp_official_tb.status
                                         FROM
                                             employee_tb
-                                        INNER JOIN emp_official_tb ON employee_tb.empid = emp_official_tb.employee_id;";
+                                        INNER JOIN emp_official_tb ON employee_tb.empid = emp_official_tb.employee_id WHERE emp_official_tb.employee_id = $employeeid;";
                                             $result = mysqli_query($conn, $query);
                                             while ($row = mysqli_fetch_assoc($result)) {
                                             ?>

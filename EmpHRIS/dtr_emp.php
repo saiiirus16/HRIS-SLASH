@@ -85,7 +85,7 @@
       <form action="Data Controller/DTR Employee/dtr_conn.php" method="POST" enctype="multipart/form-data">
       <div class="modal-body">
       
-      <div class="mb-3">
+      <div class="mb-3" style="display: none;">
           <label for="Select_emp" class="form-label">Employee Name</label>
             <?php
                 include 'config.php'; 
@@ -293,6 +293,7 @@
                                             <tbody>
                                                 <?php 
                                                     $conn = mysqli_connect("localhost","root","","hris_db");
+                                                    $employeeid = $_SESSION['empid'];
 
                                                     $query = "SELECT
                                                     emp_dtr_tb.id,
@@ -310,7 +311,7 @@
                                                     emp_dtr_tb.status
                                                 FROM
                                                     employee_tb
-                                                INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.empid;";
+                                                INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.empid WHERE emp_dtr_tb.empid = $employeeid;";
                                                     $result = mysqli_query($conn, $query);
                                                     while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>

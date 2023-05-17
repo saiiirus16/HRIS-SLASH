@@ -80,7 +80,7 @@ session_start();
       </div>
       <form action="Data Controller/Wfh Request/insert_wfh.php" method="POST" enctype="multipart/form-data">
       <div class="modal-body">
-        <div class="mb-3">
+        <div class="mb-3" style="display: none;">
             <label for="select_empid" class="form-label">Employee Name</label>
                 <?php
                 include 'config.php';
@@ -93,7 +93,7 @@ session_start();
             <input type="date" name="wfh_date" id="date_wfh" class="form-control">
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" style="display: none;">
             <label for="choose_type" class="form-label">Schedule Type</label>
             <input type="text" name="choose_scheduletype" id="scheduletype_choose" class="form-control">
         </div>
@@ -168,7 +168,7 @@ session_start();
                         <label class="input-group-text"  for="inputGroupFile02">Upload</label>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3" style="display: none;">
                         <label for="text_area" class="form-label">Schedule Type</label>
                         <input type="text" class="form-control" name="view_wfh_sched_type" id="view_wfh_sched_type_id" readonly>
                     </div>
@@ -272,7 +272,6 @@ session_start();
                                 <th style="display: none;">End Time</th>
                                 <th style="display: none;">Reason</th>
                                 <th>File Attachment</th>
-                                <th style="display: none;">Schedule Type</th>
                                 <th>Status</th>
                                 <th>Date Filed</th>
                                 <th>Action</th>
@@ -280,6 +279,7 @@ session_start();
                         </thead>
                         <?php
                                 $conn = mysqli_connect("localhost","root","","hris_db");
+                                $employeeid = $_SESSION['empid'];
 
                                 $query = "SELECT
                                 wfh_tb.id,
@@ -294,7 +294,7 @@ session_start();
                                 wfh_tb.date_file
                             FROM
                                 employee_tb
-                            INNER JOIN wfh_tb ON employee_tb.empid = wfh_tb.empid;";
+                            INNER JOIN wfh_tb ON employee_tb.empid = wfh_tb.empid WHERE wfh_tb.empid = $employeeid;";
                             $result = mysqli_query($conn, $query);
                             while ($row = mysqli_fetch_assoc($result)){
                             ?>
@@ -313,7 +313,6 @@ session_start();
                                 <?php else: ?>
                                 <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                 <?php endif; ?>
-                                <td style="display: none;"><?php echo $row['schedule_type']?></td>
                                 <td><?php echo $row['status']?></td>
                                 <td><?php echo $row['date_file']?></td>
                                 <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_wfh_modal">View</a></td>
@@ -350,10 +349,9 @@ session_start();
                    $('#wfh_time_to_id').val(data[4]);
                    $('#view_wfh_reason_id').val(data[5]);
                    $('#view_wfh_upload_id').val(data[6]);
-                   $('#view_wfh_sched_type_id').val(data[7]);
-                   var status = $tr.find('td:eq(8)').text();
+                   var status = $tr.find('td:eq(7)').text();
                    $('#view_wfh_status_id').val(status);
-                   $('#view_datefile_id').val(data[9]);
+                   $('#view_datefile_id').val(data[8]);
                });
              });
              </script>

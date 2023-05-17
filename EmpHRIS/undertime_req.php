@@ -83,7 +83,7 @@ session_start();
                     
                     <form action="Data Controller/Undertime Request/under_request.php" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label for="Select_emp" class="form-label">Employee Name</label>
                                 <?php
                                     include 'config.php';
@@ -101,7 +101,7 @@ session_start();
                                 <div class="input-group mb-3">
                                     <input type="time" class="form-control" name="under_time_from" id="under_time_from_id" readonly>
                                     <span class="input-group-text">-</span>
-                                    <input type="time" class="form-control" name="under_time_to" id="under_time_to_id" onchange="undertime_hours()">
+                                    <input type="time" class="form-control" name="under_time_to" id="under_time_to_id" onchange="undertime_hours(); validateUndertimeInputs();">
                                 </div>
                             </div>
 
@@ -301,7 +301,8 @@ session_start();
                         </thead>
                          <?php
                          $conn = mysqli_connect("localhost","root","","hris_db");
-                         
+                         $employeeid = $_SESSION['empid'];
+
                          $query = "SELECT
                          undertime_tb.id,
                          employee_tb.empid,
@@ -315,7 +316,7 @@ session_start();
                          undertime_tb.date_file
                          FROM
                             employee_tb
-                         INNER JOIN undertime_tb ON employee_tb.empid = undertime_tb.empid;";
+                         INNER JOIN undertime_tb ON employee_tb.empid = undertime_tb.empid WHERE undertime_tb.empid = $employeeid;";
                          $result = mysqli_query($conn, $query);
                          while ($row = mysqli_fetch_assoc($result)){  
                          ?>

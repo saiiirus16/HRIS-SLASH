@@ -1,9 +1,11 @@
 <?php
+session_start();
 require_once '../../config.php';
 
 $date = $_POST['date'];
+$employeeid = $_SESSION['empid'];
 
-$sql = "SELECT empschedule_tb.id, empschedule_tb.empid, empschedule_tb.sched_from, empschedule_tb.sched_to, empschedule_tb.schedule_name, schedule_tb.mon_timein, schedule_tb.mon_timeout,
+$sql = "SELECT empschedule_tb.id, employee_tb.empid, empschedule_tb.sched_from, empschedule_tb.sched_to, empschedule_tb.schedule_name, schedule_tb.mon_timein, schedule_tb.mon_timeout,
         schedule_tb.tues_timein, schedule_tb.tues_timeout,
         schedule_tb.wed_timein, schedule_tb.wed_timeout,
         schedule_tb.thurs_timein, schedule_tb.thurs_timeout,
@@ -12,8 +14,9 @@ $sql = "SELECT empschedule_tb.id, empschedule_tb.empid, empschedule_tb.sched_fro
         schedule_tb.sun_timein, schedule_tb.sun_timeout
         FROM
         empschedule_tb
+        INNER JOIN employee_tb ON empschedule_tb.empid = employee_tb.empid
         INNER JOIN schedule_tb ON empschedule_tb.schedule_name = schedule_tb.schedule_name
-        WHERE '$date' BETWEEN empschedule_tb.sched_from AND empschedule_tb.sched_to;";
+        WHERE employee_tb.empid = '$employeeid' AND '$date' BETWEEN empschedule_tb.sched_from AND empschedule_tb.sched_to;";
 
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
