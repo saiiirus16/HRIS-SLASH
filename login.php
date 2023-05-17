@@ -54,7 +54,14 @@ if(isset($_POST['signIn'])){
         // Check if admin login is successful
         elseif (mysqli_num_rows($adminResult) == 1) {
             // Start session and set user type
-
+            $row_emp = mysqli_fetch_assoc($employeeResult);
+            $_SESSION['id'] = $row_emp['id'];
+            $_SESSION['username'] = $row_emp['username'];
+            $_SESSION['password'] = $row_emp['password'];
+            $_SESSION['empid'] = $row_emp['empid'];
+             
+            header("Location: Dashboard.php"); // Redirect to employee dashboard
+            exit();
             
         }
         else if (mysqli_num_rows($SuperadminResult) == 1){

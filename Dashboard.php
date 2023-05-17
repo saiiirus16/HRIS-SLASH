@@ -326,7 +326,32 @@
                                 <label for="absent" >Absent</label>
                             </div>
                             <div>
-                                <input type="text" name="on_leave" value="11" readonly >
+                                <?php 
+                                
+                                    include 'config.php';
+                                    // Query the attendances table to count the number of ON LEAVE employees with an empid
+                                    $query = "SELECT COUNT(DISTINCT empid) AS num_employees
+                                                FROM attendances
+                                                Where `status` = 'On-Leave' 
+                                                GROUP BY empid";
+                                    $results = mysqli_query($conn, $query);
+
+                                    if(mysqli_num_rows($results) > 0) {
+                                        $rows = mysqli_fetch_assoc($results);
+                                        $Leave_count = $rows["num_employees"];
+                                        }
+                                    else{
+                                        $Leave_count = 0;
+                                    }
+
+
+                                    // Fetch the result and store it in a variable
+                                    
+                                    
+                                    // Close the connection
+                                    mysqli_close($conn);
+                                ?>
+                                <input type="text" name="on_leave" value="<?php echo $Leave_count?>" readonly >
                                 <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
                                 <label for="on_leave" >On Leave</label>
                             </div>
