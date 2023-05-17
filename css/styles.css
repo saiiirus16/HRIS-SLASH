@@ -2461,22 +2461,41 @@ header{
     letter-spacing: 1px;
 }
 
-.payslip-info-2{
-    width: 600px;
+.pay1{
+    width: 550px;
     display: flex;
 }
 
-.payslip-info-2 label{
+.pay1 label{
     margin-right: 45px;
     font-size: 18px;
     font-weight: 500;
     margin-left: 30px;
     margin-top: 10px;
 }
-.payslip-info-2 select{
+.pay1 select{
     width: 380px;
      height: 55px;
     font-size: 17px;
+    
+}
+.pay2{
+    width: 495px;
+    display: flex;
+    margin-left: -115px;
+}
+
+.pay2 label{
+    margin-right: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+.pay2 select{
+    width: 380px;
+     height: 55px;
+    font-size: 17px;
+    
 }
 
 .gen-btn{
