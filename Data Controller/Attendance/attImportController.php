@@ -32,79 +32,71 @@ if(isset($_POST['importSubmit'])){
                 // Get row data
                 $status   = $line[0];
                 $empid  = $line[1];
-                $name  = $line[2];
-                $date = $line[3];
-                $time_in = $line[4];
-                $time_out = $line[5];
+                $date = $line[2];
+                $time_in = $line[3];
+                $time_out = $line[4];
                 $late = '';
                 $early_out = '';
                 $overtime = '';  
                 $total_work = '';
                 $total_rest = '';
 
-              
-                
+    
                 $conn = mysqli_connect("localhost", "root", "", "hris_db");
-                $stmt = 'SELECT 
-                CAST(monday AS DATE) AS monday_date,
-                CAST(tuesday AS DATE) AS tuesday_date,
-                CAST(wednesday AS DATE) AS wednesday_date,
-                CAST(thursday AS DATE) AS thursday_date,
-                CAST(friday AS DATE) AS friday_date,
-                CAST(saturday AS DATE) AS saturday_date,
-                CAST(sunday AS DATE) AS sunday_date,
-                mon_timein,
-                mon_timeout,
-                tues_timein,
-                tues_timeout,
-                wed_timein,
-                wed_timeout,
-                thurs_timein,
-                thurs_timeout,
-                fri_timein,
-                fri_timeout,
-                sat_timein,
-                sat_timeout,
-                sun_timein,
-                sun_timeout
-              FROM schedule_tb
-              WHERE id = 8 ';
+                $sql = "SELECT * FROM empschedule_tb WHERE empid = $empid";
+                $resulta = mysqli_query($conn, $sql);
+                if(mysqli_num_rows($resulta) > 0){
+                    $row1 = mysqli_fetch_assoc($resulta);
                 
+                    $stmt = "SELECT 
+                        CAST(monday AS DATE) AS monday_date,
+                        CAST(tuesday AS DATE) AS tuesday_date,
+                        CAST(wednesday AS DATE) AS wednesday_date,
+                        CAST(thursday AS DATE) AS thursday_date,
+                        CAST(friday AS DATE) AS friday_date,
+                        CAST(saturday AS DATE) AS saturday_date,
+                        CAST(sunday AS DATE) AS sunday_date,
+                        mon_timein,
+                        mon_timeout,
+                        tues_timein,
+                        tues_timeout,
+                        wed_timein,
+                        wed_timeout,
+                        thurs_timein,
+                        thurs_timeout,
+                        fri_timein,
+                        fri_timeout,
+                        sat_timein,
+                        sat_timeout,
+                        sun_timein,
+                        sun_timeout
+                    FROM schedule_tb
+                    WHERE schedule_name ='".$row1['schedule_name']."'";
+
+                } else{
+                    echo 'no found';
+                }
+
+                  // Check if empid exists in the employee_tb
+                  $empQuery = "SELECT id FROM employee_tb WHERE empid = '$empid'";
+                  $empResult = $db->query($empQuery);
+  
+                  if ($empResult->num_rows == 0) {
+                      // Store alert message in session
+                      $_SESSION['alert_msg'] = "The employee with empid $empid does not exist in the database.";
+  
+                      // Redirect to the listing page
+                      header("Location: ../../attendance.php?status=err");
+                      exit();
+                  }
                 
-            //     SELECT 
-            //     CAST(monday AS DATE) AS monday_date, 
-            //     mon_timein, 
-            //     mon_timeout
-            //     -- CAST(tuesday AS DATE) AS tuesday_date, 
-            //     -- tue_timein, 
-            //     -- tue_timeout,
-            //     -- CAST(wednesday AS DATE) AS wednesday_date, 
-            //     -- wed_timein, 
-            //     -- wed_timeout,
-            //     -- CAST(thursday AS DATE) AS thursday_date, 
-            //     -- thu_timein, 
-            //     -- thu_timeout,
-            //     -- CAST(friday AS DATE) AS friday_date, 
-            //     -- fri_timein, 
-            //     -- fri_timeout,
-            //     -- CAST(saturday AS DATE) AS saturday_date, 
-            //     -- sat_timein, 
-            //     -- sat_timeout,
-            //     -- CAST(sunday AS DATE) AS sunday_date, 
-            //     -- sun_timein, 
-            //     -- sun_timeout
-            //   FROM schedule_tb 
-            //   WHERE id = 14";
 
 
                 $result = mysqli_query($conn, $stmt);
                 while($time = mysqli_fetch_assoc($result)){
 
-                // $date = date('Y-m-d', strtotime($date));
+            
 
-                // $day_of_week = date('l', strtotime($date)); // get the day of the week using the "l" format specifier                
-               
-                // $day = $day_of_week;
 
                 $monday = strtr($time['monday_date'], '/' , '-');
                 $mondays = date('Y-m-d', strtotime($date));
@@ -454,37 +446,56 @@ if(isset($_POST['importSubmit'])){
 
         }
 
-                // Check whether member already exists in the database with the same email
+                $empid = $line[1];
                 $prevQuery = "SELECT id FROM attendances WHERE empid = '".$line[1]."'";
                 $prevResult = $db->query($prevQuery);
                 
                 if($prevResult->num_rows > 0){
-                    // Update member data in the database
-                    $db->query("UPDATE attendances SET status = '".$status."', name = '".$name."', date = '".$date."', time_in = '".$time_in."', time_out = '".$time_out."', late = '".$late."', early_out = '".$early_out."', overtime = '".$overtime."', total_work = '".$total_work."', total_rest = '".$total_rest."',modified = NOW() WHERE empid = '".$empid."'");
-                }else{
+                    // Check if empid exists in the employee_tb
+                    $empQuery = "SELECT id FROM employee_tb WHERE empid = '".$empid."' ";
+                    $empResult = $db->query($empQuery);
+                
+                    if($empResult->num_rows == 0){
+                        // Store alert message in session
+                        $_SESSION['alert_msg'] = "The employee with empid ".$empid." does not exist in the database.";
+                    } else {
+                        // Insert member data in the database
+                        $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                                    VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+                    }
+                } else {
                     // Insert member data in the database
-                    $db->query("INSERT INTO attendances (status, empid, name, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
-                                VALUES ('".$status."', '".$empid."', '".$name."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
-                }
+                    $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
+                                VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+                
+                    // Check if empid exists in the employee_tb
+                    $empQuery = "SELECT id FROM employee_tb WHERE empid = '".$empid."' ";
+                    $empResult = $db->query($empQuery);
+                
+                    if($empResult->num_rows == 0){
+                        // Store alert message in session
+                        $_SESSION['alert_msg'] = "The employee with empid ".$empid." does not exist in the database.";
+                    }
+                }        
             }
         }
-
-        
-
 
             
           // Close opened CSV file
           fclose($csvFile);
             
-          $qstring = '?status=succ';
+          
       }else{
-          $qstring = '?status=err';
+          
       }
   }else{
-      $qstring = '?status=invalid_file';
+     
   }
 }
      
-
+if (isset($_SESSION['alert_msg'])) {
+    echo '<script>alert("'.$_SESSION['alert_msg'].'");</script>';
+    unset($_SESSION['alert_msg']);
+}
 // Redirect to the listing page
 header("Location: ../../attendance.php".$qstring);

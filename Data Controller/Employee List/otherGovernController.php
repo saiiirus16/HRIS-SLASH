@@ -2,7 +2,7 @@
 
 $conn = mysqli_connect("localhost", "root", "", "hris_db");
 
-$result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE id = '".$_POST['id']."'");
+$result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid = '".$_POST['empid']."'");
 $row = mysqli_fetch_assoc($result);
 
 
@@ -18,7 +18,7 @@ if(count($_POST) > 0){
 
         $query = mysqli_query($conn,$submit);
         
-        header("Location: ../../editempListForm.php?id=$row[id]");
+        header("Location: ../../editempListForm.php?empid=$row[empid]");
     
     }
 }

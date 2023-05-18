@@ -10,7 +10,7 @@
     die('Connection Failed: ' .$conn->connect_error);
    }
 
-   $stmt = $conn->prepare("INSERT INTO empschedule_tb (empid, schedule_name, sched_from, sched_to)
+   $stmt = $conn->prepare("INSERT INTO empschedule_tb (empid,schedule_name, sched_from, sched_to)
                            VALUES (?, ?, ?, ?)
                            ON DUPLICATE KEY UPDATE 
                                schedule_name = VALUES(schedule_name), 

@@ -30,6 +30,24 @@ searchBar.addEventListener("input", () => {
   }
 });
 
+function leavetype() {
+  let leavetype_id = document.getElementById("leavetype_id").value;
+
+  if (leavetype_id === 'Vacation Leave') {
+    document.getElementById("id_leavePeriod").disabled = false;
+  }
+  else if (leavetype_id === 'Sick Leave') {
+    document.getElementById("id_leavePeriod").disabled = false;
+  }
+  else if (leavetype_id === 'Bereavement Leave') {
+    document.getElementById("id_leavePeriod").disabled = false;
+  }
+   else {
+    document.getElementById("id_leavePeriod").disabled = true;
+  }
+}
+
+
 
 
 function strvalidate() {
@@ -95,17 +113,27 @@ function strvalidate() {
 
 
 
-    //PARA ISA LANG MA CHECK SA FIRST AND SECOND HALF
+    //PARA ISA LANG MA CHECK SA FIRST AND SECOND HALF AND UNLOCK THE STARTDATE
         function halfdaysides(){
-          let halfday_side = document.getElementById('id_leavePeriod').value;
 
-          if(halfday_side === 'Half Day'){
-            document.getElementById('id_chckfirsthalf').style.display = "flex";
-            document.getElementById('id_chckSecondhalf').style.display = "flex";
-          }
-          else{
+          const firstHalfCheckbox = document.querySelector('input[name="firstHalf"]');
+          const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
+
+          let id_leavePeriod = document.getElementById('id_leavePeriod').value;
+
+          if (id_leavePeriod === 'Full Day') {
+            document.getElementById("id_inpt_strdate").disabled = false;
             document.getElementById('id_chckfirsthalf').style.display = "none";
             document.getElementById('id_chckSecondhalf').style.display = "none";
+
+            firstHalfCheckbox.checked = this.checked;
+            secondHalfCheckbox.checked = this.checked;
+            
+          }
+          else if(id_leavePeriod === 'Half Day'){
+            document.getElementById("id_inpt_strdate").disabled = true;
+            document.getElementById('id_chckfirsthalf').style.display = "flex";
+            document.getElementById('id_chckSecondhalf').style.display = "flex";
           }
         }
         
@@ -115,9 +143,11 @@ function strvalidate() {
         const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
         firstHalfCheckbox.addEventListener('click', function() {
             secondHalfCheckbox.checked = !this.checked;
+            document.getElementById("id_inpt_strdate").disabled = false;
         });
         secondHalfCheckbox.addEventListener('click', function() {
             firstHalfCheckbox.checked = !this.checked;
+            document.getElementById("id_inpt_strdate").disabled = false;
         });
 
 
