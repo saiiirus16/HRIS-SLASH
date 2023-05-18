@@ -394,7 +394,7 @@
                                         OR '$end_date' BETWEEN `col_strDate` AND `col_endDate`)");
                     if(mysqli_num_rows($result_leaveINFO) > 0) {
                                             $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
-                                            //echo  "d maka insert";
+                                            
                                         header("Location: ../../leavereq.php?error= Cannot Apply due to the selected dates is already taken by your past requests.");
                 } else {
 
