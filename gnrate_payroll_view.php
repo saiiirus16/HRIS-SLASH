@@ -36,6 +36,7 @@ if(!isset($_SESSION['username'])){
     <!-- Para sa datatables END -->
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
@@ -882,14 +883,14 @@ if(!isset($_SESSION['username'])){
                     <div class="modal-dialog modal-xl" style=" margin-top: 60px;">
                         <form action="generate-pdf.php" method="post">
                             
-                            <div class="modal-content">
+                            <div class="modal-content" id ="id_modal-pdf" >
                                 <div class="modal-header">
                                     <h1 class="modal-title fs-5" id="staticBackdropLabel">PAYSLIP</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body" style="height: 700px;">
-                                <input type="hidden" name="name_cutOff_freq" value="<?php echo $_POST['name_cutOff_freq'];?>">
-                                <input type="hidden" name="name_cutOff_num" value="<?php echo $_POST['name_cutOff_num'];?>"> 
+                                <div class="modal-body"  style="height: 700px;">
+                                <input type="hidden" name="name_cutOff_freq" id="id_cutOff_freq" value="<?php echo $_POST['name_cutOff_freq'];?>">
+                                <input type="hidden" name="name_cutOff_num" id="id_cutOff_num" value="<?php echo $_POST['name_cutOff_num'];?>"> 
                                 <?php 
                                     $_POST['name_cutOff_freq'];
                                     if ($_POST['name_cutOff_freq'] === 'Monthly'){
@@ -938,8 +939,10 @@ if(!isset($_SESSION['username'])){
                                         <p class="comp_name">Slash Tech Solutions Inc.</p>
                                         <p class="lbl_payPeriod">Pay Period :</p>
                                         <p class="dt_mdl_from"><?php echo $str_date; ?></p>
+                                            <input type="text" name="col_strCutoff" value="<?php echo $str_date; ?>" style="display: none;">
                                         <p class="lbl_to">TO</p>
                                         <p class="dt_mdl_TO"><?php echo $end_date; ?></p>
+                                            <input type="text" name="col_endCutoff" value="<?php echo $end_date; ?>" style="display: none;">
 
                                         <p class="lbl_stats">Employee Status :</p>
                                         <p class="p_statss"><?php echo $row_emp['status']; ?></p>
@@ -1006,7 +1009,7 @@ if(!isset($_SESSION['username'])){
                                             <p class="lbl_bsc_pay">Basic Pay</p>
                                             <p class="p_Thrs"><?php echo $row_atteeee['total_hoursWORK']; ?></p>
                                             <p class="p_Tamount"><?php echo $row_atteeee['Salary_of_Month']; ?></p>
-                                            
+                                               
 
                                         </div>
 
@@ -1014,7 +1017,7 @@ if(!isset($_SESSION['username'])){
                                             <p class="lbl_bsc_pay">Overtime Pay</p>
                                             <p class="p_Thrs"><?php echo $row_atteeee['total_hoursOT']; ?></p>
                                             <p class="p_Tamount"><?php echo $TOTAL_ADD_OT; ?></p>
-                                            
+                                                
 
                                         </div>
 
@@ -1022,6 +1025,7 @@ if(!isset($_SESSION['username'])){
                                             <p class="lbl_bsc_pay">Allowance</p>
                                             <p class="p_Thrs"></p>
                                             <p class="p_Tamount"><?php echo ($row_atteeee['Total_allowanceStandard'] + $row_addAllowance['total_sum_addAllowance']) * $row_atteeee['Number_of_days_work']; ?></p>
+                                               
                                             
 
                                         </div>
@@ -1124,6 +1128,7 @@ if(!isset($_SESSION['username'])){
                                                 <p class="lbl_philhlt_c"><?php echo $cutOff_pagibig_deduct ?></p>
                                                 <p class="lbl_philhlt_c"><?php if($cutoff_deductGovern === NULL ){echo '0';}else{echo $cutoff_deductGovern;}?></p>
                                                 <p class="lbl_philhlt_c"><?php echo $UT_LATE_DEDUCT_TOTAL ?></p>
+                                                    
                                                 <p style = "margin-top : -10px;" class="lbl_advnc_p">
                                                     <?php
                                                         if ($_POST['name_cutOff_freq'] === 'Monthly'){
@@ -1211,8 +1216,10 @@ if(!isset($_SESSION['username'])){
                                         </div>
                                     </div>
 
-                                    <input type="hidden" name="name_empID" value="<?php  echo $emp_ID ?>">
-
+                                    <input type="hidden" name="name_empID" id="id_empID" value="<?php  echo $emp_ID ?>">
+                                    <input type="hidden" name="name_numworks" id="id_numworks" value="<?php  echo $row_atteeee['Number_of_days_work']?>">
+                                    <input type="hidden" name="name_cutoffID" id="id_cutoffID" value="<?php  echo $_POST['name_cutoffID']?>">
+                                    
                                     <div class="headbdy_pnl33">
                                         <div class="div_mdlcontnt_right">
                                         <p class="p_balance">
@@ -1259,26 +1266,14 @@ if(!isset($_SESSION['username'])){
                             
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" name="btn_download_pdf" class="btn btn-primary" id="download-pdf">Download PDF</button>
+                                    <button type="button" name="btn_download_pdf" class="btn btn-primary" id="download-pdf">Download PDF</button>
 
                                 </div>
                             </form>
                         </div>
                     </div>
-
-                    <!-- <script>$('#save-as-pdf').click(function() {
-                            var modalContent = $('.modal-body').html();
-                            $.ajax({
-                            url: 'generate-pdf.php',
-                            method: 'POST',
-                            data: { content: modalContent },
-                            success: function(response) {
-                                window.location.href = response;
-                            }
-                            });
-                        });
-                    </script> -->
                 </div><!--  End Modal -->
+
         </div> <!--  End card-body -->
     </div> <!--  End card -->
 </div><!--  End Container -->
@@ -1287,21 +1282,13 @@ if(!isset($_SESSION['username'])){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
 <script src="path/to/mpdf/autoload.php"></script>
-<script>
-    $(document).ready(function() {
-        $('#download-pdf').click(function() {
-            html2canvas(document.querySelector('#staticBackdrop')).then(function(canvas) {
-                var imgData = canvas.toDataURL('image/png');
-                var pdf = new jsPDF();
-                pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
-                pdf.save('payslip.pdf');
-            });
-          
-        });
-    });
-</script>
 
 
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
     
 
@@ -1318,25 +1305,51 @@ if(!isset($_SESSION['username'])){
 <script src="bootstrap js/template.js"></script>
 <script src="bootstrap js/data-table.js"></script>  <!-- < Custom js for this page  -->
 <!-- para sa datatable  END-->
-<!-- <script>
-        // Add an event listener to the "download-pdf" button
-                document.getElementById("download-pdf").addEventListener("click", function() {
-                // Create a new jsPDF instance
-                var doc = new jsPDF();
 
-                // Get the HTML content of the modal
-                var modalContent = document.getElementById("staticBackdrop").innerHTML;
+<script type="text/javascript">
+    $("body").on("click", "#download-pdf", function () {
+        let emp_ID = document.getElementById('id_empID').value;
+        let name_cutOff_freq = document.getElementById('id_cutOff_freq').value;
+        let name_cutOff_num = document.getElementById('id_cutOff_num').value;
+        let name_numworks = document.getElementById('id_numworks').value;
+        let name_cutoffID = document.getElementById('id_cutoffID').value;
+        
 
-                // Set the content of the PDF
-                doc.fromHTML(modalContent, 15, 15, {
-                    "width": 170
-                });
+        html2canvas($('#id_modal-pdf')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("trt.pdf");
 
-                // Download the PDF
-                doc.save("modal.pdf");
-                });
-    </script> -->
-    
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = this.responseText;
+                        console.log(response);
+                        if (response != "") {
+                            // Redirect to generate_payslip.php
+                            window.location.href = "generatePayslip.php?msg= Successfully Generated the Payslip";
+                        } else {
+                            // Response is not "Done"
+                            console.log(response);
+                        }
+                    }
+                };
+                xhr.open("POST", "generate-pdf.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("pdfData=" + encodeURIComponent(data) + "&emp_ID=" + encodeURIComponent(emp_ID) + "&name_cutOff_freq=" + encodeURIComponent(name_cutOff_freq) + "&name_cutOff_num=" + encodeURIComponent(name_cutOff_num) + "&name_numworks=" + encodeURIComponent(name_numworks) + "&name_cutoffID=" + encodeURIComponent(name_cutoffID));
+            }
+        });
+    });
+</script>
+
+
+
 </body>
 <!-- <script src="js/gnratePyroll.js"></script> -->
     

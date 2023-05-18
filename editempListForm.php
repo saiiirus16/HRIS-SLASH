@@ -21,14 +21,15 @@ $pass = "";
 $database = "hris_db";
 
 $conn = mysqli_connect($server, $user, $pass, $database);
-if(isset($_FILES['emp_img'])) {
+
+// Check if there is a file uploaded
+if(isset($_FILES['emp_img']) && $_FILES['emp_img']['size'] > 0) {
     $file_name = $_FILES['emp_img']['name'];
     $file_tmp = $_FILES['emp_img']['tmp_name'];
     $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
     $new_file_name = uniqid() . "." . $file_ext;
     move_uploaded_file($file_tmp, "uploads/" . $new_file_name);
-    echo '<img src="uploads/'.$new_file_name.'" alt="My Image">';
-    $_POST['emp_img_url'] = $new_file_name; // add this line to set emp_img_url in $_POST
+    $_POST['emp_img_url'] = $new_file_name;
 }
 
 if(isset($row['emp_img_url'])) {
@@ -46,17 +47,21 @@ $image_url = str_replace("." . $file_ext, "", $image_url);
 if(count($_POST) > 0){
     $emp_img_url = "";
     if (isset($_POST['emp_img_url'])) {
-        $emp_img_url = ", emp_img_url='".$new_file_name."'";
+        $emp_img_url = ", emp_img_url='".$_POST['emp_img_url']."'";
     }
-    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', approver='".$_POST['approver']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
     WHERE id ='".$_POST['id']."'");
     header ("Location: EmployeeList.php");
 }
 
 
+
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
     $row = mysqli_fetch_assoc($result);  
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -123,7 +128,7 @@ if(count($_POST) > 0){
                                             <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>" maxlength="11" pattern="[0-9]{11,11}">
                                     </div>
                                     <div class="emp-cstatus">
-                                        <label for="cstatus">Marital Status</label><br>
+                                        <label for="cstatus">Civil Status</label><br>
                                             <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $row['cstatus'];?>" >
                                             <option value="<?php echo $row['cstatus']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['cstatus']?></option>
                                                 <option value="Single" >Single</option>
@@ -141,7 +146,7 @@ if(count($_POST) > 0){
                                     </div>
                                 </div>
                                 <div class="emp-list-info-second-container"> 
-                                    <div class="emp-head">
+                                <div class="emp-head">
                                         <?php
                                         if(!empty($row['emp_img_url'])) {
                                             $image_url = $row['emp_img_url'];

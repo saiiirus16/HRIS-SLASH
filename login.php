@@ -35,7 +35,11 @@ if(isset($_POST['signIn'])){
         $adminQuery = "SELECT * FROM employee_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password' AND `role` = 'Admin'";
         $adminResult = mysqli_query($conn, $adminQuery);
 
-        // Query the admin table
+        // Query the supervisor table
+        $SupervisorQuery = "SELECT * FROM employee_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password' AND `role` = 'Supervisor'";
+        $SupervisorResult = mysqli_query($conn, $SupervisorQuery);
+
+        // Query the superadmin table
         $SuperadminQuery = "SELECT * FROM user_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password'";
         $SuperadminResult = mysqli_query($conn, $SuperadminQuery);
 
@@ -54,13 +58,26 @@ if(isset($_POST['signIn'])){
         // Check if admin login is successful
         elseif (mysqli_num_rows($adminResult) == 1) {
             // Start session and set user type
-            $row_emp = mysqli_fetch_assoc($employeeResult);
+            $row_emp = mysqli_fetch_assoc($adminResult);
             $_SESSION['id'] = $row_emp['id'];
             $_SESSION['username'] = $row_emp['username'];
             $_SESSION['password'] = $row_emp['password'];
             $_SESSION['empid'] = $row_emp['empid'];
              
             header("Location: Dashboard.php"); // Redirect to employee dashboard
+            exit();
+            
+        }
+        // Check if admin login is successful
+        elseif (mysqli_num_rows($SupervisorResult) == 1) {
+            // Start session and set user type
+            $row_emp = mysqli_fetch_assoc($SupervisorResult);
+            $_SESSION['id'] = $row_emp['id'];
+            $_SESSION['username'] = $row_emp['username'];
+            $_SESSION['password'] = $row_emp['password'];
+            $_SESSION['empid'] = $row_emp['empid'];
+             
+            header("Location: Supervisor HRIS/Dashboard.php"); // Redirect to employee dashboard
             exit();
             
         }

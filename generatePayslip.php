@@ -28,6 +28,9 @@
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styles.css"> 
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+
      <!-- Para sa datatables -->
      <link rel="stylesheet" href="vendors/feather/feather.css">
         <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
@@ -78,7 +81,7 @@
                                 }
                             ?>
 
-                        <label for="schedule_name">Schedule Type</label>
+                        <label for="schedule_name">Employee</label>
                         <select name="schedule_name" id="" class="form-control">
                             <option value disabled selected>All Employee</option>
                             <?php echo $options; ?>
@@ -102,7 +105,7 @@
                         <option value="12">December</option>
                     </select>
 
-                    <select name="year" id="id_year" onchange="getCutoff(this.value)" disabled class="form-control">
+                    <select name="year" id="id_year" onchange="getCutoff(this.value)" class="form-control">
                         <option value="" disabled selected>Year</option>
                         <?php
                             $currentYear = date("Y");
@@ -139,74 +142,147 @@
                     </div>
                 </div>
                 <div class="col-6">
-    <script>
-        function getCutoff(value) {
-            // Make an AJAX request to the server
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Handle the response from the server
-                    var response = this.responseText;
-                    console.log(response);
-                    // Update the select element with the response value
-                    var selectElement = document.getElementById("schedule_name");
-                    var option = document.createElement("option");
-                    option.value = response;
-                    option.text = response;
-                    selectElement.appendChild(option);
-                }
-            };
-            xhttp.open("GET", "Data Controller/Payslip/getCutoff.php?value=" + encodeURIComponent(value), true);
-            xhttp.send();
-        }
-    </script>
+    
 
-    <div class="input-group mb-3 pay2">
-        <label for="schedule_name">Cut off Number</label>
-        <select name="schedule_name" id="schedule_name" class="form-control">
-        </select>
-    </div>      
-</div>
+                    <div class="input-group mb-3 pay2">
+                        <label for="schedule_name">Cut off Number</label>
+                        <select name="cutoffs" id="id_cutoffs" onchange="cutoff(this.value)" class="form-control">
+                            <option value disabled selected>Select Cutoff</option>
+                            <option value = "1">1</option>
+                            <option value = "2" >2</option>
+                            <option value = "3" >3</option>
+                            <option value = "4" >4</option>
+                        </select>
+                    </div>      
+                </div>
 
                 
             </div>
+
+            <!-- ------------------para sa message na sucessful START -------------------->
+            <?php
+
+            if (isset($_GET['msg'])) {
+                $msg = $_GET['msg'];
+                echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                '.$msg.'
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+            }
+
+
+            ?>
+            <!-------------------- para sa message na sucessful ENd --------------------->
+
+
+            <!----------------------para sa message na error START --------------------->
+            <?php
+                if (isset($_GET['error'])) {
+                $error = $_GET['error'];
+                echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                '.$error.'
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+            }
+
+            ?>
+            <!-------------------- para sa message na error ENd --------------------->
             <div class="att-date" style="margin-top: 18px;">
-                <h1 id="current-date">Attendance for <span>10/01/2023 - 10/15/2023</span></h1>
+                <h1 id="">Attendance for <span id="current-date">10/01/2023 - 10/15/2023</span></h1>
             </div>
             
         </div>
         <div class="row" style="width: 95%; margin:auto;">
             <div class="col-12 ">
-                <div class="table-responsive" style="margin-top:30px;">
-                    <table id="order-listing" class="table table-hover table-borderless" cellspacing="0">
-                        <thead style="background-color: #f4f4f4;">
-                            <tr>
-                            <th class="th-sm">Name</th>
-                            <th class="th-sm">Position</th>
-                            <th class="th-sm">Office</th>
-                            <th class="th-sm">Age</th>
-                            <th class="th-sm">Start date</th>
-                            <th class="th-sm">Salary</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="font-weight:400">
-                                <td style="font-weight:400">Tiger Nixon</td>
-                                <td style="font-weight:400">System Architect</td>
-                                <td style="font-weight:400">Edinburgh</td>
-                                <td style="font-weight:400">61</td>
-                                <td style="font-weight:400">2011/04/25</td>
-                                <td style="font-weight:400">$320,800</td>
-                            </tr>
-                            
-                            
-                        
-                        </tbody>
-                    </table>
+                <div class="table-responsive" style="margin-top:70px;">
+                    <form action="" method="post">
+                        <input type="hidden" name="name_payslip" value="">
+                        <table id="order-listing" class="table table-hover table-borderless" cellspacing="0" >
+                            <thead style="background-color: #f4f4f4;">
+                                <tr>
+                                <th style="display: none;" class="th-sm">ID</th>
+                                <th class="th-sm">Employee ID</th>
+                                <th class="th-sm">Employee Name</th>
+                                <th class="th-sm">Bank Name</th>
+                                <th class="th-sm">Bank Account</th>
+                                <th class="th-sm">No. of Day</th>
+                                <th class="th-sm">Cutoff</th>
+                                <th class="th-sm">Cutoff Number</th>
+                                <th class="th-sm">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            <?php 
+                                include 'config.php';
+
+                                $sql = "SELECT
+                                            payslip_tb.col_ID,
+                                            payslip_tb.col_empid,
+                                            CONCAT(
+                                                    employee_tb.`fname`,
+                                                    ' ',
+                                                employee_tb.`lname`
+                                                ) AS `full_name`,
+                                                employee_tb.bank_name,
+                                                employee_tb.bank_number,
+                                                payslip_tb.col_numDaysWork,
+                                                CONCAT(
+                                                    cutoff_tb.col_month,
+                                                    ' ',
+                                                    cutoff_tb.col_year
+                                                ) AS `month_year`,                                   
+                                                cutoff_tb.col_cutOffNum
+
+                                        FROM
+                                            payslip_tb
+                                        Inner Join 
+                                            employee_tb
+                                        on 
+                                            payslip_tb.col_empid = employee_tb.empid
+                                        Inner Join 
+                                            cutoff_tb
+                                        on 
+                                            payslip_tb.col_cutoffID = cutoff_tb.col_ID
+                                        
+                                        ";
+                                            
+                                $result = $conn->query($sql);
+
+                                // read data
+                                while($row = $result->fetch_assoc()){
+                                    echo "<tr>
+                                            <td style='display: none;'>" . $row['col_ID'] . "</td>
+                                            <td>" . $row['col_empid'] . "</td>
+                                            <td>" . $row['full_name'] . "</td>   
+                                            <td>" . $row['bank_name'] . "</td>       
+                                            <td>" . $row['bank_number'] . "</td>
+                                            <td>" . $row['col_numDaysWork'] . "</td>   
+                                            <td>" . $row['month_year'] . "</td>
+                                            <td>" . $row['col_cutOffNum'] . "</td> 
+                                            <td>
+                                                <div class='dropdown'>
+                                                    <button class='btn btn-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                                                        View
+                                                    </button>
+                                                    <ul class='dropdown-menu'>
+                                                        <li><a class='dropdown-item' href='#'>View Payslip</a></li>
+                                                        <li><a class='dropdown-item' href='#'>Download</a></li>
+                                                    </ul>
+                                                </div
+                                        </td>                                      
+                                        </tr>"; 
+                                }
+                            ?>
+
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
             </div>
             
         </div>
+
     </div>
     
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
@@ -225,15 +301,32 @@
 <!-- para sa datatable  END-->
 <script>
 
-function foryear(){
-    let id_month = document.getElementById('id_month').value;
 
-    if (id_month === ''){
-        document.getElementById('id_year').disabled = true;
-    }else{
-        document.getElementById('id_year').disabled = false;
+
+
+function cutoff(value) {
+    // Make an AJAX request to the server
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            // Handle the response from the server
+                var response = this.responseText;
+                
+                document.getElementById('current-date').innerHTML = response;
+
+                    // if (response === "exist") {
+                    //     //console.log("Value exists in the database");
+                                                
+                    // } else {
+                    //     //console.log("Value does not exist in the database");
+                                                
+                    // }
+            }
+        };
+            xhttp.open("GET", "Data Controller/Payslip/getCutoffdata.php?value=" + encodeURIComponent(value), true);
+            xhttp.send();
     }
-}
+
 
 
 

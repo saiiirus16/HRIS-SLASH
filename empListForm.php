@@ -310,7 +310,7 @@
                         
                         <div class="employeeList-allowance-container">
                             <div class="emp-title">
-                                <h1>Allowances</h1>
+                                <h1>Employee Allowance</h1>
                             </div>
 
                             <div class="emp-allowance-first-input">
