@@ -180,7 +180,12 @@ session_start();
                             
                             <div class="col-3">
                                 <div class="mb-3">
-                                    <input type="text"  id="id_leaveStats" class="form-control bg-light -subtle" readonly value=" <?php echo $row['col_status']?>">
+                                    <input type="text"  id="id_leaveStats" class="form-control bg-light -subtle"  readonly value=" <?php echo $row['col_status']?>" 
+                                    style="<?php 
+                                                if($row['col_status'] === 'Approved'){
+                                                    echo 'style="color: blue;  text-align: center;"';
+                                                }
+                                            ?>">
                                     <label for="Select_dept" class="form-label">Leave Status:</label>
                                 </div>  <!-- First mb-3 end-->
                             </div> <!-- col-3 end-->
@@ -234,7 +239,7 @@ session_start();
                 </div> <!-- card body end-->
                     <div class="card-footer text-end">
                         <button id="btn_reject" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" onclick="click_btnReject()" style= " margin-right: 20px;">Reject</button>
-                        <button id="btn_Approved"  data-bs-toggle="modal" data-bs-target="#Mdl_reasonApproved" type="button" class="btn btn-outline-success" onclick="click_btnApproved()" style= " margin-right: 20px;">Approved</button>
+                        <button id="btn_Approved"  data-bs-toggle="modal" data-bs-target="#Mdl_reasonApproved" type="button" class="btn btn-outline-success" onclick="click_btnApproved()" style= " margin-right: 20px;">Approve</button>
 
                     </div>
 
