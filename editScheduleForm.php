@@ -1,9 +1,19 @@
 <?php
+   
     session_start();
-
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
     }
+
     
 
         $server = "localhost";
@@ -71,7 +81,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value=' ". $row['department_name'] . "'>" .$row['department_name'].  "</option>";
+                                    $options .= "<option value='".$row['department_name']."'>" .$row['department_name'].  "</option>";
                                 }
                                 ?>
 
@@ -97,7 +107,7 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value=' ". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                                    $options .= "<option value='".$row['empid']."'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }
                                 ?>
 
@@ -123,7 +133,7 @@
 
                                     $options = "";
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $options .= "<option value=' ". $row['schedule_name'] . "'>" .$row['schedule_name']."</option>";
+                                        $options .= "<option value='".$row['schedule_name']."'>" .$row['schedule_name']."</option>";
                                     }
                                     ?>
 
@@ -256,7 +266,7 @@
                             </tr>
                             <tr>
                             <td><input type="checkbox" class="checkbox" name="sunday" value="Sunday" <?php if ($schedrow['sunday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)" > Sunday</td>
-                            <td><input name="sun_timein" type="time" class="time-input" id="time13"  value="<?php  if(isset($schedrow['sun_timein'])&& !empty($schedrow['sun_timein'])) { echo $schedrow['mon_timein']; } else echo 'No data';?>"></td>
+                            <td><input name="sun_timein" type="time" class="time-input" id="time13"  value="<?php  if(isset($schedrow['sun_timein'])&& !empty($schedrow['sun_timein'])) { echo $schedrow['sun_timein']; } else echo 'No data';?>"></td>
                                 <td><input name="sun_timeout" type="time" class="time-input" id="time14"  value="<?php if(isset($schedrow['sun_timeout'])&& !empty($schedrow['sun_timeout'])) { echo $schedrow['sun_timeout']; } else {echo 'No data'; }?>"></td>
                                 <td><input name ="sun_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['sun_wfh']){ echo "checked"; } ?>></td>
                             </tr>

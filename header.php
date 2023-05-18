@@ -6,6 +6,21 @@
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css"> 
 </head> -->
+<?php
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
+?>
 <body>
 
 
@@ -23,14 +38,14 @@
                 </div>
                 <div class="header-type">
                     <h1><?php if(empty($_SESSION['userType'])){
-                            echo "No user type";
+                            echo "No user ";
                         } else {
                             echo $_SESSION['userType'];
                         }
                         
                         ?></h1>
                     <p class="user-name"><?php if(empty($_SESSION['username'])){
-                                echo "User";
+                                echo "";
                             }else{
                                 echo $_SESSION['username'];
                             }
@@ -52,7 +67,7 @@
 
                 <li><a href="#" class="timekeep-dd hoverable"><div><span class="fa-regular fa-clock"></span>TIMEKEEPING</div><span class="fa-solid fa-chevron-right"></span></a>
                     <ul class="timekeep-dd-show">
-                        <li> <a href="att.php"> ATTENDANCE</a></li>
+                        <li> <a href="attendance.php"> ATTENDANCE</a></li>
                         <li> <a href="#"> CALENDAR</a></li>
                         <li> <a href="dtRecords.php"> DAILY TIME RECORDS</a></li>
                         <li> <a href="dtr_admin.php"> DTR CORRECTION</a></li>
@@ -65,9 +80,9 @@
                   
                 <li><a href="#" class="hoverable payroll-dd"><div><span class="fa-regular fa-credit-card"></span>PAYROLL</div><span class="fa-solid fa-chevron-right"></span></a>
                     <ul class="payroll-dd-show">
-                        <li><a href="#">LOAN REQUEST</a></li>
-                        <li><a href="#">GENERATE PAYROLL</a></li>
-                        <li><a href="#">GENERATE PAYSLIP</a></li>
+                        <li><a href="loanRequest.php">LOAN REQUEST</a></li>
+                        <li><a href="cutoff.php">GENERATE PAYROLL</a></li>
+                        <li><a href="generatePayslip.php">GENERATE PAYSLIP</a></li>
                     </ul> 
                 </li>
 
@@ -116,14 +131,9 @@
                     </ul>
                 </li>
 
-                <li style="display: none;"><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
-                    <ul class="sett-dd-show">
-                        <li><a href="official_emp.php">OFFICIAL</a></li>
-                        <li><a href="dtr_emp.php">DTR EMPLOYEE</a></li>
-                        <li><a href="my_schedule.php">MY SCHEDULE</a></li>
-                        <li><a href="overtime_req.php">OVERTIME REQUEST</a></li>
-                        <li><a href="undertime_req.php">UNDERTIME REQUEST</a></li>
-                        <li><a href="Wfh_request.php">WFH REQUEST</a></li>
+                <li><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
+                <ul class="sett-dd-show">
+                        
                     </ul>
                 </li>
                 
@@ -133,54 +143,117 @@
 
 
         <script>
-       $('.timekeep-dd').click(function(){
-            $('.sidebars ul .timekeep-dd-show').toggleClass("show");
-            
-        });
+        $('.timekeep-dd').click(function(){
+        $('.sidebars ul .timekeep-dd-show').toggleClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-        $('.payroll-dd').click(function(){
-            $('.sidebars ul .payroll-dd-show').toggleClass("show2");
-            
-        });
-        
-        $('.employees-dd').click(function(){
-            $('.sidebars ul .employees-dd-show').toggleClass("show3");
-            
-        });
+    $('.payroll-dd').click(function(){
+        $('.sidebars ul .payroll-dd-show').toggleClass("show2");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-        $('.report-dd').click(function(){
-            $('.sidebars ul .report-dd-show').toggleClass("show4");
-            
-        });
+    $('.employees-dd').click(function(){
+        $('.sidebars ul .employees-dd-show').toggleClass("show3");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-        $('.development-dd').click(function(){
-            $('.sidebars ul .development-dd-show').toggleClass("show5");
-            
-        });
+    $('.report-dd').click(function(){
+        $('.sidebars ul .report-dd-show').toggleClass("show4");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-        $('.performance-dd').click(function(){
-            $('.sidebars ul .performance-dd-show').toggleClass("show6");
-            
-        });
+    $('.development-dd').click(function(){
+        $('.sidebars ul .development-dd-show').toggleClass("show5");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-        $('.acquisition-dd').click(function(){
-            $('.sidebars ul .acquisition-dd-show').toggleClass("show7");
-            
-        });
-        $('.org-dd').click(function(){
-            $('.sidebars ul .org-dd-show').toggleClass("show7");
-            
-        });
+    $('.performance-dd').click(function(){
+        $('.sidebars ul .performance-dd-show').toggleClass("show6");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-        $('.sett-dd').click(function(){
-            $('.sidebars ul .sett-dd-show').toggleClass("show8");
-            
-        });
-        
-        $('.header-dropdown-btn').click(function(){
-            $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
-            
-        });
+    $('.acquisition-dd').click(function(){
+        $('.sidebars ul .acquisition-dd-show').toggleClass("show7");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
+
+    $('.org-dd').click(function(){
+        $('.sidebars ul .org-dd-show').toggleClass("show7");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
+
+    $('.sett-dd').click(function(){
+        $('.sidebars ul .sett-dd-show').toggleClass("show8");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+    });
+
+    $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
     </script>
 
 

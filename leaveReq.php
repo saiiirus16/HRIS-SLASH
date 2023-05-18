@@ -1,5 +1,17 @@
 <?php
 session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if($_SESSION['role'] != 'admin'){
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -169,7 +181,8 @@ session_start();
                                                 <div class="col-6">
                                                     <div class="mb-3">
                                                         <label for="Select_dept" class="form-label">Leave Type :</label>
-                                                        <select class='form-select form-select-m' name="name_LeaveT" aria-label='.form-select-sm example' style=' cursor: pointer;'>
+                                                        <select class='form-select form-select-m' onchange="leavetype()" id="leavetype_id" name="name_LeaveT" aria-label='.form-select-sm example' style=' cursor: pointer;'>
+                                                            <option selected disabled value=''>Select</option>
                                                             <option value='Vacation Leave'>Vacation Leave</option>
                                                             <option value='Sick Leave'>Sick Leave</option>
                                                             <option value='Bereavement Leave'>Bereavement Leave</option>
@@ -202,12 +215,13 @@ session_start();
                                                 <div class="col-6">
                                                     <div class="mb-3">
                                                             <label for="Select_dept" class="form-label">Leave Period :</label>
-                                                            <select id="id_leavePeriod" name="name_LeaveP" onchange="halfdaysides()" class='form-select form-select-m' aria-label='.form-select-sm example' style='cursor: pointer;'>
+                                                            <select style id="id_leavePeriod" disabled name="name_LeaveP" onchange="halfdaysides()" class='form-select form-select-m' aria-label='.form-select-sm example' style='cursor: pointer;'>
+                                                                <option disabled selected value=''>Select</option>
                                                                 <option value='Full Day'>Full Day</option>
-                                                                <option value='Half Day'>Half Day</option>
+                                                                <option value='Half Day'>Half Day</option> 
                                                             </select>
                                                     </div> <!-- Second mb-3 end-->
-                                                </div> <!-- Second mb-3 end-->
+                                                </div> <!-- Second col-6 end-->
                                         </div>  <!-- Row end-->
 
 
@@ -242,7 +256,7 @@ session_start();
                                                     <div class="col-6">
                                                         <div class="mb-1">
                                                             <label for="id_inpt_strdate">Start Date :</label>
-                                                            <input type="date" onchange =" strvalidate() " name="name_STRdate" class="form-control" id="id_inpt_strdate" style='cursor: pointer;' required>
+                                                            <input type="date" onchange =" strvalidate() " name="name_STRdate" class="form-control" id="id_inpt_strdate" style='cursor: pointer;' disabled required>
                                                         </div> <!-- Second mb-3 end-->
                                                     </div>  <!-- col-6 end-->
                                                     <div class="col-6">
@@ -274,7 +288,7 @@ session_start();
                                                  <!---------------------------------- BREAK ------------------------------>
 
                                                 <div class="mt-3">
-                                                    <label for="formFileMultiple" class="form-label fs-4">Attach File:</label>
+                                                    <label for="formFileMultiple" class="form-label fs-4">Attach File :</label>
                                                     <input class="form-control" name="name_file" type="file" id="formFileMultiple" multiple required>
                                                 </div>
 
@@ -509,6 +523,7 @@ session_start();
                                                                 applyleave_tb.`col_strDate`,
                                                                 applyleave_tb.`_datetime`,
                                                                 applyleave_tb.`col_dt_action`,
+                                                                applyleave_tb.`col_approver`,
                                                                 applyleave_tb.`col_status`
                                                             FROM
                                                                 applyleave_tb
@@ -522,36 +537,43 @@ session_start();
                                                     while($row = $result->fetch_assoc()){
 
                                                         echo "<tr>
-                                                            <td>" . $row['col_ID'] . "</td>
-                                                            <td>" . $row['col_req_emp'] . "</td>
-                                                            <td scope='row' >
-                                                                    <button type='submit' name='view_data' class= 'viewbtn' title = 'View' style=' border: none; background: transparent;
-                                                                    text-transform: capitalize; text-decoration: underline; cursor: pointer; color: #787BDB; font-size: 19px;}'>
-                                                                    " . $row['full_name'] . "
+                                                                <td>" . $row['col_ID'] . "</td>
+                                                                <td>" . $row['col_req_emp'] . "</td>
+                                                                <td scope='row'>
+                                                                    <button type='submit' name='view_data' class='viewbtn' title='View' style='border: none; background: transparent;
+                                                                        text-transform: capitalize; text-decoration: underline; cursor: pointer; color: #787BDB; font-size: 19px;'>
+                                                                        " . $row['full_name'] . "
                                                                     </button>
-                                                            </td>
-                                                            <td>" . $row['col_LeaveType'] . "</td>
-                                                            <td>" . $row['col_strDate'] . "</td>
-                                                            <td>" . $row['_datetime'] . "</td>
-                                                            <td>" . $row['col_dt_action'] . "</td>
-                                                            <td>" . 'Admin'. "</td>
-                                                            <td>" . " <div class='row'>
-         
-
+                                                                </td>
+                                                                <td>" . $row['col_LeaveType'] . "</td>
+                                                                <td>" . $row['col_strDate'] . "</td>
+                                                                <td>" . $row['_datetime'] . "</td>
+                                                                <td>" . $row['col_dt_action'] . "</td>
+                                                                <td>" . $row['col_approver']. "</td>
+                                                                <td>
+                                                                    <div class='row'>
                                                                         <div class='col-12'>
-                                                                        <button type='button' class= 'border-0 btn_view_file' title = 'View' data-bs-toggle='modal' data-bs-target='#id_view_file' style=' background: transparent;'>
-                                                                            <img src='icons/view_file.png' alt='...'>
-                                                                        </button>
+                                                                            <button type='button' class='border-0 btn_view_file' title='View' data-bs-toggle='modal' data-bs-target='#id_view_file' style='background: transparent;'>
+                                                                                <img src='icons/view_file.png' alt='...'>
+                                                                            </button>
                                                                         </div>
-                                                                    </div>  " . "</td>
-                                                            <td>" . $row['col_status'] . "</td>
-                                                        </tr>";
+                                                                    </div>
+                                                                </td>
+                                                                <td" . ($row['col_status'] === 'Approved' ? " style='color: blue;'" :
+                                                                            ($row['col_status'] === 'Rejected' ? " style='color: red;'" :
+                                                                                ($row['col_status'] === 'Cancelled' ? " style='color: orange;'" :
+                                                                                    ($row['col_status'] === 'Pending' ? " style='color: green;'" :
+                                                                                    "") 
+                                                                                )
+                                                                            )
+                                                                        ) . ">" . $row['col_status'] . "</td>
+                                                            </tr>";
+
                                                     }
                                                 ?>  
                                         </tbody>   
                                 </table>
-                                
-                    
+                  
                         </form>
                     </div> <!--table my-3 end-->   
                 <!----------------------------------Break------------------------------------->

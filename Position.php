@@ -1,5 +1,17 @@
 <?php
 session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if($_SESSION['role'] != 'admin'){
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -233,6 +245,7 @@ session_start();
                     <div class="table-responsive" style="overflow: hidden;">
                       <form action="View_Position.php" method="post">
                       <input type="hidden" id="id_position_name" name="name_position">
+                      <input type="hidden" id="table_id_position" name="position_id">
                         <table id="order-listing" class="table">
                         <thead>
                             <tr>
@@ -257,7 +270,7 @@ session_start();
                                 while ($dept_row = mysqli_fetch_assoc($dept_result)) {
                                     $pos_id = $dept_row['id'];
                                     $pos_name = $dept_row['position'];
-                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE empposition = '$pos_name'";
+                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE empposition = '$pos_id'";
                                     $emp_result = mysqli_query($conn, $emp_query);
                                     $emp_row = mysqli_fetch_assoc($emp_result);
                                     $emp_count = $emp_row['count'];
@@ -373,6 +386,7 @@ session_start();
                                         console.log(data);
                                         //id_colId
                                         //$('#id_textdept').val(data[1]);
+                                        $('#table_id_position').val(data[0]);
                                         $('#id_position_name').val(data[1]);
                                     });
                                 });

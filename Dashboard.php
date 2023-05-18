@@ -2,22 +2,54 @@
     session_start();
     if(!isset($_SESSION['username'])){
         header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            echo "<script> alert('hello'); </script>";
+            exit();
+        }
     }
+
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "hris_db";
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    
+    $sql = "SELECT COUNT(*) AS employee_count FROM employee_tb";
+    $result = mysqli_query($conn, $sql);
+
+    if(!$result){
+        die("Query Failed: " . mysqli_error($conn));
+    }
+
+    $row = mysqli_fetch_assoc($result);
+    $employee_count = $row["employee_count"];
+
+    mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- Link to the MDI CSS file -->
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
@@ -33,7 +65,6 @@
     </style>
     <!-- inject:css -->
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
-    <link rel="stylesheet" href="css/styles.css">
     <title>HRIS | Dashboard</title>
 </head>
 <body>
@@ -42,6 +73,11 @@
     </header>
 
     <style>
+    body{
+        overflow: hidden;
+        background-color: #F4F4F4;
+    }
+
     .sidebars ul li{
         list-style: none;
         text-decoration:none;
@@ -102,13 +138,43 @@
         }
 ?>
 <!------------------------------------End Message alert------------------------------------------------->
+    <?php 
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "hris_db";
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    
+    // Query the attendances table to count the number of present employees with an empid
+    $query = "SELECT COUNT(*) AS present_count FROM attendances WHERE Status = 'Present' AND empid IS NOT NULL";
+    $results = mysqli_query($conn, $query);
+    
+    // Check for errors
+    if (!$results) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+    
+    // Fetch the result and store it in a variable
+    $rows = mysqli_fetch_assoc($results);
+    $present_count = $rows["present_count"];
+    
+    // Close the connection
+    mysqli_close($conn);
+
+    ?>
+
 
 <!-------------------------------------------Modal of Announce Start Here--------------------------------------------->
 <div class="modal fade" id="announcement_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Announcement</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Summary of Announcement</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
@@ -117,11 +183,6 @@
                         <div class="mb-3">
                             <label for="company" class="form-label">Title</label>
                             <input type="text" name="announce_title" class="form-control" id="announce_title_id" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="announce_by" class="form-label">Name</label>
-                            <input type="text" name="announce_by" class="form-control" id="announce_by_id" required>
                         </div>
 
                         <div class="mb-3">
@@ -151,32 +212,6 @@
 </div>
 <!-------------------------------------------Modal of Announce End Here---------------------------------------------> 
 
-<!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download_announcement" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <form action="actions/DTR Correction/download_dtr.php" method="POST">
-      <div class="modal-body">
-        <input type="hidden" name="table_id_announce" id="id_table_announce">
-        <input type="hidden" name="table_name_announce" id="name_table_announce">
-        <h3>Are you sure you want download the PDF File?</h3>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" name="yes_dl" class="btn btn-primary">Yes</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      </div>
-      </form>
-
-    </div>
-  </div>
-</div>
-<!---------------------------------------Download Modal End Here --------------------------------------->
-
 <!-------------------------------------------Modal of View Summary Start Here--------------------------------------------->
 <div class="modal fade" id="view_summary" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -203,7 +238,18 @@
                         <?php
                             include 'config.php';
 
-                            $query = "SELECT * FROM announcement_tb";
+                            $query = "SELECT announcement_tb.id,
+                            announcement_tb.announce_title,
+                            employee_tb.empid,
+                            CONCAT(
+                            employee_tb.`fname`,
+                            ' ',
+                            employee_tb.`lname`
+                            ) AS `full_name`,
+                            announcement_tb.announce_date,
+                            announcement_tb.description,
+                            announcement_tb.file_attachment FROM announcement_tb INNER JOIN employee_tb
+                            ON announcement_tb.empid = employee_tb.empid;";
                             $result = mysqli_query($conn, $query);
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
@@ -218,7 +264,7 @@
                                 <?php else: ?>
                                 <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                 <?php endif; ?>
-                                <td><?php echo $row['name']?></td>
+                                <td><?php echo $row['full_name']?></td>
                             </tr>
                         </tbody>
                         <?php
@@ -234,36 +280,199 @@
   </div>
 </div>
 <!-------------------------------------------Modal of View Summary End Here--------------------------------------------->
+    
+<!---------------------------------------Download Modal Start Here -------------------------------------->
+<div class="modal fade" id="download_announcement" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
-    <div class="main-panel mt-5" style="margin-left: 65%;">
-        <div class="content-wrapper mt-4">
-            <div class="card md" style="max-width: 35rem; height: 390px;">
-                <div class="card-header"  style="background-color: #A9A9E3;">
-                    <h3 class="mb-0 d-inline-block">Announcement</h3>
-                    <i class="mdi mdi-arrow-down-drop-circle float-right mt-1" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#announcement_modal">Add Announcment</a>
-                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#view_summary">View Summary</a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <?php
-                       include 'config.php';
+      <form action="actions/DTR Correction/download_dtr.php" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="table_id_announce" id="id_table_announce">
+        <input type="hidden" name="table_name_announce" id="name_table_announce">
+        <h3>Are you sure you want download the PDF File?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="yes_dl" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
 
-                       $query = "SELECT * FROM announcement_tb";
-                       $result = mysqli_query($conn, $query);
-                       while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                    <h3><?php echo $row['announce_title']?></h3>
-                    <p><span style="color: #7F7FDD; font-style: Italic;"><?php echo $row['name']?></span> - <?php echo $row['announce_date']?></p>
-                    <p><?php echo $row['description']?></p>
-                    <?php
-                       }
-                    ?>
-                </div>
+    </div>
+  </div>
+</div>
+<!---------------------------------------Download Modal End Here --------------------------------------->
+
+    <div class="dashboard-container">
+        <div class="dashboard-content">
+            <div class="dashboard-title" >
+                <h1>DASHBOARD</h1>
             </div>
-        </div>
-    </div><!---Main Panel Close Tag-->
+            <div class="row" id="dashboard-contents">
+                <div class="col-6 ml-3 mt-2">
+                    <div class="employee-status-overview">
+                        <div class="emp-status-title">
+                            <p>Employee Status Overview</p>
+                            <p>Real time status</p>
+                            <div></div>
+                        </div>
+                        <div class="emp-status-container">
+                            <div>
+                                <input type="text" name="present" value="<?php echo $present_count; ?>" readonly >
+                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <label for="present" >Present</label>
+                            </div>
+                            <div>
+                                <input type="text" name="absent" value="32" readonly >
+                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <label for="absent" >Absent</label>
+                            </div>
+                            <div>
+                                <?php 
+                                
+                                    include 'config.php';
+                                    // Query the attendances table to count the number of ON LEAVE employees with an empid
+                                    $query = "SELECT COUNT(DISTINCT empid) AS num_employees
+                                                FROM attendances
+                                                Where `status` = 'On-Leave' 
+                                                GROUP BY empid";
+                                    $results = mysqli_query($conn, $query);
+
+                                    if(mysqli_num_rows($results) > 0) {
+                                        $rows = mysqli_fetch_assoc($results);
+                                        $Leave_count = $rows["num_employees"];
+                                        }
+                                    else{
+                                        $Leave_count = 0;
+                                    }
+
+
+                                    // Fetch the result and store it in a variable
+                                    
+                                    
+                                    // Close the connection
+                                    mysqli_close($conn);
+                                ?>
+                                <input type="text" name="on_leave" value="<?php echo $Leave_count?>" readonly >
+                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <label for="on_leave" >On Leave</label>
+                            </div>
+                            <div>
+                                <input type="text" name="wfh" value="19" readonly >
+                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <label for="wfh" >Working Home</label>
+                            </div>
+                            <div>
+                                <input type="text" name="late" value="20" readonly >
+                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <label for="late" >Late Today</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emp-request-list-container mt-4">
+                        <div class="emp-btn-container">
+                            <div class="emp-request-btn">
+                                <div>
+                                    <button class="mb-2">Employee Request List <p>20</p></button>
+                                    <div style="border: black 1px solid;"></div>
+                                </div>
+                                <div> 
+                                    <button>Leave</button>
+                                </div>
+                                <div>      
+                                    <button>Loans</button>
+                                </div>
+                                <div>    
+                                    <button>Overtime</button>
+                                </div>
+                            </div>
+                        </div>    
+                        <div> 
+                            <table class="table table-borderless ml-5 mt-3">
+                                <thead>
+                                    <th class="emp-table-adjust">Type of Request</th>
+                                    <th>Requestor</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="font-weight: 400">Vacation Leave</td>
+                                        <td style="font-weight: 400">Cyrus De Guzman</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: 400">Sick Leave</td>
+                                        <td style="font-weight: 400">Cyrus De Guzman</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     </div>
+                </div>
+                <div>
+                    <div class="announcement-container">
+                        <?php
+                         include 'config.php';
+
+                            $query = "SELECT announcement_tb.id,
+                                      announcement_tb.announce_title,
+                                      employee_tb.empid,
+                                      CONCAT(employee_tb.`fname`, ' ', employee_tb.`lname`) AS `full_name`,
+                                      announcement_tb.announce_date,
+                                      announcement_tb.description,
+                                      announcement_tb.file_attachment 
+                                      FROM announcement_tb 
+                                      INNER JOIN employee_tb ON announcement_tb.empid = employee_tb.empid;";
+                                      $result = mysqli_query($conn, $query);
+                                     $slideIndex = 0;
+                                     while ($row = mysqli_fetch_assoc($result)) {
+                                    if ($slideIndex % 1 === 0) {
+                                       echo "<div class='announcement-slide'>";
+                                    }
+                          ?>
+                            <h3 class="mb-0 d-inline-block mt-2 ml-2">Announcement</h3>
+                            <i class="mdi mdi-arrow-down-drop-circle float-right mt-2 mr-2" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#announcement_modal" style="cursor: pointer;">Add Announcement</a>
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#view_summary" style="cursor: pointer;">View Summary</a>
+                            </div>
+
+                            <h4 class="mt-2 ml-2"><?php echo $row['announce_title']?></h4>
+                            <p class="ml-2"><span style="color: #7F7FDD; font-style: Italic;"><?php echo $row['full_name']?></span> - <?php echo $row['announce_date']?></p>
+                            <p class="ml-2"><?php echo $row['description']?></p>
+                           <?php
+                                if (($slideIndex + 1) % 1 === 0) {
+                                echo "</div>";
+                               }
+                                $slideIndex++;
+                                }
+                          if ($slideIndex % 1 !== 0) {
+                                echo "</div>";
+                               }
+                               ?>
+                            <div>
+                            <button class="prev" onclick="prevSlide()">&#10094;</button>
+                            <button class="next" onclick="nextSlide()">&#10095;</button>
+                            </div>
+                    </div><!--announce close tag-->
+                    <div class="event-container mt-4">
+                        <div class="event-title">
+                            <div>
+                                <p><span class="fa-regular fa-calendar-days" style="margin-right:10px;"></span> Events</p>
+                            </div>
+                            <div>
+                                <p class="fa-solid fa-chevron-down"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div> 
+    </div>
+
 
 
 <!------------------------------------Script para lumabas ang download modal------------------------------------------------->
@@ -296,11 +505,37 @@
   });
 </script>
 <!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+        
+<!------------------------Script sa function ng Previous and Next Button--------------------------------------->
+<script>
+    var currentSlide = 0;
+    var slides = document.getElementsByClassName("announcement-slide");
 
+    function showSlide(n) {
+        for (var i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[n].style.display = "block";
+        currentSlide = n;
+    }
 
+    function prevSlide() {
+        if (currentSlide > 0) {
+            showSlide(currentSlide - 1);
+        }
+    }
 
+    function nextSlide() {
+        if (currentSlide < slides.length - 1) {
+            showSlide(currentSlide + 1);
+        }
+    }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    showSlide(0); // Show the first slide initially
+</script>
+<!------------------------End Script sa function ng Previous and Next Button--------------------------------------->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

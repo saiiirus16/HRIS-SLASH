@@ -2,30 +2,84 @@
 
 include 'config.php';
 
-error_reporting(0);
+// error_reporting(0);
 session_start();
 
 if(isset($_POST['signIn'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $userType = $_POST['userType'];
+    // $userType = $_POST['userType'];
 
-    $sql = "SELECT * FROM user_tb WHERE username = '$username' AND `password` = '$password'";
-    $result = mysqli_query($conn, $sql);
-        if($result->num_rows > 0){
-            $row = mysqli_fetch_assoc($result);
-            $_SESSION['username'] = $row ['username'];
-            $_SESSION['password'] = $row['password'];
-            $_SESSION['userType'] = $row['userType'];
-            $_SESSION['role'] = $row['role'];
+    // $sql = "SELECT * FROM user_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password'";
+    // $result = mysqli_query($conn, $sql);
+    //     if($result->num_rows > 0){
+    //         $row = mysqli_fetch_assoc($result);
+    //         $_SESSION['username'] = $row ['username'];
+    //         $_SESSION['password'] = $row['password'];
+    //         $_SESSION['userType'] = $row['userType'];
+    //         $_SESSION['role'] = $row['role'];
 
             
-            header("Location: Dashboard.php");
-        }else{
+    //         header("Location: Dashboard.php");
+    //     }else{
+    //         echo '<script type="text/javascript">';
+    //         echo 'alert("Wrong Email or Password!");';
+    //         echo '</script>';
+    //     }
+
+            // Query the employee table
+        $employeeQuery = "SELECT * FROM employee_tb WHERE BINARY `username` = '$username' AND BINARY `password` = '$password' AND `role` = 'Employee'";
+        $employeeResult = mysqli_query($conn, $employeeQuery);
+
+        // Query the admin table
+        $adminQuery = "SELECT * FROM employee_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password' AND `role` = 'Admin'";
+        $adminResult = mysqli_query($conn, $adminQuery);
+
+        // Query the admin table
+        $SuperadminQuery = "SELECT * FROM user_tb WHERE BINARY username = '$username' AND BINARY `password` = '$password'";
+        $SuperadminResult = mysqli_query($conn, $SuperadminQuery);
+
+        // Check if employee login is successful
+        if (mysqli_num_rows($employeeResult) == 1) {
+            // Start session and set user type
+            $row_emp = mysqli_fetch_assoc($employeeResult);
+            $_SESSION['id'] = $row_emp['id'];
+            $_SESSION['username'] = $row_emp['username'];
+            $_SESSION['password'] = $row_emp['password'];
+            $_SESSION['empid'] = $row_emp['empid'];
+             
+            header("Location: EmpHRIS/Dashboard.php"); // Redirect to employee dashboard
+            exit();
+        }
+        // Check if admin login is successful
+        elseif (mysqli_num_rows($adminResult) == 1) {
+            // Start session and set user type
+            $row_emp = mysqli_fetch_assoc($employeeResult);
+            $_SESSION['id'] = $row_emp['id'];
+            $_SESSION['username'] = $row_emp['username'];
+            $_SESSION['password'] = $row_emp['password'];
+            $_SESSION['empid'] = $row_emp['empid'];
+             
+            header("Location: Dashboard.php"); // Redirect to employee dashboard
+            exit();
+            
+        }
+        else if (mysqli_num_rows($SuperadminResult) == 1){
+            $row_Superadmin = mysqli_fetch_assoc($SuperadminResult);
+            $_SESSION['username'] = $row_Superadmin ['username'];
+            $_SESSION['password'] = $row_Superadmin['password'];
+            $_SESSION['userType'] = $row_Superadmin['userType'];
+            $_SESSION['role'] = $row_Superadmin['role'];
+        
+            header("Location: Dashboard.php"); // Redirect to admin dashboard
+            exit();
+        } else {
+            // $errorMessage = "Invalid username or password";
             echo '<script type="text/javascript">';
-            echo 'alert("Wrong Email or Password!");';
+                echo 'alert("Wrong Email or Password!");';
             echo '</script>';
         }
+    
 }
 
 ?>
@@ -61,7 +115,7 @@ if(isset($_POST['signIn'])){
                 
                 <div class="form-container">
                     <form action="" method="POST">
-                        <input class="input-text" type="text" name="username" id="" placeholder="Username" value="<?php echo $username; ?>" required>
+                        <input class="input-text" type="text" name="username" id="" placeholder="Username" value="<?php echo @$username; ?>" required>
                         <input class="input-text" type="password" name="password" id="password" placeholder="Password" required>
                         <i class="fa fa-eye" aria-hidden="true" id="eye" onclick="toggle()"></i>
                         <div class="remember-forgot">

@@ -47,8 +47,8 @@
 
                     if(isset($_POST['view_data'])){
 
-                        $emp_position = $_POST['name_position'];
-                        $position_id = $_POST['position_id'];
+                        $branch = $_POST['name_branch'];
+                        $branch_id = $_POST['branch_id'];
                         
                             echo "
                             <div class='card-header'>
@@ -56,12 +56,12 @@
                                 <div class='col-6'>
 
                                     <h2 class='display-5'>";
-                                    echo $emp_position;
+                                    echo $branch;
                                     echo"
                                     </h2>
                                 </div> <!--first col-6 end-->
                                 <div class='col-6 text-end' style=''>
-                                    <a href='Position.php' class='btn btn-outline-danger'>Go back</a>
+                                    <a href='Branch.php' class='btn btn-outline-danger'>Go back</a>
                                 </div> <!--sec col-6 end-->
                             </div> <!--row end-->
 
@@ -72,40 +72,49 @@
                                         <thead style='color: #787BDB;
                                                     font-size: 19px;'>
                                             <tr> 
-                                                    <th>Employee ID</th>  
-                                                    <th>Employee FullName </th>
-                                                    <th>Employee Position</th>                   
+                                                    <th> Employee ID </th>  
+                                                    <th> Employee FullName  </th>
+                                                    <th> Branch Name </th>                   
                                             </tr>
                                         </thead>
                                         <tbody>";
                                                 include 'config.php';
 
                                                 // Query the department table to retrieve department names
-                                                $pos_query = "SELECT positionn_tb.id,
-                                                                employee_tb.empid,
-                                                                CONCAT(
-                                                                    employee_tb.`fname`,
-                                                                    ' ',
-                                                                    employee_tb.`lname`
-                                                                ) AS `full_name`,
-                                                                positionn_tb.position
-                                                                FROM employee_tb INNER JOIN positionn_tb ON employee_tb.empposition = positionn_tb.id 
-                                                            WHERE employee_tb.empposition = '$position_id'";
+                                                $dept_query = "SELECT branch_tb.id,
+                                                                        employee_tb.empid,
+                                                                        CONCAT(
+                                                                            employee_tb.`fname`,
+                                                                            ' ',
+                                                                            employee_tb.`lname`
+                                                                        ) AS `full_name`,
+                                                                      branch_tb.branch_name,
+                                                                      branch_tb.branch_address,
+                                                                      branch_tb.zip_code,
+                                                                      branch_tb.email,
+                                                                      branch_tb.telephone FROM employee_tb INNER JOIN branch_tb ON employee_tb.empbranch = branch_tb.id 
+                                                                      WHERE employee_tb.empbranch = '$branch_id'";
 
-                                                $result = mysqli_query($conn, $pos_query);
+                                                $result = mysqli_query($conn, $dept_query);
+
+                                                // Generate the HTML table header
 
                                                 // Loop over the departments and count the employees
                                                 while ($row = mysqli_fetch_array($result)) {
+                                                   
 
                                                     // Generate the HTML table row
                                                     echo "<tr>
                                                         <td>" . $row['empid'] . "</td>
                                                         <td>" . $row['full_name'] . "</td>
-                                                        <td>" . $row['position'] . "</td>
+                                                        <td>" . $row['branch_name'] . "</td>
 
                                                         </tr>";
                                                 }
 
+                                                // Close the HTML table
+
+                                                // Close the database connection
                                                 mysqli_close($conn);
                             echo "          
                                         </tbody>   

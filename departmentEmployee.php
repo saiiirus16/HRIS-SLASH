@@ -1,5 +1,17 @@
 <?php
     session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +47,9 @@
 
                     if(isset($_POST['view_data'])){
 
-                        $emp_dept = $_POST['name_deptname_tb'];
+                        $emp_deptID = $_POST['name_deptID_tb'];
+                        $emp_dept_name = $_POST['name_deptname_tb'];
+                        
                         
                             echo "
                             <div class='card-header'>
@@ -43,7 +57,7 @@
                                 <div class='col-6'>
 
                                     <h2 class='display-5'>";
-                                    echo $emp_dept;
+                                    echo $emp_dept_name;
                                     echo"
                                     </h2>
                                 </div> <!--first col-6 end-->
@@ -68,7 +82,18 @@
                                                 include 'config.php';
 
                                                 // Query the department table to retrieve department names
-                                                $dept_query = "SELECT * FROM employee_tb WHERE department_name = '$emp_dept'";
+                                                $dept_query = "SELECT 
+                                                                    employee_tb.empid,
+                                                                    CONCAT(
+                                                                        employee_tb.`fname`,
+                                                                        ' ',
+                                                                        employee_tb.`lname`
+                                                                        ) AS `full_name`,
+                                                                        dept_tb.col_deptname
+                                                                FROM employee_tb 
+                                                                INNER JOIN dept_tb
+                                                                ON employee_tb.department_name = dept_tb.col_ID
+                                                                WHERE employee_tb.department_name = '$emp_deptID'";
 
                                                 $result = mysqli_query($conn, $dept_query);
 
@@ -76,13 +101,13 @@
 
                                                 // Loop over the departments and count the employees
                                                 while ($row = mysqli_fetch_array($result)) {
-                                                    $fullname = $row['fname'] . ' ' . $row['lname'];
+                                                    //$fullname = $row['fname'] . ' ' . $row['lname'];
 
                                                     // Generate the HTML table row
                                                     echo "<tr>
                                                         <td>" . $row['empid'] . "</td>
-                                                        <td>" . $fullname . "</td>
-                                                        <td>" . $row['department_name'] . "</td>
+                                                        <td>" . $row['full_name']. "</td>
+                                                        <td>" . $row['col_deptname'] . "</td>
 
                                                         </tr>";
                                                 }

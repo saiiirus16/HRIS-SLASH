@@ -1,5 +1,17 @@
 <?php
     session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -203,53 +215,53 @@
 <!--------------------------------End Button for Approve and Reject All---------------------------------------->                 
 
 <!------------------------------------------Syntax ng Table-------------------------------------------------->
-<form action="actions/DTR Correction/approval.php" method="POST">
-        <div class="row" >
-            <div class="col-12 mt-2">
-                <input style="display: none;" type="text" id="input_id" name="input">
-                    <div class="table-responsive">
-                        <table id="order-listing" class="table" >
-                        <thead>
-                            <tr>
-                                <th style="display: none;">ID</th>
-                                <th>Employee ID</th>
-                                <th>Name</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Type</th>
-                                <th>Reason</th>
-                                <th style="display: none;">View Button</th>
-                                <th>File Attachment</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                      <tbody>
-                        <?php 
+              <form action="actions/DTR Correction/approval.php" method="POST">
+                      <div class="row" >
+                          <div class="col-12 mt-2">
+                              <input type="hidden" id="input_id" name="input" value="<?php echo $row['id']; ?>">
+                                  <div class="table-responsive">
+                                      <table id="order-listing" class="table" >
+                                      <thead>
+                                          <tr>
+                                              <th style="display: none;">ID</th>
+                                              <th>Employee ID</th>
+                                              <th>Name</th>
+                                              <th>Date</th>
+                                              <th>Time</th>
+                                              <th>Type</th>
+                                              <th>Reason</th>
+                                              <th style="display: none;">View Button</th>
+                                              <th>File Attachment</th>
+                                              <th>Status</th>
+                                              <th>Action</th>
+                                          </tr>
+                                      </thead>
+                                    <tbody>
+                                      <?php 
 
-                            $conn = mysqli_connect("localhost","root","","hris_db");
+                                          $conn = mysqli_connect("localhost","root","","hris_db");
 
-                            $query = "SELECT
-                            emp_dtr_tb.id,
-                            employee_tb.empid,
-                            CONCAT(
-                                employee_tb.`fname`,
-                                ' ',
-                                employee_tb.`lname`
-                            ) AS `full_name`,
-                            emp_dtr_tb.date,
-                            emp_dtr_tb.time,
-                            emp_dtr_tb.type,
-                            emp_dtr_tb.reason,
-                            emp_dtr_tb.file_attach,
-                            emp_dtr_tb.status
-                        FROM
-                            employee_tb
-                        INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.empid;";
-                            $result = mysqli_query($conn, $query);
-                            while ($row = mysqli_fetch_assoc($result)) {
-                         ?>
-                         
+                                          $query = "SELECT
+                                          emp_dtr_tb.id,
+                                          employee_tb.empid,
+                                          CONCAT(
+                                              employee_tb.`fname`,
+                                              ' ',
+                                              employee_tb.`lname`
+                                          ) AS `full_name`,
+                                          emp_dtr_tb.date,
+                                          emp_dtr_tb.time,
+                                          emp_dtr_tb.type,
+                                          emp_dtr_tb.reason,
+                                          emp_dtr_tb.file_attach,
+                                          emp_dtr_tb.status
+                                      FROM
+                                          employee_tb
+                                      INNER JOIN emp_dtr_tb ON employee_tb.empid = emp_dtr_tb.empid;";
+                                          $result = mysqli_query($conn, $query);
+                                          while ($row = mysqli_fetch_assoc($result)) {
+                                      ?>
+                                      
                                         <tr>
                                         <td class="unique_id" style="display: none;"><?php echo $row['id']?></td>
                                         <td><?php echo $row['empid']?></td>
@@ -266,10 +278,23 @@
                                         <?php else: ?>
                                         <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                         <?php endif; ?>
-                                        <td><?php echo $row['status'];?></td>
+                                        <td <?php if ($row['status'] == 'Approved') {echo 'style="color:green;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} ?>><?php echo $row['status']; ?></td>
                                         <td>
-                                        <button type="submit" name="approve_btn" class="btn btn-outline-success viewbtn">Approve</button>
-                                        <button type="submit" name="reject_btn" class="btn btn-outline-danger viewbtn">Reject</button>
+                                        <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected'): ?>
+                                          <button type="submit" class="btn btn-outline-success viewbtn" name="approve_btn" style="display: none;" disabled>
+                                            Approve
+                                          </button>
+                                          <button type="submit" class="btn btn-outline-danger viewbtn" name="reject_btn" style="display: none;" disabled>
+                                            Reject
+                                          </button>
+                                        <?php else: ?>
+                                          <button type="submit" class="btn btn-outline-success viewbtn" name="approve_btn">
+                                            Approve
+                                          </button>
+                                          <button type="submit" class="btn btn-outline-danger viewbtn" name="reject_btn">
+                                            Reject
+                                          </button>
+                                        <?php endif; ?>
                                         </td>
                                         </tr>
                           <?php
@@ -439,9 +464,7 @@
              });
 </script>
 <!---------------------------------End ng Script para download modal------------------------------------------>
-
-
-<!-- End custom js for this page-->
+<script src="js/dtr_admin.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
