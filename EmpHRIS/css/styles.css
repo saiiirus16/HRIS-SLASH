@@ -2827,11 +2827,12 @@ table th:first-child{
 
 .emp-dash2-announcement{
     width: 93%;
-    height: 230px;
+    height: 260px;
     border: #9e9494 1px solid;
     margin: auto;
     border-radius: 8px;
-    margin-top: 30px;
+    margin-top: 20px;
+    background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, rgb(187, 204, 207) 100%);
 }
 .emp-dash2-announcement h1{
     font-size: 20px;
@@ -2846,6 +2847,35 @@ table th:first-child{
 
 .emp-dash2-announcement-title h1{
     font-size: 20px;
+}
+
+.prev-next_btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.previous,
+.next-step {
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  border: none;
+  color: black;
+  font-size: 24px;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  background-color: transparent;
+  margin-top: 40px;
+}
+
+.previous {
+  left: 0;
+}
+
+.next-step {
+  right: 0;
 }
 
 .emp-dash2-chart{

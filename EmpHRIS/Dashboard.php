@@ -269,9 +269,46 @@
                                     <div class="emp-dash2-announcement"> 
                                         <div class="emp-dash2-announcement-title">
                                             <h1>Events and Announcement</h1>
+
                                         </div>
                                         <div class="emp-dash2-announcement-content">
-                                            <h1>No items on Whiteboard</h1>
+                                        <?php
+                                            include 'config.php';
+
+                                            $query = "SELECT announcement_tb.id,
+                                                        announcement_tb.announce_title,
+                                                        employee_tb.empid,
+                                                        CONCAT(employee_tb.`fname`, ' ', employee_tb.`lname`) AS `full_name`,
+                                                        announcement_tb.announce_date,
+                                                        announcement_tb.description,
+                                                        announcement_tb.file_attachment 
+                                                    FROM announcement_tb 
+                                                    INNER JOIN employee_tb ON announcement_tb.empid = employee_tb.empid;";
+                                            $result = mysqli_query($conn, $query);
+                                            $slideIndex = 0;
+
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                if ($slideIndex % 1 === 0) {
+                                                    echo "<div class='announcement-slide'>";
+                                                }
+                                            ?>
+                                                <h4 class="mt-2 ml-2"><?php echo $row['announce_title'] ?></h4>
+                                                <p class="ml-2"><span style="color: #7F7FDD; font-style: Italic;"><?php echo $row['full_name'] ?></span> - <?php echo $row['announce_date'] ?></p>
+                                                <p class="ml-2"><?php echo $row['description'] ?></p>
+                                            <?php
+                                                if (($slideIndex + 1) % 1 === 0) {
+                                                    echo "</div>";
+                                                }
+                                                $slideIndex++;
+                                            }
+                                            if ($slideIndex % 1 !== 0) {
+                                                echo "</div>";
+                                            }
+                                            ?>
+                                        <div class="prev-next_btn">
+                                            <button class="previous" onclick="prevSlide()">&#10094;</button>
+                                            <button class="next-step" onclick="nextSlide()">&#10095;</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="emp-dash2-chart">
@@ -326,8 +363,34 @@
                             </div> 
                         </div>
      
-    
+<!------------------------Script sa function ng Previous and Next Button--------------------------------------->    
+<script>
+    var currentSlide = 0;
+    var slides = document.getElementsByClassName("announcement-slide");
 
+    function showSlide(n) {
+        for (var i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[n].style.display = "block";
+        currentSlide = n;
+    }
+
+    function prevSlide() {
+        if (currentSlide > 0) {
+            showSlide(currentSlide - 1);
+        }
+    }
+
+    function nextSlide() {
+        if (currentSlide < slides.length - 1) {
+            showSlide(currentSlide + 1);
+        }
+    }
+
+    showSlide(0); // Show the first slide initially
+</script>
+<!------------------------End Script sa function ng Previous and Next Button--------------------------------------->
     <script src="js/dashboard.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
