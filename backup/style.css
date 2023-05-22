@@ -57,19 +57,19 @@ main{
 
 .logo-img{
     height: 100%;
-    width: 65%;
-
+    width: 1300px;
+    
 }
 
 .logo-img img{
     height: 100%;
     width: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
     position: relative;
-   
+    
 }
 
 .logo-img .waves{
@@ -77,15 +77,16 @@ main{
     position: absolute;
     top: 0;
     transform: rotate(270deg);
-    left: 17%;
+    left: 20% !important;
     z-index: 3;
     bottom: 0;
+    margin-top: 100px;
     
 }
 
 .signin-container{
     height: 100vh;
-    width: 35%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -98,11 +99,12 @@ main{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 600px;
+    width: 595px;
     height: 50px;
-    margin-left: 50px;
+    margin-left: 27px;
     margin-top: 10px;
     align-items: center;
+    
     
 }
 
@@ -162,27 +164,20 @@ main{
     justify-content: center;   
 }
 
-.signin-logo-img{
-    background-color: #000;
-    border-radius: 10px;
-    height: 100px;
-    width: 450px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.signin-logo-img img{
-    height: 120px;
+.signin-logo-img h1{
+    font-size: 50px;
+    letter-spacing: 5px;
 }
 
 .form-container{
     height: 400px;
-    width: 700px;
+    width: 680px;
     display: flex;
     flex-direction: column; 
-    align-items: center;
+    align-items: center;    
     justify-content: center;
+    background-color: #f4f4f4;
+    border-radius: 10px;
     
 }
 
@@ -190,7 +185,8 @@ main{
     width: 600px;
     padding: 20px;
     margin: 10px;
-    margin-left: 50px;
+    margin-left: 23px;
+
     border: 1px #ccc solid;
     border-radius: 5px;
     outline: none;
@@ -198,18 +194,19 @@ main{
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
 }
 
+
 .signin-card button{
     border: none;
-    background-color: rgb(219, 35, 66);
+    background-color: black;
     height: 40px;
-    width: 86%;
+    width: 94%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
     border-radius: 5px;
-    margin-left: 50px;
+    margin-left: 27px;
     color: white;
     font-size: 18px;
     padding: 30px;
@@ -219,7 +216,7 @@ main{
 }
 
 .signin-card button:hover{
-    background-color: #ccc;
+    background-color: #C37700;
     color: black;
     transition: ease-in .2s;
 }
@@ -961,8 +958,4 @@ main{
    right: 0;
    background-color: white;
    border:1px solid black;
-}
-
-#eye{
-    margin-top: 58px;
 }

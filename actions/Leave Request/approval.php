@@ -6,7 +6,7 @@ include '../../config.php';
      if(isset($_POST['name_approved'])){
 
         $IDLEAVE_TABLE = $_SESSION["ID_applyleave"];
-        $approver = $_SESSION["username"];
+        $approver = $_SESSION["empid"];
        
 //Para sa pag select ng mga data galing sa APPLYLEAVE TABLE
         $result = mysqli_query($conn, " SELECT
