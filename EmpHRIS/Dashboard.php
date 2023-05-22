@@ -186,18 +186,84 @@
                  </div>   
               </div>
                     <div class="dash-schedule-content">
-                                        <div style="">
-                                            <h1>Yesterday</h1>
-                                            <h1>8:00AM - 5:00PM</h1>
-                                        </div>
-                                        <div class="dash-barrier" style="margin-left: 70px;">
+                        <div style="">
+                            <?php
+                                $conn = mysqli_connect("localhost", "root", "", "hris_db");
+                                date_default_timezone_set('Asia/Manila');
+                                $yesterday = date('Y-m-d', strtotime('-1 day')); // Get the date of yesterday
 
-                                        </div>
-                                        <div style="margin-right: 165px;">
-                                            <h1>Tommorow</h1>
-                                            <h1>Restday</h1>
-                                        </div>
+                                $query = "SELECT attendances.id,
+                                        attendances.status,
+                                        employee_tb.empid,
+                                        CONCAT(employee_tb.fname, ' ', employee_tb.lname) AS full_name,
+                                        attendances.date,
+                                        attendances.time_in,
+                                        attendances.time_out,
+                                        attendances.late,
+                                        attendances.early_out,
+                                        attendances.overtime,
+                                        attendances.total_work,
+                                        attendances.total_rest
+                                        FROM attendances
+                                        INNER JOIN employee_tb ON attendances.empid = employee_tb.empid
+                                        WHERE DATE(attendances.date) = '$yesterday';"; // Modify the query to filter by yesterday's date
+
+                                $result = mysqli_query($conn, $query);
+                                $row = mysqli_fetch_assoc($result); // Fetch a single row
+
+                                if ($row) {
+                                    $time_in = date('h:i A', strtotime($row['time_in'])); // Format time_in to AM/PM
+                                    $time_out = date('h:i A', strtotime($row['time_out'])); // Format time_out to AM/PM
+                                    ?>
+                                    <h1>Yesterday</h1>
+                                    <h1><?php echo $time_in . " - " . $time_out; ?></h1>
+
+                                    <?php
+                                } else {
+                                    echo "No records found.";
+                                }
+                            ?>
+                        </div>
+                                <div class="dash-barrier" style="margin-left: 70px;">
+                        
+                                </div>
+                                    <div style="margin-right: 165px;">
+                                                <?php
+                                                $employeeid = $_SESSION['empid'];
+                                                $conn = mysqli_connect("localhost", "root", "", "hris_db");
+                                                date_default_timezone_set('Asia/Manila');
+                                                $tomorrow = date('Y-m-d', strtotime('+1 day')); // Get the date of tomorrow
+
+                                                $query = "SELECT empschedule_tb.id, employee_tb.empid, empschedule_tb.sched_from, empschedule_tb.sched_to, empschedule_tb.schedule_name, schedule_tb.mon_timein, schedule_tb.mon_timeout,
+                                                schedule_tb.tues_timein, schedule_tb.tues_timeout,
+                                                schedule_tb.wed_timein, schedule_tb.wed_timeout,
+                                                schedule_tb.thurs_timein, schedule_tb.thurs_timeout,
+                                                schedule_tb.fri_timein, schedule_tb.fri_timeout,
+                                                schedule_tb.sat_timein, schedule_tb.sat_timeout,
+                                                schedule_tb.sun_timein, schedule_tb.sun_timeout
+                                                FROM
+                                                empschedule_tb
+                                                INNER JOIN schedule_tb ON empschedule_tb.schedule_name = schedule_tb.schedule_name
+                                                INNER JOIN employee_tb ON empschedule_tb.empid = employee_tb.empid WHERE employee_tb.empid = '$employeeid' 
+                                                AND DATE(attendances.date) = '$tomorrow';"; // Modify the query to filter by tomorrow's date
+
+                                                $result = mysqli_query($conn, $query);
+                                                $row = mysqli_fetch_assoc($result); // Fetch a single row
+
+                                                if ($row) {
+                                                    $time_in = date('h:i A', strtotime($row['time_in'])); // Format time_in to AM/PM
+                                                    $time_out = date('h:i A', strtotime($row['time_out'])); // Format time_out to AM/PM
+                                                    ?>
+                                                    <h1>Tomorrow</h1>
+                                                    <h1><?php echo $time_in . " - " . $time_out; ?></h1>
+                                                    <?php
+                                                } else {
+                                                    echo "No records found.";
+                                                }
+                                                ?>
+                                            </div>
                                     </div>
+
                                     <div class="dash-employment-container">
                                         <div>
                                             <div class="dash-employment-content">
