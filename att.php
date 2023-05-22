@@ -1,6 +1,11 @@
 
 <?php
     session_start();
+
+    
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    }
  
     $server = "localhost";
     $user = "root";
@@ -45,7 +50,23 @@
     <link rel="stylesheet" href="css/styles.css"> 
     <title>HRIS | Employee List</title>
 </head>
-<body>
+<script>
+      // Function to display the current date in the specified format
+      function displayCurrentDate() {
+        // Get the current date
+        const today = new Date();
+
+        // Define the date format as "MM/DD/YYYY"
+        const dateFormat = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+
+        // Update the content of the h1 element with the current date
+        document.getElementById("current-date").innerHTML = `Today's date is <strong style=" color: rgb(154, 67, 224); ">${dateFormat}</strong>`;
+      }
+    </script>
+
+
+<body onload="displayCurrentDate()">
+
     <header>
         <?php include("header.php")?>
     </header>
@@ -116,7 +137,7 @@
         </div>
 
         <div class="att-date">
-            <h1>Attendance for <span>October 20 2023</span> </h1>
+            <h1 id="current-date"></h1>
         </div>
         
     
@@ -186,6 +207,7 @@
     </div>
     
     
+    
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
@@ -213,7 +235,6 @@
                 });
             }
         });
-
     </script>
 
 </body>

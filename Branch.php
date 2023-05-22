@@ -1,6 +1,18 @@
 <?php
 
 session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
 
 include ("config.php");
 
@@ -12,15 +24,11 @@ include ("config.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
@@ -67,7 +75,155 @@ include 'header.php';
     .sidebars ul li ul li{
         width: 100%;
     }
+
+    .card-body{
+        box-shadow: 10px 10px 10px 8px #888888;
+    }
+
+    .content-wrapper{
+          width: 80%;
+    }
+
+    .table {
+         width: 99.7%;
+    }
 </style>
+
+
+<!------------------------------------------------------ADD NEW BRANCH MODAL-------------------------------------------------------->
+<div class="modal fade" id="addnew_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Branch</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="Data Controller/Branch/insert.php" method="POST">
+         <div class="modal-body">
+            <div class="row">
+                <div class="col-6">
+                    <label for="branch_n" class="form-label">Branch Name</label>
+                    <input type="text" name="branch_name" class="form-control" id="start_date" required>
+                </div>
+                <div class="col-6">
+                    <label for="branch_a" class="form-label">Branch Address</label>
+                    <input type="text" name="branch_address" class="form-control" id="end_date" required>
+                </div>
+            </div>
+
+             <div class="row mt-2">
+                <div class="col-6">
+                     <label for="zip" class="form-label">Zip Code:</label>
+                     <input type="number" name="zip_code" class="form-control" maxlength="4" id="zip_code_id" required >
+                </div>
+             <div class="col-6">
+                     <label for="email" class="form-label">Email:</label>
+                     <input type="email" name="email" class="form-control" id="email_id" required>
+             </div>
+                </div>
+
+                  <div class="mb-3 mt-2">
+                     <label for="tele_phone" class="form-label">Telephone:</label>
+                     <input type="number" name="telephone" class="form-control" maxlength="10" id="telephone_id" required >
+                  </div>
+
+
+      </div> <!--Modal body div close tag-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" name="add_data" class="btn btn-primary">Add</button>
+      </div>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+<!-------------------------------------------------END OF ADD NEW BRANCH MODAL-------------------------------------------------------->
+
+<!-------------------------------------------------------------------EDIT BRANCH INFO MODAL-------------------------------------------------------->
+<div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Position</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="actions/Branch Action/edit.php" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="update_id" id="update_id">
+         <div class="row">
+                <div class="col-6">
+                    <label for="branch_n" class="form-label">Branch Name</label>
+                    <input type="text" name="branch_name" class="form-control" id="update_branch_name" required>
+                </div>
+                <div class="col-6">
+                    <label for="branch_a" class="form-label">Branch Address</label>
+                    <input type="text" name="branch_address" class="form-control" id="update_branch_address" required>
+                </div>
+            </div>
+
+             <div class="row mt-2">
+                <div class="col-6">
+                     <label for="zip" class="form-label">Zip Code:</label>
+                     <input type="number" name="zip_code" class="form-control" id="update_branch_zip" required maxlength="4">
+                </div>
+             <div class="col-6">
+                     <label for="email" class="form-label">Email:</label>
+                     <input type="email" name="email" class="form-control" id="update_branch_email" required>
+             </div>
+                </div>
+
+                  <div class="mb-3 mt-2">
+                     <label for="tele_phone" class="form-label">Telephone:</label>
+                     <input type="number" name="telephone" class="form-control" id="update_branch_telephone" required maxlength="10">
+                  </div>
+
+      </div> <!--Modal body div close tag-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" name="update_data" class="btn btn-primary">Update</button>
+      </div>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------------------END OF EDIT BRANCH INFO MODAL------------------------------------------------------------------->
+
+<!-------------------------------------------------------------------DELETE BRANCH INFO MODAL-------------------------------------------------------->
+<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="actions/Branch Action/delete.php" method="POST">
+      <div class="modal-body">
+
+        <input type="hidden" name="delete_id" id="delete_id">
+        <input type="hidden" name="designation" id="designate">
+
+        <h4>Do you want to delete?</h4>
+
+      </div> <!--Modal body div close tag-->
+      <div class="modal-footer">
+        <button type="submit" name="delete_data" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------------------END OF DELETE BRANCH INFO MODAL------------------------------------------------------------------->
+
 
 <div class="main-panel mt-5" style="margin-left: 15%;">
         <div class="content-wrapper mt-5">
@@ -79,62 +235,68 @@ include 'header.php';
                         </div>
                         <div class="col-6 mt-2 text-end">
                         <!-- Button trigger modal -->
-                        <a href="Data Controller/Branch/insert.php" class="add_new_btn">Add New</a>
+                        <button type="button" class="add_new_btn" data-bs-toggle="modal" data-bs-target="#addnew_btn">
+                        Add New
+                        </button>
                         </div>
                     </div> <!--ROW END-->
 
 
+<!-------------------------------------------------------MESSAGE ALERT------------------------------------------------------------------->
         <?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
         }
 
         ?>
+<!------------------------------------------------------- END NG MESSAGE ALERT------------------------------------------------------------>
 
-                        <div class="mt-3">
+
+<!-------------------------------------------------------ERROR MESSAGE ALERT------------------------------------------------------------------->
+<?php
+    if (isset($_GET['error'])) {
+        $err = $_GET['error'];
+        echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        '.$err.'
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+    }
+?>
+<!------------------------------------------------------- END NG ERROR MESSAGE ALERT------------------------------------------------------------>
+
+                        <!-- <div class="mt-3">
                                 <label for="Select_emp" class="form-label">Filter by Branch:</label>
-                                <?php
-                                    include 'config.php';
+                                <?php // Eto ang Filter sa branch
+                                    // include 'config.php';  
 
-                                    // Fetch all values of fname and lname from the database
-                                    $sql = "SELECT branch_name FROM branch_tb";
-                                    $result = mysqli_query($conn, $sql);
+                                    // // Fetch all values of fname and lname from the database
+                                    // $sql = "SELECT branch_name FROM branch_tb";
+                                    // $result = mysqli_query($conn, $sql);
 
-                                    // Generate the dropdown list
-                                    echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp' style='width: 350px;'>";
-                                    while ($row = mysqli_fetch_array($result)) {
-                                        $branchname = $row['branch_name'];
-                                        echo "<option value='$branch_name'>$branchname</option>";
-                                    }
-                                    echo "</select>";
+                                    // // Generate the dropdown list
+                                    // echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp' style='width: 350px;'>";
+                                    // while ($row = mysqli_fetch_array($result)) {
+                                    //     $branchname = $row['branch_name'];
+                                    //     echo "<option value='$branch_name'>$branchname</option>";
+                                    // }
+                                    // echo "</select>";
                                 ?>
 
-                            </div>
-                            
-                            <style>
-                                .card-body{
-                                    box-shadow: 10px 10px 10px 8px #888888;
-                                }
+                            </div> -->
 
-                                .content-wrapper{
-                                    width: 80%;
-                                }
-
-                                .table {
-                                    width: 99.7%;
-
-                                }
-                            </style>
 
 
 
             <div class="row">
                 <div class="col-12 mt-5">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow: hidden;">
+                      <form action="View_branch.php" method="post">
+                        <input type="hidden" id="id_branch_name" name="name_branch">
+                        <input type="hidden" id="table_id_branch" name="branch_id">
                         <table id="order-listing" class="table" >
                         <thead>
                             <tr>
@@ -144,37 +306,60 @@ include 'header.php';
                                 <th>Zip Code</th>
                                 <th>Email</th>
                                 <th>Telephone</th>
+                                <th>Designation</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                     <tbody>
-                        <?php 
-                            include "config.php";
+                           <?php
+                                include 'config.php';
 
-                            $sql = "SELECT * FROM `branch_tb`";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_assoc($result)) {
-                         ?>
-                                        <tr>
-                                        <td style="display: none;"><?php echo $row['id']?></td>
-                                        <td><?php echo $row['branch_name']?></td>
-                                        <td><?php echo $row['branch_address']?></td>
-                                        <td><?php echo $row['zip_code']?></td>
-                                        <td><?php echo $row['email']?></td>
-                                        <td><?php echo $row['telephone']?></td>
-                                        <td>
-                                            <a href="actions/Branch Action/edit.php?id=<?php echo $row['id']?>" class="link-dark"> <i class="fa-solid fa-pen-to-square fs-5 me-3" title='edit'></i></a>
-                                            <a href="actions/Branch Action/delete.php?id=<?php echo $row['id']?>" class="link-dark"> <i class="fa-solid fa-trash fs-5" title='delete'></i> </a>
-                                        </td>
-                                        </tr>
-                          <?php
-                               } 
-                          ?>
+                                // Query the department table to retrieve department names
+                                $dept_query = "SELECT * FROM branch_tb";
+                                $dept_result = mysqli_query($conn, $dept_query);
+
+                                // Generate the HTML table header
 
 
-                        
+                                // Loop over the departments and count the employees
+                                while ($dept_row = mysqli_fetch_assoc($dept_result)) {
+                                    $branch_id = $dept_row['id'];
+                                    $branch_name = $dept_row['branch_name'];
+                                    $branch_address = $dept_row['branch_address'];
+                                    $branch_zip = $dept_row['zip_code'];
+                                    $branch_email = $dept_row['email'];
+                                    $branch_telephone = $dept_row['telephone'];
+                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE empbranch = '$branch_id'";
+                                    $emp_result = mysqli_query($conn, $emp_query);
+                                    $emp_row = mysqli_fetch_assoc($emp_result);
+                                    $emp_count = $emp_row['count'];
+
+                                    // Generate the HTML table row
+                                    echo "<tr>
+                                            <td style= 'display: none;'>$branch_id</td>
+                                            <td>$branch_name</td>
+                                            <td>$branch_address</td>
+                                            <td>$branch_zip</td>
+                                            <td>$branch_email</td>
+                                            <td>$branch_telephone</td>
+                                            <td>$emp_count</td>
+                                            <td>
+                                                <button type='submit'  name='view_data' class='link-dark editbtn border-0 viewbtn' title = 'View'><i class='fa-solid fa-eye fs-5 me-3'></i></button>
+                                                <button type='button' class='link-dark editbtn border-0' data-bs-toggle='modal' data-bs-target='#editmodal'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
+                                                <button type='button' class='link-dark deletebtn border-0' data-bs-toggle='modal' data-bs-target='#deletemodal'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
+                                            </td>
+                                        </tr>";
+                                }
+
+                                // Close the HTML table
+
+                                // Close the database connection
+                                mysqli_close($conn);
+                            ?>
+        
                          </tbody>
                       </table>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -183,6 +368,116 @@ include 'header.php';
     </div>
 </div>
     
+
+
+<!----------------------------------------------Script sa pagpop-up ng modal para maedit------------------------------------------------------->        
+<script>
+            $(document).ready(function (){
+                $('.editbtn').on('click' , function(){
+                    $('#editmodal').modal('show');
+
+
+                    $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function(){
+                        return $(this).text();
+                    }).get();
+
+                    console.log(data);
+
+                    $('#update_id').val(data[0]);
+                    $('#update_branch_name').val(data[1]);
+                    $('#update_branch_address').val(data[2]);
+                    $('#update_branch_zip').val(data[3]);
+                    $('#update_branch_email').val(data[4]);
+                    $('#update_branch_telephone').val(data[5]);
+
+                    
+
+                });
+            });
+        </script>
+<!----------------------------------------------End ng Script sa pagpop-up ng modal para maedit------------------------------------------------------->
+
+<!---------------------------------------------------Start Script for limiting the number input----------------------------------->
+<script>
+  $(document).ready(function() {
+  $('#zip_code_id').on('input', function() {
+    if ($(this).val().length > 4) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+
+$(document).ready(function() {
+  $('#telephone_id').on('input', function() {
+    if ($(this).val().length > 10) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+
+$(document).ready(function() {
+  $('#update_branch_zip').on('input', function() {
+    if ($(this).val().length > 4) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+
+$(document).ready(function() {
+  $('#update_branch_telephone').on('input', function() {
+    if ($(this).val().length > 10) {
+      $(this).val($(this).val().slice(0, 4));
+    }
+  });
+});
+</script>
+<!---------------------------------------------------End Script for limiting the number input----------------------------------->
+
+
+<!---------------------------------------Script sa pagpop-up ng modal para madelete--------------------------------------------->          
+<script>
+            $(document).ready(function (){
+                $('.deletebtn').on('click' , function(){
+                    $('#deletemodal').modal('show');
+
+
+                    $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function(){
+                        return $(this).text();
+                    }).get();
+
+                    console.log(data);
+
+                    $('#delete_id').val(data[0]);
+                    $('#designate').val(data[6]);
+                    
+
+                });
+            });
+        </script>
+<!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
+
+
+<script>
+            $(document).ready(function(){
+                                    $('.viewbtn').on('click', function(){
+                                        $('#IDview_deptMDL').modal('show');
+                                        $tr = $(this).closest('tr');
+
+                                        var data = $tr.children("td").map(function () {
+                                            return $(this).text();
+                                        }).get();
+
+                                        console.log(data);
+                                        //id_colId
+                                        $('#table_id_branch').val(data[0]);
+                                        $('#id_branch_name').val(data[1]);
+                                    });
+                                });
+</script>
 
 
     <!--Bootstrap Js-->

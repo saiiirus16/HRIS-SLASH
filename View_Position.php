@@ -36,7 +36,7 @@
             ?>
 </header>
     
-<div class="container mt-5 xxl" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  box-shadow: 10px 10px 10px 8px #888888;">
+<div class="container mt-5" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  box-shadow: 10px 10px 10px 8px #888888;">
     <div class="">
         <div class="card border-light">
             
@@ -47,9 +47,8 @@
 
                     if(isset($_POST['view_data'])){
 
-                        $emp_deptID = $_POST['name_deptID_tb'];
-                        $emp_dept_name = $_POST['name_deptname_tb'];
-                        
+                        $emp_position = $_POST['name_position'];
+                        $position_id = $_POST['position_id'];
                         
                             echo "
                             <div class='card-header'>
@@ -57,12 +56,12 @@
                                 <div class='col-6'>
 
                                     <h2 class='display-5'>";
-                                    echo $emp_dept_name;
+                                    echo $emp_position;
                                     echo"
                                     </h2>
                                 </div> <!--first col-6 end-->
                                 <div class='col-6 text-end' style=''>
-                                    <a href='Department.php' class='btn btn-outline-danger'>Go back</a>
+                                    <a href='Position.php' class='btn btn-outline-danger'>Go back</a>
                                 </div> <!--sec col-6 end-->
                             </div> <!--row end-->
 
@@ -73,48 +72,40 @@
                                         <thead style='color: #787BDB;
                                                     font-size: 19px;'>
                                             <tr> 
-                                                    <th> Employee ID </th>  
-                                                    <th> Employee FullName  </th>
-                                                    <th> Employee Department </th>                   
+                                                    <th>Employee ID</th>  
+                                                    <th>Employee FullName </th>
+                                                    <th>Employee Position</th>                   
                                             </tr>
                                         </thead>
                                         <tbody>";
                                                 include 'config.php';
 
                                                 // Query the department table to retrieve department names
-                                                $dept_query = "SELECT 
-                                                                    employee_tb.empid,
-                                                                    CONCAT(
-                                                                        employee_tb.`fname`,
-                                                                        ' ',
-                                                                        employee_tb.`lname`
-                                                                        ) AS `full_name`,
-                                                                        dept_tb.col_deptname
-                                                                FROM employee_tb 
-                                                                INNER JOIN dept_tb
-                                                                ON employee_tb.department_name = dept_tb.col_ID
-                                                                WHERE employee_tb.department_name = '$emp_deptID'";
+                                                $pos_query = "SELECT positionn_tb.id,
+                                                                employee_tb.empid,
+                                                                CONCAT(
+                                                                    employee_tb.`fname`,
+                                                                    ' ',
+                                                                    employee_tb.`lname`
+                                                                ) AS `full_name`,
+                                                                positionn_tb.position
+                                                                FROM employee_tb INNER JOIN positionn_tb ON employee_tb.empposition = positionn_tb.id 
+                                                            WHERE employee_tb.empposition = '$position_id'";
 
-                                                $result = mysqli_query($conn, $dept_query);
-
-                                                // Generate the HTML table header
+                                                $result = mysqli_query($conn, $pos_query);
 
                                                 // Loop over the departments and count the employees
                                                 while ($row = mysqli_fetch_array($result)) {
-                                                    //$fullname = $row['fname'] . ' ' . $row['lname'];
 
                                                     // Generate the HTML table row
                                                     echo "<tr>
                                                         <td>" . $row['empid'] . "</td>
-                                                        <td>" . $row['full_name']. "</td>
-                                                        <td>" . $row['col_deptname'] . "</td>
+                                                        <td>" . $row['full_name'] . "</td>
+                                                        <td>" . $row['position'] . "</td>
 
                                                         </tr>";
                                                 }
 
-                                                // Close the HTML table
-
-                                                // Close the database connection
                                                 mysqli_close($conn);
                             echo "          
                                         </tbody>   

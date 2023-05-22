@@ -1,6 +1,19 @@
 <?php
 session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if($_SESSION['role'] != 'admin'){
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,34 +183,8 @@ session_start();
             
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-4">
-                            <div class="mb-3">
-                                <label for="Select_emp" class="form-label">Select Employee</label>
-                                <?php
-                                    include 'config.php';
-
-                                    // Fetch all values of fname and lname from the database
-                                    $sql = "SELECT fname, lname FROM employee_tb";
-                                    $result = mysqli_query($conn, $sql);
-
-                                    // Store all values in an array
-                                    $fname_lname = array();
-                                    while($row = mysqli_fetch_array($result)){
-                                        $fname_lname[] = $row['fname'] . ' ' . $row['lname'];
-                                    }
-
-                                    // Generate the dropdown list
-                                    echo "<select class='form-select form-select-m' aria-label='.form-select-sm example'>";
-                                    foreach ($fname_lname as $name){
-                                        echo "<option value='$name'>$name</option>";
-                                    }
-                                    echo "</select>";
-                                ?>
-
-                            </div>
-                        </div> <!--END COL_4--> 
-
-                        <div class="col-4">
+                    
+                        <div class="col-6">
                             <div class="mb-3">
                                 <label for="Select_dept" class="form-label">Select Department</label>
                                 <?php
@@ -223,11 +210,10 @@ session_start();
                             </div>
                         </div>  <!--END COL_4--> 
 
-                        <div class="col-4 mt-4">
+                        <div class="col-6 mt-4">
                             <button type="button" class="btn btn-primary" style="--bs-btn-padding-y: 5px; --bs-btn-padding-x: 20px; --bs-btn-font-size: .75rem;">
                                 GO
                             </button>
-
                         </div>  <!--END COL_4--> 
                     </div> <!--ROW END--> 
                     <div class="pnl_utop p-3 mb-2 bg-body-tertiary">
@@ -339,24 +325,36 @@ session_start();
                         </div><!--COL-6 END-->        
                     </div><!--ROW2 END--> 
 
-                    <?php
-                if (isset($_GET['msg'])) {
-                    $msg = $_GET['msg'];
-                    if($msg == 'You cannot Approved Request that is already Approved!!'){
-                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+               <!-- ------------------para sa message na sucessful START -------------------->
+                <?php
+
+                    if (isset($_GET['msg'])) {
+                        $msg = $_GET['msg'];
+                        echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
                         '.$msg.'
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
                     }
-                    else{
-                        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
-                         '.$msg.'
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>';
-                    }
-                    
-                }
+
+
                 ?>
+<!-------------------- para sa message na sucessful ENd --------------------->
+
+
+
+
+  <!-- ------------------para sa message na error START -------------------->
+            <?php
+                if (isset($_GET['error'])) {
+                    $error = $_GET['error'];
+                    echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                    '.$error.'
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+                }
+
+            ?>
+<!-------------------- para sa message na error ENd --------------------->
                 <div class="table my-3">
                   <table id="data_table" class="table table-sortable table-striped table-hover caption-top" style="width: 1500px;">
                     <caption>List of Employee Leave Credits</caption>
@@ -381,13 +379,14 @@ session_start();
                                                     leaveinfo_tb.`col_ID`,
                                                     employee_tb.`empid`,
                                                     CONCAT(employee_tb.`fname`, ' ', employee_tb.`lname`) AS `full_name`,
-                                                    employee_tb.department_name,
+                                                    dept_tb.col_deptname,
                                                     leaveinfo_tb.`col_vctionCrdt`,
                                                     leaveinfo_tb.`col_sickCrdt`,
                                                     leaveinfo_tb.`col_brvmntCrdt`
                                                 FROM
                                                     employee_tb
-                                                INNER JOIN leaveinfo_tb ON employee_tb.empid = leaveinfo_tb.`col_empID`;
+                                                INNER JOIN leaveinfo_tb ON employee_tb.empid = leaveinfo_tb.`col_empID`
+                                                INNER JOIN dept_tb ON employee_tb.department_name = dept_tb.`col_ID`;
                                                 ";
                                         $result = $conn->query($sql);
 
@@ -399,7 +398,7 @@ session_start();
                                                 <td style= 'display: none;'>" . $row['col_ID']. "</td>
                                                 <td>" . $row['empid'] . "</td>
                                                 <td>" . $row['full_name'] . "</td>
-                                                <td>" . $row['department_name'] . "</td>
+                                                <td>" . $row['col_deptname'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_vctionCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_sickCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_brvmntCrdt'] . "</td>
@@ -452,7 +451,7 @@ session_start();
                                             <label for="name_employee_Dept" class="form-label">Vacation Leave :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" name= "name_set_Vcrdt" id="id_v_crdt" class="form-control bg-light" aria-label="" readonly>
-                                                <input type="float" name= "name_updt_Vcrdt" id="id_Tv_crdt" class="form-control" placeholder="00.0" required aria-label="" onchange="vldty()">
+                                                <input type="float" name= "name_updt_Vcrdt" id="id_Tv_crdt" class="form-control" placeholder="00.0" required aria-label="" >
                                             </div>
                                         </div>
                                         <!--              line break                     --> 
@@ -460,7 +459,7 @@ session_start();
                                             <label for="name_employee_Dept" class="form-label">Sick Leave :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" name= "name_set_Scrdt" id="id_s_crdt" class="form-control bg-light" aria-label="" readonly>
-                                                <input type="float" name= "name_updt_Scrdt" id="id_Ts_crdt" class="form-control" placeholder="00.0" required aria-label="" disabled onchange="vldt1()">
+                                                <input type="float" name= "name_updt_Scrdt" id="id_Ts_crdt" class="form-control" placeholder="00.0" required aria-label="">
                                             </div>
                                         </div>
                                         <!--              line break                     --> 
@@ -468,7 +467,7 @@ session_start();
                                             <label for="name_employee_Dept" class="form-label">Bereavement Leave :</label>
                                             <div class="input-group mb-3">
                                                 <input type="text" name= "name_set_Bcrdt" id="id_B_crdt" class="form-control bg-light" aria-label="" readonly>
-                                                <input type="float" name= "name_updt_Bcrdt" id="id_TB_crdt" class="form-control" placeholder="00.0" required aria-label="" disabled onchange="vldt2()">
+                                                <input type="float" name= "name_updt_Bcrdt" id="id_TB_crdt" class="form-control" placeholder="00.0" required aria-label="">
                                             </div>
                                         </div>
                                         <!--              line break                     --> 
@@ -511,15 +510,6 @@ session_start();
                         });
 </script>
 
-
-<script>
-    setTimeout(function() {
-        let alert = document.querySelector('.alert');
-        if (alert) {
-            alert.remove();
-        }
-    }, 2000);
-</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

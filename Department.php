@@ -1,5 +1,17 @@
 <?php
     session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +27,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">   
+
+    <!-- Para sa datatables -->
+    <link rel="stylesheet" href="vendors/feather/feather.css">
+        <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+        <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <!-- Para sa datatables END -->
 
     <title>Add New Department</title>
 </head>
@@ -79,12 +98,49 @@
 </div> <!-- Modal END -->
 
 
+<!-------------------------------------------------------------------DELETE DEPT INFO MODAL-------------------------------------------------------->
+<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="actions/Department/delete.php" method="POST">
+      <div class="modal-body">
+
+        <input type="hidden" name="delete_id" id="delete_id">
+        <input type="hidden" name="designation" id="designate">
+
+        <h4>Do you want to delete?</h4>
+
+      </div> <!--Modal body div close tag-->
+      <div class="modal-footer">
+        <button type="submit" name="delete_data" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
+
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------------------END OF DELETE DEPT INFO MODAL------------------------------------------------------------------->
+
+
 <div class="container mt-3">
     <div class="">
 
         <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; position:absolute; right:100px; bottom: 80px; width:75%; height:75%;" >
             <div class="card-header">
-                <div class="row">
+                
+                
+            </div> <!-- CARD Header END -->
+
+            <div class="card-body">
+
+            <div class="row">
                     <div class="col-6">
                         <h2 class="display-5">Department Records</h2>
                     </div>
@@ -94,101 +150,99 @@
                             Add Department
                         </button>
                     </div>
-                </div> <!-- Row END -->
-            </div> <!-- CARD Header END -->
+            </div> <!-- Row END -->
 
-            <div class="card-body">
+                   <!-- ------------------para sa message na sucessful START -------------------->
+                   <?php
 
-                <div class="pnl_utop p-3 mb-2 bg-body-tertiary">
-                        <h3 style= "font-size: 20px; font-weight: bold; font-family: 'Nunito', sans-serif; ">Company Departments</h3>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-12">
-                                <div class="pnl_search" >
-                                    <form action="" 
-                                        style= "
-                                            border: none;
-                                            padding: 0;
-                                            background-color: #ffffff;
-                                                ">
-                                        <input id="search_bar" type="text" placeholder="Search"
-                                        style= "
-                                                margin-left: 50px;
-                                                width: 320px;
-                                                border: 1px solid #adacac;
-                                                border-radius: 5px;
-                                                padding: 9px 4px 9px 40px;
-                                                background: #FFFFFF url(icon/search.png) 
-                                                no-repeat 13px center;
-                                                ">
-                                    </form>
-                                </div> 
-                    </div><!--COL-6 END-->   
-                </div> <!--ROW END-->
-
-                <div class="table table-responsive">
-                    <form action="departmentEmployee.php" method="post">
-                     <input id="id_deptname_tb" name="name_deptname_tb" type="text" style="display: none;">
-                  <table id="data_table" class="table table-sortable table-striped table-hover caption-top">
-                    <caption class="text-end">List of Company Department</caption>
-                    <thead style="color: #787BDB;
-                                font-size: 19px;">
-                          <tr> <!--<img src="/icons/search.png" alt="Icon">--> 
-                                <th style= 'display: none;'> ID  </th>  
-                                <th> Department  </th>
-                                <th>Total Employee</th>
-                                <th>Action</th>                            
-                          </tr>
-                      </thead>
-                      <tbody>
-                      <?php
-                                include 'config.php';
-
-                                // Query the department table to retrieve department names
-                                $dept_query = "SELECT col_ID,col_deptname FROM dept_tb";
-                                $dept_result = mysqli_query($conn, $dept_query);
-
-                                // Generate the HTML table header
+                        if (isset($_GET['msg'])) {
+                            $msg = $_GET['msg'];
+                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                            '.$msg.'
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>';
+                        }
 
 
-                                // Loop over the departments and count the employees
-                                while ($dept_row = mysqli_fetch_assoc($dept_result)) {
-                                    $dept_id = $dept_row['col_ID'];
-                                    $dept_name = $dept_row['col_deptname'];
-                                    $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE department_name = '$dept_name'";
-                                    $emp_result = mysqli_query($conn, $emp_query);
-                                    $emp_row = mysqli_fetch_assoc($emp_result);
-                                    $emp_count = $emp_row['count'];
+                        ?>
+                        <!-------------------- para sa message na sucessful ENd --------------------->
 
-                                    // Generate the HTML table row
-                                    echo "<tr>
-                                            <td style= 'display: none;'>$dept_id</td>
-                                            <td>$dept_name</td>
-                                            <td>$emp_count</td>
-                                            <td>
-                                                <button type='submit' name='view_data' class= 'border-0 viewbtn' title = 'View' style=' background: transparent;'>
-                                                        <img src='icons/visible.png' alt='...'>
-                                                </button>
-                                                <button type='button' class= 'border-0 editbtn' title = 'Edit' data-bs-toggle='modal' data-bs-target='#update_deptMDL' style=' background: transparent;'>
-                                                        <img src='icons/editing.png' alt='...'>
-                                                </button>
-                                                <button type='button' class= 'border-0' title = 'Delete' style=' background: transparent;'>
-                                                    <a href='actions/Department/delete.php?col_ID=$dept_id' class='link-dark'>
-                                                        <img src='icons/delete.png' alt='...'>
-                                                    </a>
-                                                </button> 
-                                            </td>
-                                        </tr>";
-                                }
 
-                                // Close the HTML table
+                        <!----------------------para sa message na error START --------------------->
+                        <?php
+                            if (isset($_GET['error'])) {
+                            $error = $_GET['error'];
+                            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                            '.$error.'
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>';
+                        }
 
-                                // Close the database connection
-                                mysqli_close($conn);
-                            ?>
+                    ?>
+                        <!-------------------- para sa message na error ENd --------------------->
 
-                      </tbody>
-                      </form>   
+                    <div class="table-responsive mt-5">
+                                      
+                        <form action="departmentEmployee.php" method="post">
+                                <input id="id_deptname_tb" name="name_deptID_tb" type="text" style="display: none;">
+                                <input id="id_textdept" name="name_deptname_tb" type="text" style="display: none;">
+                        <table id="order-listing" class="table" >
+                            <thead >
+
+                                <tr> 
+                                        <th style= 'display: none;'> ID  </th>  
+                                        <th> Department  </th>
+                                        <th>Total Employee</th>
+                                        <th>Action</th>                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    include 'config.php';
+
+                                    // Query the department table to retrieve department names
+                                    $dept_query = "SELECT col_ID,col_deptname FROM dept_tb";
+                                    $dept_result = mysqli_query($conn, $dept_query);
+
+                                    // Generate the HTML table header
+
+
+                                    // Loop over the departments and count the employees
+                                    while ($dept_row = mysqli_fetch_assoc($dept_result)) {
+                                        $dept_id = $dept_row['col_ID'];
+                                        $dept_name = $dept_row['col_deptname'];
+                                        $emp_query = "SELECT COUNT(*) as count FROM employee_tb WHERE department_name = '$dept_id'";
+                                        $emp_result = mysqli_query($conn, $emp_query);
+                                        $emp_row = mysqli_fetch_assoc($emp_result);
+                                        $emp_count = $emp_row['count'];
+
+                                        // Generate the HTML table row
+                                        echo "<tr>
+                                                <td style= 'display: none;'>$dept_id</td>
+                                                <td>$dept_name</td>
+                                                <td>$emp_count</td>
+                                                <td>
+                                                    <button type='submit' name='view_data' class= 'border-0 viewbtn' title = 'View' style=' background: transparent;'>
+                                                            <img src='icons/visible.png' alt='...'>
+                                                    </button>
+                                                    <button type='button' class= 'border-0 editbtn' title = 'Edit' data-bs-toggle='modal' data-bs-target='#update_deptMDL' style=' background: transparent;'>
+                                                            <img src='icons/editing.png' alt='...'>
+                                                    </button>
+                                                    <button type='button' class= 'border-0 deletebtn' title = 'Delete' data-bs-toggle='modal' data-bs-target='#deletemodal' style=' background: transparent;'>
+                                                            <img src='icons/delete.png' alt='...'>
+                                                        </a>
+                                                    </button> 
+                                                </td>
+                                            </tr>";
+                                    }
+
+                                    // Close the HTML table
+
+                                    // Close the database connection
+                                    mysqli_close($conn);
+                                ?>
+                            </tbody>
+                        </form>   
                     </table>        
                 </div> <!--table my-3 end-->   
                     <!-- Modal UPDATE DATA -->
@@ -233,12 +287,43 @@
 
 
 
-
+<!-- para sa datatable -->
+<script src="vendors/js/vendor.bundle.base.js"></script>
+<script src="vendors/datatables.net/jquery.dataTables.js"></script>
+<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="bootstrap js/template.js"></script>
+<script src="bootstrap js/data-table.js"></script>  <!-- < Custom js for this page  -->
+<!-- para sa datatable  END-->
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+
+<!---------------------------------------Script sa pagpop-up ng modal para madelete--------------------------------------------->          
+<script>
+            $(document).ready(function (){
+                $('.deletebtn').on('click' , function(){
+                    $('#deletemodal').modal('show');
+
+
+                    $tr = $(this).closest('tr');
+
+                    var data = $tr.children("td").map(function(){
+                        return $(this).text();
+                    }).get();
+
+                    console.log(data);
+
+                    $('#delete_id').val(data[0]);
+                    $('#designate').val(data[2]);
+                    
+
+                });
+            });
+        </script>
+<!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
 
     <script> //FOR UPDATE TRANSFER MODAL 
         $(document).ready(function(){
@@ -271,12 +356,12 @@
 
                                         console.log(data);
                                         //id_colId
-                                        $('#id_textdept').val(data[1]);
-                                        $('#id_deptname_tb').val(data[1]);
+                                        $('#id_textdept').val(data[1]);//deptname
+                                        $('#id_deptname_tb').val(data[0]);//deptID
                                     });
                                 });
             //FOR VIEW TRANSFER MODAL END
         </script>
 </body>
-<script src="javascript/dept.js"></script>
+<script src="js/dept.js"></script>
 </html>

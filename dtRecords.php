@@ -1,5 +1,17 @@
 <?php
 session_start();
+if(!isset($_SESSION['username'])){
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if($_SESSION['role'] != 'admin'){
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
 
 include_once 'config.php';
 
@@ -25,6 +37,7 @@ if(!empty($_GET['status'])){
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,10 +50,7 @@ if(!empty($_GET['status'])){
     <link rel="stylesheet" href="vendors/feather/feather.css">
     <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
@@ -82,6 +92,11 @@ if(!empty($_GET['status'])){
     .sidebars ul li ul li{
         width: 100%;
     }
+
+    .card-body{
+        width: 99.8%;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    }
 </style>
 <!-------------------------------------------- Modal Start Here ---------------------------------------------------------->
 <div class="modal fade" id="upload_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -112,7 +127,7 @@ if(!empty($_GET['status'])){
           <div class="card mt-3" style="width: 1550px; height:800px box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);">
             <div class="card-body">
                 <div class="pnl_home">
-                <a href="#">Home</a>
+                <a href="dashboard.php">Home</a>
                 <p class="header_slash">\</p>
                 <p class="header_prgph_DTR">EmployeeDTRManagement</p>
                 
@@ -122,22 +137,6 @@ if(!empty($_GET['status'])){
                     <button class="down-btn" id="downloadBtn"><a href="actions/Daily Time Records/export.php" class="dl_excel"></i>Download Excel</a></button>
                   </div>
                   </div>
-
-                  <style>
-                        .card-body{
-                            width: 99.8%;
-                            box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-                        }
-
-                        .table{
-                            width: 100%;
-                        }
-
-                        .content-wrapper{
-                            width: 90%
-                        }
-
-                  </style>
 <!------------------------------------------------- End Of Header -------------------------------------------> 
 
 <!---------------------------------------- Display status message ------------------------------------------->
@@ -168,41 +167,41 @@ if(!empty($_GET['status'])){
                         }
                         echo "</select>";
                       ?>
-            </div>
-            
-            <div class="input-container">
-              <p class="demm-text">Employee</p>
-                <?php
-                        include 'config.php';
+                </div>
+                
+                <div class="input-container">
+                <p class="demm-text">Employee</p>
+                    <?php
+                            include 'config.php';
 
-                        // Fetch all values of empid and date from the database
-                        $sql = "SELECT `employee_id` FROM `daily_time_records_tb`";
-                        $result = mysqli_query($conn, $sql);
+                            // Fetch all values of empid and date from the database
+                            $sql = "SELECT `employee_id` FROM `daily_time_records_tb`";
+                            $result = mysqli_query($conn, $sql);
 
-                        // Generate the dropdown list
-                        echo "<select class='select-btn form-select-m' aria-label='.form-select-sm example' name='name_emp''>";
-                        echo "<option value='Select All Employee' default>Select Employee</option>"; // Add a default option
-                        while ($row = mysqli_fetch_array($result)) {
-                        $employee_id = $row['employee_id'];
-                        echo "<option value='$employee_id'>$employee_id</option>"; // Set the value to emp_id|date
-                        }
-                        echo "</select>";
-                      ?>
-            </div>
+                            // Generate the dropdown list
+                            echo "<select class='select-btn form-select-m' aria-label='.form-select-sm example' name='name_emp''>";
+                            echo "<option value='Select All Employee' default>Select Employee</option>"; // Add a default option
+                            while ($row = mysqli_fetch_array($result)) {
+                            $employee_id = $row['employee_id'];
+                            echo "<option value='$employee_id'>$employee_id</option>"; // Set the value to emp_id|date
+                            }
+                            echo "</select>";
+                        ?>
+                </div>
 
-            <div class="input-container">
-              <p class="demm-text">Month From</p>
-              <input class="select-btn" type="date" name="" id="datestart" required>
+                <div class="input-container">
+                <p class="demm-text">Month From</p>
+                <input class="select-btn" type="date" name="" id="datestart" required>
+                </div>
+                <div class="input-container">
+                <div class="notif">
+                <p class="demm-text">Month To</p>
+                <p id="validate" class="validation">End date must beyond the start date</p>
+                </div>
+                <input class="select-btn" type="date" id="enddate" onchange="datefunct()" required>
+                </div>
+                <button id="arrowBtn"> &rarr; Apply Filter</button>
             </div>
-            <div class="input-container">
-              <div class="notif">
-              <p class="demm-text">Month To</p>
-              <p id="validate" class="validation">End date must beyond the start date</p>
-            </div>
-              <input class="select-btn" type="date" id="enddate" onchange="datefunct()" required>
-            </div>
-            <button id="arrowBtn"> &rarr; Apply Filter</button>
-          </div>
 <!----------------------------------------select button and text input--------------------------------------->
 
 
@@ -218,6 +217,7 @@ if(!empty($_GET['status'])){
                                             
                                             <th>Employee ID</th>
                                             <th>Name</th>
+                                            <th>Date</th>
                                             <th>Department</th>
                                             <th>Schedule Type</th>
                                             <th>Time Entry</th>
@@ -231,6 +231,7 @@ if(!empty($_GET['status'])){
                                     </thead>
                             <tbody>
                             <?php
+                            include 'config.php';
                             $result = $conn->query("SELECT * FROM daily_time_records_tb ORDER BY id DESC");
                             if($result->num_rows > 0){
                                 while($row = $result->fetch_assoc()){
@@ -238,6 +239,7 @@ if(!empty($_GET['status'])){
                                         <tr>
                                             <td><?php echo $row['employee_id'];?></td>
                                             <td><?php echo $row['name'];?></td>
+                                            <td><?php echo $row['date_records'];?></td>
                                             <td><?php echo $row['department'];?></td>
                                             <td><?php echo $row['schedule_type'];?></td>
                                             <td><?php echo $row['time_entry'];?></td>
@@ -254,7 +256,7 @@ if(!empty($_GET['status'])){
                                 }
                             }else{
                                 ?>
-                                    <tr><td colspan="5">No member(s) found...</td></tr>
+                                    <!-- <tr><td colspan="5">No member(s) found...</td></tr> -->
                                 <?php
                             }
                             ?>
@@ -288,7 +290,7 @@ function formToggle(ID){
         if (alert) {
             alert.style.display = 'none';
         }
-    }, 2000);
+    }, 4000);
 </script>
 
 
