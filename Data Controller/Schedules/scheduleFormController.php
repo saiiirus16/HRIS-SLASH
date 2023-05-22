@@ -40,27 +40,27 @@
 
     $wednesday = filter_input(INPUT_POST, "wednesday", FILTER_SANITIZE_STRING);
     $wed_timein = filter_input(INPUT_POST, "wed_timein", FILTER_SANITIZE_STRING);
-    $wed_timeout = filter_input(INPUT_POST, "wed_timein", FILTER_SANITIZE_STRING);
+    $wed_timeout = filter_input(INPUT_POST, "wed_timeout", FILTER_SANITIZE_STRING);
     $wed_wfh = filter_input(INPUT_POST, "wed_wfh", FILTER_SANITIZE_STRING);
 
     $thursday = filter_input(INPUT_POST, "thursday", FILTER_SANITIZE_STRING);
     $thurs_timein = filter_input(INPUT_POST, "thurs_timein", FILTER_SANITIZE_STRING);
-    $thurs_timeout = filter_input(INPUT_POST, "thurs_timein", FILTER_SANITIZE_STRING);
+    $thurs_timeout = filter_input(INPUT_POST, "thurs_timeout", FILTER_SANITIZE_STRING);
     $thurs_wfh = filter_input(INPUT_POST, "thurs_wfh", FILTER_SANITIZE_STRING);
 
     $friday = filter_input(INPUT_POST, "friday", FILTER_SANITIZE_STRING);
     $fri_timein = filter_input(INPUT_POST, "fri_timein", FILTER_SANITIZE_STRING);
-    $fri_timeout = filter_input(INPUT_POST, "fri_timein",FILTER_SANITIZE_STRING);
+    $fri_timeout = filter_input(INPUT_POST, "fri_timeout",FILTER_SANITIZE_STRING);
     $fri_wfh = filter_input(INPUT_POST, "fri_wfh", FILTER_SANITIZE_STRING);
 
     $sat = filter_input(INPUT_POST, "saturday", FILTER_SANITIZE_STRING);
     $sat_timein = filter_input(INPUT_POST, "sat_timein", FILTER_SANITIZE_STRING);
-    $sat_timeout = filter_input(INPUT_POST, "sat_timein", FILTER_SANITIZE_STRING);
+    $sat_timeout = filter_input(INPUT_POST, "sat_timeout", FILTER_SANITIZE_STRING);
     $sat_wfh = filter_input(INPUT_POST, "sat_wfh", FILTER_SANITIZE_STRING);
 
     $sunday = filter_input(INPUT_POST, "sunday", FILTER_SANITIZE_STRING);
     $sun_timein = filter_input(INPUT_POST, "sun_timein", FILTER_SANITIZE_STRING);
-    $sun_timeout = filter_input(INPUT_POST, "sun_timein", FILTER_SANITIZE_STRING);
+    $sun_timeout = filter_input(INPUT_POST, "sun_timeout", FILTER_SANITIZE_STRING);
     $sun_wfh = filter_input(INPUT_POST, "sun_wfh", FILTER_SANITIZE_STRING);
 
     $flexible = filter_input(INPUT_POST, "flexible", FILTER_SANITIZE_STRING);
@@ -97,20 +97,8 @@
 
     mysqli_stmt_execute($stmt);
 
-    header("Location: ../../Schedules.php");
-    
-    
-    
-    
-
-    
-
-
-
-
-
+    header("Location: ../../scheduleForm.php");
 
 
 
   ?>
-

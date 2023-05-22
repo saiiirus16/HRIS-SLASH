@@ -39,7 +39,8 @@ session_start();
                                                         applyleave_tb.`col_strDate`,
                                                         applyleave_tb.`_datetime`,
                                                         applyleave_tb.`col_status`,
-                                                        applyleave_tb.`col_reason`
+                                                        applyleave_tb.`col_reason`,
+                                                        applyleave_tb.`col_PAID_LEAVE`
                                                         
                                                     FROM
                                                         applyleave_tb
@@ -76,7 +77,7 @@ session_start();
                                 </h2>
                             </div> <!--end col-6-->
                             <div class="col-6 text-end">
-                                <a href='leavereq.php' class='btn btn-outline-danger'>Go back</a>
+                                <a href='../../leavereq.php' class='btn btn-outline-danger'>Go back</a>
                                 
                             </div> <!--end col-6-->
                         </div> <!--end row-->
@@ -162,7 +163,7 @@ session_start();
 
             
                         <div class="row mt-4">
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="mb-3">
                                     <input type="text" class="form-control bg-light -subtle" readonly value= "<?php 
                                     error_reporting(E_ERROR | E_PARSE);
@@ -174,25 +175,39 @@ session_start();
                                     }?>">
                                     <label for="Select_dept" class="form-label">Action Taken :</label>
                                 </div>  <!-- First mb-3 end-->
-                            </div> <!-- col-4 end-->
+                            </div> <!-- col-3 end-->
                             <!----------------------------------Break------------------------------------->
                             
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="mb-3">
-                                    <input type="text"  id="id_leaveStats" class="form-control bg-light -subtle" readonly value=" <?php echo $row['col_status']?>">
+                                    <input type="text"  id="id_leaveStats" class="form-control bg-light -subtle"  readonly value=" <?php echo $row['col_status']?>" 
+                                    style="<?php 
+                                                if($row['col_status'] === 'Approved'){
+                                                    echo 'style="color: blue;  text-align: center;"';
+                                                }
+                                            ?>">
                                     <label for="Select_dept" class="form-label">Leave Status:</label>
                                 </div>  <!-- First mb-3 end-->
-                            </div> <!-- col-4 end-->
+                            </div> <!-- col-3 end-->
                             <!----------------------------------Break------------------------------------->
 
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="mb-3">
                                     <input type="text" class="form-control bg-light -subtle" value="Admin" readonly>
                                     <label for="Select_dept" class="form-label">Approver :</label>
                                 </div>  <!-- First mb-3 end-->
-                            </div> <!-- col-4 end-->
+                            </div> <!-- col-3 end-->
                             <!----------------------------------Break------------------------------------->
+
+                            <div class="col-3">
+                                <div class="mb-3"> 
+                                    <input type="text" class="form-control bg-light -subtle" value="<?php echo $row['col_PAID_LEAVE']?>" readonly>
+                                    <label for="Select_dept" class="form-label">Leave Request Type :</label>
+                                </div>  <!-- First mb-3 end-->
+                            </div> <!-- col-3 end-->
                         </div> <!-- row end-->
+
+                        
 
                         <!-------------------------------------------------ROW4 Break------------------------------------------------------->
 
@@ -214,7 +229,7 @@ session_start();
                                     }
                                     ?>
                                     </textarea>
-                                </div>  <!-- First mb-3 end-->
+                                </div>  <!-- First mb-3 end--> 
                             </div> <!-- col-4 end-->
                             <!----------------------------------Break------------------------------------->
                         </div> <!-- row end-->
@@ -224,7 +239,7 @@ session_start();
                 </div> <!-- card body end-->
                     <div class="card-footer text-end">
                         <button id="btn_reject" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" onclick="click_btnReject()" style= " margin-right: 20px;">Reject</button>
-                        <button id="btn_Approved"  data-bs-toggle="modal" data-bs-target="#Mdl_reasonApproved" type="button" class="btn btn-outline-success" onclick="click_btnApproved()" style= " margin-right: 20px;">Approved</button>
+                        <button id="btn_Approved"  data-bs-toggle="modal" data-bs-target="#Mdl_reasonApproved" type="button" class="btn btn-outline-success" onclick="click_btnApproved()" style= " margin-right: 20px;">Approve</button>
 
                     </div>
 

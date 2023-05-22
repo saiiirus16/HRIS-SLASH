@@ -15,14 +15,18 @@ include '../../config.php';
 //Para sa pag select ng mga data galing sa APPLYLEAVE TABLE (END)
 
 if($row['col_status'] === 'Approved' ){
-header("Location: ../../leavereq.php?msg=You cannot REJECTED a request that is already APPROVED");
+header("Location: ../../leavereq.php?error=You cannot REJECT a request that is already APPROVED");
 }
 else if($row['col_status'] === 'Rejected'){
-header("Location: ../../leavereq.php?msg=You cannot REJECTED a request that is already REJECTED");
+header("Location: ../../leavereq.php?error=You cannot REJECT a request that is already REJECTED");
 }
+else if($row['col_status'] === 'Cancelled'){
+    header("Location: ../../leavereq.php?error=You cannot REJECT a request that is already CANCELLED");
+    }
 else{
     $reason = $_POST["name_rjectResn"];
     $employee_ID = $_SESSION["ID_empId"];
+    $approver = $_SESSION["username"];
 
     //para sa pag update from pending to approved and action time
       // Get the current date and time
@@ -39,7 +43,7 @@ else{
             VALUES('$Applyleave_ID','$reason', 'Rejected')";
         if(mysqli_query($conn,$sql1))
         {
-            $sql ="UPDATE applyleave_tb SET  col_status= 'Rejected', col_dt_action= '$currentDateTime1' WHERE col_ID = $Applyleave_ID";
+            $sql ="UPDATE applyleave_tb SET  col_status= 'Rejected', col_dt_action= '$currentDateTime1', col_approver = '$approver' WHERE col_ID = $Applyleave_ID";
             $query_run = mysqli_query($conn, $sql);
             if($query_run){
                 header("Location: ../../leavereq.php?msg=Rejected Successfully");
@@ -52,8 +56,6 @@ else{
             {
                 echo '<script> alert("Data Not Updated"); </script>';
             }
-/*
-    */
      
 }
 

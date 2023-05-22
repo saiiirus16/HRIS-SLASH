@@ -28,7 +28,11 @@
     color: white;
 }
 
-
 tr:hover td {
-    background-color: #adacac;
-  }
+    background-color: #ECECEC;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }

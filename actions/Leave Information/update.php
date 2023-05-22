@@ -14,11 +14,11 @@
         $Scrdt = $_POST['name_updt_Scrdt'];
         $Bcrdt = $_POST['name_updt_Bcrdt'];
 
-        $diff_Vcrdt = abs((float)$set_Vcrdt - (float)$Vcrdt );
-        $diff_Scrdt = abs((float)$set_Scrdt - (float)$Scrdt );
-        $diff_Bcrdt = abs((float)$set_Bcrdt - (float)$Bcrdt );
+        // $diff_Vcrdt = abs((float)$set_Vcrdt - (float)$Vcrdt );
+        // $diff_Scrdt = abs((float)$set_Scrdt - (float)$Scrdt );
+        // $diff_Bcrdt = abs((float)$set_Bcrdt - (float)$Bcrdt );
 
-        $sql ="UPDATE leaveinfo_tb SET col_vctionCrdt= $diff_Vcrdt, col_sickCrdt=$diff_Scrdt, col_brvmntCrdt= $diff_Bcrdt WHERE col_ID = '$id' ";
+        $sql ="UPDATE leaveinfo_tb SET col_vctionCrdt= $Vcrdt, col_sickCrdt=$Scrdt, col_brvmntCrdt= $Bcrdt WHERE col_ID = '$id' ";
         $query_run = mysqli_query($conn, $sql);
 
         if($query_run){

@@ -13,3 +13,10 @@
     color: white;
     box-shadow: 10px 10px 8px #888888;
 }
+
+
+
+tr:hover td {
+    background-color: #ECECEC;
+  }
+  
