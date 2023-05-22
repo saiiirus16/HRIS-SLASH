@@ -31,62 +31,62 @@ searchBar.addEventListener("input", () => {
 });
 
 
-function vldty(){
-  let set_V_crdt  = document.getElementById("id_v_crdt").value;
-  let toset_V_crdt  = document.getElementById("id_Tv_crdt").value;
+// function vldty(){
+//   let set_V_crdt  = document.getElementById("id_v_crdt").value;
+//   let toset_V_crdt  = document.getElementById("id_Tv_crdt").value;
 
 
-  if(toset_V_crdt > set_V_crdt){
-    document.getElementById("id_btnUpdate").style.backgroundColor = '#3A3939';
-    document.getElementById("id_btnUpdate").style.cursor = "no-drop";
-    document.getElementById("id_btnUpdate").disabled = true;
-    alert('You cannot deduct a credit that is greater than added');
-  }
-  else {
-    document.getElementById("id_btnUpdate").style.backgroundColor = '#787BDB';
-    document.getElementById("id_btnUpdate").disabled = false;
-    document.getElementById("id_Ts_crdt").disabled = false;
-    document.getElementById("id_btnUpdate").style.cursor = "pointer";
-  }
-}
+//   if(toset_V_crdt > set_V_crdt){
+//     document.getElementById("id_btnUpdate").style.backgroundColor = '#3A3939';
+//     document.getElementById("id_btnUpdate").style.cursor = "no-drop";
+//     document.getElementById("id_btnUpdate").disabled = true;
+//     alert('You cannot deduct a credit that is greater than added');
+//   }
+//   else {
+//     document.getElementById("id_btnUpdate").style.backgroundColor = '#787BDB';
+//     document.getElementById("id_btnUpdate").disabled = false;
+//     document.getElementById("id_Ts_crdt").disabled = false;
+//     document.getElementById("id_btnUpdate").style.cursor = "pointer";
+//   }
+// }
 
-function vldt1(){
-  let set_S_crdt  = document.getElementById("id_s_crdt").value;
-  let toset_S_crdt  = document.getElementById("id_Ts_crdt").value;
+// function vldt1(){
+//   let set_S_crdt  = document.getElementById("id_s_crdt").value;
+//   let toset_S_crdt  = document.getElementById("id_Ts_crdt").value;
 
 
-  if(toset_S_crdt > set_S_crdt){
+//   if(toset_S_crdt > set_S_crdt){
     
-    document.getElementById("id_btnUpdate").style.backgroundColor = '#3A3939';
-    document.getElementById("id_btnUpdate").style.cursor = "no-drop";
-    document.getElementById("id_btnUpdate").disabled = true;
-    alert('You cannot deduct a credit that is greater than added');
+//     document.getElementById("id_btnUpdate").style.backgroundColor = '#3A3939';
+//     document.getElementById("id_btnUpdate").style.cursor = "no-drop";
+//     document.getElementById("id_btnUpdate").disabled = true;
+//     alert('You cannot deduct a credit that is greater than added');
 
 
-  }
-  else {
-    document.getElementById("id_btnUpdate").style.backgroundColor = '#787BDB';
-    document.getElementById("id_btnUpdate").disabled = false;
-    document.getElementById("id_TB_crdt").disabled = false;
-    document.getElementById("id_btnUpdate").style.cursor = "pointer";
-  }
-}
+//   }
+//   else {
+//     document.getElementById("id_btnUpdate").style.backgroundColor = '#787BDB';
+//     document.getElementById("id_btnUpdate").disabled = false;
+//     document.getElementById("id_TB_crdt").disabled = false;
+//     document.getElementById("id_btnUpdate").style.cursor = "pointer";
+//   }
+// }
 
-function vldt2(){
-  let set_B_crdt  = document.getElementById("id_B_crdt").value;
-  let toset_B_crdt  = document.getElementById("id_TB_crdt").value;
+// function vldt2(){
+//   let set_B_crdt  = document.getElementById("id_B_crdt").value;
+//   let toset_B_crdt  = document.getElementById("id_TB_crdt").value;
 
 
-  if(toset_B_crdt > set_B_crdt){
+//   if(toset_B_crdt > set_B_crdt){
     
-    document.getElementById("id_btnUpdate").style.backgroundColor = '#3A3939';
-    document.getElementById("id_btnUpdate").style.cursor = "no-drop";
-    document.getElementById("id_btnUpdate").disabled = true;
-    alert('You cannot deduct a credit that is greater than added');
-  }
-  else {
-    document.getElementById("id_btnUpdate").style.backgroundColor = '#787BDB';
-    document.getElementById("id_btnUpdate").disabled = false;
-    document.getElementById("id_btnUpdate").style.cursor = "pointer";
-  }
-}
+//     document.getElementById("id_btnUpdate").style.backgroundColor = '#3A3939';
+//     document.getElementById("id_btnUpdate").style.cursor = "no-drop";
+//     document.getElementById("id_btnUpdate").disabled = true;
+//     alert('You cannot deduct a credit that is greater than added');
+//   }
+//   else {
+//     document.getElementById("id_btnUpdate").style.backgroundColor = '#787BDB';
+//     document.getElementById("id_btnUpdate").disabled = false;
+//     document.getElementById("id_btnUpdate").style.cursor = "pointer";
+//   }
+// }

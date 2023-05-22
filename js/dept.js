@@ -18,7 +18,7 @@ searchBar.addEventListener("input", () => {
     let matchFound = false;
     for (let j = 0; j < cells.length; j++) {
       const cellText = cells[j].textContent.toLowerCase();
-      if (cellText.indexOf(searchTerm) > -1) {
+      if (cellText.indexOf(searchTerm) > -1) { 
         matchFound = true;
         break;
       }
@@ -31,5 +31,3 @@ searchBar.addEventListener("input", () => {
    }
   }
 });
-
-
