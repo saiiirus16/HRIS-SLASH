@@ -535,6 +535,19 @@ if(!isset($_SESSION['username'])){
 
                                                     //read data
                                                     while($row = $result->fetch_assoc()){
+                                                        $approver = $row['col_approver'];
+                                                        $result_approver = mysqli_query($conn, " SELECT
+                                                            *  
+                                                        FROM
+                                                            employee_tb
+                                                        WHERE empid = $approver");
+                                                        if(mysqli_num_rows($result_approver) > 0) {
+                                                            $row_approver = mysqli_fetch_assoc($result_approver);
+                                                            //echo $row__leaveINFO['col_vctionCrdt'];
+                                                            $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
+                                                        } else {
+                                                            $approver_fullname = 'Something Went Wrong';
+                                                        } 
 
                                                         echo "<tr>
                                                                 <td>" . $row['col_ID'] . "</td>
@@ -549,7 +562,7 @@ if(!isset($_SESSION['username'])){
                                                                 <td>" . $row['col_strDate'] . "</td>
                                                                 <td>" . $row['_datetime'] . "</td>
                                                                 <td>" . $row['col_dt_action'] . "</td>
-                                                                <td>" . $row['col_approver']. "</td>
+                                                                <td>" . $approver_fullname. "</td>
                                                                 <td>
                                                                     <div class='row'>
                                                                         <div class='col-12'>

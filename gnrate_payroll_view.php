@@ -817,7 +817,7 @@ if(!isset($_SESSION['username'])){
                 </div> <!--tab content END-->
               
                 <div class="text-right mr-5 mt-3">
-                    <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                    <a style="margin-right: 10px; font-size: 20px;"href="cutoff.php">Cancel</a>
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Print</button>
                 </div>
                 <?php            //para sa pag select sa attendances at employee para sa modal ng payslip
@@ -1306,7 +1306,7 @@ if(!isset($_SESSION['username'])){
 <script src="bootstrap js/data-table.js"></script>  <!-- < Custom js for this page  -->
 <!-- para sa datatable  END-->
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     $("body").on("click", "#download-pdf", function () {
         let emp_ID = document.getElementById('id_empID').value;
         let name_cutOff_freq = document.getElementById('id_cutOff_freq').value;
@@ -1333,7 +1333,7 @@ if(!isset($_SESSION['username'])){
                         console.log(response);
                         if (response != "") {
                             // Redirect to generate_payslip.php
-                            window.location.href = "generatePayslip.php?msg= Successfully Generated the Payslip";
+                            //window.location.href = "generatePayslip.php?msg= Successfully Generated the Payslip";
                         } else {
                             // Response is not "Done"
                             console.log(response);
@@ -1341,12 +1341,110 @@ if(!isset($_SESSION['username'])){
                     }
                 };
                 xhr.open("POST", "generate-pdf.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                // xhr.setRequestHeader("Content-Type", "multipart/form-data");
                 xhr.send("pdfData=" + encodeURIComponent(data) + "&emp_ID=" + encodeURIComponent(emp_ID) + "&name_cutOff_freq=" + encodeURIComponent(name_cutOff_freq) + "&name_cutOff_num=" + encodeURIComponent(name_cutOff_num) + "&name_numworks=" + encodeURIComponent(name_numworks) + "&name_cutoffID=" + encodeURIComponent(name_cutoffID));
             }
         });
     });
+</script> -->
+<script type="text/javascript">
+    $("body").on("click", "#download-pdf", function () {
+        let emp_ID = document.getElementById('id_empID').value;
+        let name_cutOff_freq = document.getElementById('id_cutOff_freq').value;
+        let name_cutOff_num = document.getElementById('id_cutOff_num').value;
+        let name_numworks = document.getElementById('id_numworks').value;
+        let name_cutoffID = document.getElementById('id_cutoffID').value;
+        
+
+        html2canvas($('#id_modal-pdf')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download(emp_ID +".pdf");
+
+                var formData = new FormData();
+                formData.append('pdfData', data);
+                formData.append('emp_ID', emp_ID);
+                formData.append('name_cutOff_freq', name_cutOff_freq);
+                formData.append('name_cutOff_num', name_cutOff_num);
+                formData.append('name_numworks', name_numworks);
+                formData.append('name_cutoffID', name_cutoffID);
+
+                var xhr = new XMLHttpRequest();
+                
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = this.responseText;
+                        console.log(response);
+                        if (response !== "") {
+                            // Redirect to generate_payslip.php
+                            // window.location.href = "generatePayslip.php?msg= Successfully Generated the Payslip";
+                        } else {
+                            // Response is not "Done"
+                            console.log(response);
+                        }
+                    }
+                };
+                xhr.open("POST", "generate-pdf.php", true);
+                xhr.send(formData);
+
+            }
+        });
+    });
 </script>
+
+
+
+
+
+
+<!-- <script type="text/javascript">
+    $("body").on("click", "#download-pdf", function () {
+        let emp_ID = document.getElementById('id_empID').value;
+        let name_cutOff_freq = document.getElementById('id_cutOff_freq').value;
+        let name_cutOff_num = document.getElementById('id_cutOff_num').value;
+        let name_numworks = document.getElementById('id_numworks').value;
+        let name_cutoffID = document.getElementById('id_cutoffID').value;
+
+        html2canvas($('#id_modal-pdf')[0]).then(function(canvas) {
+            canvas.toBlob(function(blob) {
+                var formData = new FormData();
+                formData.append("pdfData", blob);
+                formData.append("emp_ID", emp_ID);
+                formData.append("name_cutOff_freq", name_cutOff_freq);
+                formData.append("name_cutOff_num", name_cutOff_num);
+                formData.append("name_numworks", name_numworks);
+                formData.append("name_cutoffID", name_cutoffID);
+
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = this.responseText;
+                        console.log(response);
+                        if (response != "") {
+                            // Redirect to generate_payslip.php
+                            //window.location.href = "generatePayslip.php?msg=Successfully Generated the Payslip";
+                        } else {
+                            // Response is not "Done"
+                            console.log(response);
+                        }
+                    }
+                };
+                xhr.open("POST", "generate-pdf.php", true);
+                xhr.send(formData);
+            }, 'image/png'); // Set the desired image format (e.g., 'image/png' or 'image/jpeg')
+        });
+    });
+</script> -->
+
+
+
 
 
 

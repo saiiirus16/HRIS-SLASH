@@ -3,13 +3,20 @@
 
 include 'config.php';
 
+// $pdfData = $_POST['pdfData'];
 $pdfData = $_POST['pdfData'];
 $emp_ID = $_POST['emp_ID'];
 $name_cutOff_freq = $_POST['name_cutOff_freq'];
 $name_cutOff_num = $_POST['name_cutOff_num'];
-
 $name_numworks = $_POST['name_numworks'];
 $name_cutoffID = $_POST['name_cutoffID'];
+
+// $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+// $stmt->bind_param("siii", $contents, $emp_ID, $name_numworks, $name_cutoffID);
+// $stmt->execute();
+
+// echo 'Done';
+
 
 
 // // Connect to the MySQL database
@@ -242,10 +249,10 @@ echo 'Done';
             //           echo "Error";
             //         }
          // Prepare and execute the SQL statement to insert the PDF data into the database
-        $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
-        $stmt->execute();
-        echo 'Done';
+         $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+   $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+    $stmt->execute();
+    echo 'Done';
 
 
           } //end first_cutoff
@@ -442,7 +449,6 @@ echo 'Done';
             //         else{
             //           echo "Error";
             //         }
-            $pdfData = $_POST['pdfData'];
   // Prepare and execute the SQL statement to insert the PDF data into the database
   $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
   $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
@@ -452,7 +458,6 @@ echo 'Done';
 
     }
     else{
-        $pdfData = $_POST['pdfData'];
     //   $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
                     
     //                 VALUES('$emp_ID', '$col_strCutoff', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";

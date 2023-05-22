@@ -208,6 +208,7 @@
                                 <th class="th-sm">No. of Day</th>
                                 <th class="th-sm">Cutoff</th>
                                 <th class="th-sm">Cutoff Number</th>
+                                <th class="th-sm">Generated DateTime</th>
                                 <th class="th-sm">Action</th>
                                 </tr>
                             </thead>
@@ -232,7 +233,8 @@
                                                     ' ',
                                                     cutoff_tb.col_year
                                                 ) AS `month_year`,                                   
-                                                cutoff_tb.col_cutOffNum
+                                                cutoff_tb.col_cutOffNum,
+                                                payslip_tb._datetime
 
                                         FROM
                                             payslip_tb
@@ -260,13 +262,14 @@
                                             <td>" . $row['col_numDaysWork'] . "</td>   
                                             <td>" . $row['month_year'] . "</td>
                                             <td>" . $row['col_cutOffNum'] . "</td> 
+                                            <td>" . $row['_datetime'] . "</td> 
                                             <td>
                                                 <div class='dropdown'>
                                                     <button class='btn btn-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
                                                         View
                                                     </button>
                                                     <ul class='dropdown-menu'>
-                                                        <li><a class='dropdown-item' href='#'>View Payslip</a></li>
+                                                        <li><a class='dropdown-item' href='Data Controller/Payslip/getPayslipdata.php?id=" . $row['col_ID'] . "'>View Payslip</a></li>
                                                         <li><a class='dropdown-item' href='#'>Download</a></li>
                                                     </ul>
                                                 </div

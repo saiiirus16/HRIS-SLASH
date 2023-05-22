@@ -62,7 +62,6 @@ if(count($_POST) > 0){
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,7 +74,7 @@ if(count($_POST) > 0){
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/editEmpList.css"> 
+    <link rel="stylesheet" href="css/styles.css"> 
     <title>HRIS | Employee List Form</title>
 </head>
 <body>
@@ -128,7 +127,7 @@ if(count($_POST) > 0){
                                             <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>" maxlength="11" pattern="[0-9]{11,11}">
                                     </div>
                                     <div class="emp-cstatus">
-                                        <label for="cstatus">Civil Status</label><br>
+                                        <label for="cstatus">Marital Status</label><br>
                                             <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $row['cstatus'];?>" >
                                             <option value="<?php echo $row['cstatus']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['cstatus']?></option>
                                                 <option value="Single" >Single</option>
@@ -138,7 +137,7 @@ if(count($_POST) > 0){
                                     </div>
                                     <div class="emp-email">
                                         <label for="email">Email</label><br>
-                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>">
+                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}" title="Must be a valid email.">
                                     </div>
                                     <div class="emp-datehired">
                                         <label for="empdate_hired">Date Joined</label><br>
@@ -146,7 +145,7 @@ if(count($_POST) > 0){
                                     </div>
                                 </div>
                                 <div class="emp-list-info-second-container"> 
-                                <div class="emp-head">
+                                    <div class="emp-head">
                                         <?php
                                         if(!empty($row['emp_img_url'])) {
                                             $image_url = $row['emp_img_url'];
@@ -206,7 +205,7 @@ if(count($_POST) > 0){
                                 <div class="gov-sss" style="display:flex">
                                     <div>
                                     <label for="empsss">SSS #</label><br>
-                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>"><br> 
+                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>" ><br> 
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
@@ -367,24 +366,44 @@ if(count($_POST) > 0){
                                         <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php echo $row['otrate']?>">
                                 </div>
                                 <div class="empInfo-approver">
-                                <?php
-                                        include 'config.php';
+                                  <?php
+                                        $server = "localhost";
+                                        $user = "root";
+                                        $pass ="";
+                                        $database = "hris_db";
 
-                                        $sql = "SELECT * FROM employee_tb";
-                                        $results = mysqli_query($conn, $sql);
+                                        $conn = mysqli_connect($server, $user, $pass, $database);
+                                        $sql = "SELECT * FROM employee_tb WHERE `role` = 'Admin' OR `role` = 'Supervisor'";
+                                        $result = mysqli_query($conn, $sql);
+
                                         $options = "";
-                                        while ($rows = mysqli_fetch_assoc($results)) {
-                                            $selected = ($rows['id'] == $row['approver']) ? 'selected' : '';
-                                            $options .= "<option value='".$rows['approver']."' ".$selected.">" .$rows['fname']. " ".$rows['lname']. "</option>";
+                                        while ($rows = mysqli_fetch_assoc($result)) {
+                                            
+                                            $options .= "<option value='".$rows['empid']."'>".$rows['fname']. " " .$rows['lname']." </option>";
+                                        }
+
+                                        $approver = $row['approver'];
+                                        $result_approver = mysqli_query($conn, " SELECT
+                                            *  
+                                        FROM
+                                            employee_tb
+                                        WHERE empid = $approver");
+                                        if(mysqli_num_rows($result_approver) > 0) {
+                                            $row_approver = mysqli_fetch_assoc($result_approver);
+                                            //echo $row__leaveINFO['col_vctionCrdt'];
+                                            $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
+                                        } else {
+                                            $approver_fullname = 'Something Went Wrong';
                                         }
                                     ?>
+
                                         
-                                        <label for="approver">Approver</label><br>
-                                        <select name="approver" id="" placeholder="Select Branch" value="<?php echo $row['approver'];?>">
+                                        <label for="approver">Immediate Superior/Approver</label><br>
+                                        <select name="approver" id="">
+                                        <option value selected disabled><?php echo $approver_fullname?></option>
                                             <?php echo $options; ?>
                                         </select>
-                                </div>
-                               
+                                    
                             </div>
                         </div>
                         <div class="emp-worksched-container">
