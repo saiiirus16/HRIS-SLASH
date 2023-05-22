@@ -80,9 +80,9 @@ if(!isset($_SESSION['username'])){
                             <h2 class="display-5">Leave Request</h2>
                         </div>
                         <div class="col-6 text-end mt-3">
-                            <button class="btn_applyL" data-bs-toggle="modal" data-bs-target="#id_apply_leave">
+                            <!-- <button class="btn_applyL" data-bs-toggle="modal" data-bs-target="#id_apply_leave">
                                 Apply Leave
-                            </button>
+                            </button> -->
                             <!-- <button class="btn_applyLec" data-bs-toggle="modal" data-bs-target="#id_addLeaveType">
                                 Add Leave Type
                             </button> -->
@@ -536,7 +536,11 @@ if(!isset($_SESSION['username'])){
                                                     //read data
                                                     while($row = $result->fetch_assoc()){
                                                         $approver = $row['col_approver'];
-                                                        $result_approver = mysqli_query($conn, " SELECT
+                                                        if ($approver === ''){
+                                                            $approver_fullname = 'none';
+                                                        }
+                                                        else{
+                                                            $result_approver = mysqli_query($conn, " SELECT
                                                             *  
                                                         FROM
                                                             employee_tb
@@ -548,6 +552,10 @@ if(!isset($_SESSION['username'])){
                                                         } else {
                                                             $approver_fullname = 'Something Went Wrong';
                                                         } 
+                                                        }
+                                                       
+
+                                                        
 
                                                         echo "<tr>
                                                                 <td>" . $row['col_ID'] . "</td>
@@ -562,7 +570,7 @@ if(!isset($_SESSION['username'])){
                                                                 <td>" . $row['col_strDate'] . "</td>
                                                                 <td>" . $row['_datetime'] . "</td>
                                                                 <td>" . $row['col_dt_action'] . "</td>
-                                                                <td>" . $approver_fullname. "</td>
+                                                                <td>" . $approver_fullname . "</td>
                                                                 <td>
                                                                     <div class='row'>
                                                                         <div class='col-12'>

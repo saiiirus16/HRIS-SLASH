@@ -246,6 +246,7 @@
                                             cutoff_tb
                                         on 
                                             payslip_tb.col_cutoffID = cutoff_tb.col_ID
+                                        ORDER BY payslip_tb._datetime DESC
                                         
                                         ";
                                             

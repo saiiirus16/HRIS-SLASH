@@ -1,34 +1,39 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <head>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css"> 
+</head> -->
 
-
+<head>
+    <link rel="stylesheet" href="css/header.css">
 </head>
+<?php
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header("Location: login.php"); 
+    } else {
+        // Check if the user's role is not "admin"
+        if($_SESSION['role'] != 'admin'){
+            // If the user's role is not "admin", log them out and redirect to the logout page
+            session_unset();
+            session_destroy();
+            header("Location: logout.php");
+            exit();
+        }
+    }
+?>
 <body>
-    <!-- UPPER NAV -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row custom-navbar" id="upper-nav"> <!-- UPPER NAV MOTHER -->
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" id="logo-upper-nav" >
-        <a class="navbar-brand brand-logo me-5" href="../../index.html" ><img src="img/Slash Tech Solutions.png" class="me-2" alt="logo" style="margin-left: 25px;"/></a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html" style="width: 100px;"><img src="img/header-logo-small.jpg" alt="logo" style="width: 100px; " /></a>
-      </div>
-      
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end" id="upper-nav-container" >
-        <button class="navbar-toggler navbar-toggler align-self-center" id="navbar-toggler" type="button" data-toggle="minimize">
-            <span class="fa-solid fa-bars" style="color:white;"></span>
-          </button> 
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          
-        <div class="header-user">
+
+
+        <div class="header-container">
+            <div class="header-logo">
+                <img id="logo" src="img/Slash Tech Solutions.png" class="logo" alt="" srcset="" >  
+            </div>
+
+            <div class="header-user">
                 <div class="header-notif">
                     <span class="fa-regular fa-bell" style="color: white;"></span>
                 </div>
@@ -36,13 +41,14 @@
                     <img src="img/user.jpg" alt="" srcset="">
                 </div>
                 <div class="header-type">
-                    <h1 style="color: white;margin-top: 15px; margin-bottom: 20px;"><?php if(empty($_SESSION['userType'])){
-                                echo "no User!";
-                            }else{
-                                echo $_SESSION['userType'];
-                            }
-                            ?></h1>
-                    <p class="user-name" style="color: white; margin-top: 10px;"><?php if(empty($_SESSION['username'])){
+                    <h1 style="color: white;margin-top: 15px;"><?php if(empty($_SESSION['role'])){
+                            echo "No user ";
+                        } else {
+                            echo $_SESSION['role'];
+                        }
+                        
+                        ?></h1>
+                    <p class="user-name" style="color: white; margin-top: 1px;"><?php if(empty($_SESSION['username'])){
                                 echo "";
                             }else{
                                 echo $_SESSION['username'];
@@ -57,278 +63,205 @@
                     </div>
                 </div>
             </div>
-          <!-- <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            
-          </li>
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-              <img src="../../../../images/faces/face28.jpg" alt="profile"/>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
-          </li> -->
-        </ul>
-        <!-- <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button> -->
-      </div>
-    </nav> <!-- END UPPER NAV -->
-    
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      <!-- partial:../../partials/_settings-panel.html -->
-      <div class="theme-setting-wrapper">
-        
-      </div>
-      <div id="right-sidebar" class="settings-panel">
-        
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <div class="add-items d-flex px-3 mb-0">
-              <form class="form w-100">
-                <div class="form-group d-flex">
-                  <input type="text" class="form-control todo-list-input" placeholder="Add To-do">
-                  <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task">Add</button>
-                </div>
-              </form>
-            </div>
-            <div class="list-wrapper px-3">
-              <ul class="d-flex flex-column-reverse todo-list">
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Team review meeting at 3.00 PM
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Prepare for presentation
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Resolve all the low priority tickets due today
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Schedule meeting for next week
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Project review
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-              </ul>
-            </div>
-            <h4 class="px-3 text-muted mt-5 font-weight-light mb-0">Events</h4>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary me-2"></i>
-                <span>Feb 11 2018</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">Creating component page build a js</p>
-              <p class="text-gray mb-0">The total number of sessions</p>
-            </div>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary me-2"></i>
-                <span>Feb 7 2018</span>
-              </div>
-              <p class="mb-0 font-weight-thin text-gray">Meeting with Alisa</p>
-              <p class="text-gray mb-0 ">Call Sarah Graves</p>
-            </div>
-          </div>
-       
         </div>
-      </div>
 
-<!-- sidebar -->      
-<nav class="sidebar sidebar-offcanvas custom-nav" id="sidebar" style="margin-top: 20px; position:fixed;">
-        <ul class="nav" style="margin-top: 50px; color:red;">
-          <li class="nav-item" style="color: black">
-            <a class="nav-link" href="dashboard.php" style="color: white;">
-              <i class="icon-grid fa-solid fa-tv" style=""></i>
-              <span class="nav-title" style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 500">DASHBOARD</span>
-            </a>
-          </li>
+        <div class="sidebars">
+            <ul class="first-ul">
+                <li><a href="Dashboard.php" class="hoverable"><div><span class="fa-solid fa-tv"></span>DASHBOARD</div></a></li>
 
-          <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic" style="margin-top: 10px; color:white;">
-            <i class="fa-regular fa-clock" id="side-icon"></i>
-            <span class="nav-title" style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px">TIMEKEEPING</span>
-            <i class=" menu-arrow" style="color: white;"></i>
-          </a>
-          <div class="collapse" id="ui-basic">
-            <ul class="nav flex-column sub-menu" id="sub-menu" style="width: 100%;">
-              <li class="nav-item"> <a class="nav-link" href="attendance.php">ATTENDANCE</a></li>
-              <li class="nav-item"> <a class="nav-link" href="#">CALENDAR</a></li>
-              <li class="nav-item"> <a class="nav-link" href="dtRecords.php">DAILY TIME RECORDS</a></li>
-              <li class="nav-item"> <a class="nav-link" href="dtr_admin.php">DTR CORRECTION</a></li>
-              <li class="nav-item"> <a class="nav-link" href="leaveInfo.php">LEAVES INFORMATION</a></li>
-              <li class="nav-item"> <a class="nav-link" href="leaveReq.php">LEAVE REQUEST</a></li>
-              <li class="nav-item"> <a class="nav-link" href="official_business.php">OFFICIAL BUSINESS</a></li>
-              <li class="nav-item"> <a class="nav-link" href="Schedules.php">SCHEDULES</a></li>
+                <li><a href="#" class="timekeep-dd hoverable"><div><span class="fa-regular fa-clock"></span>TIMEKEEPING</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="timekeep-dd-show">
+                        <li> <a href="attendance.php"> ATTENDANCE</a></li>
+                        <li> <a href="#"> CALENDAR</a></li>
+                        <li> <a href="dtRecords.php"> DAILY TIME RECORDS</a></li>
+                        <li> <a href="dtr_admin.php"> DTR CORRECTION</a></li>
+                        <li> <a href="leaveInfo.php"> LEAVES INFORMATION</a></li>
+                        <li> <a href="leaveReq.php"> LEAVE REQUEST</a></li>
+                        <li> <a href="official_business.php"> OFFICIAL BUSINESS</a></li>
+                        <li> <a href="Schedules.php"> SCHEDULES</a></li>
+                    </ul>
+                </li>
+                  
+                <li><a href="#" class="hoverable payroll-dd"><div><span class="fa-regular fa-credit-card"></span>PAYROLL</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="payroll-dd-show">
+                        <li><a href="loanRequest.php">LOAN REQUEST</a></li>
+                        <li><a href="cutoff.php">GENERATE PAYROLL</a></li>
+                        <li><a href="generatePayslip.php">GENERATE PAYSLIP</a></li>
+                    </ul> 
+                </li>
+
+                <li><a href="#" class="hoverable employees-dd"><div><span class="fa-solid fa-users"></span>EMPLOYEES</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="employees-dd-show">
+                        <li><a href="EmployeeList.php">EMPLOYEE LIST</a></li>
+                        <li><a href="#">EMPLOYEE REQUEST</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" class="hoverable report-dd"><div><span class="fa-regular fa-clipboard"></span>REPORTS</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="report-dd-show">
+                        <li><a href="#">ATTENDANCE</a></li>
+                        <li><a href="#">PAYROLL</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" class="hoverable development-dd"><div><span class="fa-regular fa-lightbulb"></span>DEVELOPMENT</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="development-dd-show">
+                        <li><a href="#">TRAINING PROGRAM</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" class="hoverable performance-dd"><div><span class="fa-solid fa-person-running"></span>PERFORMANCE</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="performance-dd-show">
+                        <li><a href="#">EVALUATION</a></li>
+                        <li><a href="#">PERFORMANCE RATE</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" class="hoverable acquisition-dd"><div><span class="fa-solid fa-chart-line"></span>ACQUISITION</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="acquisition-dd-show">
+                        <li><a href="#">VACANCIES</a></li>
+                        <li><a href="#">APPLICATION</a></li>
+                        <li><a href="#">ASSESSMENT</a></li>
+                        <li><a href="#">MANPOWER</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" class="hoverable org-dd"><div><span class="fa-regular fa-building"></span>ORGANIZATION</div><span class="fa-solid fa-chevron-right"></span></a>
+                    <ul class="org-dd-show">
+                        <li><a href="Branch.php">BRANCH</a></li>
+                        <li><a href="Department.php">DEPARTMENT</a></li>
+                        <li><a href="Position.php">POSITION</a></li>
+                        
+                    </ul>
+                </li>
+
+                <li><a href="#" class="hoverable sett-dd"><div><span class="fa-solid fa-gear"></span>SETTINGS</div><span class="fa-solid fa-chevron-right"></span></a>
+                <ul class="sett-dd-show">
+                        
+                    </ul>
+                </li>
+                
             </ul>
-          </div>
-        </li>   
+        </div>
+    
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced" style="margin-top: 5px; color:white">
-              <i class=" fa-regular fa-credit-card"></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >PAYROLL</span>
-              <i class="menu-arrow" style="color: white;"></i>
-            </a>
-            <div class="collapse" id="ui-advanced">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="loanRequest.php">LOAN REQUEST</a></li>
-                <li class="nav-item"> <a class="nav-link" href="gnrate_payroll.php">GENERATE PAYROLL</a></li>
-                <li class="nav-item"> <a class="nav-link" href="generatePayslip.php">GENERATE PAYSLIP</a></li>
-              </ul>
-            </div>
-          </li>
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-emp" aria-expanded="false" aria-controls="ui-emp" style="margin-top: 5px; color:white">
-              <i class=" fa-solid fa-users" ></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >EMPLOYEES</span>
-              <i class="menu-arrow" style="color: white"></i>
-            </a>
-            <div class="collapse" id="ui-emp">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="EmployeeList.php">EMPLOYEE LIST</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">EMPLOYEE REQUEST</a></li>
-              </ul>
-            </div>
-          </li>
+        <script>
+        $('.timekeep-dd').click(function(){
+        $('.sidebars ul .timekeep-dd-show').toggleClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-reports" aria-expanded="false" aria-controls="ui-reports" style="margin-top: 5px; color:white">
-              <i class="fa-regular fa-clipboard"></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >REPORTS</span>
-              <i class="menu-arrow" style="color: white"></i>
-            </a>
-            <div class="collapse" id="ui-reports">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="#">ATTENDANCE</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">PAYROLL</a></li>
-              </ul>
-            </div>
-          </li>
+    $('.payroll-dd').click(function(){
+        $('.sidebars ul .payroll-dd-show').toggleClass("show2");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-develop" aria-expanded="false" aria-controls="ui-develop" style="margin-top: 5px; color:white"  >
-              <i class="fa-regular fa-lightbulb"></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >DEVELOPMENT</span>
-              <i class="menu-arrow" style="color: white"></i>
-            </a>
-            <div class="collapse" id="ui-develop">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item" style="color: white"> <a class="nav-link" href="#">TRAINING PROGRAM</a></li>
-              </ul>
-            </div>
-          </li>
+    $('.employees-dd').click(function(){
+        $('.sidebars ul .employees-dd-show').toggleClass("show3");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-perf" aria-expanded="false" aria-controls="ui-perf" style="margin-top: 5px; color:white">
-              <i class="fa-solid fa-person-running"></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >PERFORMANCE</span>
-              <i class="menu-arrow" style="color: white"></i>
-            </a>
-            <div class="collapse" id="ui-perf">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="#">EVALUATION</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">PERFORMANCE RATE</a></li>
-              </ul>
-            </div>
-          </li>
+    $('.report-dd').click(function(){
+        $('.sidebars ul .report-dd-show').toggleClass("show4");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-acquisition" aria-expanded="false" aria-controls="ui-acquisition" style="margin-top: 5px; color:white">
-              <i class="fa-solid fa-chart-line"></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >ACQUISITION</span>
-              <i class="menu-arrow" style="color: white"></i>
-            </a>
-            <div class="collapse" id="ui-acquisition">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="#">VACANCIES</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">APPLICATION</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">ASSESSMENT</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">MANPOWER</a></li>
-              </ul>
-            </div>
-          </li>
+    $('.development-dd').click(function(){
+        $('.sidebars ul .development-dd-show').toggleClass("show5");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-org" aria-expanded="false" aria-controls="ui-org" style="margin-top: 5px; color:white">
-              <i class="fa-regular fa-building"></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >ORGANIZATION</span>
-              <i class="menu-arrow" style="color: white"></i>
-            </a>
-            <div class="collapse" id="ui-org">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="Branch.php">BRANCH</a></li>
-                <li class="nav-item"> <a class="nav-link" href="Department.php">DEPARTMENT</a></li>
-                <li class="nav-item"> <a class="nav-link" href="Position.php">POSITION</a></li>
-               
-              </ul>
-            </div>
-          </li>
+    $('.performance-dd').click(function(){
+        $('.sidebars ul .performance-dd-show').toggleClass("show6");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-settings" aria-expanded="false" aria-controls="ui-settings" style="margin-top: 5px; color:white">
-              <i class="fa-solid fa-gear"></i>
-              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400" >SETTINGS</span>
-              <i class="menu-arrow" style="color: white"></i>
-            </a>
-            <div class="collapse" id="ui-settings">
-              <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="#">SETTINGS</a></li>
-               
-              </ul>
-            </div>
-          </li>
+    $('.acquisition-dd').click(function(){
+        $('.sidebars ul .acquisition-dd-show').toggleClass("show7");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
-        </ul>
-      </nav>
+    $('.org-dd').click(function(){
+        $('.sidebars ul .org-dd-show').toggleClass("show7");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .sett-dd-show').removeClass("show8");
+    });
 
- 
+    $('.sett-dd').click(function(){
+        $('.sidebars ul .sett-dd-show').toggleClass("show8");
+        $('.sidebars ul .timekeep-dd-show').removeClass("show");
+        $('.sidebars ul .payroll-dd-show').removeClass("show2");
+        $('.sidebars ul .employees-dd-show').removeClass("show3");
+        $('.sidebars ul .report-dd-show').removeClass("show4");
+        $('.sidebars ul .development-dd-show').removeClass("show5");
+        $('.sidebars ul .performance-dd-show').removeClass("show6");
+        $('.sidebars ul .acquisition-dd-show').removeClass("show7");
+        $('.sidebars ul .org-dd-show').removeClass("show7");
+    });
+
+    $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+    </script>
+
+
+    <!-- <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+    <script src="main.js"></script> -->
 </body>
-</html>
