@@ -180,6 +180,21 @@
       
        <form action="Data Controller/Announcement/insert_announce.php" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
+                    <div class="mb-3" style="display:none;">
+                        <label for="Select_emp" class="form-label">Name</label>
+                            <?php
+                                include 'config.php'; 
+                                @$employeeid = $_SESSION['empid'];
+                                ?>
+                                <input type="text" class="form-control" name="name_emp" value="<?php 
+                                    error_reporting(E_ERROR | E_PARSE);
+                                    if($employeeid == NULL){
+                                        
+                                        echo '0909090909';
+                                    }else{
+                                        echo $employeeid;
+                                    }?>" id="empid" readonly>
+                        </div>
                         <div class="mb-3">
                             <label for="company" class="form-label">Title</label>
                             <input type="text" name="announce_title" class="form-control" id="announce_title_id" required>
@@ -441,7 +456,18 @@
                             </div>
 
                             <h4 class="mt-2 ml-2"><?php echo $row['announce_title']?></h4>
-                            <p class="ml-2"><span style="color: #7F7FDD; font-style: Italic;"><?php echo $row['full_name']?></span> - <?php echo $row['announce_date']?></p>
+                            <p class="ml-2">
+                            <span style="color: #7F7FDD; font-style: Italic;">
+                                <?php 
+                                    if($row['empid'] === '0909090909')
+                                        {
+                                            echo 'SuperAdmin';
+                                        }
+                                    else {
+                                        echo $row['full_name'];
+                                        }
+                                ?>
+                            </span> - <?php echo $row['announce_date']?></p>
                             <p class="ml-2"><?php echo $row['description']?></p>
                            <?php
                                 if (($slideIndex + 1) % 1 === 0) {
