@@ -487,6 +487,20 @@ session_start();
                                                     //read data
                                                     while($row = $result->fetch_assoc()){
 
+                                                        $approver = $row['col_approver'];
+                                                        $result_approver = mysqli_query($conn, " SELECT
+                                                            *  
+                                                        FROM
+                                                            employee_tb
+                                                        WHERE empid = $approver");
+                                                        if(mysqli_num_rows($result_approver) > 0) {
+                                                            $row_approver = mysqli_fetch_assoc($result_approver);
+                                                            //echo $row__leaveINFO['col_vctionCrdt'];
+                                                            $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
+                                                        } else {
+                                                            $approver_fullname = 'Something Went Wrong';
+                                                        } 
+
                                                         echo "<tr>
                                                             <td>" . $row['col_ID'] . "</td>
                                                             <td>" . $row['col_req_emp'] . "</td>
@@ -500,7 +514,7 @@ session_start();
                                                             <td>" . $row['col_strDate'] . "</td>
                                                             <td>" . $row['_datetime'] . "</td>
                                                             <td>" . $row['col_dt_action'] . "</td>
-                                                            <td>" . $row['col_approver'] . "</td>
+                                                            <td>" . $approver_fullname . "</td>
                                                             <td>" . " <div class='row'>
                                                                         <div class='col-12'>
                                                                         <button type='button' class= 'border-0 btn_view_file' title = 'View' data-bs-toggle='modal' data-bs-target='#id_view_file' style=' background: transparent;'>
