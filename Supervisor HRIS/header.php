@@ -11,7 +11,7 @@
 
 session_start();
 
-include 'config.php';
+include '../config.php';
                             
 $id = $_SESSION['id'];
 $sql = "SELECT * FROM employee_tb WHERE id = '$id'";
@@ -79,7 +79,7 @@ $result = mysqli_query($conn, $sql);
                     <ul class="timekeep-dd-show">
                         <li> <a href="overtime_req.php">OVERTIME REQUEST</a></li>
                         <li> <a href="undertime_req.php"> UNDERTIME REQUEST</a></li>
-                        <li> <a href="#">LEAVE REQUEST</a></li>
+                        <li> <a href="leaveReq.php">LEAVE REQUEST</a></li>
                         <li> <a href="wfh_request.php">WFH REQUEST</a></li>
                        
                     </ul>

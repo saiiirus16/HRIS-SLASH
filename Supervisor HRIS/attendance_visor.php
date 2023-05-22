@@ -77,7 +77,7 @@ session_start();
 
 <div class="main-panel mt-5" style="margin-left: 15%;">
     <div class="content-wrapper">
-        <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1550px; height:700px; border-radius:20px;">
+        <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1560px; height:700px; border-radius:20px;">
             <div class="card-body">
 
                     <div class="row">
@@ -131,66 +131,67 @@ session_start();
                             <div class="row">
                                 <div class="col-12 mt-3">
                                     <div class="table-responsive">
-                                        <table id="order-listing" class="table">
+                                    <table id="order-listing" class="table">
                                             <thead>
-                                            <tr>
-                                            <th style="display:none;">ID</th>
-                                            <th>Status</th>
-                                            <th>Employee ID</th>
-                                            <th>Name</th>
-                                            <th>Date</th>
-                                            <th>Time in</th>
-                                            <th>Time out</th>
-                                            <th>Late</th>
-                                            <th>Undertime</th>
-                                            <th>Overtime</th>
-                                            <th>Total Work</th>
-                                            <th>Total Rest</th>
-                                            </tr>
+                                                <tr>
+                                                    <th style="display:none;">ID</th>
+                                                    <th>Status</th>
+                                                    <th>Employee ID</th>
+                                                    <th>Name</th>
+                                                    <th>Date</th>
+                                                    <th>Time in</th>
+                                                    <th>Time out</th>
+                                                    <th>Late</th>
+                                                    <th>Undertime</th>
+                                                    <th>Overtime</th>
+                                                    <th>Total Work</th>
+                                                    <th>Total Rest</th>
+                                                </tr>
                                             </thead>
                                             <?php
-                                            $conn = mysqli_connect("localhost","root","","hris_db");    
-                                            
+                                            include '../config.php';
+                                            $aprrover_ID = $_SESSION['empid'];
+                                            date_default_timezone_set('Asia/Manila');
                                             $query = "SELECT attendances.id,
-                                            attendances.status,
-                                            employee_tb.empid,
-                                            CONCAT(
-                                            employee_tb.`fname`,
-                                            ' ',
-                                            employee_tb.`lname`) AS `full_name`,
-                                            attendances.date,
-                                            attendances.time_in,
-                                            attendances.time_out,
-                                            attendances.late,
-                                            attendances.early_out,
-                                            attendances.overtime,
-                                            attendances.total_work,
-                                            attendances.total_rest
-                                            FROM attendances INNER JOIN employee_tb 
-                                            ON attendances.empid = employee_tb.empid;";
+                                                            attendances.status,
+                                                            employee_tb.empid,
+                                                            CONCAT(employee_tb.fname, ' ', employee_tb.lname) AS full_name,
+                                                            attendances.date,
+                                                            attendances.time_in,
+                                                            attendances.time_out,
+                                                            attendances.late,
+                                                            attendances.early_out,
+                                                            attendances.overtime,
+                                                            attendances.total_work,
+                                                            attendances.total_rest
+                                                    FROM attendances
+                                                    INNER JOIN employee_tb ON attendances.empid = employee_tb.empid
+                                                    WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID)
+                                                    AND DATE(attendances.date) = CURDATE();
+                                     "; // Modify the query to filter by the current date
                                             $result = mysqli_query($conn, $query);
                                             while($row = mysqli_fetch_assoc($result)){
                                             ?>
                                             <tbody>
-                                            <tr>
-                                                 <td style="display:none;"><?php echo $row['id']?></td>
-                                                 <td><?php echo $row['status']?></td>
-                                                 <td><?php echo $row['empid']?></td>
-                                                 <td><?php echo $row['full_name']?></td>
-                                                 <td><?php echo $row['date']?></td>
-                                                 <td><?php echo $row['time_in']?></td>
-                                                 <td><?php echo $row['time_out']?></td>
-                                                 <td><?php echo $row['late']?></td>
-                                                 <td><?php echo $row['early_out']?></td>
-                                                 <td><?php echo $row['overtime']?></td>
-                                                 <td><?php echo $row['total_work']?></td>
-                                                 <td><?php echo $row['total_rest']?></td>
-                                            </tr>
+                                                <tr>
+                                                    <td style="display:none;"><?php echo $row['id']?></td>
+                                                    <td><?php echo $row['status']?></td>
+                                                    <td><?php echo $row['empid']?></td>
+                                                    <td><?php echo $row['full_name']?></td>
+                                                    <td><?php echo date('Y-m-d (l)', strtotime($row['date'])) ?></td>
+                                                    <td><?php echo $row['time_in']?></td>
+                                                    <td><?php echo $row['time_out']?></td>
+                                                    <td><?php echo $row['late']?></td>
+                                                    <td><?php echo $row['early_out']?></td>
+                                                    <td><?php echo $row['overtime']?></td>
+                                                    <td><?php echo $row['total_work']?></td>
+                                                    <td><?php echo $row['total_rest']?></td>
+                                                </tr>
                                             <?php
                                             }
                                             ?>
                                             </tbody>
-                                         </table>
+                                        </table>
                                      </div>
                                  </div>
                              </div>

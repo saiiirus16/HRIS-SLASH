@@ -294,7 +294,8 @@ session_start();
                             </tr>
                         </thead>
                          <?php
-                         $conn = mysqli_connect("localhost","root","","hris_db");
+                         include 'config.php';
+                         $aprrover_ID = $_SESSION['empid'];
                          
                          $query = "SELECT
                          undertime_tb.id,
@@ -309,7 +310,8 @@ session_start();
                          undertime_tb.date_file
                          FROM
                             employee_tb
-                         INNER JOIN undertime_tb ON employee_tb.empid = undertime_tb.empid;";
+                         INNER JOIN undertime_tb ON employee_tb.empid = undertime_tb.empid 
+                         WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID);";
                          $result = mysqli_query($conn, $query);
                          while ($row = mysqli_fetch_assoc($result)){  
                          ?>

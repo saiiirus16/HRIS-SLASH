@@ -102,8 +102,8 @@ session_start();
                                                             </tr>
                                                         </thead>
                                                         <?php
-                                                        $conn = mysqli_connect("localhost","root","","hris_db");
-
+                                                        include '../config.php';
+                                                        $aprrover_ID = $_SESSION['empid'];
                                                         $query = "SELECT employee_tb.id,
                                                         CONCAT(
                                                             employee_tb.`fname`,
@@ -116,7 +116,8 @@ session_start();
                                                         employee_tb.department_name,
                                                         employee_tb.email,
                                                         dept_tb.col_deptname
-                                                        FROM employee_tb INNER JOIN dept_tb ON employee_tb.department_name = dept_tb.col_ID;";
+                                                        FROM employee_tb INNER JOIN dept_tb ON employee_tb.department_name = dept_tb.col_ID
+                                                        WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID);";
                                                         $result = mysqli_query($conn, $query);
                                                         while($row = mysqli_fetch_assoc($result)){
                                                         ?>
