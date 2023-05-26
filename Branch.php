@@ -196,7 +196,7 @@ include 'header.php';
 
                   <div class="mb-3 mt-2">
                      <label for="tele_phone" class="form-label">Telephone:</label>
-                     <input type="number" name="telephone" class="form-control" id="update_branch_telephone" required maxlength="10">
+                     <input type="number" name="telephone" class="form-control" id="update_branch_telephone" required maxlength="10" pattern="[0-9]{10,10}">
                   </div>
 
       </div> <!--Modal body div close tag-->
@@ -427,13 +427,7 @@ include 'header.php';
   });
 });
 
-$(document).ready(function() {
-  $('#telephone_id').on('input', function() {
-    if ($(this).val().length > 10) {
-      $(this).val($(this).val().slice(0, 4));
-    }
-  });
-});
+
 
 $(document).ready(function() {
   $('#update_branch_zip').on('input', function() {
@@ -443,13 +437,7 @@ $(document).ready(function() {
   });
 });
 
-$(document).ready(function() {
-  $('#update_branch_telephone').on('input', function() {
-    if ($(this).val().length > 10) {
-      $(this).val($(this).val().slice(0, 4));
-    }
-  });
-});
+
 </script>
 <!---------------------------------------------------End Script for limiting the number input----------------------------------->
 

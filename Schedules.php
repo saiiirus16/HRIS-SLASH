@@ -1144,7 +1144,7 @@ thead th:nth-child(1){
                                     $result = $conn->query($stmt);
                                         if($result->num_rows > 0){
                                             while($row = $result->fetch_assoc()){
-                                                echo "<h1 style='font-size: 30px;'>".$row["fname"].""." ". "" .$row["lname"]."</h1>";
+                                                echo "<input type='text' id='empName' style='border:none; font-size: 20px; font-weight: 500; margin: auto;' >";
                                             }
                                         }
                                 ?>
@@ -1298,7 +1298,7 @@ thead th:nth-child(1){
                             while($row = $result->fetch_assoc()){
                                 echo "
                                 <tr class='lh-1'>
-                                <td style='font-weight: 400;'>".$row["username"]. "</td>
+                                <td style='font-weight: 400;'>".$row["fname"]. " ".$row["lname"]."</td>
                                 <td style='font-weight: 400;'>9:00 AM</td>
                                 <td style='font-weight: 400;'>6:00 PM</td>
                                 <td style='font-weight: 400;'>".$row["department_name"]. "</td>
@@ -1522,6 +1522,7 @@ $(document).ready(function() {
                                     $('#empid').val(data[8]);
                                     $('#sched_from').val(data[5]);
                                     $('#sched_to').val(data[6]);
+                                    $('#empName').val(data[0]);
                                 });
                             });
             

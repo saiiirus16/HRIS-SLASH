@@ -13,8 +13,8 @@
     <!-- UPPER NAV -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row custom-navbar" id="upper-nav"> <!-- UPPER NAV MOTHER -->
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" id="logo-upper-nav" >
-        <a class="navbar-brand brand-logo me-5" href="../../index.html" ><img src="img/Slash Tech Solutions.png" class="me-2" alt="logo" style="margin-left: 25px;"/></a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html" style="width: 100px;"><img src="img/header-logo-small.jpg" alt="logo" style="width: 100px; " /></a>
+        <a class="navbar-brand brand-logo me-5" href="dashboard.php" ><img src="img/Slash Tech Solutions.png" class="me-2" alt="logo" style="margin-left: 25px;"/></a>
+        <a class="navbar-brand brand-logo-mini" href="dashboard.php" style="width: 100px;"><img src="img/header-logo-small.jpg" alt="logo" style="width: 100px; " /></a>
       </div>
       
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end" id="upper-nav-container" >
@@ -39,10 +39,10 @@
                     <img src="img/user.jpg" alt="" srcset="">
                 </div>
                 <div class="header-type">
-                    <h1 style="color: white;margin-top: 15px; margin-bottom: 20px;"><?php if(empty($_SESSION['userType'])){
-                                echo "no User!";
+                    <h1 style="color: white;margin-top: 15px; margin-bottom: 20px;"><?php if(empty($_SESSION['role'])){
+                                echo "no user!";
                             }else{
-                                echo $_SESSION['userType'];
+                                echo $_SESSION['role'];
                             }
                             ?></h1>
                     <p class="user-name" style="color: white; margin-top: 10px;"><?php if(empty($_SESSION['username'])){
@@ -171,7 +171,7 @@
             <div class="collapse" id="ui-payroll">
               <ul class="nav flex-column sub-menu" style=" width: 100%;">
                 <li class="nav-item"> <a class="nav-link" href="loanRequest.php">LOAN REQUEST</a></li>
-                <li class="nav-item"> <a class="nav-link" href="gnrate_payroll.php">GENERATE PAYROLL</a></li>
+                <li class="nav-item"> <a class="nav-link" href="cutoff.php">GENERATE PAYROLL</a></li>
                 <li class="nav-item"> <a class="nav-link" href="generatePayslip.php">GENERATE PAYSLIP</a></li>
               </ul>
             </div>
@@ -201,7 +201,7 @@
             <div class="collapse" id="ui-emp">
               <ul class="nav flex-column sub-menu" style=" width: 100%;">
                 <li class="nav-item"> <a class="nav-link" href="EmployeeList.php">EMPLOYEE LIST</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">EMPLOYEE REQUEST</a></li>
+                <li class="nav-item"> <a class="nav-link" href="employeeRequest.php">EMPLOYEE REQUEST</a></li>
               </ul>
             </div>
           </li>
@@ -214,8 +214,8 @@
             </a>
             <div class="collapse" id="ui-reports">
               <ul class="nav flex-column sub-menu" style=" width: 100%;">
-                <li class="nav-item"> <a class="nav-link" href="#">ATTENDANCE</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">PAYROLL</a></li>
+                <li class="nav-item"> <a class="nav-link" href="attendance_report.php">ATTENDANCE</a></li>
+                <li class="nav-item"> <a class="nav-link" href="payroll_report.php">PAYROLL</a></li>
               </ul>
             </div>
           </li>

@@ -88,6 +88,31 @@
         height: 400px !important;
         overflow-x: hidden !important;
     }
+    
+    .payslip-input {
+        
+    }
+    .payslip-input select{
+        width: 350px !important;
+        height: 50px !important;
+    }
+
+    .payslip-input select:nth-child(3){
+        margin-right: 20px !important;
+    }
+
+    .department{
+       
+
+    }
+
+    .row select{
+        width: 250px !important;
+        margin-left: 85px !important;
+        height: 50px !important;
+
+    }
+    
     </style>
     <header>
         <?php include("header.php")?>
@@ -122,7 +147,7 @@
                             <?php echo $options; ?>
                         </select>
                 </div>
-                <div>
+                <div class="payslip-input2">
                     <label for="">Select Month/Year</label>
                     <select name="" onchange="foryear()" id="id_month" class="form-control" style="width: 190px;">
                         <option value="" disabled selected>Month</option>
@@ -152,10 +177,10 @@
 
                 </div>
                 <div>
-                    <button class="btn gen-btn" >Generate</button>
+                    <button class="btn gen-btn" style="background-color: black" >Generate</button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style=" width: 73%; margin-left: 15px; margin-top: 20px">
                 <div class="col-6">
                     <div class="input-group mb-3 pay1">
                         <?php
@@ -169,18 +194,18 @@
                                 $options .= "<option value='".$row['col_deptname']."'>".$row['col_deptname']."</option>";
                             }
                         ?>
-                        <label for="schedule_name">Department</label>
-                        <select name="schedule_name" id="" class="form-control">
+                        <label for="schedule_name" style="font-weight: bold">Department</label>
+                        <select name="schedule_name" id="" class="form-control" style="width: 350px;">
                             <option value disabled selected>All Department</option>
                             <?php echo $options; ?>
                         </select>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" >
     
 
-                    <div class="input-group mb-3 pay2">
-                        <label for="schedule_name">Cut off Number</label>
+                    <div class="input-group mb-3 pay2" style="margin-left: 70px;">
+                        <label for="schedule_name" style="font-weight: bold">Cut off Number</label>
                         <select name="cutoffs" id="id_cutoffs" onchange="cutoff(this.value)" class="form-control">
                             <option value disabled selected>Select Cutoff</option>
                             <option value = "1">1</option>
@@ -223,7 +248,7 @@
             ?>
             <!-------------------- para sa message na error ENd --------------------->
             <div class="att-date" style="margin-top: 18px;">
-                <h1 id="">Attendance for <span id="current-date">10/01/2023 - 10/15/2023</span></h1>
+                <h1 id="" style="">Attendance for <span id="current-date" style="color: #C37700">10/01/2023 - 10/15/2023</span></h1>
             </div>
             
         </div>
@@ -281,6 +306,7 @@
                                             cutoff_tb
                                         on 
                                             payslip_tb.col_cutoffID = cutoff_tb.col_ID
+                                        ORDER BY payslip_tb._datetime DESC
                                         
                                         ";
                                             
@@ -320,9 +346,6 @@
             </div>
             
         </div>
-
-    </div>
-    
    
 <script>
 

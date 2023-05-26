@@ -151,18 +151,18 @@ if(!isset($_SESSION['username'])){
 
 
 <!-- style="position: absolute; top: 150px; left: 350px;"-->
-<div class="container mt-5 " style="position:absolute; bottom: 50px; right: 260px;">
+<div class="container mt-5 " style="position:absolute; bottom: 50px; right: 270px;">
     <div class="">  <!--MODAL BOOTSTRAP END-->
    
         <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; width: 1530px; height: 760px;"> <!--CARD2-->
             <div class="card-header">
                 <div class="row">
                     <div class="col-6">
-                        <h2 class="display-5" style="margin-top: 15px;">Leave Records</h2>
+                        <h2 class="display-5">Leave Records</h2>
                     </div>
                     <div class="col-6 mt-1 text-end">
                         <!-- Button trigger modal -->
-                        <button class="btn_addLeave" data-bs-toggle="modal" data-bs-target="#add_leaveMDL" style="background-color: black;height: 50px; padding: 10px width: 120px; border-radius: 10px;">
+                        <button class="btn_addLeave" data-bs-toggle="modal" data-bs-target="#add_leaveMDL">
                             Add Leave
                         </button>
                     </div>
@@ -384,18 +384,18 @@ if(!isset($_SESSION['username'])){
                                             $_SESSION["id"] =  $row['col_ID'];
                                             echo "<tr>
                                                 <td style= 'display: none;'>" . $row['col_ID']. "</td>
-                                                <td>" . $row['empid'] . "</td>
+                                                <td>" . $row['empid'] . " </td>
                                                 <td>" . $row['full_name'] . "</td>
                                                 <td>" . $row['col_deptname'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_vctionCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_sickCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_brvmntCrdt'] . "</td>
                                                 <td>
-                                                <button type='button' class= 'border-light editbtn' title = 'Edit' data-bs-toggle='modal' data-bs-target='#id_editmodal'>
-                                                        <img src='icons/editing.png' alt='...'>
+                                                <button style='background-color: inherit; border:none;' type='button' class= 'border-light editbtn' title = 'Edit' data-bs-toggle='modal' data-bs-target='#id_editmodal'>
+                                                <i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i>
                                                 </button>
-                                                <button type='button' class= 'border-light' title = 'Delete'>
-                                                    <a href='actions/Leave Information/delete.php?col_ID=" . $row['col_ID'] . "' class='link-dark'> <img src='icons/delete.png' alt='...'> </a>
+                                                <button style='background-color: inherit; border:none;' type='button' class= 'border-light' title = 'Delete'>
+                                                    <a href='actions/Leave Information/delete.php?col_ID=" . $row['col_ID'] . "' class='link-dark'> <i class='fa-solid fa-trash fs-5 me-3 title='delete'></i> </a>
                                                 </button>
                                                     
                                                 </td>

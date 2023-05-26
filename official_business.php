@@ -62,7 +62,7 @@ if(!isset($_SESSION['username'])){
       width: 98% !important;
       margin: auto !important;
       height: 450px !important;
-      overflow-x: hidden !important; 
+      
     }
 
     .pagination{
@@ -236,10 +236,10 @@ if(!isset($_SESSION['username'])){
 <!--------------------------------------------Syntax and Bootstrap class for table------------------------------------------------>
         <form action="actions/Official Business/approve_reject.php" method="POST">
                 <div class="row">
-                    <div class="col-12 mt-2">
+                    <div class="col-12 mt-2" >
                         <input type="hidden" id="check_id" name="id_check" value="<?php echo $row['id']?>">
                               <div class="table-responsive" style="height: 400px;">
-                                    <table id="order-listing" class="table" style="">
+                                    <table id="order-listing" class="table" >
                                         <thead>
                                             <tr>
                                                 <th style="display: none;">ID</th>

@@ -115,7 +115,7 @@
                                 ?>
 
                                 <label for="emp">Select Employee</label><br>
-                                <select class="js-example-basic-multiple" name="empid" id="employee-dd" multiple="multiple" style="width: 98%; padding: 80px; font-size: 20px; background-color: white; border: 1px solid gray;">
+                                <select name="empid" id="employee-dd"  style="width: 98%; padding: 10px; font-size: 20px; background-color: white; border: 1px solid gray;">
                                 <?php echo $options; ?>
                                 </select>
                             </div>

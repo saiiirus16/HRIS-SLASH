@@ -61,7 +61,7 @@ if(!isset($_SESSION['username'])){
 </header>
 
 <!---------------------------------------- MAIN CONTAINER START ------------------------------------------->
-            <div class="container mt-5" >
+<div class="container mt-5" >
                     <div class="card">
                         <div class="card-body">
                             <h2 class="head_text">Generate Payroll</h2>
@@ -277,15 +277,6 @@ if(!isset($_SESSION['username'])){
                                 });
             //FOR VIEW GET EMP ID PUT INTO MODAL PAYROLL END
 </script>
-
-
-
-
-
-
-
-<!---------------------------------------- MAIN CONTAINER END ------------------------------------------->
-
 
 <script> 
      $('.header-dropdown-btn').click(function(){

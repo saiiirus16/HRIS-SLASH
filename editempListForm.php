@@ -113,7 +113,7 @@ if(count($_POST) > 0){
 
         ?>
             <form action="" method="POST" enctype="multipart/form-data" id="form">
-                <div class="empListForm-container">            
+                <div class="empListForm-container" style="background-color: #fff">            
                     <div class="employeeList-modal" id="Modal">
                         <div class="employeeList-info-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
@@ -222,7 +222,7 @@ if(count($_POST) > 0){
                         <div class="employeeList-government-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Government Information</h1>
-                                <span id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </span>
+                                <button type="button"  data-bs-toggle="modal" data-bs-target="#governModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
                             </div> 
                             <div class="emp-govern-first-container">
                                 <div class="gov-sss" style="display:flex">
@@ -423,7 +423,7 @@ if(count($_POST) > 0){
                                         
                                         <label for="approver">Immediate Superior/Approver</label><br>
                                         <select name="approver" id="">
-                                        <option value selected disabled><?php echo $approver_fullname?></option>
+                                        <option value="<?php echo $row_approver['empid'];?>" selected><?php echo $approver_fullname?></option>
                                             <?php echo $options; ?>
                                         </select>
                                     
@@ -499,8 +499,9 @@ if(count($_POST) > 0){
                     ?>
 
                 <form action="Data Controller/Employee List/otherGovernController.php" method="POST">
-                    <div class="emp-modal" id="emp-modal">
-                        <div class="emp-modal-container" id="">
+                    <div class="modal fade" id="governModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="position: absolute; top: 50px; left: 35%; " >
+                        <div class="modal-content" id="" style="width: 800px;">
                         <script>
                             $(document).ready(function(){
 
@@ -523,12 +524,12 @@ if(count($_POST) > 0){
                             });
                         </script>
                         <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
-                            <div class="emp-modal-title">
-                                <h1>Add new deduction</h1>
-                                
+                            <div class="modal-header">
+                                <h1 class="modal-title">Add new deduction</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
-                            <div class="emp-modal-input">
+                            <div class="modal-body">
                                 
                                 <table class="" id="table-field" style=" width: 300px; margin-left: 100px;" >
                                     <tr>
@@ -590,10 +591,11 @@ if(count($_POST) > 0){
                                 </table>
                                 </div>
                             </div>
-                            <div class="emp-modal-button">
-                            <span value="Cancel" id="emp-modal-close" class="emp-modal-close" style="margin-bottom:12px;">Close</span>
-                            <input type="submit" value="Submit" name="submit" id="submit" style="border: none; font-size: 23px; margin-top: -1px; margin-right: 10px; color: blue;" >
-                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Understood</button>
+                            </div>        
+                        </div>
                         </div>
                     </div>
                     </form> 

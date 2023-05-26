@@ -85,7 +85,7 @@ if(!isset($_SESSION['username'])){
 </style>
 
 
-    <div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 275px;">
+<div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 275px;">
         <div class="">
 
             <div class="card border-light" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.5); width: 1530px; height: 800px;">
@@ -95,9 +95,9 @@ if(!isset($_SESSION['username'])){
                             <h2 class="display-5">Leave Request</h2>
                         </div>
                         <div class="col-6 text-end mt-3">
-                            <button class="btn_applyL" data-bs-toggle="modal" data-bs-target="#id_apply_leave">
+                            <!-- <button class="btn_applyL" data-bs-toggle="modal" data-bs-target="#id_apply_leave">
                                 Apply Leave
-                            </button>
+                            </button> -->
                             <!-- <button class="btn_applyLec" data-bs-toggle="modal" data-bs-target="#id_addLeaveType">
                                 Add Leave Type
                             </button> -->
@@ -505,7 +505,7 @@ if(!isset($_SESSION['username'])){
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">  <!--received the id of selected data in datatble and pass to calss action-->   
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;"> <!--received the employee_id of selected data in datatble and pass to calss action-->  
-                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
+                        <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>
@@ -551,7 +551,11 @@ if(!isset($_SESSION['username'])){
                                                     //read data
                                                     while($row = $result->fetch_assoc()){
                                                         $approver = $row['col_approver'];
-                                                        $result_approver = mysqli_query($conn, " SELECT
+                                                        if ($approver === ''){
+                                                            $approver_fullname = 'none';
+                                                        }
+                                                        else{
+                                                            $result_approver = mysqli_query($conn, " SELECT
                                                             *  
                                                         FROM
                                                             employee_tb
@@ -563,6 +567,10 @@ if(!isset($_SESSION['username'])){
                                                         } else {
                                                             $approver_fullname = 'Something Went Wrong';
                                                         } 
+                                                        }
+                                                       
+
+                                                        
 
                                                         echo "<tr>
                                                                 <td>" . $row['col_ID'] . "</td>
@@ -577,7 +585,7 @@ if(!isset($_SESSION['username'])){
                                                                 <td>" . $row['col_strDate'] . "</td>
                                                                 <td>" . $row['_datetime'] . "</td>
                                                                 <td>" . $row['col_dt_action'] . "</td>
-                                                                <td>" . $approver_fullname. "</td>
+                                                                <td>" . $approver_fullname . "</td>
                                                                 <td>
                                                                     <div class='row'>
                                                                         <div class='col-12'>
