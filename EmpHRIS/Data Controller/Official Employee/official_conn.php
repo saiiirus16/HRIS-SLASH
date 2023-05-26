@@ -25,19 +25,22 @@
             $escaped_contents = "";
         }
 
+        $sql = "SELECT * FROM emp_official_tb WHERE `employee_id` = '$employee_id' AND `str_date` = '$start_date' AND `end_date` = '$end_date'";
+        $result = mysqli_query($conn, $sql);
 
-        $query = "INSERT INTO emp_official_tb (`employee_id`, `company_name`,`str_date`,`end_date`,`start_time`,`end_time`,`location`,`file_upl`,`reason`,`status`)
-        VALUES ('$employee_id', '$name_company', '$start_date','$end_date','$start_time','$end_time','$location','$escaped_contents','$reason','Pending')";
-        $query_run = mysqli_query($conn, $query);
+        if(mysqli_num_rows($result) > 0) {
+            header("Location: ../../official_emp.php?error=Same Start date and End date will not allow");
+        } else {
+            $query = "INSERT INTO emp_official_tb (`employee_id`, `company_name`, `str_date`, `end_date`, `start_time`, `end_time`, `location`, `file_upl`, `reason`, `status`)
+                    VALUES ('$employee_id', '$name_company', '$start_date', '$end_date', '$start_time', '$end_time', '$location', '$escaped_contents', '$reason', 'Pending')";
+            $query_run = mysqli_query($conn, $query);
+            if($query_run) {
+                header("Location: ../../official_emp.php?msg=Successfully Added");
+            } else {
+                echo "Failed: " . mysqli_error($conn);
+            }
+        }
 
-        if($query_run)
-        {
-            header("Location: ../../official_emp.php?msg=Successfully Added");
-        }
-        else
-        {
-            echo "Failed: " . mysqli_error($conn);
-        }
 
     }
 ?>

@@ -269,7 +269,7 @@ session_start();
 <?php
         if (isset($_GET['error'])) {
             $err = $_GET['error'];
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
             '.$err.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';

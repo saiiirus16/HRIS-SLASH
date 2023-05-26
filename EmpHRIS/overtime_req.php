@@ -301,7 +301,7 @@ session_start();
 <?php
         if (isset($_GET['error'])) {
             $err = $_GET['error'];
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
             '.$err.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
@@ -339,11 +339,9 @@ session_start();
                          $query = "SELECT
                          overtime_tb.id,
                          employee_tb.empid,
-                         overtime_tb.date,
                          overtime_tb.work_schedule,
                          overtime_tb.time_in,
                          overtime_tb.time_out,
-                         overtime_tb.out_time,
                          overtime_tb.ot_hours,
                          overtime_tb.total_ot,
                          overtime_tb.reason,
@@ -362,7 +360,7 @@ session_start();
                             <tr>
                                 <td style="display: none;"><?php echo $row['id']?></td>
                                 <td style="display: none;"><?php echo $row['empid']?></td>
-                                <td><?php echo $row['date']?></td>
+                                <td><?php echo $row['work_schedule']?></td>
                                 <td><?php echo $row['time_in']?></td>
                                 <td><?php echo $row['time_out']?></td>
                                 <td><?php echo $row['total_ot']?></td>

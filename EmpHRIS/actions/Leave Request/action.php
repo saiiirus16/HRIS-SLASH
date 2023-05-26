@@ -40,7 +40,8 @@ session_start();
                                                         applyleave_tb.`_datetime`,
                                                         applyleave_tb.`col_status`,
                                                         applyleave_tb.`col_reason`,
-                                                        applyleave_tb.`col_PAID_LEAVE`
+                                                        applyleave_tb.`col_PAID_LEAVE`,
+                                                        applyleave_tb.`col_approver`
                                                         
                                                     FROM
                                                         applyleave_tb
@@ -188,7 +189,27 @@ session_start();
 
                             <div class="col-3">
                                 <div class="mb-3">
-                                    <input type="text" class="form-control bg-light -subtle" value="Admin" readonly>
+                                <?php 
+                                            $approver = $row['col_approver'];
+                                            if ($approver === ''){
+                                                $approver_fullname = 'none';
+                                            }
+                                            else{
+                                                $result_approver = mysqli_query($conn, " SELECT
+                                                *  
+                                            FROM
+                                                employee_tb
+                                            WHERE empid = $approver");
+                                            if(mysqli_num_rows($result_approver) > 0) {
+                                                $row_approver = mysqli_fetch_assoc($result_approver);
+                                                //echo $row__leaveINFO['col_vctionCrdt'];
+                                                $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
+                                            } else {
+                                                $approver_fullname = 'Something Went Wrong';
+                                            } 
+                                            }
+                                        ?>
+                                    <input type="text" class="form-control bg-light -subtle" value="<?php echo $approver_fullname; ?>" readonly>
                                     <label for="Select_dept" class="form-label">Approver :</label>
                                 </div>  <!-- First mb-3 end-->
                             </div> <!-- col-3 end-->
