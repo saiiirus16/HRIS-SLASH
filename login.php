@@ -98,7 +98,7 @@ if(isset($_POST['signIn'])){
 <body class="login-container" style="overflow:hidden; background-color: #000">
     <div class="container">
         <div class="logo-img" >
-            <img src="img/login-img.jpg" alt="" srcset="">
+            <img src="img/login-img5.jpg" alt="" srcset="">
             <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                 <path fill="#000" fill-opacity="1" d="M0,64L48,74.7C96,85,192,107,288,101.3C384,96,480,64,576,74.7C672,85,768,139,864,133.3C960,128,1056,64,1152,64C1248,64,1344,128,1392,160L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
               </svg>
@@ -113,12 +113,12 @@ if(isset($_POST['signIn'])){
                 
                 <div class="form-container">
                     <form action="" method="POST">
-                        <input class="input-text" type="text" name="username" id="username" placeholder="Username" value="<?php echo $username; ?>" required>
+                        <input class="input-text" type="text" name="username" id="username" placeholder="Username" value="<?php echo @$username; ?>" required>
                         
                         <div class="login-pass-container" style="">
-  <input class="input-text" id="login-pass" type="password" name="password" placeholder="Password" required>
-  <i class="fas fa-eye show-pass" aria-hidden="true" id="eye" onclick="toggle()"></i>
-</div>
+                            <input class="input-text" id="login-pass" type="password" name="password" placeholder="Password" required>
+                            <i class="fas fa-eye show-pass" aria-hidden="true" id="eye" onclick="toggle()"></i>
+                        </div>
 
 
                         <div class="remember-forgot">

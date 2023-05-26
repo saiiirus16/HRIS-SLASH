@@ -23,18 +23,33 @@ include ("config.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="vendors/feather/feather.css">
-    <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <!-- inject:css -->
-    <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
-    <link rel="stylesheet" href="css/branch.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+        <!-- skydash -->
+
+    <link rel="stylesheet" href="skydash/feather.css">
+    <link rel="stylesheet" href="skydash/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+    <link rel="stylesheet" href="skydash/style.css">
+
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/branch.css"/>
     <title>Branch</title>
 
 </head>
@@ -46,38 +61,16 @@ include 'header.php';
 </header>
 
 <style>
-
-.header-container .header-type .user-name{
-      margin-top:1px;
+    html{
+      overflow: hidden !important;
     }
-    
-    .sidebars ul li{
-        list-style: none;
-        text-decoration:none;
-        width: 289px;
-        margin-left:-16px;
-       
-    }
-
-    .sidebars ul{
-        height:100%;
-    }
-
-    .sidebars ul li .hoverable{
-        height:55px;
-    }
-
-
-    .sidebars .first-ul{
-        line-height:50px;
-    }
-
-    .sidebars ul li ul li{
-        width: 100%;
+    body{ 
+      overflow: hidden !important;
+      background-color: #f4f4f4 !important;
     }
 
     .card-body{
-        box-shadow: 10px 10px 10px 8px #888888;
+      box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17);
     }
 
     .content-wrapper{
@@ -86,6 +79,31 @@ include 'header.php';
 
     .table {
          width: 99.7%;
+    }
+
+    .pagination{
+       
+        margin-right: 63px !important;
+        
+    }
+
+    .pagination li a{
+        color: #c37700;
+    }
+
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+    }
+
+    
+    
+    #order-listing_next{
+        margin-right: 28px !important;
+        margin-bottom: -16px !important;
+
     }
 </style>
 
@@ -225,8 +243,8 @@ include 'header.php';
 <!---------------------------------------------------END OF DELETE BRANCH INFO MODAL------------------------------------------------------------------->
 
 
-<div class="main-panel mt-5" style="margin-left: 15%;">
-        <div class="content-wrapper mt-5">
+<div class="main-panel" style="width: 100%; height: 100vh; position: absolute; top: 50px ; margin-left: 15%;">
+        <div class="content-wrapper mt-5" >
           <div class="card" style="width:1550px; height: 780px;">
             <div class="card-body">
             <div class="row">
@@ -235,7 +253,7 @@ include 'header.php';
                         </div>
                         <div class="col-6 mt-2 text-end">
                         <!-- Button trigger modal -->
-                        <button type="button" class="add_new_btn" data-bs-toggle="modal" data-bs-target="#addnew_btn">
+                        <button type="button" class="add_new_btn" data-bs-toggle="modal" data-bs-target="#addnew_btn" style="background-color: black; padding: 10px; height: 45px; width: 120px; border-radius: 10px;">
                         Add New
                         </button>
                         </div>
@@ -291,17 +309,17 @@ include 'header.php';
 
 
 
-            <div class="row">
+            <div class="row" >
                 <div class="col-12 mt-5">
                     <div class="table-responsive" style="overflow: hidden;">
                       <form action="View_branch.php" method="post">
                         <input type="hidden" id="id_branch_name" name="name_branch">
                         <input type="hidden" id="table_id_branch" name="branch_id">
                         <table id="order-listing" class="table" >
-                        <thead>
+                        <thead style="background-color: #ececec;">
                             <tr>
                                 <th style="display: none;">ID</th>
-                                <th>Branch Name</th>
+                                <th >Branch Name</th>
                                 <th>Branch Address</th>
                                 <th>Zip Code</th>
                                 <th>Email</th>
@@ -337,16 +355,16 @@ include 'header.php';
                                     // Generate the HTML table row
                                     echo "<tr>
                                             <td style= 'display: none;'>$branch_id</td>
-                                            <td>$branch_name</td>
-                                            <td>$branch_address</td>
-                                            <td>$branch_zip</td>
-                                            <td>$branch_email</td>
-                                            <td>$branch_telephone</td>
-                                            <td>$emp_count</td>
+                                            <td style='font-weight: 400'>$branch_name</td>
+                                            <td style='font-weight: 400'>$branch_address</td>
+                                            <td style='font-weight: 400'>$branch_zip</td>
+                                            <td style='font-weight: 400'>$branch_email</td>
+                                            <td style='font-weight: 400'>$branch_telephone</td>
+                                            <td style='font-weight: 400'>$emp_count</td>
                                             <td>
-                                                <button type='submit'  name='view_data' class='link-dark editbtn border-0 viewbtn' title = 'View'><i class='fa-solid fa-eye fs-5 me-3'></i></button>
-                                                <button type='button' class='link-dark editbtn border-0' data-bs-toggle='modal' data-bs-target='#editmodal'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
-                                                <button type='button' class='link-dark deletebtn border-0' data-bs-toggle='modal' data-bs-target='#deletemodal'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
+                                                <button style='background-color: inherit;' type='submit'  name='view_data' class='link-dark editbtn border-0 viewbtn' title = 'View'><i class='fa-solid fa-eye fs-5 me-3'></i></button>
+                                                <button style='background-color: inherit;' type='button' class='link-dark editbtn border-0' data-bs-toggle='modal' data-bs-target='#editmodal'><i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i></button> 
+                                                <button style='background-color: inherit;' type='button' class='link-dark deletebtn border-0' data-bs-toggle='modal' data-bs-target='#deletemodal'><i class='fa-solid fa-trash fs-5 me-3 title='delete'></i></button> 
                                             </td>
                                         </tr>";
                                 }
@@ -479,23 +497,121 @@ $(document).ready(function() {
                                 });
 </script>
 
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
 
-    <!--Bootstrap Js-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
 
-        <!-- plugins:js -->
-        <script src="vendors/js/vendor.bundle.base.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-        <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-        <script src="bootstrap js/template.js"></script>
-        <!-- Custom js for this page-->
-        <script src="bootstrap js/data-table.js"></script>
-        <!-- End custom js for this page-->
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+  
+
+
+  <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
 
     
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  
+
+    
+
 
 </body>
 </html>

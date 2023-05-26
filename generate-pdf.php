@@ -1,29 +1,66 @@
 <?php
-// require_once('tcpdf/tcpdf.php');
+// Retrieve the PDF data from the request
 
-// $content = $_POST['content'];
+include 'config.php';
 
-// $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+// $pdfData = $_POST['pdfData'];
+$pdfData = $_POST['pdfData'];
+$emp_ID = $_POST['emp_ID'];
+$name_cutOff_freq = $_POST['name_cutOff_freq'];
+$name_cutOff_num = $_POST['name_cutOff_num'];
+$name_numworks = $_POST['name_numworks'];
+$name_cutoffID = $_POST['name_cutoffID'];
 
-// $pdf->SetCreator(PDF_CREATOR);
-// $pdf->SetAuthor('Your Name');
-// $pdf->SetTitle('Modal Content PDF');
+// $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+// $stmt->bind_param("siii", $contents, $emp_ID, $name_numworks, $name_cutoffID);
+// $stmt->execute();
 
-// $pdf->setPrintHeader(false);
-// $pdf->setPrintFooter(false);
+// echo 'Done';
 
-// $pdf->AddPage();
 
-// $pdf->writeHTML($content, true, false, true, false, '');
 
-// $pdf->Output('modal-content.pdf', 'D');
+// // Connect to the MySQL database
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "hris_db";
 
-if(isset($_POST['btn_download_pdf'])){
-    include 'config.php';
+// $conn = new mysqli($servername, $username, $password, $dbname);
+
+// // Check connection
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
+
+// // Prepare and execute the SQL statement to insert the PDF data into the database
+// $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid) VALUES (?, ?)");
+// $stmt->bind_param("ss", $pdfData, $emp_ID);
+// $stmt->execute();
+// echo 'hakdog';
+
+// $stmt->close();
+// $conn->close();
+
+// if(isset($_POST['btn_download_pdf'])){
+//  include 'config.php';
     
-    $emp_ID = $_POST['name_empID'];
-    $name_cutOff_freq = $_POST['name_cutOff_freq'];
-    $name_cutOff_num = $_POST['name_cutOff_num'];
+//     $emp_ID = $_POST['name_empID'];
+//     $name_cutOff_freq = $_POST['name_cutOff_freq'];
+//     $name_cutOff_num = $_POST['name_cutOff_num'];
+
+// //     $col_strCutoff = $_POST['col_strCutoff'];
+// //     $col_endCutoff = $_POST['col_endCutoff'];
+// //     $col_totalHours = $_POST['col_totalHours'];
+// //     $col_PaidAmount = $_POST['col_PaidAmount'];
+// //     $col_total_HOURSOT = $_POST['col_total_HOURSOT'];
+// //     $col_oTPaidAmount = $_POST['col_oTPaidAmount'];
+// //     $col_totalAllowance = $_POST['col_totalAllowance'];
+// //     $col_SSS_deduct = $_POST['col_SSS_deduct'];
+// //     $col_PH_deduct = $_POST['col_PH_deduct'];
+// //     $col_tin_deduct = $_POST['col_tin_deduct'];
+// //     $col_pagibig_deduct = $_POST['col_pagibig_deduct'];
+// //     $col_otherGOV_deduct = $_POST['col_otherGOV_deduct'];
+// //     $col_LATEUT_deduct = $_POST['col_LATEUT_deduct'];
     
 
     if ($_POST['name_cutOff_freq'] === 'Monthly'){
@@ -63,10 +100,10 @@ if(isset($_POST['btn_download_pdf'])){
           $loan_amortization = $row["amortization"];
           $loan_BAL = $row["col_BAL_amount"] ;
 
-            echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
-            echo  'Payable:  ' .  $loan_payable . '<br>'; 
-            echo 'amortization ' . $loan_amortization . '<br>'; 
-            echo 'BalaNCE ' . $loan_BAL . '<br>'; 
+            // echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
+            // echo  'Payable:  ' .  $loan_payable . '<br>'; 
+            // echo 'amortization ' . $loan_amortization . '<br>'; 
+            // echo 'BalaNCE ' . $loan_BAL . '<br>'; 
 
             //echo 'balance: ' . ((int)$loan_payable - (int)$loan_amortization) . '<br><br><br>'; 
 
@@ -99,17 +136,50 @@ if(isset($_POST['btn_download_pdf'])){
 
             }
 
-            // Close the statement and connection
-            $stmt->close();
-            $conn->close();
+            
 
-            header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+
+            // $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+            //         VALUES('$emp_ID', '$col_strCutof', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+            //         if(mysqli_query($conn,$sql)){
+            //           header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //         }
+            //         else{
+            //           echo "Error";
+            //         }
+     // Prepare and execute the SQL statement to insert the PDF data into the database
+$stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+$stmt->execute();
+echo 'Done';
+
+
+           
         } //end every_cutoff
         else {
-          header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+        //   $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+        //             VALUES('$emp_ID', '$col_strCutof', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+        //             if(mysqli_query($conn,$sql)){
+        //               header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+        //             }
+        //             else{
+        //               echo "Error";
+        //             }
+  // Prepare and execute the SQL statement to insert the PDF data into the database
+  $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+  $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+$stmt->execute();
+echo 'Done';
+
+
+
         }
 
-    }
+    } //END IF MONTHLY
     else
     {
         if($name_cutOff_num === $first_cutOFf)
@@ -130,10 +200,10 @@ if(isset($_POST['btn_download_pdf'])){
             $loan_amortization = $row["amortization"];
             $loan_BAL = $row["col_BAL_amount"] ;
 
-              echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
-              echo  'Payable:  ' .  $loan_payable . '<br>'; 
-              echo 'amortization ' . $loan_amortization . '<br>'; 
-              echo 'BalaNCE ' . $loan_BAL . '<br>'; 
+            //   echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
+            //   echo  'Payable:  ' .  $loan_payable . '<br>'; 
+            //   echo 'amortization ' . $loan_amortization . '<br>'; 
+            //   echo 'BalaNCE ' . $loan_BAL . '<br>'; 
 
               //echo 'balance: ' . ((int)$loan_payable - (int)$loan_amortization) . '<br><br><br>'; 
           
@@ -166,14 +236,47 @@ if(isset($_POST['btn_download_pdf'])){
 
               }
 
-              // Close the statement and connection
-              $stmt->close();
-              $conn->close();
+              
 
-              header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //   $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+            //         VALUES('$emp_ID', '$col_strCutoff', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+            //         if(mysqli_query($conn,$sql)){
+            //           header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //         }
+            //         else{
+            //           echo "Error";
+            //         }
+         // Prepare and execute the SQL statement to insert the PDF data into the database
+         $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+   $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+    $stmt->execute();
+    echo 'Done';
+
+
           } //end first_cutoff
           else{
-            header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            // $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+            //         VALUES('$emp_ID', '$col_strCutoff', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+            //         if(mysqli_query($conn,$sql)){
+            //           header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //         }
+            //         else{
+            //           echo "Error";
+            //         }
+
+           // Prepare and execute the SQL statement to insert the PDF data into the database
+           $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+           $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+           $stmt->execute();
+           echo 'Done';
+
+
+
+
       
           }
         }
@@ -195,10 +298,10 @@ if(isset($_POST['btn_download_pdf'])){
             $loan_amortization = $row["amortization"];
             $loan_BAL = $row["col_BAL_amount"] ;
 
-              echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
-              echo  'Payable:  ' .  $loan_payable . '<br>'; 
-              echo 'amortization ' . $loan_amortization . '<br>'; 
-              echo 'BalaNCE ' . $loan_BAL . '<br>'; 
+            //   echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
+            //   echo  'Payable:  ' .  $loan_payable . '<br>'; 
+            //   echo 'amortization ' . $loan_amortization . '<br>'; 
+            //   echo 'BalaNCE ' . $loan_BAL . '<br>'; 
 
               //echo 'balance: ' . ((int)$loan_payable - (int)$loan_amortization) . '<br><br><br>'; 
           
@@ -231,21 +334,54 @@ if(isset($_POST['btn_download_pdf'])){
 
               }
 
-              // Close the statement and connection
-              $stmt->close();
-              $conn->close();
+              
 
-              header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //   $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+            //         VALUES('$emp_ID', '$col_strCutoff', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+            //         if(mysqli_query($conn,$sql)){
+            //           header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //         }
+            //         else{
+            //           echo "Error";
+            //         }
+   // Prepare and execute the SQL statement to insert the PDF data into the database
+   $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+   $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+    $stmt->execute();
+    echo 'Done';
+
+
+
+
           } //end second_cutoff
+         
 
           else{
-            header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            // $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+            //         VALUES('$emp_ID', '$col_strCutoff', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+            //         if(mysqli_query($conn,$sql)){
+            //           header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //         }
+            //         else{
+            //           echo "Error";
+            //         }
+
+           // Prepare and execute the SQL statement to insert the PDF data into the database
+           $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+           $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+            $stmt->execute();
+            echo 'Done';
+
       
           }
         }
       
      
-    }
+    } //END IF WEEKLY OR SEMI-Month
 
     $query = "SELECT * FROM payroll_loan_tb WHERE empid = $emp_ID AND loan_status != 'PAID' AND `applied_cutoff` = 'Every Cutoff'";
     $result = $conn->query($query);
@@ -265,10 +401,10 @@ if(isset($_POST['btn_download_pdf'])){
           $loan_amortization = $row["amortization"];
           $loan_BAL = $row["col_BAL_amount"] ;
 
-            echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
-            echo  'Payable:  ' .  $loan_payable . '<br>'; 
-            echo 'amortization ' . $loan_amortization . '<br>'; 
-            echo 'BalaNCE ' . $loan_BAL . '<br>'; 
+            // echo  'COL_ID:  ' .  $loan_ID . '<br>'; 
+            // echo  'Payable:  ' .  $loan_payable . '<br>'; 
+            // echo 'amortization ' . $loan_amortization . '<br>'; 
+            // echo 'BalaNCE ' . $loan_BAL . '<br>'; 
 
             //echo 'balance: ' . ((int)$loan_payable - (int)$loan_amortization) . '<br><br><br>'; 
         
@@ -301,19 +437,50 @@ if(isset($_POST['btn_download_pdf'])){
 
             }
 
-            // Close the statement and connection
-            $stmt->close();
-            $conn->close();
+           
 
-            header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            // $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+            //         VALUES('$emp_ID', '$col_strCutoff', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+            //         if(mysqli_query($conn,$sql)){
+            //           header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+            //         }
+            //         else{
+            //           echo "Error";
+            //         }
+  // Prepare and execute the SQL statement to insert the PDF data into the database
+  $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+  $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+    $stmt->execute();
+    echo 'Done';
+ 
 
     }
     else{
-      header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+    //   $sql = "INSERT into payslip_tb(`col_empid`, `col_strCutoff`, `col_endCutoff`, `col_totalHours`, `col_PaidAmount`, `col_total_HOURSOT`, `col_oTPaidAmount`, `col_totalAllowance`, `col_SSS_deduct`, `col_PH_deduct`, `col_tin_deduct`, `col_pagibig_deduct`, `col_otherGOV_deduct`, `col_LATEUT_deduct`) 
+                    
+    //                 VALUES('$emp_ID', '$col_strCutoff', '$col_endCutoff', '$col_totalHours', '$col_PaidAmount', '$col_total_HOURSOT', '$col_oTPaidAmount', '$col_totalAllowance','$col_SSS_deduct', '$col_PH_deduct', '$col_tin_deduct', '$col_pagibig_deduct ','$col_otherGOV_deduct', '$col_LATEUT_deduct')";
+                    
+    //                 if(mysqli_query($conn,$sql)){
+    //                   header("Location: cutoff.php?msg= Successfully Generated the Payslip");
+    //                 }
+    //                 else{
+    //                   echo "Error";
+    //                 }
+    // Prepare and execute the SQL statement to insert the PDF data into the database
+    $stmt = $conn->prepare("INSERT INTO payslip_tb (col_Payslip_pdf, col_empid, col_numDaysWork, col_cutoffID) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssii", $pdfData, $emp_ID, $name_numworks, $name_cutoffID);
+    $stmt->execute();
+    echo 'Done';
+
+
 
     }
 
    
-}
+// } close isset
+
+
 
 ?>

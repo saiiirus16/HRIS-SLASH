@@ -19,46 +19,61 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+    <!-- skydash -->
+
+<link rel="stylesheet" href="skydash/feather.css">
+<link rel="stylesheet" href="skydash/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+<link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+<link rel="stylesheet" href="skydash/style.css">
+
+<script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+
+    <!-- Para sa datatables END -->
+
     <link rel="stylesheet" href="css/dept.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/styles.css">   
-
-    <!-- Para sa datatables -->
-    <link rel="stylesheet" href="vendors/feather/feather.css">
-        <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-        <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- Para sa datatables END -->
+    <link rel="stylesheet" href="css/try.css">
 
     <title>Add New Department</title>
 </head>
 <body>
     
 <style>
-    .sidebars ul li{
-        list-style: none;
-        text-decoration:none;
-        width: 289px;
-        margin-left:-35px;
+    
+    .pagination{
+        margin-right: 63px !important;
+        
     }
 
-    .sidebars ul{
-       line-height:50px;
-        height:100%;
+    .pagination li a{
+        color: #c37700;
     }
 
-    .sidebars .first-ul{
-       
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
     }
 
-    .sidebars ul li ul li{
-        width: 100%;
+    
+    
+    #order-listing_next{
+        margin-right: 28px !important;
+        margin-bottom: -16px !important;
+
     }
 </style>
 
@@ -132,21 +147,17 @@
 <div class="container mt-3">
     <div class="">
 
-        <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; position:absolute; right:100px; bottom: 80px; width:75%; height:75%;" >
-            <div class="card-header">
-                
-                
-            </div> <!-- CARD Header END -->
-
+        <div class="card border-light" style=" box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17); position:absolute; right:100px; bottom: 80px; width:75%; height:75%;" >
+           
             <div class="card-body">
 
-            <div class="row">
+            <div class="row" style="">
                     <div class="col-6">
                         <h2 class="display-5">Department Records</h2>
                     </div>
                     <div class="col-6 mt-1 text-end">
                         <!-- Button trigger modal -->
-                        <button class="btn_dept" data-bs-toggle="modal" data-bs-target="#add_deptMDL">
+                        <button class="btn_dept" data-bs-toggle="modal" data-bs-target="#add_deptMDL" style="background-color: black; height:50px; border-radius: 10px; margin-top: -10px;">
                             Add Department
                         </button>
                     </div>
@@ -157,7 +168,7 @@
 
                         if (isset($_GET['msg'])) {
                             $msg = $_GET['msg'];
-                            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                            echo '<div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                             '.$msg.'
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>';
@@ -181,13 +192,13 @@
                     ?>
                         <!-------------------- para sa message na error ENd --------------------->
 
-                    <div class="table-responsive mt-5">
+                    <div class="table-responsive mt-5" style=" overflow-x: hidden; height: 300px;">
                                       
                         <form action="departmentEmployee.php" method="post">
                                 <input id="id_deptname_tb" name="name_deptID_tb" type="text" style="display: none;">
                                 <input id="id_textdept" name="name_deptname_tb" type="text" style="display: none;">
-                        <table id="order-listing" class="table" >
-                            <thead >
+                        <table id="order-listing" class="table" style="width: 100%; " >
+                            <thead style="background-color: #ececec" >
 
                                 <tr> 
                                         <th style= 'display: none;'> ID  </th>  
@@ -223,14 +234,14 @@
                                                 <td>$emp_count</td>
                                                 <td>
                                                     <button type='submit' name='view_data' class= 'border-0 viewbtn' title = 'View' style=' background: transparent;'>
-                                                            <img src='icons/visible.png' alt='...'>
+                                                    <i class='fa-solid fa-eye fs-5 me-3'></i>
                                                     </button>
                                                     <button type='button' class= 'border-0 editbtn' title = 'Edit' data-bs-toggle='modal' data-bs-target='#update_deptMDL' style=' background: transparent;'>
-                                                            <img src='icons/editing.png' alt='...'>
+                                                    <i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i>
                                                     </button>
                                                     <button type='button' class= 'border-0 deletebtn' title = 'Delete' data-bs-toggle='modal' data-bs-target='#deletemodal' style=' background: transparent;'>
-                                                            <img src='icons/delete.png' alt='...'>
-                                                        </a>
+                                                    <i class='fa-solid fa-trash fs-5 me-3 title='delete'></i>
+                                                        
                                                     </button> 
                                                 </td>
                                             </tr>";
@@ -287,18 +298,7 @@
 
 
 
-<!-- para sa datatable -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
-<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<script src="bootstrap js/template.js"></script>
-<script src="bootstrap js/data-table.js"></script>  <!-- < Custom js for this page  -->
-<!-- para sa datatable  END-->
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
 
 <!---------------------------------------Script sa pagpop-up ng modal para madelete--------------------------------------------->          
@@ -362,6 +362,145 @@
                                 });
             //FOR VIEW TRANSFER MODAL END
         </script>
+
+ 
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>       
+
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                });
+                            });
+            
+    </script>
+
+
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+
+    
+
+  
+    <script src="js/dept.js"></script>
 </body>
-<script src="js/dept.js"></script>
+
 </html>
