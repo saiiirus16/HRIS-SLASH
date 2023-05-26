@@ -40,7 +40,8 @@ session_start();
                                                         applyleave_tb.`_datetime`,
                                                         applyleave_tb.`col_status`,
                                                         applyleave_tb.`col_reason`,
-                                                        applyleave_tb.`col_PAID_LEAVE`
+                                                        applyleave_tb.`col_PAID_LEAVE`,
+                                                        applyleave_tb.`col_approver`
                                                         
                                                     FROM
                                                         applyleave_tb
@@ -193,7 +194,7 @@ session_start();
 
                             <div class="col-3">
                                 <div class="mb-3">
-                                    <input type="text" class="form-control bg-light -subtle" value="Admin" readonly>
+                                    <input type="text" class="form-control bg-light -subtle" value="<?php echo $row['col_approver']; ?>" readonly>
                                     <label for="Select_dept" class="form-label">Approver :</label>
                                 </div>  <!-- First mb-3 end-->
                             </div> <!-- col-3 end-->

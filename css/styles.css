@@ -9,6 +9,7 @@ body{
     font-family: 'Roboto', sans-serif;
     width: 100%;
     color: black;
+    
 }
 
 /* Validation */
@@ -49,13 +50,13 @@ header{
     z-index: 5;
 }
 .header-logo{
-    margin-left: 50px
+    margin-left: 50px !important;
+    background-color: red !important;
 }
 
-.header-logo h1{
-    letter-spacing: 3px;
-    font-size: 35px;
-    font-weight: 700;
+.header-logo #logo{
+    height: 60px !important;
+    display: none !important;
 }
 
 .header-user{
@@ -96,7 +97,7 @@ header{
 .header-type p{
     font-size: 20px;
     font-style: italic;
-    margin-top: -17px;
+    margin-top: -17px !important;
 }
 
 .header-dropdown{
@@ -2161,7 +2162,7 @@ header{
     right: 60px;
     bottom: 30px;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-    border-radius: 10px;
+    border-radius: 10px;    
     
    
 }
@@ -2363,6 +2364,9 @@ header{
     color: gray;
 }
 
+#table-responsiveness{
+    overflow-y: hidden !important;
+}
 
 /* generate payslip */
 
@@ -2461,41 +2465,22 @@ header{
     letter-spacing: 1px;
 }
 
-.pay1{
-    width: 550px;
+.payslip-info-2{
+    width: 600px;
     display: flex;
 }
 
-.pay1 label{
+.payslip-info-2 label{
     margin-right: 45px;
     font-size: 18px;
     font-weight: 500;
     margin-left: 30px;
     margin-top: 10px;
 }
-.pay1 select{
+.payslip-info-2 select{
     width: 380px;
      height: 55px;
     font-size: 17px;
-    
-}
-.pay2{
-    width: 495px;
-    display: flex;
-    margin-left: -115px;
-}
-
-.pay2 label{
-    margin-right: 50px;
-    font-size: 18px;
-    font-weight: 500;
-    margin-top: 10px;
-}
-.pay2 select{
-    width: 380px;
-     height: 55px;
-    font-size: 17px;
-    
 }
 
 .gen-btn{
@@ -2726,40 +2711,47 @@ table th:first-child{
 }
 
 /* dashboard */
-
-.dashboard-container{
-    width: 1620px;
-    height: 872px;
+#dashboard-container{
     position: absolute;
-    right: 0px;
-    bottom: 0;
-    border: none;
-    
+    top: 90px;
+    right: 0;
+    height: 878px;
+    background-color: #fff;
+    width: 100%;
 }
 
 .dashboard-title{
     width: 100%;
     margin-top: 20px;
+
 }
 
 .dashboard-title h1{
     font-size: 32px;
     font-weight: 700;
-    margin-left: 50px;
-    color: rgb(80, 63, 233);
+    margin-left: 40px;
+    color: black;
 }
 
-#dashboard-contents{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.dashboard-content{
+    background-color: #fff;
 }
+
+.dashboard-contents{
+    display: flex;
+    flex-direction: row;
+}
+
+.first-dash-contents{
+    margin-right: 40px;
+    
+}
+
 
 .employee-status-overview{
-    width: 870px;
-    background: rgb(2,0,36);
-background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, rgb(187, 204, 207) 100%);
-    border-radius: 8px;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    width: 850px;
+    
+    background-color: #fff;
 
 }
 
@@ -2775,21 +2767,22 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
     font-weight: 400;
     margin-left: 30px;
     margin-top: 10px;
+    color: blue;
 }
 
 .emp-status-title p:nth-child(2){
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.5);
+    color: black;
     font-style: italic;
-    margin-top: -10px;
+    margin-top: -5px;
     margin-left: 30px;
 }
 
 .emp-status-title div{
     width: 110px;
-    border: black 1px solid;
+    border: gold 1px solid;
     margin-left: 25px;
-    margin-top: -15px;
+    margin-top: -10px;
 }
 
 .emp-status-container{
@@ -2798,12 +2791,22 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
     justify-content: space-evenly;
     margin-top: 25px;
     margin-left: -10px;
+    
 }
+
+
 
 .emp-status-container div{
     display: flex;
     flex-direction: column;
-    width: 110px;
+   justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+
     
 }
 
@@ -2816,31 +2819,135 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
 
 .emp-status-container div label{
     color: rgba(0, 0, 0, 0.7);
-    margin-top: -13px;
+    margin-top: -10px;
     font-size: 17px;
     margin-bottom: 10px;
 }
 
+/* .emp-status-container div:nth-child(1){
+    background-color: #000080;
+    color: white;
+    border: rgba(0, 0, 0, 0.17) 1px solid;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+    
+   
+}
+
+.emp-status-container div:nth-child(1) input{
+    color: white;
+}
+
+.emp-status-container div:nth-child(1) label{
+    color: white;
+}
+
+.emp-status-container div:nth-child(2){
+    background-color: #000080;
+    color: white;
+    border: rgba(0, 0, 0, 0.17) 1px solid;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+}
+
+.emp-status-container div:nth-child(2) input{
+    color: white;
+}
+
+.emp-status-container div:nth-child(2) label{
+    color: white;
+}
+
+.emp-status-container div:nth-child(3){
+    background-color: #000080;
+    color: white;
+    border: rgba(0, 0, 0, 0.17) 1px solid;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+}
+
+.emp-status-container div:nth-child(3) input{
+    color: white;
+}
+
+.emp-status-container div:nth-child(3) label{
+    color: white;
+}
+
+.emp-status-container div:nth-child(3) span{
+    color: black;
+}
+
+.emp-status-container div:nth-child(4){
+    background-color: #000080;
+    color: white;
+    border: rgba(0, 0, 0, 0.17) 1px solid;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+}
+
+.emp-status-container div:nth-child(4) input{
+    color: white;
+}
+
+.emp-status-container div:nth-child(4) label{
+    color: white;
+}
+
+.emp-status-container div:nth-child(5){
+    background-color: #000080;
+    color: white;
+    border: rgba(0, 0, 0, 0.17) 1px solid;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+}
+
+.emp-status-container div:nth-child(5) input{
+    color: white;
+}
+
+.emp-status-container div:nth-child(5) label{
+    color: white;
+} */
+
+
+
 .emp-request-list-container{
-    width: 870px;
-    background-color: #f4f4f4;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    width: 840px;
+    background-color: #fff;
+    
     border-radius: 10px;
-    height: 560px;
+    height: 490px;
+    margin-top: 50px;
 }
 .emp-btn-container{
-    height: 80px;
+    display: flex;
+    align-items: center;
+    height: 70px;
+    width: 830px;
+    margin-left: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+    background-color: #fff;
+    
+}
 
-    background: rgb(2,0,36);
-    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, #f4f4f4 0%, rgb(187, 204, 207) 100%);
+
+
+.emp-request-table{
+    margin-top: 10px;
+    width: 830px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+    height: 400px;
+    margin-left: 10px;
 }
 
 .emp-request-btn{
     display: flex;
     flex-direction: row;
-    width: 600px;
+    width: 800px;
     justify-content: space-evenly;
 
+}
+
+.emp-request-btn div:nth-child(2){
+    margin-left: 20px;
 }
 
 .emp-request-btn button{
@@ -2857,31 +2964,53 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
 .emp-request-btn button p{
     margin-bottom: -1px;
     margin-left: 10px;
-    background-color: rgb(255, 94, 0);
+    background-color: rgb(255, 0, 0);
     border-radius: 50%;
     width: 30px;
     color: white;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
 
 .emp-table-adjust{
-    width: 600px;
+    width: 500px;
 }
 
 .announcement-container{
-    height: 330px;
-    background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, rgb(187, 204, 207) 100%);
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    height: 360px;
+    
     border-radius: 10px;
-    margin-top: 7px;
+    margin-top: 0px;
     width: 680px;
-    margin-left: 10px;
-    transition: opacity 0.5s ease-in-out;
-    top: 0;
-    left: 0;
-    opacity: 1;
+
+}
+
+
+.announce-title h3{
+    color: blue;
+    font-weight: 400;
+}
+
+.announce-content{
+    padding: 30px;
+    height: 310px;
+    width: 100%;
+    margin: auto;
+    margin-top: 15px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+    border-radius: 10px;
     position: relative;
 }
+
+.announce-content h4{
+    font-size: 29px;
+    margin-bottom: 10px;
+    
+}
+
 
 .prev,
 .next {
@@ -2903,12 +3032,15 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
 
 .next {
   right: 0;
-}
+} */
+
+
+
+
 
 .event-container{
-    width: 680px;
-    background-color: #f4f4f4;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    width: 600px;
+    
     border-radius: 10px;
     height: 310px;
     margin-left: 10px;
@@ -2916,25 +3048,35 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
 
 .event-title{
     display: flex;
-    background: rgb(2,0,36);
-    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, #f4f4f4 0%, rgb(187, 204, 207) 100%);
+    
     flex-direction: row;
     justify-content: space-between;
-    height: 80px;
+    align-items: center;
+    height: 60px;
+
 }
 
 .event-title div:nth-child(1){
-    margin-left: 30px;
+   
     margin-top: 10px;
 }
 
 .event-title div:nth-child(1) p {
     font-size: 22px;
+    color: blue;
 }
 
 .event-title div:nth-child(2) p{
     margin-top: 15px;
     margin-right: 15px;
+}
+
+.event-content{
+    width: 670px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+    height: 353px;
+    border-radius: 10px;
+    
 }
 
 
@@ -3023,3 +3165,41 @@ background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, 
     color: #555;
     transition: ease-in 0.4s;
 }
+
+/* ui enhancing */
+/* .announcement-container{
+    height: 330px;
+    background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, rgb(187, 204, 207) 100%);
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    border-radius: 10px;
+    margin-top: 7px;
+    width: 680px;
+    margin-left: 10px;
+    transition: opacity 0.5s ease-in-out;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    position: relative;
+}
+
+.prev,
+.next {
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  border: none;
+  color: black;
+  font-size: 24px;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  position: absolute;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+} */
