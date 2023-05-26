@@ -274,7 +274,7 @@ if(count($_POST) > 0){
                         <div class="emp-allowance-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Employee Allowance</h1>
-                                <span id="allowance-update" id="allowance-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </span>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#allowanceModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
 
                             </div>
                             <div class="emp-allowance-first-container">
@@ -525,23 +525,23 @@ if(count($_POST) > 0){
                         </script>
                         <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
                             <div class="modal-header">
-                                <h1 class="modal-title">Add new deduction</h1>
+                                <h1 class="modal-title" style="font-size: 25px;">Add new deduction</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body">
                                 
-                                <table class="" id="table-field" style=" width: 300px; margin-left: 100px;" >
+                                <table class="" id="table-field" style=" width: 600px; margin-left: 100px;" >
                                     <tr>
                                         <th>Description</th>
                                         <th>Amount</th>
-                                        <th>Actions</th>
+                                        <th style="margin-left: 50px;">Actions</th>
                                         <th></th>
                                     </tr>
                                     <tr>
                                         <td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"></td>
                                         <td><input type="number" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount"></td>
-                                        <td><input type="button" value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px;" ></td>
+                                        <td><input type="button"  value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px; margin-left: 20px;" ></td>
                                         <td>
                                         <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
 
@@ -633,8 +633,9 @@ if(count($_POST) > 0){
                                 
                     ?>
                 
-                    <div class="allowance-modal" id="allowance-modal">
-                        <div class="allowance-modal-container">
+                    <div class="modal fade" id="allowanceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="allowanceLabel" aria-hidden="true">
+                        <div class="modal-dialog"  style="position: absolute; top: 50px; left: 35%; ">
+                        <div class="modal-content" style="width: 800px;">
                             <script>
                                 $(document).ready(function(){
                                     var html = '<tr><td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
@@ -656,10 +657,11 @@ if(count($_POST) > 0){
                             });
                             </script>
                             <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
-                            <div class="allowance-modal-title">
-                                <h1>Add new deduction</h1>
+                            <div class="modal-header">
+                                <h1 class="modal-title">Add new deduction</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="allowance-modal-input">  
+                            <div class="modal-body">  
                                 <table class="" id="table-fields" style=" width: 300px; margin-left: 100px;" >
                                     <tr>
                                         <th>Description</th>
@@ -719,11 +721,12 @@ if(count($_POST) > 0){
                                 </table>
                                 </div>
                             </div>
-                            <div class="allowance-modal-button">
-                                <span value="Cancel" id="allowance-modal-close" class="allowance-modal-close" style="margin-bottom:12px;">Close</span>
-                                <input type="submit" value="Submit" name="submit" id="submit" style="border: none; font-size: 23px; margin-top: -1px; margin-right: 10px; color: blue;">
-                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Understood</button>
+                            </div>  
                             </form>
+                        </div>
                         </div>
                     </div>
                 
