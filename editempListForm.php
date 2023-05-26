@@ -396,7 +396,7 @@ if(count($_POST) > 0){
                                         $database = "hris_db";
 
                                         $conn = mysqli_connect($server, $user, $pass, $database);
-                                        $sql = "SELECT * FROM employee_tb WHERE `role` = 'Admin' OR `role` = 'Supervisor'";
+                                        $sql = "SELECT * FROM employee_tb WHERE `role` = 'admin' OR `role` = 'Supervisor'";
                                         $result = mysqli_query($conn, $sql);
 
                                         $options = "";
