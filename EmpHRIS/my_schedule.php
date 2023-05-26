@@ -130,7 +130,7 @@
                         <tbody>
                         <?php 
                             $employeeid = $_SESSION['empid'];
-                            $conn = mysqli_connect("localhost","root","","hris_db");
+                            include 'config.php';
                             date_default_timezone_set('Asia/Manila'); // set the timezone to Manila
 
                             $today = new DateTime(); // create a new DateTime object for today
@@ -142,7 +142,7 @@
                                 $week_dates[] = $today->format('Y-m-d'); // add the current date to the array
                                 $today->modify('+1 day'); // navigate to the next day
                             }
-                            $query = "SELECT empschedule_tb.id, empschedule_tb.empid, empschedule_tb.sched_from, empschedule_tb.sched_to, empschedule_tb.schedule_name, schedule_tb.mon_timein, schedule_tb.mon_timeout,
+                            $query = "SELECT empschedule_tb.id, employee_tb.empid, empschedule_tb.sched_from, empschedule_tb.sched_to, empschedule_tb.schedule_name, schedule_tb.mon_timein, schedule_tb.mon_timeout,
                             schedule_tb.tues_timein, schedule_tb.tues_timeout,
                             schedule_tb.wed_timein, schedule_tb.wed_timeout,
                             schedule_tb.thurs_timein, schedule_tb.thurs_timeout,

@@ -277,8 +277,8 @@
                                         <thead>
                                             <tr>
                                                 <th style="display: none;">ID</th>
-                                                <th>Employee ID</th>
-                                                <th>Name</th>
+                                                <th style="display: none;">Employee ID</th>
+                                                <th style="display: none;">Name</th>
                                                 <th>Date</th>
                                                 <th>Time</th>
                                                 <th>Type</th>
@@ -317,8 +317,8 @@
                                                 ?>
                                                                 <tr>
                                                                 <td style="display: none;"><?php echo $row['id']?></td>
-                                                                <td><?php echo $row['empid']?></td>
-                                                                <td><?php echo $row['full_name']?></td>
+                                                                <td style="display: none;"><?php echo $row['empid']?></td>
+                                                                <td style="display: none;"><?php echo $row['full_name']?></td>
                                                                 <td><?php echo $row['date']?></td>
                                                                 <td><?php echo $row['time']?></td>
                                                                 <td><?php echo $row['type']?></td>

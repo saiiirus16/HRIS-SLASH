@@ -241,6 +241,18 @@ session_start();
 ?>
 <!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
 
+<!------------------------------------Message alert------------------------------------------------->
+<?php
+        if (isset($_GET['error'])) {
+            $err = $_GET['error'];
+            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+            '.$err.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+?>
+<!------------------------------------End Message alert------------------------------------------------->
+
 <!---------------------------------------------Style to resize/design table------------------------------------------------------->
                         <style>
                         .card-body{
@@ -266,8 +278,8 @@ session_start();
                                         <thead>
                                             <tr>
                                                 <th style="display: none;">ID</th>
-                                                <th>Employee ID</th>
-                                                <th>Name</th>
+                                                <th style="display: none;">Employee ID</th>
+                                                <th style="display: none;">Name</th>
                                                 <th>Company Name</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
@@ -309,8 +321,8 @@ session_start();
                                             ?>
                                             <tr>
                                                 <td style="display: none;"><?php echo $row['id'];?></td>
-                                                <td><?php echo $row['empid'];?></td>
-                                                <td><?php echo $row['full_name'];?></td>
+                                                <td style="display: none;"><?php echo $row['empid'];?></td>
+                                                <td style="display: none;"><?php echo $row['full_name'];?></td>
                                                 <td><?php echo $row['company_name'];?></td>
                                                 <td><?php echo $row['str_date'];?></td>
                                                 <td><?php echo $row['end_date'];?></td>
