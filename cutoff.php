@@ -34,6 +34,9 @@ if(!isset($_SESSION['username'])){
         <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
     <!-- Para sa datatables END -->
 
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <!-- inject:css -->
@@ -201,23 +204,18 @@ if(!isset($_SESSION['username'])){
                             <?php
                             include 'config.php';
 
-                            //   // Fetch all values of fname and lname from the database
+                           // Fetch all values of fname and lname from the database
                               $sql = "SELECT `fname`, `lname`, `empid` FROM employee_tb";
                               $result = mysqli_query($conn, $sql);
-                                echo '<div class="dropdown form-select form-select-m">';
-                                    echo '<input disabled class="slction_emp" type="text" id="items_EMP" placeholder="All Employees">';
-                                    echo '<button type="button" class="dropdown-btn">&#x25BC;<i class="fa fa-caret-down"></i></button>';
-                                echo '<div class="dropdown-content">';
-                                echo '<label><input class="emp_lblchckbox" type="checkbox" name="All Employee" value="All Employee">All Employee</label>';
-                             // Generate the list of checkboxes
+
+                             $options = "";
                              while ($row = mysqli_fetch_array($result)) {
-                                $emp_id = $row['empid'];
-                                $name = $row['fname'] . ' ' . $row['lname'];
-                                echo '<label><input class="emp_lblchckbox" type="checkbox" name="name_empId" value="' . $emp_id .'"> ' . $name . ' </label>';
+                                $options .= "<option value='".$row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }            
-                                echo '</div>';
-                                echo '</div>';
                             ?>
+                                <select class="js-example-basic-multiple" name="empid" id="employee-dd" multiple="multiple">
+                                <?php echo $options; ?>
+                                </select>
                         </div>  <!--mb-3 end--->
                     </div> <!-- col-6 end-->
             </div> <!--END row3 -->
@@ -420,13 +418,16 @@ if(!isset($_SESSION['username'])){
 
     
 
+ <script>
+    $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+</script>
 
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-
-
-
     <!-- para sa datatable -->
     <script src="vendors/js/vendor.bundle.base.js"></script>
     <script src="vendors/datatables.net/jquery.dataTables.js"></script>

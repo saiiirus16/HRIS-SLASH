@@ -151,7 +151,8 @@ if(!isset($_SESSION['username'])){
 
                                     <div class="table-responsive" style = "overflow-y: scroll;  max-height: 500px;">
                                         <form action="gnrate_payroll_view.php" method="post">
-                                        <input id="employeeID" name="Name_employeeID" type="text" style= "display:none;">         
+                                        <input id="employeeID" name="Name_employeeID" type="text" style= "display:none;">  
+                                        <input type="hidden" name="name_cutoffID" value="<?php echo $_POST['name_btnview']; ?>">       
                                             <table id="order-listing" class="table">
                                                 <thead>
                                                     <tr>

@@ -279,13 +279,13 @@
                                         $database = "hris_db";
 
                                         $conn = mysqli_connect($server, $user, $pass, $database);
-                                        $sql = "SELECT * FROM employee_tb";
+                                        $sql = "SELECT * FROM employee_tb WHERE `role` = 'Admin' OR `role` = 'Supervisor'";
                                         $result = mysqli_query($conn, $sql);
 
                                         $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             
-                                            $options .= "<option value='".$row['fname']. " ". " " ." ".$row['lname']."'>".$row['fname']. " ". " " ." ".$row['lname']." </option>";
+                                            $options .= "<option value='" . $row['empid'] . "'>".$row['fname']. " ". " " ." ".$row['lname']." </option>";
                                         }
                                         ?>
 
@@ -310,7 +310,7 @@
                         
                         <div class="employeeList-allowance-container">
                             <div class="emp-title">
-                                <h1>Allowances</h1>
+                                <h1>Employee Allowance</h1>
                             </div>
 
                             <div class="emp-allowance-first-input">
@@ -388,7 +388,7 @@
                                     <select name="role" id="" placeholder="Select Schedule Type" required>
                                             <option value="" selected="selected" class="selectTag" style="color: gray;" >Select Role</option>
                                             <option value="Employee">Employee</option>
-                                            <option value="Admin">Admin</option>
+                                            <option value="admin">Admin</option>
                                             <option value="Supervisor">Supervisor</option>
                                             
                                     </select>  
@@ -416,7 +416,7 @@
 
                     <div class="empList-save-btn">
                         <div>
-                            <span class="closeModal" id="closeModal">Cancel</span>
+                            <a style="margin-right: 10px; font-size: 20px;"href="EmployeeList.php">Cancel</a>
                             <span class="modalSave"> <input class="submit" id="btn_save" type="submit" value="Save"></span>
                         </div>
                     </div>
