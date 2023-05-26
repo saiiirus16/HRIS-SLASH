@@ -109,6 +109,10 @@ if(!empty($_GET['status'])){
 
     }
 
+    .input-container{
+        background-color: inherit !important;
+    }
+
    
 
     
@@ -163,7 +167,7 @@ if(!empty($_GET['status'])){
 
 <!----------------------------------------select button and text input--------------------------------------->
 <div class="container-select" style="">
-            <div class="input-container">
+            <div class="input-container" style="">
               <p class="demm-text">Department</p>
               <?php
                         include 'config.php';
