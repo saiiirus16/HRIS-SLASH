@@ -72,6 +72,7 @@ $username = $_POST['username'];
 $role = $_POST['role'];
 $email = $_POST['email'];
 $password = $_POST['password'];
+$cpassword = $_POST['cpassword'];
 
 $empschedule_type = $_POST['schedule_name'];
 $empstart_date = $_POST['sched_from'];
@@ -204,11 +205,11 @@ if ($stmt1->errno) {
   
     $mail->isHTML(true);
   
-    $imgData = file_get_contents('../../panget.png');
+    $imgData = file_get_contents('../../img/panget.png');
     $imgData64 = base64_encode($imgData);
     $cid = md5(uniqid(time()));
     $imgSrc = 'data:image/png;base64,' . $imgData64;
-    $mail->addEmbeddedImage('../../panget.png', $cid, 'panget.png');
+    $mail->addEmbeddedImage('../../img/panget.png', $cid, 'panget.png');
   
     $mail->Body .= '<img src="cid:' . $cid . '" style="height: 100px; width: 200px;">';
     $mail->Body .= '<h1>Hello, ' . $fname . ' ' . $lname . '</h1>';
