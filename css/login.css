@@ -1,6 +1,5 @@
 .login-pass-container{
     position: relative;
-    
 
 }
 
@@ -15,11 +14,8 @@
 @media(max-width: 1350px){
     /* .login-container{
         overflow-x: hidden !important;
-    }
-     */
-     /* body{
-        background-color: #f4f4f4 !important;
-     } */
+    } */
+    
 
     .form-container{
         transition: ease-in-out 1s;
@@ -136,32 +132,8 @@
         transition: ease-in-out 1s;
     }
     .form-container{
-        margin-left: 490px !important;
+        margin-left: 450px !important;
         transition: ease-in-out 1s;
-       
-    }
-
-    .input-text{
-        width: 600px !important;
-        transition: ease-in-out 1s;
-    }
-
-    #signin-btn{
-        width: 600px !important;
-        transition: ease-in-out 1s;
-    }
-
-    .login-pass-container #eye{
-        position: absolute;
-        right: 30px;
-        top: 10px;
-        transition: ease-in-out 1s;
-     }
-     .remember-forgot{
-       margin-left: 50px !important;
-       width: 600px !important;
-       transition: ease-in-out 1s;
-        
     }
 }
 
@@ -213,8 +185,6 @@
     .form-container{
         margin-left: 550px !important;
         margin-top: 100px;
-       
-       
         
     }
 }
@@ -225,13 +195,10 @@
         height: 876px !important;
         width: 500px !important;
     }
-
-    
     .container{
         overflow: hidden !important;
         height: 876px !important;
         width: 500px !important;
-        
         
     }
    
@@ -241,11 +208,6 @@
 
     .waves{
         display: none !important;
-    }
-
-    .logo-img{
-        background-color: #f4f4f4 !important;
-
     }
     .logo-img img{
         display: none !important;
@@ -257,50 +219,37 @@
         left: 0 !important;
         border-radius: 0px !important;
         margin-left: 0px !important;
-        height: 60px !important;
-        
+        height: 70px !important;
     }
     .signin-logo-img img{
-        height: 40px !important;
-        margin-left: -400px;
+        height: 55px !important;
+        margin-left: -300px;
     }
     .form-container{
-        margin-left: 300px !important;
+        margin-left: 310px !important;
         margin-top: -200px !important;
-
         
     }
-   
+    .login-pass-container #eye{
+       
+     
+    }
     .form-container .input-text{
-        width: 350px !important;
+        width: 470px !important;
         height: 60px !important;
-        margin-left: 60px !important;
-        height: 50px !important;
-        
         
     }
     #signin-btn{
-        width: 350px !important;
-        margin-left: 60px !important;
+        width: 470px !important;
     }
     .remember-forgot{
         display: flex !important;
         flex-direction: row !important;
         justify-content: space-between !important;
        
-        width: 350px !important;
-        margin-left: 60px !important;
+        width: 470px !important;
         
     }
-    .login-pass-container #eye{
-       position: absolute;
-       right: 20px;
-       top: 5px;
-       
-     
-    }
-
-    
 
 }
 
@@ -309,7 +258,6 @@
         background-color: #f4f4f4 !important;
         height: 812px !important;
         width: 375px !important;
-        
     }
     .container{
         overflow: hidden !important;
@@ -345,6 +293,10 @@
         margin-top: 1px !important;
         
     }
+    .login-pass-container #eye{
+        color: red !important;
+     
+    }
     .form-container .input-text{
         width: 360px !important;
     }
@@ -355,7 +307,7 @@
         display: flex !important;
         flex-direction: row !important;
         justify-content: space-between !important;
-        background-color: red !important;
+       
         width: 360px !important;
         
     }
@@ -363,7 +315,6 @@
 
 @media (max-width: 412px) and (max-height: 915px){
     body{
-        background-color: #f4f4f4 !important;
         overflow: hidden !important;
         width: 412px !important;
         height: 915px !important;
@@ -371,5 +322,4 @@
     .form-container{
         margin-left:230px !important;
     }
-    
 }

@@ -9,7 +9,6 @@ body{
     font-family: 'Roboto', sans-serif;
     width: 100%;
     color: black;
-    
 }
 
 /* Validation */
@@ -369,7 +368,6 @@ header{
     border-radius: 10px;
     /* margin-top: 100px;
     margin-left: 320px; */
-    background-color: #fff;
 }
 
 .empList-title{
@@ -2154,7 +2152,7 @@ header{
     margin-right: 20px;    
 }
 
-/* attendance */
+/* Attention */
 
 .attendace-container{
     width: 1500px;
@@ -2162,9 +2160,8 @@ header{
     position: absolute;
     right: 60px;
     bottom: 30px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-    border-radius: 10px;  
-    background-color: #fff;  
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    border-radius: 10px;
     
    
 }
@@ -2221,7 +2218,6 @@ header{
     border-radius: 5px;
     outline: none;
     border: 1px solid gray;
-    
 }
 
 .att-emp {
@@ -2305,8 +2301,7 @@ header{
     display: flex;
     align-items: center;
     border-radius: 10px;
-    background-color: #000;
-    color: white;
+    background-color: #ccc;
 }
 
 .att-date h1{
@@ -2368,11 +2363,6 @@ header{
     color: gray;
 }
 
-#table-responsiveness{
-    overflow-y: hidden !important;
-    
-}
-
 
 /* generate payslip */
 
@@ -2386,8 +2376,6 @@ header{
     border-radius: 10px;
     /* margin-top: 100px;
     margin-left: 320px; */
-    background-color: #fff;
-    
 }
 
 .gen-payslip-input-container{
@@ -2589,7 +2577,6 @@ table th:first-child{
     border-radius: 10px;
     overflow:scroll;
     overflow-x: hidden;
-    background-color: #fff;
   }
 
 .payroll-loan-title{
@@ -2725,7 +2712,7 @@ table th:first-child{
     top: 90px;
     right: 0;
     height: 878px;
-    background-color: #f4f4f4 !important;
+    background-color: #fff;
     width: 100%;
 }
 
@@ -2742,25 +2729,15 @@ table th:first-child{
     color: black;
 }
 
-.dashboard-content{
-    background-color: #f4f4f4;
+#dashboard-contents{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
-
-.dashboard-contents{
-    display: flex;
-    flex-direction: row;
-}
-
-.first-dash-contents{
-    margin-right: 40px;
-    
-}
-
 
 .employee-status-overview{
     width: 850px;
     
-    background-color: #f4f4f4;
+    background-color: #fff;
 
 }
 
@@ -2803,8 +2780,6 @@ table th:first-child{
     
 }
 
-
-
 .emp-status-container div{
     display: flex;
     flex-direction: column;
@@ -2814,8 +2789,7 @@ table th:first-child{
     border-radius: 10px;
     padding: 10px;
     background-color: #fff;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 5px 10px 0 rgba(0, 0, 0, 0.17);
     
 }
 
@@ -2833,92 +2807,9 @@ table th:first-child{
     margin-bottom: 10px;
 }
 
-/* .emp-status-container div:nth-child(1){
-    background-color: #000080;
-    color: white;
-    border: rgba(0, 0, 0, 0.17) 1px solid;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-    
-   
-}
-
-.emp-status-container div:nth-child(1) input{
-    color: white;
-}
-
-.emp-status-container div:nth-child(1) label{
-    color: white;
-}
-
-.emp-status-container div:nth-child(2){
-    background-color: #000080;
-    color: white;
-    border: rgba(0, 0, 0, 0.17) 1px solid;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-}
-
-.emp-status-container div:nth-child(2) input{
-    color: white;
-}
-
-.emp-status-container div:nth-child(2) label{
-    color: white;
-}
-
-.emp-status-container div:nth-child(3){
-    background-color: #000080;
-    color: white;
-    border: rgba(0, 0, 0, 0.17) 1px solid;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-}
-
-.emp-status-container div:nth-child(3) input{
-    color: white;
-}
-
-.emp-status-container div:nth-child(3) label{
-    color: white;
-}
-
-.emp-status-container div:nth-child(3) span{
-    color: black;
-}
-
-.emp-status-container div:nth-child(4){
-    background-color: #000080;
-    color: white;
-    border: rgba(0, 0, 0, 0.17) 1px solid;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-}
-
-.emp-status-container div:nth-child(4) input{
-    color: white;
-}
-
-.emp-status-container div:nth-child(4) label{
-    color: white;
-}
-
-.emp-status-container div:nth-child(5){
-    background-color: #000080;
-    color: white;
-    border: rgba(0, 0, 0, 0.17) 1px solid;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-}
-
-.emp-status-container div:nth-child(5) input{
-    color: white;
-}
-
-.emp-status-container div:nth-child(5) label{
-    color: white;
-} */
-
-
-
 .emp-request-list-container{
     width: 840px;
-    background-color: #f4f4f4;
+    background-color: #fff;
     
     border-radius: 10px;
     height: 490px;
@@ -2928,36 +2819,30 @@ table th:first-child{
     display: flex;
     align-items: center;
     height: 70px;
-    width: 830px;
+    width: 800px;
     margin-left: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
     background-color: #fff;
-    
 }
 
 
 
 .emp-request-table{
     margin-top: 10px;
-    width: 830px;
+    width: 800px;
     border-radius: 10px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
     height: 400px;
     margin-left: 10px;
-    background-color: #fff
 }
 
 .emp-request-btn{
     display: flex;
     flex-direction: row;
-    width: 800px;
+    width: 600px;
     justify-content: space-evenly;
 
-}
-
-.emp-request-btn div:nth-child(2){
-    margin-left: 20px;
 }
 
 .emp-request-btn button{
@@ -2990,14 +2875,13 @@ table th:first-child{
 }
 
 .announcement-container{
-    height: 360px;
+    height: 330px;
     
     border-radius: 10px;
     margin-top: 0px;
     width: 680px;
-
+    padding: 10px;
 }
-
 
 .announce-title h3{
     color: blue;
@@ -3006,14 +2890,12 @@ table th:first-child{
 
 .announce-content{
     padding: 30px;
-    height: 310px;
+    height: 250px;
     width: 100%;
     margin: auto;
     margin-top: 15px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
     border-radius: 10px;
-    position: relative;
-    background-color: #fff;
 }
 
 .announce-content h4{
@@ -3022,35 +2904,8 @@ table th:first-child{
     
 }
 
-
-.prev,
-.next {
-  bottom: 0;
-  width: 50px;
-  height: 50px;
-  border: none;
-  color: black;
-  font-size: 24px;
-  text-align: center;
-  line-height: 50px;
-  cursor: pointer;
-  position: absolute;
-}
-
-.prev {
-  left: 0;
-}
-
-.next {
-  right: 0;
-} */
-
-
-
-
-
 .event-container{
-    width: 600px;
+    width: 660px;
     
     border-radius: 10px;
     height: 310px;
@@ -3083,12 +2938,10 @@ table th:first-child{
 }
 
 .event-content{
-    width: 670px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-    height: 353px;
+    width: 100%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+    height: 335px;
     border-radius: 10px;
-    background-color: #fff;
-    
 }
 
 
@@ -3179,39 +3032,3 @@ table th:first-child{
 }
 
 /* ui enhancing */
-/* .announcement-container{
-    height: 330px;
-    background: linear-gradient(30deg, rgba(2,0,36,0.2) 0%, rgba(255,255,255,1) 0%, rgb(187, 204, 207) 100%);
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-    border-radius: 10px;
-    margin-top: 7px;
-    width: 680px;
-    margin-left: 10px;
-    transition: opacity 0.5s ease-in-out;
-    top: 0;
-    left: 0;
-    opacity: 1;
-    position: relative;
-}
-
-.prev,
-.next {
-  bottom: 0;
-  width: 50px;
-  height: 50px;
-  border: none;
-  color: black;
-  font-size: 24px;
-  text-align: center;
-  line-height: 50px;
-  cursor: pointer;
-  position: absolute;
-}
-
-.prev {
-  left: 0;
-}
-
-.next {
-  right: 0;
-} */

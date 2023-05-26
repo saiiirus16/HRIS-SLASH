@@ -57,19 +57,19 @@ main{
 
 .logo-img{
     height: 100%;
-    width: 1300px;
-    
+    width: 65%;
+
 }
 
 .logo-img img{
     height: 100%;
     width: 100%;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
     position: relative;
-    
+   
 }
 
 .logo-img .waves{
@@ -77,16 +77,15 @@ main{
     position: absolute;
     top: 0;
     transform: rotate(270deg);
-    left: 20% !important;
+    left: 17%;
     z-index: 3;
     bottom: 0;
-    margin-top: 100px;
     
 }
 
 .signin-container{
     height: 100vh;
-    width: 30%;
+    width: 35%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -99,12 +98,11 @@ main{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 595px;
+    width: 600px;
     height: 50px;
-    margin-left: 27px;
+    margin-left: 50px;
     margin-top: 10px;
     align-items: center;
-    
     
 }
 
@@ -112,14 +110,6 @@ main{
   padding-right: 35px;
 }
 
-#eye {
-  position: absolute;
-  top: 50%;
-  right: 180px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 20px;
-}
 
 .fa {
     font-size: 20px;
@@ -164,20 +154,28 @@ main{
     justify-content: center;   
 }
 
-.signin-logo-img h1{
-    font-size: 50px;
-    letter-spacing: 5px;
+.signin-logo-img{
+    background-color: #000;
+    border-radius: 10px;
+    height: 100px;
+    width: 550px;
+    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signin-logo-img img{
+    height: 120px;
 }
 
 .form-container{
     height: 400px;
-    width: 680px;
+    width: 700px;
     display: flex;
     flex-direction: column; 
-    align-items: center;    
+    align-items: center;
     justify-content: center;
-    background-color: #f4f4f4;
-    border-radius: 10px;
     
 }
 
@@ -185,8 +183,7 @@ main{
     width: 600px;
     padding: 20px;
     margin: 10px;
-    margin-left: 23px;
-
+    margin-left: 50px;
     border: 1px #ccc solid;
     border-radius: 5px;
     outline: none;
@@ -194,19 +191,18 @@ main{
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
 }
 
-
 .signin-card button{
     border: none;
-    background-color: black;
+    background-color: rgb(219, 35, 66);
     height: 40px;
-    width: 94%;
+    width: 86%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
     border-radius: 5px;
-    margin-left: 27px;
+    margin-left: 50px;
     color: white;
     font-size: 18px;
     padding: 30px;
@@ -216,7 +212,7 @@ main{
 }
 
 .signin-card button:hover{
-    background-color: #C37700;
+    background-color: #ccc;
     color: black;
     transition: ease-in .2s;
 }
@@ -959,3 +955,18 @@ main{
    background-color: white;
    border:1px solid black;
 }
+
+#signin-btn{
+    background-color: #555;
+    color: gold;
+    width: 600px;
+    transition: ease-in 0.4s;
+}
+
+#signin-btn:hover{
+    background-color: rgb(207, 177, 8);
+    color: #000;
+    transition: ease-in 0.4s;
+}
+
+
