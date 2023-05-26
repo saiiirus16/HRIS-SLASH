@@ -146,17 +146,18 @@ if ($count > 0) {
 
 $stmt->close();
 
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
-$cpasswordHash = password_hash($cpassword, PASSWORD_DEFAULT);
+// $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+$passwordHash = mysqli_real_escape_string($conn, md5($password));
 
-$stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`, `cpassword`)
+$status = 'Active';
+$stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`, `status`)
                         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 if (!$stmt) {
     die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$stmt->bind_param("ssssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $passwordHash, $cpasswordHash);
+$stmt->bind_param("ssssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $passwordHash, $status);
 
 $stmt->execute();
 
@@ -204,11 +205,11 @@ if ($stmt1->errno) {
   
     $mail->isHTML(true);
   
-    $imgData = file_get_contents('../../panget.png');
+    $imgData = file_get_contents('../../img/panget.png');
     $imgData64 = base64_encode($imgData);
     $cid = md5(uniqid(time()));
     $imgSrc = 'data:image/png;base64,' . $imgData64;
-    $mail->addEmbeddedImage('../../panget.png', $cid, 'panget.png');
+    $mail->addEmbeddedImage('../../img/panget.png', $cid, 'panget.png');
   
     $mail->Body .= '<img src="cid:' . $cid . '" style="height: 100px; width: 200px;">';
     $mail->Body .= '<h1>Hello, ' . $fname . ' ' . $lname . '</h1>';
