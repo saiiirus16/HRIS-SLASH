@@ -490,7 +490,7 @@ session_start();
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">  <!--received the id of selected data in datatble and pass to calss action-->   
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;"> <!--received the employee_id of selected data in datatble and pass to calss action-->  
-                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
+                        <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>
@@ -506,12 +506,10 @@ session_start();
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
-                                    
                                         <tbody id="table-body">
                                             <?php 
-                                                    include '../config.php';
+                                                    include 'config.php';
                                                     //select data db
-                                                    $aprrover_ID = $_SESSION['empid'];
 
                                                     $sql = "SELECT
                                                                 applyleave_tb.col_ID,
@@ -530,7 +528,6 @@ session_start();
                                                             FROM
                                                                 applyleave_tb
                                                             INNER JOIN employee_tb ON applyleave_tb.col_req_emp = employee_tb.empid
-                                                            WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID)
                                                             ORDER BY applyleave_tb.`_datetime` DESC
                                                             
                                                             ";
@@ -538,21 +535,27 @@ session_start();
 
                                                     //read data
                                                     while($row = $result->fetch_assoc()){
-                                                    
-                                                            $approver = $row['col_approver'];
+                                                        $approver = $row['col_approver'];
+                                                        if ($approver === ''){
+                                                            $approver_fullname = 'none';
+                                                        }
+                                                        else{
                                                             $result_approver = mysqli_query($conn, " SELECT
-                                                                *  
-                                                            FROM
-                                                                employee_tb
-                                                            WHERE empid = $approver");
-                                                            if(mysqli_num_rows($result_approver) > 0) {
-                                                                $row_approver = mysqli_fetch_assoc($result_approver);
-                                                                //echo $row__leaveINFO['col_vctionCrdt'];
-                                                                $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
-                                                            } else {
-                                                                $approver_fullname = 'Something Went Wrong';
-                                                            } 
-                                       
+                                                            *  
+                                                        FROM
+                                                            employee_tb
+                                                        WHERE empid = $approver");
+                                                        if(mysqli_num_rows($result_approver) > 0) {
+                                                            $row_approver = mysqli_fetch_assoc($result_approver);
+                                                            //echo $row__leaveINFO['col_vctionCrdt'];
+                                                            $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
+                                                        } else {
+                                                            $approver_fullname = 'Something Went Wrong';
+                                                        } 
+                                                        }
+                                                       
+
+                                                        
 
                                                         echo "<tr>
                                                                 <td>" . $row['col_ID'] . "</td>
