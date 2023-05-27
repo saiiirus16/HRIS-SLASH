@@ -1321,6 +1321,24 @@ if(!isset($_SESSION['username'])){
         var emp_fullname = document.getElementById("id_p_emp_name");
         var fullname = emp_fullname.textContent;
 
+        // Create a new Date object
+var currentDate = new Date();
+
+// Get the current date and time in the Philippines (Manila) timezone
+var options = {
+  timeZone: "Asia/Manila",
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric"
+};
+
+var currentDateTime = currentDate.toLocaleString("en-PH", options);
+
+
+
         html2canvas($('#id_modal-pdf')[0], {
             onrendered: function (canvas) {
                 var data = canvas.toDataURL();
@@ -1330,7 +1348,7 @@ if(!isset($_SESSION['username'])){
                         width: 500
                     }]
                 };
-                pdfMake.createPdf(docDefinition).download(fullname + "_" + name_cutOff_num +".pdf");
+                pdfMake.createPdf(docDefinition).download(fullname + "_" + currentDateTime  +".pdf");
                 pdfMake.createPdf(docDefinition).getBase64(function (pdfData) {
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function () {

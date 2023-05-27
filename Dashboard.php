@@ -108,9 +108,12 @@
     </header>
 
     <style>
+    html{
+        background-color: #f4f4f4 !important; 
+    }
     body{
         overflow: hidden;
-        background-color: #F4F4F4;
+        background-color: #F4F4F4 !important;
     }
 
     .sidebars ul li{
@@ -151,11 +154,23 @@
 
     
     @media(max-width: 1350px){
-     
+        html{
+            background-color: #fff !important;
+            overflow: scroll;
+        }
+
+
+     .dashboard-content{
+        background-color: #fff !important;
+     }
+
+     .sidebar{
+        background-color: #fff !important;
+     }
      /* heder-user*/   
     .header-user{
-       width: 300px;
-       margin-right: -35px;
+       width: 400px;
+       margin-right: -50px;
        transition: ease-in-out 1s;
     }
 
@@ -181,14 +196,14 @@
         transition: ease-in-out 1s;
     }
     .header-dropdown{
-        margin-right: -30px;
+        margin-right: 30px;
         transition: ease-in-out 1s;
     }
 
 
     .dashboard-content{
         border: none;
-        height: 5000px;
+        height: 1750px;
         transition: ease-in-out 1s;
     }
     
@@ -207,8 +222,20 @@
         margin-left: 35px;
         transition: ease-in-out 1s;
         
+       
+        
     }
 
+    .emp-request-list-container{
+        margin-top: 50px !important;
+        margin-right: 20px !important;
+        transition: ease-in-out 1s;
+    }
+
+    .employee-status-overview{
+        margin-top: 20px !important;
+        transition: ease-in-out 1s;
+    }
 
 
 
@@ -217,17 +244,994 @@
 
     /*second-dash-contents*/
     .second-dash-contents{
-        margin-top: 50px;
-    
-        display: flex;
+        margin: auto;
+        display:flex;
         flex-direction: column;
-        margin-left: 50px;
+        align-items: center;
+        margin-left: 30px;
+        transition: ease-in-out 1s;
+        width: 93% !important;
+    }
+
+    .announcement-container{
+        transition: ease-in-out 1s;
+        width: 88% !important;
+    }
+
+    .event-container{
+        margin-top: 30px !important;
+        width: 88% !important;
+        transition: ease-in-out 1s;
+    }
+
+    .event-content{
+        width: 100% !important;
         transition: ease-in-out 1s;
     }
 
     /* end of second dash*/
     
   }
+  
+
+  @media(max-width: 500px){
+
+html{
+    overflow-x: hidden !important;
+    background-color: white !important;
+}
+body{
+    overflow-y: hidden !important;
+    background-color: #fff !important;
+    width: 500px !important;
+}
+#upper-nav{
+    background-color: black !important; 
+    width: 500px !important;
+    height: 75px;
+    position: fixed !important;
+}
+
+.navbar-menu-wrapper{
+    background-color: black !important;
+    width: 390px !important;
+    height: 60px !important;
+    position: fixed !important;
+   
+    margin-left: 70px !important;
+    
+    
+}
+
+.navbar-brand-wrapper{
+    background-color: black !important;
+    position: absolute !important;
+    width: 100px !important;
+    box-shadow: none;
+    height: 60px !important;
+    z-index: 100;
+}
+
+.navbar-brand-wrapper img{
+    height: 40px !important;
+    width: 50px !important;
+    margin-left: -20px !important;
+}
+
+.sidebar{
+    position: fixed !important;
+    left: 0;
+    width: 85px;
+    margin-top: 0 !important;
+    height: 130vh !important;
+    display: none !important;
+    transition: ease-in-out 1s !important;
+    
+}
+
+#sidebar.active-sidebar {
+display: block !important;
+} 
+
+
+.navbar-toggler{
+    display: none !important;
+}
+
+.responsive-bars-btn{
+    display: block !important;
+    margin-right: 90px !important;
+    border: none !important;
+    
+}
+
+.responsive-bars-btn span{
+    color: white !important;
+    font-size: 18px !important;
+}
+
+.header-user{
+   width: 290px;
+   transition: ease-in-out 1s;
+   background-color: black !important;
+   
+}
+.header-notif span{
+    font-size: 20px !important;
+    margin-right: -10px;
+    margin-left: 30px !important;
+}
+.header-head img{
+    height: 40px !important;
+}
+.header-type h1{
+    font-size: 19px !important;
+}
+.header-type p{
+    font-size: 14px !important;
+    margin-top: -25px !important;
+}
+.header-dropdown{
+    margin-left: 30px !important;
+}
+.header-dropdown-menu{
+    width: 130px !important;
+    margin-left: -55px !important;
+   
+}
+
+.nav-title,.menu-arrow{
+    display: none !important;
+}
+
+.nav-item{
+    margin-bottom: 15px !important;
+}
+
+.collapse{
+    width: 250px !important;
+    position: fixed !important;
+    left: 85px !important;
+}
+
+.dashboard-content{
+    width: 390px;
+    
+    margin-left: 0px !important;
+    margin-top: -20px !important;
+}
+
+.dashboard-title{
+    
+}
+
+.dashboard-title h1{
+    margin-left: 20px;
+}
+
+.dashboard-contents{
+    
+}
+
+.first-dash-contents{
+    width: 500px !important;
+    margin: auto !important;
+}
+
+.employee-status-overview{
+    width: 100% !important;
+}
+
+.emp-status-title{
+   margin-left: -10px !important;
+}
+
+.emp-status-container{
+   
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 900px !important;
+}
+
+.emp-status-container div{
+    width: 340px !important;
+}
+
+.emp-status-container div:nth-child(1){
+    background-color: #000080 !important;
+    
+}
+
+.emp-status-container div:nth-child(1) input{
+color: white;
+font-size: 35px !important;
+margin-left: 10px !important;
+margin-top: -5px !important;
+}
+
+.emp-status-container div:nth-child(1) label{
+color: white;
+margin-left: 10px !important;
+font-size: 19px !important;
+}   
+
+.emp-status-container div:nth-child(1) p{
+color: white;
+margin-left: 10px !important;
+margin-top: 5px !important; 
+font-size: 19px !important;
+} 
+
+.emp-status-container div:nth-child(1) span{
+    font-size: 19px !important;
+    margin-left: 3px !important;
+    color: black !important;
+}
+
+
+.emp-status-container div:nth-child(2){
+    background-color: #F3797E !important; 
+}
+
+.emp-status-container div:nth-child(2) input{
+color: white;
+font-size: 35px !important;
+margin-left: 10px !important;
+margin-top: -5px !important;
+}
+
+.emp-status-container div:nth-child(2) label{
+color: white;
+margin-left: 10px !important;
+font-size: 19px !important;
+}   
+
+.emp-status-container div:nth-child(2) p{
+color: white;
+margin-left: 10px !important;
+margin-top: 5px !important; 
+font-size: 19px !important;
+} 
+
+.emp-status-container div:nth-child(2) span{
+    font-size: 19px !important;
+    margin-left: 3px !important;
+    color: black !important;
+}
+
+.emp-status-container div:nth-child(3){
+    background-color: #4747A1 !important;
+}
+
+.emp-status-container div:nth-child(3) input{
+color: white;
+font-size: 35px !important;
+margin-left: 10px !important;
+margin-top: -5px !important;
+}
+
+.emp-status-container div:nth-child(3) label{
+color: white;
+margin-left: 10px !important;
+font-size: 19px !important;
+}   
+
+.emp-status-container div:nth-child(3) p{
+color: white;
+margin-left: 10px !important;
+margin-top: 5px !important; 
+font-size: 19px !important;
+} 
+
+.emp-status-container div:nth-child(3) span{
+    font-size: 19px !important;
+    color: black !important;
+    margin-left: 3px !important;
+}
+
+.emp-status-container div:nth-child(4){
+    background-color: #7978E9 !important;
+}
+
+.emp-status-container div:nth-child(4) input{
+color: white;
+font-size: 35px !important;
+margin-left: 10px !important;
+margin-top: -5px !important;
+}
+
+.emp-status-container div:nth-child(4) label{
+color: white;
+margin-left: 10px !important;
+font-size: 19px !important;
+}   
+
+.emp-status-container div:nth-child(4) p{
+color: white;
+margin-left: 10px !important;
+margin-top: 5px !important; 
+font-size: 19px !important;
+} 
+
+.emp-status-container div:nth-child(4) .wfh-color{
+    font-size: 19px !important;
+    margin-left: 3px !important;
+    color: black !important;
+}
+
+.emp-status-container div:nth-child(5){
+    background-color: #98BDFF !important;
+}
+.emp-status-container div:nth-child(5) input{
+color: white;
+font-size: 35px !important;
+margin-left: 10px !important;
+margin-top: -5px !important;
+}
+
+.emp-status-container div:nth-child(5) label{
+color: white;
+margin-left: 10px !important;
+font-size: 19px !important;
+}   
+
+.emp-status-container div:nth-child(5) p{
+color: white;
+margin-left: 10px !important;
+margin-top: 5px !important; 
+font-size: 19px !important;
+} 
+
+.emp-status-container div:nth-child(5) span{
+    font-size: 19px !important;
+    margin-left: 3px !important;
+    color: black !important;
+}
+
+.emp-request-list-container{
+    width: 500px !important;
+    
+}
+
+.emp-btn-container{
+    width: 90% !important;
+    margin:auto !important;
+
+}
+
+.emp-request-btn{
+    position: relative !important;
+    display: flex;
+    justify-content: space-between;
+   
+    width: 95% !important;
+    margin:auto !important;
+}
+
+/* .emp-request-btn div:nth-child(1){
+    margin-left: 20px !important;
+} */
+
+.emp-request-btn div:nth-child(1) p{
+    font-size: 10px !important;
+   
+    height: 25px !important;
+    width: 25px !important;
+}
+
+.emp-request-btn div:nth-child(1) div{
+    margin-left: 0px !important;
+}
+
+.emp-request-btn div:nth-child(2){
+    margin-top: 5px !important;
+    margin-left: -3px !important;
+}
+
+.emp-request-btn div:nth-child(3){
+    margin-top: 5px !important;
+
+}
+
+.emp-request-btn div:nth-child(4){
+    margin-top: 5px !important;
+    margin-right: 5px !important;
+}
+
+.emp-request-btn div button{
+    font-size: 13px !important;
+}
+
+.emp-request-table{
+    width: 90% !important;
+    margin-left: 11px !important;
+    margin: auto !important;
+}
+
+.dash
+
+.dash-responsive-btn{
+    margin-top: 16px !important;
+    display: block !important;
+    margin-right: 40px !important;
+}
+
+.request-list-dropdown {
+    display: none;
+    margin-top: 10px;
+    background-color: #f4f4f4 !important;
+    position: absolute !important;
+    right: -10px !important;
+    bottom: -115px !important;
+    width: 130px !important;
+    border-radius: 7px !important;
+    padding: 10px !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+ }
+
+ .request-list-dropdown button{
+    font-size: 18px !important;
+    font-weight: 500 !important;
+ }
+ 
+.emp-request-btn .fa-chevron-down {
+    transition: transform 0.3s;
+}
+
+.emp-request-btn.active .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.request-table{
+   
+    margin-left: 10px !important;
+    width: 95% !important; 
+}
+
+/* second content */
+.second-dash-contents{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    transition: ease-in-out 1s;
+    margin:auto !important;
+    margin-top: 20px !important;
+    
+    width: 500px !important;
+    
+}
+
+.announcement-container{
+    
+    width: 485px !important;
+    margin: auto !important;
+    margin-left: 5px !important;
+}
+
+.announce-title{
+    width: 93% !important;
+    margin: auto !important;
+    margin-left: 12px !important;
+}
+
+.announce-content{
+    width: 100% !important;
+    margin: auto !important;
+    margin-top: 20px !important;
+}
+
+.announce-content button{
+    font-size: 16px !important;
+}
+
+.announce-content h4{
+    font-size: 26px !important;
+}
+
+.announce-content p{
+    font-size: 14px !important;
+}
+
+.event-container{
+    margin-bottom: 25px !important;
+    width: 95% !important;
+    margin-left: 0px !important;
+}
+.event-title{
+    width: 95% !important;
+    margin: auto !important;
+}
+.event-content{
+    width: 96% !important;
+    margin: auto !important;
+}
+
+.header-dropdown-menu a{
+    margin-left: 30px !important;
+    margin-bottom: 5px !important;
+}
+
+
+}   
+
+  @media(max-width: 390px){
+
+    html{
+        overflow-x: hidden !important;
+        background-color: white !important;
+    }
+    body{
+        overflow-y: hidden !important;
+        background-color: #fff !important;
+        width: 390px !important;
+    }
+    #upper-nav{
+        background-color: black !important; 
+        width: 390px !important;
+        height: 75px;
+        position: fixed !important;
+    }
+
+    .navbar-menu-wrapper{
+       
+        width: 390px !important;
+        height: 60px !important;
+        position: fixed !important;
+        
+        
+    }
+
+    .navbar-brand-wrapper{
+        background-color: black !important;
+        position: absolute !important;
+        width: 100px !important;
+        box-shadow: none;
+        height: 60px !important;
+        z-index: 100;
+    }
+
+    .navbar-brand-wrapper img{
+        height: 40px !important;
+        width: 50px !important;
+        margin-left: -20px !important;
+    }
+    
+    .sidebar{
+        position: fixed !important;
+        left: 0;
+        width: 85px;
+        margin-top: 0 !important;
+        height: 130vh !important;
+        display: none !important;
+        transition: ease-in-out 1s !important;
+        
+    }
+
+    #sidebar.active-sidebars {
+    display: block !important;
+  } 
+
+  
+
+    
+    .navbar-toggler{
+        display: none !important;
+    }
+
+    .responsive-bars-btn{
+        display: block !important;
+        margin-right: 40px !important;
+        border: none !important;
+        
+    }
+
+    .responsive-bars-btn span{
+        color: white !important;
+        font-size: 18px !important;
+    }
+
+    .header-user{
+       width: 200px;
+        margin-right: 90px;
+       transition: ease-in-out 1s;
+       background-color: black !important;
+       
+    }
+    .header-notif span{
+        font-size: 20px !important;
+        margin-right: -10px;
+        margin-left: 30px !important;
+    }
+    .header-head img{
+        height: 40px !important;
+    }
+    .header-type h1{
+        font-size: 19px !important;
+    }
+    .header-type p{
+        font-size: 14px !important;
+        margin-top: -25px !important;
+    }
+    .header-dropdown{
+        margin-left: 30px !important;
+    }
+    .header-dropdown-menu{
+        width: 130px !important;
+        margin-left: -55px !important;
+       
+    }
+
+    .nav-title,.menu-arrow{
+        display: none !important;
+    }
+
+    .nav-item{
+        margin-bottom: 15px !important;
+    }
+
+    .collapse{
+        width: 250px !important;
+        position: fixed !important;
+        left: 85px !important;
+    }
+
+    .dashboard-content{
+        width: 390px;
+        
+        margin-left: 0px !important;
+        margin-top: -20px !important;
+    }
+    
+    .dashboard-title{
+        
+    }
+
+    .dashboard-title h1{
+        margin-left: 20px;
+    }
+
+    .dashboard-contents{
+        
+    }
+
+    .first-dash-contents{
+   
+        width: 95% !important;
+        margin: auto !important;
+    }
+
+    .employee-status-overview{
+        width: 100% !important;
+    }
+
+    .emp-status-title{
+       margin-left: -15px !important;
+    }
+
+    .emp-status-container{
+       
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        height: 900px !important;
+    }
+
+    .emp-status-container div{
+        width: 340px !important;
+    }
+
+    .emp-status-container div:nth-child(1){
+        background-color: #000080 !important;
+        
+    }
+
+    .emp-status-container div:nth-child(1) input{
+    color: white;
+    font-size: 35px !important;
+    margin-left: 10px !important;
+    margin-top: -5px !important;
+    }
+
+    .emp-status-container div:nth-child(1) label{
+    color: white;
+    margin-left: 10px !important;
+    font-size: 19px !important;
+    }   
+
+    .emp-status-container div:nth-child(1) p{
+    color: white;
+    margin-left: 10px !important;
+    margin-top: 5px !important; 
+    font-size: 19px !important;
+    } 
+
+    .emp-status-container div:nth-child(1) span{
+        font-size: 19px !important;
+        margin-left: 3px !important;
+        color: black !important;
+    }
+
+
+    .emp-status-container div:nth-child(2){
+        background-color: #F3797E !important; 
+    }
+
+    .emp-status-container div:nth-child(2) input{
+    color: white;
+    font-size: 35px !important;
+    margin-left: 10px !important;
+    margin-top: -5px !important;
+    }
+
+    .emp-status-container div:nth-child(2) label{
+    color: white;
+    margin-left: 10px !important;
+    font-size: 19px !important;
+    }   
+    
+    .emp-status-container div:nth-child(2) p{
+    color: white;
+    margin-left: 10px !important;
+    margin-top: 5px !important; 
+    font-size: 19px !important;
+    } 
+
+    .emp-status-container div:nth-child(2) span{
+        font-size: 19px !important;
+        margin-left: 3px !important;
+        color: black !important;
+    }
+
+    .emp-status-container div:nth-child(3){
+        background-color: #4747A1 !important;
+    }
+
+    .emp-status-container div:nth-child(3) input{
+    color: white;
+    font-size: 35px !important;
+    margin-left: 10px !important;
+    margin-top: -5px !important;
+    }
+
+    .emp-status-container div:nth-child(3) label{
+    color: white;
+    margin-left: 10px !important;
+    font-size: 19px !important;
+    }   
+    
+    .emp-status-container div:nth-child(3) p{
+    color: white;
+    margin-left: 10px !important;
+    margin-top: 5px !important; 
+    font-size: 19px !important;
+    } 
+
+    .emp-status-container div:nth-child(3) span{
+        font-size: 19px !important;
+        color: black !important;
+        margin-left: 3px !important;
+    }
+
+    .emp-status-container div:nth-child(4){
+        background-color: #7978E9 !important;
+    }
+
+    .emp-status-container div:nth-child(4) input{
+    color: white;
+    font-size: 35px !important;
+    margin-left: 10px !important;
+    margin-top: -5px !important;
+    }
+
+    .emp-status-container div:nth-child(4) label{
+    color: white;
+    margin-left: 10px !important;
+    font-size: 19px !important;
+    }   
+    
+    .emp-status-container div:nth-child(4) p{
+    color: white;
+    margin-left: 10px !important;
+    margin-top: 5px !important; 
+    font-size: 19px !important;
+    } 
+
+    .emp-status-container div:nth-child(4) .wfh-color{
+        font-size: 19px !important;
+        margin-left: 3px !important;
+        color: black !important;
+    }
+
+    .emp-status-container div:nth-child(5){
+        background-color: #98BDFF !important;
+    }
+    .emp-status-container div:nth-child(5) input{
+    color: white;
+    font-size: 35px !important;
+    margin-left: 10px !important;
+    margin-top: -5px !important;
+    }
+
+    .emp-status-container div:nth-child(5) label{
+    color: white;
+    margin-left: 10px !important;
+    font-size: 19px !important;
+    }   
+    
+    .emp-status-container div:nth-child(5) p{
+    color: white;
+    margin-left: 10px !important;
+    margin-top: 5px !important; 
+    font-size: 19px !important;
+    } 
+
+    .emp-status-container div:nth-child(5) span{
+        font-size: 19px !important;
+        margin-left: 3px !important;
+        color: black !important;
+    }
+
+    .emp-request-list-container{
+        width: 95% !important;
+        
+    }
+
+    .emp-btn-container{
+        width: 100% !important;
+        margin-left: 11px !important; 
+    }
+
+    .emp-request-btn{
+        position: relative !important;
+        display: flex;
+        justify-content: space-between;
+       
+        width: 95% !important;
+        margin:auto !important;
+    }
+
+    /* .emp-request-btn div:nth-child(1){
+        margin-left: 20px !important;
+    } */
+
+    .emp-request-btn div:nth-child(1) p{
+        font-size: 10px !important;
+       
+        height: 25px !important;
+        width: 25px !important;
+    }
+
+    .emp-request-btn div:nth-child(1) div{
+        margin-left: 0px !important;
+    }
+
+    .emp-request-btn div:nth-child(2){
+        margin-top: 5px !important;
+        margin-left: -3px !important;
+    }
+
+    .emp-request-btn div:nth-child(3){
+        margin-top: 5px !important;
+    
+    }
+
+    .emp-request-btn div:nth-child(4){
+        margin-top: 5px !important;
+        margin-right: 5px !important;
+    }
+
+    .emp-request-btn div button{
+        font-size: 13px !important;
+    }
+
+    .emp-request-table{
+        width: 100% !important;
+        margin-left: 11px !important;
+    }
+
+    .dash
+
+    .dash-responsive-btn{
+        margin-top: 16px !important;
+        display: block !important;
+        margin-right: 40px !important;
+    }
+
+    .request-list-dropdown {
+        display: none;
+        margin-top: 10px;
+        background-color: #f4f4f4 !important;
+        position: absolute !important;
+        right: -10px !important;
+        bottom: -115px !important;
+        width: 130px !important;
+        border-radius: 7px !important;
+        padding: 10px !important;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+     }
+
+     .request-list-dropdown button{
+        font-size: 18px !important;
+        font-weight: 500 !important;
+     }
+     
+    .emp-request-btn .fa-chevron-down {
+        transition: transform 0.3s;
+    }
+
+    .emp-request-btn.active .fa-chevron-down {
+        transform: rotate(180deg);
+    }
+
+    .request-table{
+       
+        margin-left: 10px !important;
+        width: 95% !important; 
+    }
+
+    /* second content */
+    .second-dash-contents{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        transition: ease-in-out 1s;
+        margin-top: 20px !important;
+        margin-left: 10px !important;
+        width: 95% !important;
+    }
+
+    .announcement-container{
+        
+        width: 100% !important;
+    }
+
+    .announce-title{
+        width: 95% !important;
+        margin: auto !important;
+    }
+
+    .announce-content{
+        width: 100% !important;
+        margin: auto !important;
+        margin-top: 20px !important;
+    }
+
+    .announce-content button{
+        font-size: 16px !important;
+    }
+
+    .announce-content h4{
+        font-size: 26px !important;
+    }
+
+    .announce-content p{
+        font-size: 14px !important;
+    }
+
+    .event-container{
+        margin-bottom: 25px !important;
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+    .event-title{
+        width: 95% !important;
+        margin: auto !important;
+    }
+    .event-content{
+        width: 95% !important;
+        margin: auto !important;
+    }
+
+    .header-dropdown-menu a{
+        margin-left: 30px !important;
+        margin-bottom: 5px !important;
+    }
+   
+   
+}   
   
 
 </style> 
@@ -498,27 +1502,27 @@
                         <div class="emp-status-container">
                             <div>
                                 <input type="text" name="present" value="<?php echo $present_count; ?>" readonly>
-                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <p style="margin-top: -7px; ">of <span style="color: red;"><?php echo $employee_count?> </span></p>
                                 <label for="present" style="margin-top: 3px;" ><i class="mdi    mdi-alarm-check"> </i>Present</label>   
                             </div>
                             <div>
                                 <input type="text" name="absent" value="32" readonly >
-                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <p style="margin-top: -7px; ">of <span style="color: red;"><?php echo $employee_count?> </span></p>
                                 <label for="absent" style="margin-top: 3px;" ><i class="mdi mdi-alarm-off"></i> Absent</label>
                             </div>
                             <div>
                                 <input type="text" name="on_leave" value="11" readonly >
-                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <p style="margin-top: -7px; ">of <span style="color: red;"><?php echo $employee_count?> </span></p>
                                 <label for="on_leave" style="margin-top: 3px;" ><i class="mdi mdi-airplane-takeoff"></i>  On Leave</label>
                             </div>
                             <div>
-                                <input type="text" name="wfh" value="19" readonly style="margin-top:12px;">
-                                <p style=" ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <input type="text" name="wfh" value="19" readonly style="margin-top:12px;"> 
+                                <p style=" ">of <span class="wfh-color" style="color: red;"><?php echo $employee_count?> </span></p>
                                 <label for="wfh" style="margin-top: -6px; margin-bottom: 20px"><i class="mdi mdi-home"></i> <span style="font-size: 16px;"> Working Home</span></label>
                             </div>
                             <div>
-                                <input type="text" name="late" value="20" readonly >
-                                <p style="margin-top: -7px; ">of <span style="color: blue;"><?php echo $employee_count?> </span></p>
+                                <input type="text" name="late" value="20" readonly style="margin-bottom: 5px; margin-left: 3px;">
+                                <p style="margin-top: -7px; margin-left: 3px; ">of <span style="color: red; "><?php echo $employee_count?> </span></p>
                                 <label for="present" style="margin-top: 3px;" ><i class="mdi mdi-run"> </i>Late</label>
                             </div>
                         </div>
@@ -531,19 +1535,26 @@
                                     <button class="mb-2">Employee Request List <p>20</p></button>
                                     <div style="border: gold 1px solid;"></div>
                                 </div>
-                                <div> 
-                                    <button>Leave</button>
-                                </div>
-                                <div>      
-                                    <button>Loans</button>
-                                </div>
-                                <div>    
-                                    <button>Overtime</button>
-                                </div>
+
+                                <!-- <div class="dash-responsive-btn">
+                                    <span class="fa-solid fa-chevron-down"></span>
+                                </div> -->
+                                
+                                
+                                    <div> 
+                                        <button>Leave</button>
+                                    </div>
+                                    <div>      
+                                        <button>Loans</button>
+                                    </div>
+                                    <div>    
+                                        <button>Overtime</button>
+                                    </div>  
+                                
                             </div>
                         </div>
                         <div class="emp-request-table">
-                            <table class="table table-borderless ml-5 mt-3">
+                            <table class="table request-table table-borderless ml-5 mt-3">
                                 <thead >
                                     <th class="emp-table-adjust" style="color: blue">Type of Request</th>
                                     <th style="color: blue">Requestor</th>
@@ -621,6 +1632,7 @@
                             <button class="prev" onclick="prevSlide()">&#10094;</button>
                             <button class="next" onclick="nextSlide()">&#10095;</button>
                         </div>   
+                        </div>
                     </div>
 
                     <div class="event-container mt-2" id="event-box" style="width: 670px; margin-left: 5px;">
@@ -773,6 +1785,47 @@
 
 
     </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+//   $('.nav-link').on('click', function(e) {
+//     if ($(window).width() <= 390) {
+//       e.preventDefault();
+//       $(this).siblings('.sub-menu').slideToggle();
+//     }
+//   });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+//   $('.nav-link').on('click', function(e) {
+//     if ($(window).width() <= 500) {
+//       e.preventDefault();
+//       $(this).siblings('.sub-menu').slideToggle();
+//     }
+//   });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

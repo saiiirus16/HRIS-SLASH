@@ -68,12 +68,35 @@ if(count($_POST) > 0){
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+    
+
+    
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    
+     
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+    <!-- skydash -->
+
+<link rel="stylesheet" href="skydash/feather.css">
+<link rel="stylesheet" href="skydash/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+<link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+<link rel="stylesheet" href="skydash/style.css">
+
+<script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/styles.css"> 
     <title>HRIS | Employee List Form</title>
 </head>
@@ -90,7 +113,7 @@ if(count($_POST) > 0){
 
         ?>
             <form action="" method="POST" enctype="multipart/form-data" id="form">
-                <div class="empListForm-container">            
+                <div class="empListForm-container" style="background-color: #fff">            
                     <div class="employeeList-modal" id="Modal">
                         <div class="employeeList-info-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
@@ -199,7 +222,7 @@ if(count($_POST) > 0){
                         <div class="employeeList-government-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Government Information</h1>
-                                <span id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </span>
+                                <button type="button"  data-bs-toggle="modal" data-bs-target="#governModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
                             </div> 
                             <div class="emp-govern-first-container">
                                 <div class="gov-sss" style="display:flex">
@@ -251,7 +274,7 @@ if(count($_POST) > 0){
                         <div class="emp-allowance-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Employee Allowance</h1>
-                                <span id="allowance-update" id="allowance-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </span>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#allowanceModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
 
                             </div>
                             <div class="emp-allowance-first-container">
@@ -373,7 +396,7 @@ if(count($_POST) > 0){
                                         $database = "hris_db";
 
                                         $conn = mysqli_connect($server, $user, $pass, $database);
-                                        $sql = "SELECT * FROM employee_tb WHERE `role` = 'Admin' OR `role` = 'Supervisor'";
+                                        $sql = "SELECT * FROM employee_tb WHERE `role` = 'admin' OR `role` = 'Supervisor'";
                                         $result = mysqli_query($conn, $sql);
 
                                         $options = "";
@@ -400,7 +423,7 @@ if(count($_POST) > 0){
                                         
                                         <label for="approver">Immediate Superior/Approver</label><br>
                                         <select name="approver" id="">
-                                        <option value selected disabled><?php echo $approver_fullname?></option>
+                                        <option value="<?php echo $row_approver['empid'];?>" selected><?php echo $approver_fullname?></option>
                                             <?php echo $options; ?>
                                         </select>
                                     
@@ -476,8 +499,9 @@ if(count($_POST) > 0){
                     ?>
 
                 <form action="Data Controller/Employee List/otherGovernController.php" method="POST">
-                    <div class="emp-modal" id="emp-modal">
-                        <div class="emp-modal-container" id="">
+                    <div class="modal fade" id="governModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="position: absolute; top: 50px; left: 35%; " >
+                        <div class="modal-content" id="" style="width: 800px;">
                         <script>
                             $(document).ready(function(){
 
@@ -500,24 +524,24 @@ if(count($_POST) > 0){
                             });
                         </script>
                         <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
-                            <div class="emp-modal-title">
-                                <h1>Add new deduction</h1>
-                                
+                            <div class="modal-header">
+                                <h1 class="modal-title" style="font-size: 25px;">Add new deduction</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
-                            <div class="emp-modal-input">
+                            <div class="modal-body">
                                 
-                                <table class="" id="table-field" style=" width: 300px; margin-left: 100px;" >
+                                <table class="" id="table-field" style=" width: 600px; margin-left: 100px;" >
                                     <tr>
                                         <th>Description</th>
                                         <th>Amount</th>
-                                        <th>Actions</th>
+                                        <th style="margin-left: 50px;">Actions</th>
                                         <th></th>
                                     </tr>
                                     <tr>
                                         <td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"></td>
                                         <td><input type="number" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount"></td>
-                                        <td><input type="button" value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px;" ></td>
+                                        <td><input type="button"  value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px; margin-left: 20px;" ></td>
                                         <td>
                                         <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
 
@@ -567,10 +591,11 @@ if(count($_POST) > 0){
                                 </table>
                                 </div>
                             </div>
-                            <div class="emp-modal-button">
-                            <span value="Cancel" id="emp-modal-close" class="emp-modal-close" style="margin-bottom:12px;">Close</span>
-                            <input type="submit" value="Submit" name="submit" id="submit" style="border: none; font-size: 23px; margin-top: -1px; margin-right: 10px; color: blue;" >
-                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Understood</button>
+                            </div>        
+                        </div>
                         </div>
                     </div>
                     </form> 
@@ -608,8 +633,9 @@ if(count($_POST) > 0){
                                 
                     ?>
                 
-                    <div class="allowance-modal" id="allowance-modal">
-                        <div class="allowance-modal-container">
+                    <div class="modal fade" id="allowanceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="allowanceLabel" aria-hidden="true">
+                        <div class="modal-dialog"  style="position: absolute; top: 50px; left: 35%; ">
+                        <div class="modal-content" style="width: 800px;">
                             <script>
                                 $(document).ready(function(){
                                     var html = '<tr><td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
@@ -631,10 +657,11 @@ if(count($_POST) > 0){
                             });
                             </script>
                             <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
-                            <div class="allowance-modal-title">
-                                <h1>Add new deduction</h1>
+                            <div class="modal-header">
+                                <h1 class="modal-title">Add new deduction</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="allowance-modal-input">  
+                            <div class="modal-body">  
                                 <table class="" id="table-fields" style=" width: 300px; margin-left: 100px;" >
                                     <tr>
                                         <th>Description</th>
@@ -694,11 +721,12 @@ if(count($_POST) > 0){
                                 </table>
                                 </div>
                             </div>
-                            <div class="allowance-modal-button">
-                                <span value="Cancel" id="allowance-modal-close" class="allowance-modal-close" style="margin-bottom:12px;">Close</span>
-                                <input type="submit" value="Submit" name="submit" id="submit" style="border: none; font-size: 23px; margin-top: -1px; margin-right: 10px; color: blue;">
-                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Understood</button>
+                            </div>  
                             </form>
+                        </div>
                         </div>
                     </div>
                 
@@ -797,10 +825,139 @@ function clickOutside(e){
 
 </script>
 
-                     
+    
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                });
+                            });
+            
+    </script>
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
-    <script src="main.js"></script>
+    
+
+    
+    
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 </body>
 </html>
