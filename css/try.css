@@ -16,16 +16,61 @@
     margin-right: 0;
     transition: margin-right 0.6s ease-in-out;
   }
+
+  .attendace-container.move-content {
+    margin-right: 80px;
+    transition: margin-right 0.6s ease-in-out;
+  }
+  
+  .attendace-container.move-content-transition {
+    margin-right: 0;
+    transition: margin-right 0.6s ease-in-out;
+  }
+
+  .empList-container.move-content {
+    margin-right: 80px;
+    transition: margin-right 0.6s ease-in-out;
+  }
+  
+  .empList-container.move-content-transition {
+    margin-right: 0;
+    transition: margin-right 0.6s ease-in-out;
+  }
+
+  
+  .scheduleform-container.move-content {
+    margin-right: 80px;
+    transition: margin-right 0.6s ease-in-out;
+  }
+  
+  .scheduleform-container.move-content-transition {
+    margin-right: 0;
+    transition: margin-right 0.6s ease-in-out;
+  }
+
+
+
+
   
   .text-center {
-    
     box-shadow: 20px 5px 21px -7px #C37700;
+  }
+  
+  
+
+
+  .sidebar .nav:not(.sub-menu) > .nav-item > .nav-link[aria-expanded="true"] {
+    background-color: #C37700;
+  }
+
+  .sidebar .nav:not(.sub-menu) > .nav-item.active {
+    background-color: #141414;
   }
   
   
   
   #logo-upper-nav{
-      background-color: black;
+      background-color: #000;
       height: 90px;
   }
   
@@ -34,18 +79,20 @@
   }
   
   #upper-nav-container{
-      background-color: black;
+      background-color: #000;
       height: 90px;
   }
   
   #sidebar{
       background-color: rgb(20, 20, 20) !important;
       box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+      
      
     
   }
   
   #sub-menu{
+    margin-top: 20px !important;
     background-color: #C37700 !important;
     
   }
@@ -91,11 +138,7 @@
   
   
   
-    .sidebar .nav:not(.sub-menu) > .nav-item > .nav-link[aria-expanded="true"] {
-      border-radius: 8px 8px 0 0 !important;
-      background: #C37700 !important;
-      
-  }
+    
   
   .sidebar .nav .nav-item.active > .nav-link {
     background: #C37700 !important;
@@ -156,6 +199,10 @@
       display: block;
       display: flex;
       flex-direction: column;
+  }
+
+  .responsive-bars-btn{
+    display: none;
   }
   
   
