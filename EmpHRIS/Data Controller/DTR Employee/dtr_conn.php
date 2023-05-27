@@ -22,18 +22,29 @@
             $escaped_contents = "";
         }
         
-        $query = "INSERT INTO emp_dtr_tb (`empid`,`date`,`time`,`type`,`reason`,`file_attach`,`status`)
-        VALUES ('$employee_id','$date_dtr','$time','$type','$reason','$escaped_contents','Pending')";
-        $query_run = mysqli_query($conn, $query);
+        $sql = "SELECT * FROM emp_dtr_tb WHERE `empid` = '$employee_id' AND `date` = '$date_dtr'";
+        $result = mysqli_query($conn, $sql);
 
-        if($query_run)
-        {
-            header("Location: ../../dtr_emp.php?msg=Successfully Added");
+        if(mysqli_num_rows($result) > 0) {
+            header("Location: ../../dtr_emp.php?error=Same date is not Allow");
+        }else{
+            $query = "INSERT INTO emp_dtr_tb (`empid`,`date`,`time`,`type`,`reason`,`file_attach`,`status`)
+            VALUES ('$employee_id','$date_dtr','$time','$type','$reason','$escaped_contents','Pending')";
+            $query_run = mysqli_query($conn, $query);
+
+            if($query_run)
+            {
+                header("Location: ../../dtr_emp.php?msg=Successfully Added");
+            }
+            else
+            {
+                echo "Failed: " . mysqli_error($conn);
+            }
         }
-        else
-        {
-            echo "Failed: " . mysqli_error($conn);
-        }
+
+
+
+
 
     }
 ?>

@@ -439,7 +439,7 @@ session_start();
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">  <!--received the id of selected data in datatble and pass to calss action-->   
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;"> <!--received the employee_id of selected data in datatble and pass to calss action-->  
-                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
+                        <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>
@@ -459,7 +459,8 @@ session_start();
                                             <?php 
                                                     include 'config.php';
                                                     //select data db
-                                                    $logInEmpID = $_SESSION['empid'];
+
+                                                    $empid = $_SESSION['empid'];
 
                                                     $sql = "SELECT
                                                                 applyleave_tb.col_ID,
@@ -477,8 +478,7 @@ session_start();
                                                                 applyleave_tb.`col_status`
                                                             FROM
                                                                 applyleave_tb
-                                                            INNER JOIN employee_tb ON applyleave_tb.col_req_emp = employee_tb.empid
-                                                            WHERE employee_tb.empid = $logInEmpID
+                                                            INNER JOIN employee_tb ON applyleave_tb.col_req_emp = employee_tb.empid WHERE applyleave_tb.col_req_emp = $empid
                                                             ORDER BY applyleave_tb.`_datetime` DESC
                                                             
                                                             ";
@@ -486,9 +486,12 @@ session_start();
 
                                                     //read data
                                                     while($row = $result->fetch_assoc()){
-
                                                         $approver = $row['col_approver'];
-                                                        $result_approver = mysqli_query($conn, " SELECT
+                                                        if ($approver === ''){
+                                                            $approver_fullname = 'none';
+                                                        }
+                                                        else{
+                                                            $result_approver = mysqli_query($conn, " SELECT
                                                             *  
                                                         FROM
                                                             employee_tb
@@ -500,39 +503,44 @@ session_start();
                                                         } else {
                                                             $approver_fullname = 'Something Went Wrong';
                                                         } 
+                                                        }
+                                                       
+
+                                                        
 
                                                         echo "<tr>
-                                                            <td>" . $row['col_ID'] . "</td>
-                                                            <td>" . $row['col_req_emp'] . "</td>
-                                                            <td scope='row' >
-                                                                    <button type='submit' name='view_data' class= 'viewbtn' title = 'View' style=' border: none; background: transparent;
-                                                                    text-transform: capitalize; text-decoration: underline; cursor: pointer; color: #787BDB; font-size: 19px;}'>
-                                                                    " . $row['full_name'] . "
+                                                                <td>" . $row['col_ID'] . "</td>
+                                                                <td>" . $row['col_req_emp'] . "</td>
+                                                                <td scope='row'>
+                                                                    <button type='submit' name='view_data' class='viewbtn' title='View' style='border: none; background: transparent;
+                                                                        text-transform: capitalize; text-decoration: underline; cursor: pointer; color: #787BDB; font-size: 19px;'>
+                                                                        " . $row['full_name'] . "
                                                                     </button>
-                                                            </td>
-                                                            <td>" . $row['col_LeaveType'] . "</td>
-                                                            <td>" . $row['col_strDate'] . "</td>
-                                                            <td>" . $row['_datetime'] . "</td>
-                                                            <td>" . $row['col_dt_action'] . "</td>
-                                                            <td>" . $approver_fullname . "</td>
-                                                            <td>" . " <div class='row'>
-                                                                        <div class='col-12'>
-                                                                        <button type='button' class= 'border-0 btn_view_file' title = 'View' data-bs-toggle='modal' data-bs-target='#id_view_file' style=' background: transparent;'>
-                                                                            <img src='img/view_file.png' alt='...'>
-                                                                        </button>
-                                                                        </div>
-                                                                    </div>  " . "</td>
-                                                                    <td"
-                                                                         . ($row['col_status'] === 'Approved' ? " style='color: blue;'" :
-                                                                                ($row['col_status'] === 'Rejected' ? " style='color: red;'" :
-                                                                                    ($row['col_status'] === 'Cancelled' ? " style='color: orange;'" :
-                                                                                        ($row['col_status'] === 'Pending' ? " style='color: green;'" :
-                                                                                        "") 
-                                                                                    )
-                                                                                )
-                                                                            ) . ">" . $row['col_status'] . "
                                                                 </td>
-                                                        </tr>";
+                                                                <td>" . $row['col_LeaveType'] . "</td>
+                                                                <td>" . $row['col_strDate'] . "</td>
+                                                                <td>" . $row['_datetime'] . "</td>
+                                                                <td>" . $row['col_dt_action'] . "</td>
+                                                                <td>" . $approver_fullname . "</td>
+                                                                <td>
+                                                                    <div class='row'>
+                                                                        <div class='col-12'>
+                                                                            <button type='button' class='border-0 btn_view_file' title='View' data-bs-toggle='modal' data-bs-target='#id_view_file' style='background: transparent;'>
+                                                                                <img src='icons/view_file.png' alt='...'>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td" . ($row['col_status'] === 'Approved' ? " style='color: blue;'" :
+                                                                            ($row['col_status'] === 'Rejected' ? " style='color: red;'" :
+                                                                                ($row['col_status'] === 'Cancelled' ? " style='color: orange;'" :
+                                                                                    ($row['col_status'] === 'Pending' ? " style='color: green;'" :
+                                                                                    "") 
+                                                                                )
+                                                                            )
+                                                                        ) . ">" . $row['col_status'] . "</td>
+                                                            </tr>";
+
                                                     }
                                                 ?>  
                                         </tbody>   

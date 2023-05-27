@@ -2881,9 +2881,13 @@ table th:first-child{
 .emp-dash2-chart{
     height: 300px;
     width: 93%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: auto;
     margin-top: 40px;
-    border: black 1px solid;
+    border: rgb(44, 94, 59) 1px solid;
+    border-radius: 4px;
 }
 
 .emp-dash2-shortcut{

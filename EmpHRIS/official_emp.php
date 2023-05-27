@@ -261,7 +261,7 @@ session_start();
 <!--------------------------------------------Syntax and Bootstrap class for table------------------------------------------------>
                         <div class="row">
                             <div class="col-12 mt-5">
-                                <div class="table-responsive" style="overflow: hidden;">
+                                <div class="table-responsive" style="">
                                     <table id="order-listing" class="table">
                                         <thead>
                                             <tr>
