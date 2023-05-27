@@ -217,7 +217,7 @@ if ($stmt1->errno) {
     $mail->Body .= '<h3>Your account details:</h3>';
     $mail->Body .= '<p>Username: ' . $username . '</p>';
     $mail->Body .= '<p>Password: ' . $password . '</p>';
-    $mail->Body .= '<p>Click <a href="http://localhost:8080/hris/empChangePassword.php">here</a> to change your preferred password and to access the website.</p>';
+    $mail->Body .= '<p>Click <a href="http://192.168.0.105:8080/hris/empChangePassword.php">here</a> to change your preferred password and to access the website.</p>';
   
     $mail->send();
   }
