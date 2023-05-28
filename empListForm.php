@@ -310,7 +310,7 @@
                                         <label for="approver">Immediate Superior/Approver</label><br>
                                         <select name="approver" id="">
                                         <option value disabled selected>Select Approver</option>
-                                        <option value="admin">admin</option>
+                                        <option value="00000100010">admin</option>
                                             <?php echo $options; ?>
                                         </select>
                                     
