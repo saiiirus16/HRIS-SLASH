@@ -406,24 +406,33 @@ if(count($_POST) > 0){
                                         }
 
                                         $approver = $row['approver'];
-                                        $result_approver = mysqli_query($conn, " SELECT
-                                            *  
-                                        FROM
-                                            employee_tb
-                                        WHERE empid = $approver");
-                                        if(mysqli_num_rows($result_approver) > 0) {
-                                            $row_approver = mysqli_fetch_assoc($result_approver);
-                                            //echo $row__leaveINFO['col_vctionCrdt'];
-                                            $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
-                                        } else {
-                                            $approver_fullname = 'Something Went Wrong';
+
+                                        if($approver === '00000100010'){
+                                            $approver_fullname = "Super Admin";
+                                            $empID_approver = "00000100010";
                                         }
+                                        else{
+                                            $result_approver = mysqli_query($conn, " SELECT
+                                                *  
+                                            FROM
+                                                employee_tb
+                                            WHERE empid = $approver");
+                                            if(mysqli_num_rows($result_approver) > 0) {
+                                                $row_approver = mysqli_fetch_assoc($result_approver);
+                                                //echo $row__leaveINFO['col_vctionCrdt'];
+                                                $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
+                                                $empID_approver = $row_approver['empid'];
+                                            } else {
+                                                $approver_fullname = 'Something Went Wrong';
+                                            }
+                                        }
+                                        
                                     ?>
 
                                         
                                         <label for="approver">Immediate Superior/Approver</label><br>
                                         <select name="approver" id="">
-                                        <option value="<?php echo $row_approver['empid'];?>" selected><?php echo $approver_fullname?></option>
+                                        <option value="<?php echo $empID_approver ?>" selected><?php echo $approver_fullname?></option>
                                             <?php echo $options; ?>
                                         </select>
                                     

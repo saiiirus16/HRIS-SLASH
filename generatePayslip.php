@@ -325,16 +325,8 @@
                                             <td>" . $row['col_cutOffNum'] . "</td> 
                                             <td>" . $row['_datetime'] . "</td> 
                                             <td>
-                                                <div class='dropdown'>
-                                                    <button class='btn btn-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                                        View
-                                                    </button>
-                                                    <ul class='dropdown-menu'>
-                                                        <li><a class='dropdown-item' href='Data Controller/Payslip/getPayslipdata.php?id=" . $row['col_ID'] . "'>View Payslip</a></li>
-                                                        <li><a class='dropdown-item' href='#'>Download</a></li>
-                                                    </ul>
-                                                </div
-                                        </td>                                      
+                                                <a class='' href='Data Controller/Payslip/getPayslipdata.php?id=" . $row['col_ID'] . "'><i class='fa-solid fa-eye fs-5 me-3'></i></a>
+                                            </td>                                      
                                         </tr>"; 
                                 }
                             ?>
