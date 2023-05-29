@@ -16,12 +16,12 @@
        $result_dept = mysqli_query($conn, " SELECT
             *  
         FROM
-            `cutoff_tb`
-        WHERE `col_frequency` = '$frequency' and  `col_cutOffNum` = $Cut_num");
+            `empschedule_tb`
+        WHERE `empid` = $empID");
 
-        if(mysqli_num_rows($result_dept) > 0) {
+        if(mysqli_num_rows($result_dept) <= 0) {
             $row__dept = mysqli_fetch_assoc($result_dept);
-            header("Location: ../../cutoff.php?error=You cannot add a cutoff name that is already exist");
+            header("Location: ../../cutoff.php?error=You cannot add a employee that has no schedule");
           } 
           else{
 

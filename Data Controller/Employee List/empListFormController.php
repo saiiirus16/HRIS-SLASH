@@ -74,9 +74,16 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $cpassword = $_POST['cpassword'];
 
-$empschedule_type = $_POST['schedule_name'];
+$empschedule_type = "";
 $empstart_date = $_POST['sched_from'];
 $empend_date = $_POST['sched_to'];
+
+if($empschedule_type === ''){
+    $empschedule_type = 'none';
+}
+else{
+    $empschedule_type = $_POST['schedule_name'];
+}
 
 // Check if the employee already exists in the database
 $name_dob = $fname . ' ' . $lname . ' ' . $empdob;
@@ -179,15 +186,23 @@ $stmt1->bind_param("ssss", $empid, $empschedule_type, $empstart_date, $empend_da
 
 $stmt1->execute();
 
+
 if ($stmt1->errno) {
     // Display an error message and stop the script from continuing
     echo '<script>alert("Error: Unable to insert data in empschedule_tb. Please try again.")</script>';
     echo "<script>window.location.href = '../../empListForm.php';</script>";
     exit;
   } else {
+
+    //Para mag delete sa schedule na naka set sa "none"
+    //Way para ma solusyonan ang show stopper na "if mag insert ng employee at walang schedule na pinili ay may error"
+    $sql = "DELETE FROM `empschedule_tb` WHERE `schedule_name` = 'none'";
+    $result = mysqli_query($conn, $sql);
+
+
     // Both queries were successful, redirect to EmployeeList.php
     echo '<script>alert("Employee successfully added.")</script>';
-    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    echo "<script>window.location.href = '../../EmployeeList.php';</script>";
   
     $mail = new PHPMailer(true);
   
@@ -217,7 +232,7 @@ if ($stmt1->errno) {
     $mail->Body .= '<h3>Your account details:</h3>';
     $mail->Body .= '<p>Username: ' . $username . '</p>';
     $mail->Body .= '<p>Password: ' . $password . '</p>';
-    $mail->Body .= '<p>Click <a href="http://localhost:8080/hris/empChangePassword.php">here</a> to change your preferred password and to access the website.</p>';
+    $mail->Body .= '<p>Click <a href="http://192.168.0.105:8080/hris/empChangePassword.php">here</a> to change your preferred password and to access the website.</p>';
   
     $mail->send();
   }
