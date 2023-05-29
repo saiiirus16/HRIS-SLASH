@@ -33,43 +33,9 @@ session_start();
     </header>
 
     <style>
-    .sidebars ul li{
-        list-style: none;
-        text-decoration:none;
-        width: 287px;
-        margin-left:-16px;
-        line-height:30px;
-       
-    }
-
-    .sidebars ul li .hoverable{
-        height:55px;
-    }
-
-    .sidebars ul{
-        height:100%;
-    }
-
-    .sidebars .first-ul{
-        line-height:60px;
-        height:100px;
-    }
-
-    .sidebars ul li ul li{
-        width: 100%;
-    }
-
-    .card-body{
-         width: 70%;
-                   
-    }
-
-    .table{
-         width: 90%;
-    }
 
 </style>
- <!------------------------------------Modal Start Here----------------------------------------------->
+   <!------------------------------------Modal Start Here----------------------------------------------->
  <div class="modal fade" id="file_off_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -395,32 +361,138 @@ session_start();
   });
 </script>
 <!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                    $('#empName').val(data[0]);
+                                });
+                            });
+            
+    </script>
 
 
 
-<!-----------------------Script para sa automatic na pagdisapper ng alert message------------------------------->
-<!-- <script>
-    setTimeout(function() {
-        let alert = document.querySelector('.alert');
-        if (alert) {
-            alert.remove();
-        }
-    }, 2000);
-</script> -->
-<!---------------------End Script para sa automatic na pagdisapper ng alert message------------------------------>
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
 
-<!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page-->
-<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<script src="bootstrap js/template.js"></script>
-<!-- Custom js for this page-->
-<script src="bootstrap js/data-table.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 <script src="js/official_emp.js"></script>
 </body>
 </html>
