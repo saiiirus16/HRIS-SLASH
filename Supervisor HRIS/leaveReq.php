@@ -20,14 +20,29 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/leavereq.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+    <!-- skydash -->
+
+<link rel="stylesheet" href="skydash/feather.css">
+<link rel="stylesheet" href="skydash/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+<link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+<link rel="stylesheet" href="skydash/style.css">
+
+<script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="css/try.css">
+<link rel="stylesheet" href="css/overtime.css"/>
+<link rel="stylesheet" href="css/styles.css">
 
     <title>Leave Request</title>
 </head>
@@ -39,33 +54,41 @@ session_start();
 </header>
 
 <style>
+    
+    html{
+        background-color: #f4f4f4 !important;
+        overflow: hidden;
+    }
+    
+
     body{
-        list-style:none;
-        text-decoration:none;
+        overflow: hidden;
+        background-color: #f4f4f4;
     }
 
-    .sidebars ul li{
-        list-style: none;
-        text-decoration:none;
-        width: 289px;
-        margin-left:-32px;
-        color:black;
-       
+    .pagination{
+        margin-right: 73px !important;
+
+        
     }
 
-    .sidebars ul{
-        height:100%;
-        color:black;
+    .pagination li a{
+        color: #c37700;
     }
 
-    .sidebars .first-ul{
-        line-height:50px;
-        color:black;
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
     }
 
-    .sidebars ul li ul li{
-        width: 100%;
-        color:black;
+    
+    
+    #order-listing_next{
+        margin-right: 28px !important;
+        margin-bottom: -16px !important;
+
     }
 </style>
 
@@ -490,7 +513,7 @@ session_start();
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">  <!--received the id of selected data in datatble and pass to calss action-->   
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;"> <!--received the employee_id of selected data in datatble and pass to calss action-->  
-                            <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
+                        <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>
@@ -506,12 +529,10 @@ session_start();
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
-                                    
                                         <tbody id="table-body">
                                             <?php 
-                                                    include '../config.php';
+                                                    include 'config.php';
                                                     //select data db
-                                                    $aprrover_ID = $_SESSION['empid'];
 
                                                     $sql = "SELECT
                                                                 applyleave_tb.col_ID,
@@ -530,7 +551,6 @@ session_start();
                                                             FROM
                                                                 applyleave_tb
                                                             INNER JOIN employee_tb ON applyleave_tb.col_req_emp = employee_tb.empid
-                                                            WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID)
                                                             ORDER BY applyleave_tb.`_datetime` DESC
                                                             
                                                             ";
@@ -538,21 +558,27 @@ session_start();
 
                                                     //read data
                                                     while($row = $result->fetch_assoc()){
-                                                    
-                                                            $approver = $row['col_approver'];
+                                                        $approver = $row['col_approver'];
+                                                        if ($approver === ''){
+                                                            $approver_fullname = 'none';
+                                                        }
+                                                        else{
                                                             $result_approver = mysqli_query($conn, " SELECT
-                                                                *  
-                                                            FROM
-                                                                employee_tb
-                                                            WHERE empid = $approver");
-                                                            if(mysqli_num_rows($result_approver) > 0) {
-                                                                $row_approver = mysqli_fetch_assoc($result_approver);
-                                                                //echo $row__leaveINFO['col_vctionCrdt'];
-                                                                $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
-                                                            } else {
-                                                                $approver_fullname = 'Something Went Wrong';
-                                                            } 
-                                       
+                                                            *  
+                                                        FROM
+                                                            employee_tb
+                                                        WHERE empid = $approver");
+                                                        if(mysqli_num_rows($result_approver) > 0) {
+                                                            $row_approver = mysqli_fetch_assoc($result_approver);
+                                                            //echo $row__leaveINFO['col_vctionCrdt'];
+                                                            $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
+                                                        } else {
+                                                            $approver_fullname = 'Something Went Wrong';
+                                                        } 
+                                                        }
+                                                       
+
+                                                        
 
                                                         echo "<tr>
                                                                 <td>" . $row['col_ID'] . "</td>
@@ -704,6 +730,138 @@ session_start();
 // </script>
 
 
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                    $('#empName').val(data[0]);
+                                });
+                            });
+            
+    </script>
+
+
+
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 
 </body>
 <script src="js/leavereq.js"></script>
