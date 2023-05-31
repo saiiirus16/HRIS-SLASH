@@ -98,11 +98,38 @@ $stmt->bind_result($count);
 $stmt->fetch();
 
 if ($count > 0) {
-    // Display an error message and stop the script from continuing
-    echo "<script>alert('Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database.');</script>";
-    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    // Retrieve the previous inputted values from the POST data
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $address = $_POST['address'];
+    $contact = $_POST['contact'];
+    $cstatus = $_POST['cstatus'];
+    $gender = $_POST['gender'];
+    $empdob = $_POST['empdob'];
+    $empsss = $_POST['empsss'];
+    $emptin = $_POST['emptin'];
+    $emppagibig = $_POST['emppagibig'];
+    $empbsalary = $_POST['empbsalary'];
+    $drate = $_POST['drate'];
+    $empdate_hired = $_POST['empdate_hired'];
+    $emptranspo = $_POST['emptranspo'];
+    $empmeal = $_POST['empmeal'];
+    $empinternet = $_POST['empinternet'];
+    $empaccess_id = $_POST['empaccess_id'];
+    $username = $_POST['username'];
+    $role = $_POST['role'];
+    $email = $_POST['email'];
+
+    // Display an error message and redirect with the previous values as query parameters
+    $errorMessage = "Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database";
+    $queryString = http_build_query([
+        'error' => $errorMessage,
+        'address' => $address,
+        'contact' => $contact
+    ]);
+    header("Location: ../../empListForm.php?" . $queryString);
     exit;
-}
+}  
 
 
 $stmt->close();
