@@ -41,6 +41,10 @@ if(isset($_POST['importSubmit'])){
                 $total_work = '';
                 $total_rest = '';
 
+                
+
+                
+
     
                 $conn = mysqli_connect("localhost", "root", "", "hris_db");
                 $sql = "SELECT * FROM empschedule_tb WHERE empid = $empid";
@@ -80,7 +84,7 @@ if(isset($_POST['importSubmit'])){
                 $result = mysqli_query($conn, $stmt);
                 while($time = mysqli_fetch_assoc($result)){
 
-            
+                  
 
 
                 $monday = strtr($time['monday_date'], '/' , '-');

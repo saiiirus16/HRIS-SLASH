@@ -74,9 +74,16 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $cpassword = $_POST['cpassword'];
 
-$empschedule_type = $_POST['schedule_name'];
+$empschedule_type = "";
 $empstart_date = $_POST['sched_from'];
 $empend_date = $_POST['sched_to'];
+
+if($empschedule_type === ''){
+    $empschedule_type = 'none';
+}
+else{
+    $empschedule_type = $_POST['schedule_name'];
+}
 
 // Check if the employee already exists in the database
 $name_dob = $fname . ' ' . $lname . ' ' . $empdob;
@@ -91,9 +98,36 @@ $stmt->bind_result($count);
 $stmt->fetch();
 
 if ($count > 0) {
-    // Display an error message and stop the script from continuing
-    echo "<script>alert('Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database.');</script>";
-    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    // Retrieve the previous inputted values from the POST data
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $address = $_POST['address'];
+    $contact = $_POST['contact'];
+    $cstatus = $_POST['cstatus'];
+    $gender = $_POST['gender'];
+    $empdob = $_POST['empdob'];
+    $empsss = $_POST['empsss'];
+    $emptin = $_POST['emptin'];
+    $emppagibig = $_POST['emppagibig'];
+    $empbsalary = $_POST['empbsalary'];
+    $drate = $_POST['drate'];
+    $empdate_hired = $_POST['empdate_hired'];
+    $emptranspo = $_POST['emptranspo'];
+    $empmeal = $_POST['empmeal'];
+    $empinternet = $_POST['empinternet'];
+    $empaccess_id = $_POST['empaccess_id'];
+    $username = $_POST['username'];
+    $role = $_POST['role'];
+    $email = $_POST['email'];
+
+    // Display an error message and redirect with the previous values as query parameters
+    $errorMessage = "Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database";
+    $queryString = http_build_query([
+        'error' => $errorMessage,
+        'address' => $address,
+        'contact' => $contact
+    ]);
+    header("Location: ../../empListForm.php?" . $queryString);
     exit;
 }
 
@@ -149,15 +183,15 @@ $stmt->close();
 // $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 $passwordHash = mysqli_real_escape_string($conn, md5($password));
 
-
-$stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`)
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+$status = 'Active';
+$stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`, `status`)
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 if (!$stmt) {
     die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$stmt->bind_param("sssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $passwordHash);
+$stmt->bind_param("ssssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $passwordHash, $status);
 
 $stmt->execute();
 
@@ -179,15 +213,23 @@ $stmt1->bind_param("ssss", $empid, $empschedule_type, $empstart_date, $empend_da
 
 $stmt1->execute();
 
+
 if ($stmt1->errno) {
     // Display an error message and stop the script from continuing
     echo '<script>alert("Error: Unable to insert data in empschedule_tb. Please try again.")</script>';
     echo "<script>window.location.href = '../../empListForm.php';</script>";
     exit;
   } else {
+
+    //Para mag delete sa schedule na naka set sa "none"
+    //Way para ma solusyonan ang show stopper na "if mag insert ng employee at walang schedule na pinili ay may error"
+    $sql = "DELETE FROM `empschedule_tb` WHERE `schedule_name` = 'none'";
+    $result = mysqli_query($conn, $sql);
+
+
     // Both queries were successful, redirect to EmployeeList.php
     echo '<script>alert("Employee successfully added.")</script>';
-    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    echo "<script>window.location.href = '../../EmployeeList.php';</script>";
   
     $mail = new PHPMailer(true);
   
@@ -217,7 +259,7 @@ if ($stmt1->errno) {
     $mail->Body .= '<h3>Your account details:</h3>';
     $mail->Body .= '<p>Username: ' . $username . '</p>';
     $mail->Body .= '<p>Password: ' . $password . '</p>';
-    $mail->Body .= '<p>Click <a href="http://localhost:8080/hris/empChangePassword.php">here</a> to change your preferred password and to access the website.</p>';
+    $mail->Body .= '<p>Click <a href="http://192.168.0.105:8080/hris/empChangePassword.php">here</a> to change your preferred password and to access the website.</p>';
   
     $mail->send();
   }
