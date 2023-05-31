@@ -369,6 +369,7 @@ header{
     border-radius: 10px;
     /* margin-top: 100px;
     margin-left: 320px; */
+    background-color: #fff;
 }
 
 .empList-title{
@@ -2153,7 +2154,7 @@ header{
     margin-right: 20px;    
 }
 
-/* Attention */
+/* attendance */
 
 .attendace-container{
     width: 1500px;
@@ -2161,8 +2162,9 @@ header{
     position: absolute;
     right: 60px;
     bottom: 30px;
-    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-    border-radius: 10px;    
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
+    border-radius: 10px;  
+    background-color: #fff;  
     
    
 }
@@ -2219,6 +2221,7 @@ header{
     border-radius: 5px;
     outline: none;
     border: 1px solid gray;
+    
 }
 
 .att-emp {
@@ -2302,7 +2305,8 @@ header{
     display: flex;
     align-items: center;
     border-radius: 10px;
-    background-color: #ccc;
+    background-color: #000;
+    color: white;
 }
 
 .att-date h1{
@@ -2366,7 +2370,9 @@ header{
 
 #table-responsiveness{
     overflow-y: hidden !important;
+    
 }
+
 
 /* generate payslip */
 
@@ -2380,6 +2386,8 @@ header{
     border-radius: 10px;
     /* margin-top: 100px;
     margin-left: 320px; */
+    background-color: #fff;
+    
 }
 
 .gen-payslip-input-container{
@@ -2581,6 +2589,7 @@ table th:first-child{
     border-radius: 10px;
     overflow:scroll;
     overflow-x: hidden;
+    background-color: #fff;
   }
 
 .payroll-loan-title{
@@ -2716,7 +2725,7 @@ table th:first-child{
     top: 90px;
     right: 0;
     height: 878px;
-    background-color: #fff;
+    background-color: #f4f4f4 !important;
     width: 100%;
 }
 
@@ -2734,7 +2743,7 @@ table th:first-child{
 }
 
 .dashboard-content{
-    background-color: #fff;
+    background-color: #f4f4f4;
 }
 
 .dashboard-contents{
@@ -2751,7 +2760,7 @@ table th:first-child{
 .employee-status-overview{
     width: 850px;
     
-    background-color: #fff;
+    background-color: #f4f4f4;
 
 }
 
@@ -2909,7 +2918,7 @@ table th:first-child{
 
 .emp-request-list-container{
     width: 840px;
-    background-color: #fff;
+    background-color: #f4f4f4;
     
     border-radius: 10px;
     height: 490px;
@@ -2936,6 +2945,7 @@ table th:first-child{
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
     height: 400px;
     margin-left: 10px;
+    background-color: #fff
 }
 
 .emp-request-btn{
@@ -3003,6 +3013,7 @@ table th:first-child{
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
     border-radius: 10px;
     position: relative;
+    background-color: #fff;
 }
 
 .announce-content h4{
@@ -3076,6 +3087,7 @@ table th:first-child{
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
     height: 353px;
     border-radius: 10px;
+    background-color: #fff;
     
 }
 
@@ -3203,3 +3215,4 @@ table th:first-child{
 .next {
   right: 0;
 } */
+

@@ -5,17 +5,29 @@
 
         include '../../config.php';
 
-         #sql query to insert into database
-         $sql = "INSERT into empcutoff_tb(`cutOff_ID`, `emp_ID`) 
-         VALUES('$cutOffID', '$cutOff_emp')";
+        $result_dept = mysqli_query($conn, " SELECT
+            *  
+        FROM
+            `empschedule_tb`
+        WHERE `empid` = $cutOff_emp");
 
-         if(mysqli_query($conn,$sql)){
-            header("Location: ../../cutoff.php?msg=Successfully Added");
-         }
-         else{
-            echo "Error";
-         }
+        if(mysqli_num_rows($result_dept) <= 0) {
+            $row__dept = mysqli_fetch_assoc($result_dept);
+            header("Location: ../../cutoff.php?error=You cannot add a employee that has no schedule");
+          } 
+          else{
 
-      
+               #sql query to insert into database
+               $sql = "INSERT into empcutoff_tb(`cutOff_ID`, `emp_ID`) 
+               VALUES('$cutOffID', '$cutOff_emp')";
+
+               if(mysqli_query($conn,$sql)){
+                  header("Location: ../../cutoff.php?msg=Successfully Added");
+               }
+               else{
+                  echo "Error";
+               }
+
+          }
     }
 ?>
