@@ -44,3 +44,20 @@ document.querySelector('form').addEventListener('submit', function (event) {
   }
 });
 
+
+function datevalidate() {
+  var startDate = new Date(document.getElementById("start_date").value);
+  var endDate = new Date(document.getElementById("end_date").value);
+  var presentYear = new Date().getFullYear();
+  var submitBtn = document.getElementById("submit-btn");
+  var message = document.getElementById("validation-message");
+
+  if (startDate.getFullYear() < presentYear || endDate.getFullYear() < presentYear) {
+      submitBtn.disabled = true;
+      message.innerText = "Please Choose the present year to allow your OB Request!";
+  } else {
+      submitBtn.disabled = false;
+      message.innerText = "";
+  }
+}
+
