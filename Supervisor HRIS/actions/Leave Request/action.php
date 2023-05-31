@@ -196,7 +196,11 @@ session_start();
                                 <div class="mb-3">
                                 <?php 
                                             $approver = $row['col_approver'];
-                                            $result_approver = mysqli_query($conn, " SELECT
+                                            if ($approver === ''){
+                                                $approver_fullname = 'none';
+                                            }
+                                            else{
+                                                $result_approver = mysqli_query($conn, " SELECT
                                                 *  
                                             FROM
                                                 employee_tb
@@ -208,6 +212,7 @@ session_start();
                                             } else {
                                                 $approver_fullname = 'Something Went Wrong';
                                             } 
+                                            }
                                         ?>
                                     <input type="text" class="form-control bg-light -subtle" value="<?php echo $approver_fullname; ?>" readonly>
                                     <label for="Select_dept" class="form-label">Approver :</label>
