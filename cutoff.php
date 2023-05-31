@@ -239,7 +239,7 @@ if(!isset($_SESSION['username'])){
 
 <div class="container mt-5">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" style="background-color: #fff">
 
         <h3 class="mt-2">Cutoff List</h3>
         <button class="btn_Create mt-3" data-bs-toggle="modal" data-bs-target="#modal_create" style="margin-left: 15px;">

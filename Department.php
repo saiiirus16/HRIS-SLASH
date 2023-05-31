@@ -88,13 +88,13 @@
     <form action = "Data Controller/Department/insertcode.php" method="POST">
         <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Department</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Department</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div> <!-- Modal header END -->
         <div class="modal-body">
                 
                     <div class="mb-3">
-                        <label for="adddept" class="col-form-label fs-6">Department Name :</label>
+                        <label for="adddept" class="col-form-label fs-6">Name :</label>
                         
                         <div class="input-group mb-3">
                             <input type="text" name="name_dept" class="form-control" id="id_Department" required>
@@ -105,7 +105,7 @@
         </div> <!-- Modal Body END -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Department</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </div> <!-- Modal footer END -->
         </div> <!-- Modal content END -->
     </form>
@@ -202,7 +202,7 @@
 
                                 <tr> 
                                         <th style= 'display: none;'> ID  </th>  
-                                        <th> Department  </th>
+                                        <th> Department Name </th>
                                         <th>Total Employee</th>
                                         <th>Action</th>                            
                                 </tr>

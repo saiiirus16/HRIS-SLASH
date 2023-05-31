@@ -94,7 +94,7 @@ if(!isset($_SESSION['username'])){
 </style>
 
 <!------------------------------------------------------ADD NEW POSITION MODAL-------------------------------------------------------->
-<div class="modal fade" id="addnew_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addnew_btn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -123,7 +123,7 @@ if(!isset($_SESSION['username'])){
 <!-------------------------------------------------END OF ADD NEW POSTION MODAL-------------------------------------------------------->
 
 <!-------------------------------------------------------------------EDIT MODAL-------------------------------------------------------->
-<div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -155,7 +155,7 @@ if(!isset($_SESSION['username'])){
 <!---------------------------------------------------END OF EDIT MODAL------------------------------------------------------------------->
 
 <!-------------------------------------------------------------------DELETE MODAL-------------------------------------------------------->
-<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deletemodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

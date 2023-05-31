@@ -1,42 +1,39 @@
 <?php
    
-   session_start();
-   if(!isset($_SESSION['username'])){
-       header("Location: login.php"); 
-   } else {
-       // Check if the user's role is not "admin"
-       if($_SESSION['role'] != 'admin'){
-           // If the user's role is not "admin", log them out and redirect to the logout page
-           session_unset();
-           session_destroy();
-           header("Location: logout.php");
-           exit();
-       }
-   }
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if ($_SESSION['role'] != 'admin') {
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
 
-    
+$server = "localhost";
+$user = "root";
+$pass ="";
+$database = "hris_db";
 
-        $server = "localhost";
-        $user = "root";
-        $pass ="";
-        $database = "hris_db";
-    
-        $conn = mysqli_connect($server, $user, $pass, $database);
-    
-        if(count($_POST) > 0){
-            mysqli_query($conn, "UPDATE payroll_loan_tb
-                                 SET empid='".$_POST['empid']."', loan_type='".$_POST['loan_type']."', year='".$_POST['year']."', month='".$_POST['month']."', cutoff_no='".$_POST['cutoff_no']."', remarks='".$_POST['remarks']."', loan_date='".$_POST['loan_date']."', payable_amount='".$_POST['payable_amount']."', amortization='".$_POST['amortization']."', applied_cutoff='".$_POST['applied_cutoff']."', loan_status='".$_POST['loan_status']."' WHERE id='".$_POST['id']."'");
-            header ("Location: loanRequest.php");
-        }
-            $resulta = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE id ='". $_GET['id']. "' ");
-            $loanrow = mysqli_fetch_assoc($resulta);
+$conn = mysqli_connect($server, $user, $pass, $database);
 
-            $resultb = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE empid ='".$loanrow['empid']. "' ");
-            $loanrows = mysqli_fetch_assoc($resultb);
-        
-        
+if (count($_POST) > 0) {
+    mysqli_query($conn, "UPDATE payroll_loan_tb
+                         SET loan_type='".$_POST['loan_type']."', year='".$_POST['year']."', month='".$_POST['month']."', cutoff_no='".$_POST['cutoff_no']."', remarks='".$_POST['remarks']."', loan_date='".$_POST['loan_date']."', payable_amount='".$_POST['payable_amount']."', amortization='".$_POST['amortization']."', applied_cutoff='".$_POST['applied_cutoff']."', loan_status='".$_POST['loan_status']."' WHERE id='".$_POST['id']."'");
+    header("Location: loanRequest.php");
+}
 
-    ?>
+$resulta = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE id ='".$_GET['id']."'");
+$loanrow = mysqli_fetch_assoc($resulta);
+
+$resultb = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE empid ='".$loanrow['empid']."'");
+$loanrows = mysqli_fetch_assoc($resultb);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,11 +41,33 @@
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    
+     
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+    <!-- skydash -->
+
+<link rel="stylesheet" href="skydash/feather.css">
+<link rel="stylesheet" href="skydash/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+<link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+<link rel="stylesheet" href="skydash/style.css">
+
+<script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/styles.css"> 
     <title>HRIS | Employee List</title>
 </head>
@@ -125,7 +144,7 @@
                 </div>
                     <div style="display:flex; align-items:center; height: 60px; margin-top: 27px;">  
                         
-                        <button type="button" style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#loanForm" style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
 
                     </div>
                 </div>
@@ -141,7 +160,8 @@
                 </div>
                 <div class="form-group">
                     <label for="payable_amount">Payable Amount</label><br>
-                    <input type="number" name="payable_amount" class="form-control" style="height:50px;" id="payable_amount" oninput="calculate()" value="<?php echo $loanrows['payable_amount'];?>"> 
+                    
+                    <input type="text" name="payable_amount" class="form-control" style="height:50px;"  id="payable_amount"  value="<?php echo $loanrow['payable_amount'];?>" oninput="calculate()" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 8) this.value = this.value.slice(0, 8);">
                 </div>
 
                 <div class="form-group">
@@ -158,7 +178,7 @@
                 </div>
                 <div class="form-group loan-req-btn">
                     <button><a href="loanRequest.php" style="text-decoration: none; color:black;">Cancel</a></button>
-                    <button style="color: blue;">Save</button>
+                    <button type="submit" style="color: blue;">Save</button>
                 </div>
             </div>   
         </div>
@@ -189,8 +209,67 @@
         </div>
     </div>
 
+    <div class="modal fade" id="loanForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 700px;" style="background-color: #fff">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="title">Loan Forecast</h1>
+                </div>
+                <div class="modal-body">    
+                    <div class="loan-forecast-balance">
+                        <?php 
+                        include 'config.php';
 
-    <div class="loan-forecast-container" id="loanFormModal">
+                            $sql = "SELECT * FROM payroll_loan_tb WHERE id ='". $_GET['id']. "'";
+                            $resulta = $conn->query($sql);
+                            $rows = mysqli_fetch_assoc($resulta);
+                        ?>
+                        <p>Balance: <?php echo $rows['col_BAL_amount']?></p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered" style="margin-bottom: 50px;">
+                            <thead>
+                                <th>Year</th>
+                                <th>Month</th>
+                                <th>Cutoff No.</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $conn = mysqli_connect("localhost", "root", "" , "hris_db");
+                                    $sql = "SELECT * FROM payroll_loan_tb WHERE empid = '".$loanrow['empid']."' ";
+                                    $results = $conn->query($sql);
+
+                                    if($results->num_rows > 0){
+                                        while($rows = $results->fetch_assoc()){
+                                            echo "<tr>
+                                                    <td style='font-weight:400'>".$rows['year']."</td>
+                                                    <td style='font-weight:400'>".$rows['month']."</td>
+                                                    <td style='font-weight:400'>".$rows['cutoff_no']."</td>
+                                                    <td style='font-weight:400'>".$rows['payable_amount']."</td>
+                                                    <td style='font-weight:400' >".$rows['loan_status']."</td>
+                                                </tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='5'>No loan payments found</td></tr>";
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: none; background-color: inherit; font-size: 20px;">Close</button>
+                        
+                    </div>
+                </div>   
+            </div>      
+        </div>
+    </div>
+
+
+
+    <!-- <div class="loan-forecast-container" id="loanFormModal">
     <div class="loan-forecast-content">
         <div class="loan-forecast-title">
             <h1>Loan Forecast</h1>
@@ -243,7 +322,7 @@
             <button id="loanFormClose" class="loanFormClose">Cancel</button>
         </div>
     </div>
-</div>
+</div> -->
 
 
         <script>
@@ -302,8 +381,139 @@ function clickOutside(e){
 }
 </script>   
 
+       
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                });
+                            });
+            
+    </script>
+
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
-    <script src="main.js"></script>
+    
+
+    
+    
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 </body>
 </html>

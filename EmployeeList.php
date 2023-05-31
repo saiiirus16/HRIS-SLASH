@@ -150,7 +150,7 @@
                                     echo "<td style='font-weight: 400; color: red;'>" . $row["status"] . "</td>";
                                 }
                                 echo "<td class='tbody-btn' style='width:120px;'>";
-                                echo "<button class='tb-view' style='border:none;background-color:inherit; outline:none;'><a href='editempListForm.php?empid=$row[empid]' style='color:gray;'>View</a></button>";
+                                echo "<button class='tb-view' style='text-decoration:none; border:none;background-color:inherit; outline:none;'><a href='editempListForm.php?empid=$row[empid]' style='color:gray; text-decoration:none;'>View</a></button>";
                                 echo "</td>";
                                 echo "</tr>";
                             }
