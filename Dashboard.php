@@ -108,9 +108,12 @@
     </header>
 
     <style>
+    html{
+        background-color: #f4f4f4 !important; 
+    }
     body{
         overflow: hidden;
-        background-color: #F4F4F4;
+        background-color: #F4F4F4 !important;
     }
 
     .sidebars ul li{
@@ -772,7 +775,7 @@ font-size: 19px !important;
     }
 
     .navbar-menu-wrapper{
-        background-color: red !important;
+       
         width: 390px !important;
         height: 60px !important;
         position: fixed !important;
@@ -806,9 +809,11 @@ font-size: 19px !important;
         
     }
 
-    #sidebar.active-sidebar {
+    #sidebar.active-sidebars {
     display: block !important;
   } 
+
+  
 
     
     .navbar-toggler{
@@ -1254,6 +1259,33 @@ font-size: 19px !important;
         // }
 ?>
 <!------------------------------------End Message alert------------------------------------------------->
+
+<!---------------------------------------Download Modal Start Here -------------------------------------->
+<div class="modal fade" id="download" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="actions/Announce/download.php" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="table_id" id="id_table">
+        <input type="hidden" name="table_name" id="name_table">
+        <h3>Are you sure you want download the PDF File?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="yes_download" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------Download Modal End Here --------------------------------------->
+
     <?php 
     $servername = "localhost";
     $username = "root";
@@ -1286,61 +1318,7 @@ font-size: 19px !important;
 
 
 <!-------------------------------------------Modal of Announce Start Here--------------------------------------------->
-<div class="modal fade" id="announcement_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Summary of Announcement</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      
-       <form action="Data Controller/Announcement/insert_announce.php" method="POST" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="mb-3" style="display:none;">
-                        <label for="Select_emp" class="form-label">Name</label>
-                            <?php
-                                include 'config.php'; 
-                                @$employeeid = $_SESSION['empid'];
-                                ?>
-                                <input type="text" class="form-control" name="name_emp" value="<?php 
-                                    error_reporting(E_ERROR | E_PARSE);
-                                    if($employeeid == NULL){
-                                        
-                                        echo '0909090909';
-                                    }else{
-                                        echo $employeeid;
-                                    }?>" id="empid" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="company" class="form-label">Title</label>
-                            <input type="text" name="announce_title" class="form-control" id="announce_title_id" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="date_announcement" class="form-label">Date</label>
-                            <input type="date" name="announce_date" class="form-control" id="announce_date_id" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="text_description" class="form-label">Description</label>
-                            <textarea class="form-control" name="announce_description" id="announce_description_id"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="text_description" class="form-label">File Attachment</label>
-                            <input type="file" name="file_upload" class="form-control" id="inputfile" >
-                        </div>
-
-                    </div><!--Modal body Close tag--->
-                    <div class="modal-footer">
-                <button type="submit" name="add_announcement" class="btn btn-primary">Add</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         </form>
-
-      </div>
-    </div>
-  </div>
-</div><div class="modal fade" id="announcement_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+</div><div class="modal fade" id="announcement_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -1412,33 +1390,48 @@ font-size: 19px !important;
                     <table id="order-listing" class="table">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Date</th>
+                                <th>Created By</th>
                                 <th>Title</th>
                                 <th>Details</th>
                                 <th>Attachment</th>
-                                <th>Created By</th>
                             </tr>
                         </thead>
                         <tbody>
                         <?php
                             include 'config.php';
 
-                            $query = "SELECT * FROM announcement_tb";
+                            $query = "SELECT
+                            announcement_tb.id,
+                            announcement_tb.announce_title,
+                            employee_tb.empid,
+                            CONCAT(
+                                employee_tb.`fname`,
+                                ' ',
+                                employee_tb.`lname`
+                            ) AS `full_name`,
+                            announcement_tb.announce_date,
+                            announcement_tb.description,
+                            announcement_tb.file_attachment,
+                            announcement_tb.date_file
+                            FROM announcement_tb INNER JOIN employee_tb ON employee_tb.empid = announcement_tb.empid;";
                             $result = mysqli_query($conn, $query);
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
                             <tr>
+                                <td><?php echo $row['id']?></td>
                                 <td><?php echo $row['announce_date']?></td>
+                                <td><?php echo $row['full_name']?></td>
                                 <td><?php echo $row['announce_title']?></td>
                                 <td><?php echo $row['description']?></td>
                                 <?php if(!empty($row['file_attachment'])): ?>
                                 <td>
-                                <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_announcement">Download</button>
+                                <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
                                 </td>
                                 <?php else: ?>
                                 <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                 <?php endif; ?>
-                                <td><?php echo $row['name']?></td>
                             </tr>
                         </tbody>
                         <?php
@@ -1455,31 +1448,7 @@ font-size: 19px !important;
 </div>
 <!-------------------------------------------Modal of View Summary End Here--------------------------------------------->
     
-<!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download_announcement" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
 
-      <form action="actions/DTR Correction/download_dtr.php" method="POST">
-      <div class="modal-body">
-        <input type="hidden" name="table_id_announce" id="id_table_announce">
-        <input type="hidden" name="table_name_announce" id="name_table_announce">
-        <h3>Are you sure you want download the PDF File?</h3>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" name="yes_dl" class="btn btn-primary">Yes</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      </div>
-      </form>
-
-    </div>
-  </div>
-</div>
-<!---------------------------------------Download Modal End Here --------------------------------------->
 
 
     <div class="dashboard-container" id="dashboard-container">
@@ -1593,8 +1562,8 @@ font-size: 19px !important;
                                       FROM announcement_tb 
                                       INNER JOIN employee_tb ON announcement_tb.empid = employee_tb.empid;";
                                       $result = mysqli_query($conn, $query);
-                                      $slideIndex = 0;
-                                    
+                                     $slideIndex = 0;
+                                     
                                     if (mysqli_num_rows($result) > 0){  
                                      while ($row = mysqli_fetch_assoc($result)) {
                                     if ($slideIndex % 1 === 0) {
@@ -1634,8 +1603,8 @@ font-size: 19px !important;
                             <button class="prev" onclick="prevSlide()">&#10094;</button>
                             <button class="next" onclick="nextSlide()">&#10095;</button>
                         </div>   
+                        </div>
                     </div>
-                </div>
 
                     <div class="event-container mt-2" id="event-box" style="width: 670px; margin-left: 5px;">
                         <div class="event-title">
@@ -1654,30 +1623,25 @@ font-size: 19px !important;
             </div>
         </div>
     </div>
-    
 
 
-    
-
-
-
-<!------------------------------------Script para lumabas ang download modal------------------------------------------------->
+<!------------------------------------Script para sa download modal------------------------------------------------->
 <script>
      $(document).ready(function(){
                $('.downloadbtn').on('click', function(){
-                 $('#download_announcement').modal('show');
+                 $('#download').modal('show');
                       $tr = $(this).closest('tr');
 
                     var data = $tr.children("td").map(function () {
                     return $(this).text();
                     }).get();
                    console.log(data);
-                   $('#id_table_announce').val(data[0]);
-                   $('#name_table_announce').val(data[2]);
+                   $('#id_table').val(data[0]);
+                   $('#name_table').val(data[2]);
                });
              });
 </script>
-<!---------------------------------End ng Script para lumabas ang download modal------------------------------------------>
+<!---------------------------------End ng Script para download modal------------------------------------------>
 
 <!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>
 <script>
@@ -1690,8 +1654,7 @@ font-size: 19px !important;
     }
   });
 </script>
-
-<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->    
         
 <!------------------------Script sa function ng Previous and Next Button--------------------------------------->
 <script>
@@ -1792,17 +1755,17 @@ font-size: 19px !important;
 <script>
 $(document).ready(function() {
   // Toggle the submenu visibility on click (for mobile devices)
-  $('.nav-link').on('click', function(e) {
-    if ($(window).width() <= 390) {
-      e.preventDefault();
-      $(this).siblings('.sub-menu').slideToggle();
-    }
-  });
+//   $('.nav-link').on('click', function(e) {
+//     if ($(window).width() <= 390) {
+//       e.preventDefault();
+//       $(this).siblings('.sub-menu').slideToggle();
+//     }
+//   });
 
   // Hamburger button functionality
   $('.responsive-bars-btn').on('click', function() {
     if ($(window).width() <= 390) {
-      $('#sidebar').toggleClass('active-sidebar');
+      $('#sidebar').toggleClass('active-sidebars');
     }
   });
 });

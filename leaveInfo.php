@@ -20,22 +20,28 @@ if(!isset($_SESSION['username'])){
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/leaveInfo.css">
+ 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+        <!-- skydash -->
+
+    <link rel="stylesheet" href="skydash/feather.css">
+    <link rel="stylesheet" href="skydash/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+    <link rel="stylesheet" href="skydash/style.css">
+
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/try.css">  
+<link rel="stylesheet" href="css/leaveInfo.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-<!--sidebar
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles.css"> 
--->
 </head>
 <body>
 
@@ -47,25 +53,7 @@ if(!isset($_SESSION['username'])){
 </header>
 
 <style>
-    .sidebars ul li{
-        list-style: none;
-        text-decoration:none;
-        width: 289px;
-        margin-left:-32px;
-       
-    }
-
-    .sidebars ul{
-        height:100%;
-    }
-
-    .sidebars .first-ul{
-        line-height:50px;
-    }
-
-    .sidebars ul li ul li{
-        width: 100%;
-    }
+   
 </style>
 
 
@@ -163,7 +151,7 @@ if(!isset($_SESSION['username'])){
 
 
 <!-- style="position: absolute; top: 150px; left: 350px;"-->
-<div class="container mt-5 " style="position:absolute; bottom: 50px; right: 460px;">
+<div class="container mt-5 " style="position:absolute; bottom: 50px; right: 270px;">
     <div class="">  <!--MODAL BOOTSTRAP END-->
    
         <div class="card border-light" style="box-shadow: 10px 10px 10px 8px #888888; width: 1530px; height: 760px;"> <!--CARD2-->
@@ -396,18 +384,18 @@ if(!isset($_SESSION['username'])){
                                             $_SESSION["id"] =  $row['col_ID'];
                                             echo "<tr>
                                                 <td style= 'display: none;'>" . $row['col_ID']. "</td>
-                                                <td>" . $row['empid'] . "</td>
+                                                <td>" . $row['empid'] . " </td>
                                                 <td>" . $row['full_name'] . "</td>
                                                 <td>" . $row['col_deptname'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_vctionCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_sickCrdt'] . "</td>
                                                 <td class= 'text-center'>" . $row['col_brvmntCrdt'] . "</td>
                                                 <td>
-                                                <button type='button' class= 'border-light editbtn' title = 'Edit' data-bs-toggle='modal' data-bs-target='#id_editmodal'>
-                                                        <img src='icons/editing.png' alt='...'>
+                                                <button style='background-color: inherit; border:none;' type='button' class= 'border-light editbtn' title = 'Edit' data-bs-toggle='modal' data-bs-target='#id_editmodal'>
+                                                <i class='fa-solid fa-pen-to-square fs-5 me-3' title='edit'></i>
                                                 </button>
-                                                <button type='button' class= 'border-light' title = 'Delete'>
-                                                    <a href='actions/Leave Information/delete.php?col_ID=" . $row['col_ID'] . "' class='link-dark'> <img src='icons/delete.png' alt='...'> </a>
+                                                <button style='background-color: inherit; border:none;' type='button' class= 'border-light' title = 'Delete'>
+                                                    <a href='actions/Leave Information/delete.php?col_ID=" . $row['col_ID'] . "' class='link-dark'> <i class='fa-solid fa-trash fs-5 me-3 title='delete'></i> </a>
                                                 </button>
                                                     
                                                 </td>
@@ -510,10 +498,137 @@ if(!isset($_SESSION['username'])){
                         });
 </script>
 
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                });
+                            });
+            
+    </script>
+
+
+
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="js/leaveInfo.js"></script>
 </body>
 </html>

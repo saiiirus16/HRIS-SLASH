@@ -77,7 +77,7 @@ if(!isset($_SESSION['username'])){
 </style>
 
  <!------------------------------------Modal Start Here----------------------------------------------->
- <div class="modal fade" id="file_overtime" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="file_overtime" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -168,7 +168,7 @@ if(!isset($_SESSION['username'])){
 <!--------------------------------------Modal End Here----------------------------------------------->
 
 <!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download_ot" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="download_ot" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -195,7 +195,7 @@ if(!isset($_SESSION['username'])){
 
 <!------------------------------------------------View ng whole data Modal ---------------------------------------------------->
 
-<div class="modal fade" id="view_ot_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="view_ot_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">

@@ -32,12 +32,29 @@
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+        <!-- skydash -->
+
+    <link rel="stylesheet" href="skydash/feather.css">
+    <link rel="stylesheet" href="skydash/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+    <link rel="stylesheet" href="skydash/style.css">
+
     <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   
+
+    <link rel="stylesheet" href="css/try.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/styles.css"> 
     <title>HRIS | Employee List Form</title>
 </head>
@@ -86,7 +103,42 @@
         <?php include("header.php")?>
     </header>
 
-        <div class="empListForm-container">
+        <div class="empListForm-container" style="background-color: #fff;">
+        <!-------------------------------------------------------ERROR MESSAGE ALERT------------------------------------------------------------------->
+<?php
+    if (isset($_GET['error'])) {
+        $err = $_GET['error'];
+        echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+        '.$err.'
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+    }
+?>
+<!------------------------------------------------------- END NG ERROR MESSAGE ALERT------------------------------------------------------------>
+<?php
+$fname = isset($_GET['fname']) ? $_GET['fname'] : '';
+$lname = isset($_GET['lname']) ? $_GET['lname'] : '';
+$address = isset($_GET['address']) ? $_GET['address'] : '';
+$contact = isset($_GET['contact']) ? $_GET['contact'] : '';
+$cstatus = isset($_GET['cstatus']) ? $_GET['cstatus'] : '';
+$gender = isset($_GET['gender']) ? $_GET['gender'] : '';
+$empdob = isset($_GET['empdob']) ? $_GET['empdob'] : '';
+$empsss = isset($_GET['empsss']) ? $_GET['empsss'] : '';
+$emptin = isset($_GET['emptin']) ? $_GET['emptin'] : '';
+$emppagibig = isset($_GET['emppagibig']) ? $_GET['emppagibig'] : '';
+$empphilhealth = isset($_GET['empphilhealth']) ? $_GET['empphilhealth'] : '';
+$empsalary = isset($_GET['empphilhealth']) ? $_GET['empphilhealth'] : '';
+$drate = isset($_GET['drate']) ? $_GET['drate'] : '';
+$empdate_hired = isset($_GET['empdate_hired']) ? $_GET['empdate_hired'] : '';
+$emptranspo = isset($_GET['emptranspo']) ? $_GET['emptranspo'] : '';
+$empmeal = isset($_GET['empmeal']) ? $_GET['empmeal'] : '';
+$empinternet = isset($_GET['empinternet']) ? $_GET['empinternet'] : '';
+$empaccess_id = isset($_GET['empaccess_id']) ? $_GET['empaccess_id'] : '';
+$username = isset($_GET['username']) ? $_GET['username'] : '';
+$role = isset($_GET['role']) ? $_GET['role'] : '';
+$email = isset($_GET['email']) ? $_GET['email'] : '';
+?>
+
         <form action="Data Controller/Employee List/empListFormController.php" method="POST">
             <div class="employeeList-modal" id="Modal">
                     <div class="employeeList-modal-content">
@@ -97,12 +149,12 @@
                             <div class="emp-info-first-input">
                                 <div class="emp-info-fname">
                                         <label for="fname">First Name</label><br>
-                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" id="fname" onkeyup='saveValue(this);' required >
+                                        <input id="form-fname" type="text" name="fname" placeholder="First Name" id="fname" onkeyup='saveValue(this);' required value="<?php echo $fname; ?>" >
                                         
                                 </div>
                                 <div class="emp-info-lname">
                                         <label for="lname">Last Name</label><br>
-                                        <input type="text" name="lname" id="form-lname" placeholder="Last Name" id="lname" onkeyup='saveValue(this);' required >
+                                        <input type="text" name="lname" id="form-lname" placeholder="Last Name" id="lname" onkeyup='saveValue(this);' required value="<?php echo $lname; ?>" required >
                                         
                                 </div>
                                 <div class="emp-info-empID">
@@ -114,19 +166,19 @@
                             <div class="emp-info-second-input">
                                 <div class="emp-info-address">
                                         <label for="address">Complete Address</label><br>
-                                        <input type="text" name="address" id="" placeholder="Complete Address" required>
+                                        <input type="text" name="address" id="" placeholder="Complete Address" value="<?php echo $address; ?>" required>
 
                                 </div>
                                 <div class="emp-info-contact">
                                         <label for="contact">Contact Number</label><br>
-                                        <input type="text" name="contact" id="form-contact" placeholder="Contact Number" pattern="[0-9]{11,11}" title="Max length is 11 numbers only" required maxlength="11">
+                                        <input type="text" name="contact" id="form-contact" placeholder="Contact Number" pattern="[0-9]{11,11}" title="Max length is 11 numbers only" required value="<?php echo $contact; ?>" required maxlength="11">
                                         
                                 </div>
                             </div>
                             <div class="emp-info-third-input">
                                 <div class="emp-info-cstatus">
                                         <label for="cstatus">Civil Status</label><br>
-                                        <select name="cstatus" id="" placeholdber="Select Status" required>
+                                        <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $cstatus; ?>"required>
                                             <option value="" selected="selected" class="selectTag" style="color: gray;" >Select Status</option>
                                             <option value="Single">Single</option>
                                             <option value="Married">Married</option>
@@ -135,7 +187,7 @@
                                 </div>
                                 <div class="emp-info-gender">
                                         <label for="gender">Gender</label><br>
-                                        <select name="gender" id="" placeholdber="Select Gender" required>
+                                        <select name="gender" id=""  placeholdber="Select Gender" value="<?php echo $gender; ?>" required>
                                             <option value="" selected="selected" class="selectTag" style="color: gray;">Select Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
@@ -144,7 +196,7 @@
                                 </div>
                                 <div class="emp-info-dob">
                                         <label for="empdob" required>Date of Birth</label><br>
-                                        <input type="date" name="empdob" id="empdob" placeholder="Select Date of Birth" >         
+                                        <input value="<?php echo $empdob; ?>" type="date" name="empdob" id="empdob" placeholder="Select Date of Birth" >         
                                 </div>
                             </div>
                         </div> 
@@ -156,21 +208,21 @@
                             <div class="emp-govern-first-input">
                                 <div class="emp-govern-sss">
                                     <label for="empsss">SSS #</label><br>
-                                    <input type="text" name="empsss" id="" placeholder="Input SSS#">
+                                    <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $empsss; ?>">
                                 </div>
                                 <div class="emp-govern-TIN">
                                     <label for="emptin">TIN</label><br>
-                                    <input type="text" name="emptin" id="" placeholder="Input TIN">
+                                    <input type="text" name="emptin" id="" placeholder="Input TIN" value="<?php echo $emptin; ?>">
                                 </div>
                             </div>
                             <div class="emp-govern-second-input">
                                 <div class="emp-govern-pagibig">
                                     <label for="emppagibig">Pagibig #</label><br>
-                                    <input type="text" name="emppagibig" id="" placeholder="Input Pagibig #">
+                                    <input type="text" name="emppagibig" id="" placeholder="Input Pagibig #" value="<?php echo $emppagibig; ?>">
                                 </div>
                                 <div class="emp-govern-TIN">
                                     <label for="empphilhealth">Philhealth #</label><br>
-                                    <input type="text" name="empphilhealth" id="" placeholder="Input Philhealth #">
+                                    <input type="text" name="empphilhealth" id="" placeholder="Input Philhealth #" value="<?php echo $empphilhealth; ?>">
                                 </div>
                             </div>
                         </div>
@@ -264,11 +316,11 @@
                                 </script>
                                 <div class="emp-empDetail-bsalary">
                                     <label for="empbsalary">Basic Salary</label><br>
-                                    <input type="text" id="empbsalary" name="empbsalary" oninput="calculateDailyRate()" required placeholder="Basic Salary"/>
+                                    <input type="text" id="empbsalary" name="empbsalary" oninput="calculateDailyRate()" required placeholder="Basic Salary" value="<?php echo $empsalary; ?>"/>
                                 </div>
                                 <div class="emp-empDetail-drate">
                                     <label for="drate">Daily Rate</label><br>
-                                    <input type="text" name="drate" id="drate" placeholder="Daily Rate" required readonly class="form-control" style="height: 50px;">
+                                    <input type="text" name="drate" id="drate" placeholder="Daily Rate" required readonly class="form-control" style="height: 50px;" value="<?php echo $drate; ?>">
                                 </div>
                                 <div class="emp-empDetail-approver">
                                 <div>
@@ -293,7 +345,7 @@
                                         <label for="approver">Immediate Superior/Approver</label><br>
                                         <select name="approver" id="">
                                         <option value disabled selected>Select Approver</option>
-                                        <option value="admin">admin</option>
+                                        <option value="00000100010">admin</option>
                                             <?php echo $options; ?>
                                         </select>
                                     
@@ -303,7 +355,7 @@
                             <div class="emp-empDetail-third-input">
                                 <div class="emp-empDetail-dateHired">
                                         <label for="empdate_hired">Date Hired</label><br>
-                                        <input type="date" name="empdate_hired" id="" placeholder="Date Hired" required>
+                                        <input type="date" name="empdate_hired" id="" placeholder="Date Hired" value="<?php echo $empdate_hired; ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -316,15 +368,15 @@
                             <div class="emp-allowance-first-input">
                                 <div class="emp-allowance-transpo">
                                     <label for="emptranspo">Transportation</label><br>
-                                    <input type="number" name="emptranspo" placeholder="0.00">   
+                                    <input type="number" name="emptranspo" placeholder="0.00" value="<?php echo $emptranspo; ?>">   
                                 </div>
                                 <div class="emp-allowance-meal">
                                     <label for="empmeal">Meal Allowance</label><br>
-                                    <input type="number" name="empmeal" placeholder="0.00">  
+                                    <input type="number" name="empmeal" placeholder="0.00" value="<?php echo $empmeal; ?>">  
                                 </div>
                                 <div class="emp-allowance-internet">
                                     <label for="empinternet">Internet Allowance</label><br>
-                                    <input type="number" name="empinternet" placeholder="0.00">  
+                                    <input type="number" name="empinternet" placeholder="0.00" value="<?php echo $empinternet; ?>">  
                                 </div>
                             </div>
                         </div>
@@ -377,15 +429,15 @@
                             <div class="emp-Access-first-input">
                                 <div class="emp-Access-access_id">
                                         <label for="empaccess_id">Access ID</label><br>
-                                        <input type="text" name="empaccess_id" id="" placeholder="Access ID" required>
+                                        <input type="text" name="empaccess_id" id="" placeholder="Access ID" value="<?php echo $empaccess_id; ?>" required>
                                 </div>
                                 <div class="emp-empAccess-username">
                                     <label for="username">Username</label><br>
-                                    <input type="text" name="username" id="" placeholder="Username" required>
+                                    <input type="text" name="username" id="" placeholder="Username" value="<?php echo $username; ?>" required>
                                 </div>
                                 <div class="emp-empAccess-role">
                                     <label for="role">Role</label><br>
-                                    <select name="role" id="" placeholder="Select Schedule Type" required>
+                                    <select name="role" id="" placeholder="Select Schedule Type" value="<?php echo $role; ?>" required>
                                             <option value="" selected="selected" class="selectTag" style="color: gray;" >Select Role</option>
                                             <option value="Employee">Employee</option>
                                             <option value="admin">Admin</option>
@@ -397,7 +449,7 @@
                             <div class="emp-Access-second-input">
                                 <div class="emp-Access-email">
                                         <label for="email">Email</label><br>
-                                        <input pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}" type="email" name="email" id="form-email" placeholder="Email Address" title="Must be a valid email."  required>
+                                        <input pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}" type="email" name="email" id="form-email" placeholder="Email Address" title="Must be a valid email."  value="<?php echo $email; ?>" required>
                                         
                                 </div>
                                 <div class="emp-Access-password">
@@ -500,8 +552,136 @@ function matchPass(){
 
 
 
-    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                });
+                            });
+            
+    </script>
+
+
+
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
-    <script src="main.js"></script>
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 </body>
 </html>

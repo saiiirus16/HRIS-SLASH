@@ -20,23 +20,29 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
-    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+    <!-- skydash -->
+
+<link rel="stylesheet" href="skydash/feather.css">
+<link rel="stylesheet" href="skydash/themify-icons.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+<link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+<link rel="stylesheet" href="skydash/style.css">
+
+<script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="css/try.css">
+
     <link rel="stylesheet" href="css/styles.css"> 
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
-
-     <!-- Para sa datatables -->
-     <link rel="stylesheet" href="vendors/feather/feather.css">
-        <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-        <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- Para sa datatables END -->
     <title>HRIS | Generate Payslip</title>
 </head>
 <body>
@@ -53,6 +59,60 @@
         table.dataTable thead .sorting_desc_disabled:before {
         bottom: .5em;
 }
+.pagination{
+        margin-right: 63px !important;
+
+        
+    }
+
+    .pagination li a{
+        color: #c37700;
+    }
+
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+    }
+
+    
+    
+    #order-listing_next{
+        margin-right: 28px !important;
+        margin-bottom: -16px !important;
+
+    }
+
+    .table-responsive{
+        height: 400px !important;
+        overflow-x: hidden !important;
+    }
+    
+    .payslip-input {
+        
+    }
+    .payslip-input select{
+        width: 350px !important;
+        height: 50px !important;
+    }
+
+    .payslip-input select:nth-child(3){
+        margin-right: 20px !important;
+    }
+
+    .department{
+       
+
+    }
+
+    .row select{
+        width: 250px !important;
+        margin-left: 85px !important;
+        height: 50px !important;
+
+    }
+    
     </style>
     <header>
         <?php include("header.php")?>
@@ -87,7 +147,7 @@
                             <?php echo $options; ?>
                         </select>
                 </div>
-                <div>
+                <div class="payslip-input2">
                     <label for="">Select Month/Year</label>
                     <select name="" onchange="foryear()" id="id_month" class="form-control" style="width: 190px;">
                         <option value="" disabled selected>Month</option>
@@ -117,10 +177,10 @@
 
                 </div>
                 <div>
-                    <button class="btn gen-btn" >Generate</button>
+                    <button class="btn gen-btn" style="background-color: black" >Generate</button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style=" width: 73%; margin-left: 15px; margin-top: 20px">
                 <div class="col-6">
                     <div class="input-group mb-3 pay1">
                         <?php
@@ -134,18 +194,18 @@
                                 $options .= "<option value='".$row['col_deptname']."'>".$row['col_deptname']."</option>";
                             }
                         ?>
-                        <label for="schedule_name">Department</label>
-                        <select name="schedule_name" id="" class="form-control">
+                        <label for="schedule_name" style="font-weight: bold">Department</label>
+                        <select name="schedule_name" id="" class="form-control" style="width: 350px;">
                             <option value disabled selected>All Department</option>
                             <?php echo $options; ?>
                         </select>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" >
     
 
-                    <div class="input-group mb-3 pay2">
-                        <label for="schedule_name">Cut off Number</label>
+                    <div class="input-group mb-3 pay2" style="margin-left: 70px;">
+                        <label for="schedule_name" style="font-weight: bold">Cut off Number</label>
                         <select name="cutoffs" id="id_cutoffs" onchange="cutoff(this.value)" class="form-control">
                             <option value disabled selected>Select Cutoff</option>
                             <option value = "1">1</option>
@@ -188,7 +248,7 @@
             ?>
             <!-------------------- para sa message na error ENd --------------------->
             <div class="att-date" style="margin-top: 18px;">
-                <h1 id="">Attendance for <span id="current-date">10/01/2023 - 10/15/2023</span></h1>
+                <h1 id="" style="">Attendance for <span id="current-date" style="color: #C37700">10/01/2023 - 10/15/2023</span></h1>
             </div>
             
         </div>
@@ -246,6 +306,7 @@
                                             cutoff_tb
                                         on 
                                             payslip_tb.col_cutoffID = cutoff_tb.col_ID
+                                        ORDER BY payslip_tb._datetime DESC
                                         
                                         ";
                                             
@@ -264,16 +325,8 @@
                                             <td>" . $row['col_cutOffNum'] . "</td> 
                                             <td>" . $row['_datetime'] . "</td> 
                                             <td>
-                                                <div class='dropdown'>
-                                                    <button class='btn btn-secondary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                                        View
-                                                    </button>
-                                                    <ul class='dropdown-menu'>
-                                                        <li><a class='dropdown-item' href='Data Controller/Payslip/getPayslipdata.php?id=" . $row['col_ID'] . "'>View Payslip</a></li>
-                                                        <li><a class='dropdown-item' href='#'>Download</a></li>
-                                                    </ul>
-                                                </div
-                                        </td>                                      
+                                                <a class='' href='Data Controller/Payslip/getPayslipdata.php?id=" . $row['col_ID'] . "'><i class='fa-solid fa-eye fs-5 me-3'></i></a>
+                                            </td>                                      
                                         </tr>"; 
                                 }
                             ?>
@@ -285,23 +338,7 @@
             </div>
             
         </div>
-
-    </div>
-    
-    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
-    <script src="main.js"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-
-<!-- para sa datatable -->
-    <script src="vendors/js/vendor.bundle.base.js"></script>
-    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-    <script src="bootstrap js/template.js"></script>
-    <script src="bootstrap js/data-table.js"></script>  <!-- < Custom js for this page  -->
-<!-- para sa datatable  END-->
+   
 <script>
 
 
@@ -424,6 +461,138 @@ function clickOutside(e){
     }
 }
 </script>
+
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                });
+                            });
+            
+    </script>
+
+
+
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 
 
 </body>

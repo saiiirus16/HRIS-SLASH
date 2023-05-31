@@ -1,53 +1,56 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: login.php"); 
-    } else {
-        // Check if the user's role is not "admin"
-        if($_SESSION['role'] != 'admin'){
-            // If the user's role is not "admin", log them out and redirect to the logout page
-            session_unset();
-            session_destroy();
-            header("Location: logout.php");
-            exit();
-        }
-    }
+session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="vendors/feather/feather.css">
-    <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <!-- inject:css -->
-    <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+        <!-- skydash -->
+
+    <link rel="stylesheet" href="skydash/feather.css">
+    <link rel="stylesheet" href="skydash/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+    <link rel="stylesheet" href="skydash/style.css">
+
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+   
+
+    <link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/wfh.css"/>
     <link rel="stylesheet" href="css/styles.css">
-    <title>Work From Home - Request</title>
+    <title>Work From Home Request</title>
 </head>
 <body>
-<header>
-     <?php
-         include 'header.php';
-     ?>
-</header>   
+    <?php
+        include 'header.php';
+    ?>
 
 <style>
+    .sidebars{
+      height:110vh;
+    
+    }
+
     .sidebars ul li{
         list-style: none;
         text-decoration:none;
         width: 287px;
         margin-left:-16px;
-        line-height:30px;
-       
+        line-height:30px;       
     }
 
     .sidebars ul li .hoverable{
@@ -55,7 +58,10 @@
     }
 
     .sidebars ul{
-        height:100%;
+        height:100%;     
+    }
+    .sidebars .first-ul{
+        margin-top: 150px;
     }
 
     .sidebars .first-ul{
@@ -76,81 +82,9 @@
     }
 </style>
 
- <!------------------------------------Modal Start Here----------------------------------------------->
- <div class="modal fade" id="file_wfh" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">WFH Request</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                    
-                    <form action="Data Controller/Wfh/wfh_insert.php" method="POST" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                    <label for="Select_emp" class="form-label">Select Employee:</label>
-                                    <?php
-                                        include 'config.php';
-
-                                    // Fetch all values of fname and lname from the database
-                                        $sql = "SELECT fname, lname, empid FROM employee_tb";
-                                        $result = mysqli_query($conn, $sql);
-
-                                    // Generate the dropdown list
-                                        echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp'>";
-                                        while ($row = mysqli_fetch_array($result)) {
-                                        $emp_id = $row['empid'];
-                                        $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
-                                        echo "<option value='$emp_id'>$name</option>";
-                                    }
-                                        echo "</select>";
-                                    ?>
-                            </div>  <!--mb-3 end--->
-                            
-                                <div class="mb-3">
-                                    <label for="company" class="form-label">Date</label>
-                                    <input type="date" name="date_wfh" class="form-control" id="date_id" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="sched" class="form-label">Schedule Type</label>
-                                    <input type="text" name="sched_type" class="form-control" id="sched_id" required>
-                                </div>
-
-                                <div class="form-group">
-                                <label for="time_from_id">Time Range</label>
-                                <div class="input-group mb-3">
-                                    <input type="time" class="form-control" name="time_from" id="time_from_id">
-                                    <span class="input-group-text">-</span>
-                                    <input type="time" class="form-control" name="time_to" id="time_to_id">
-                                </div>
-                                </div>
-
-                                <div class="mb-3 mt-2">
-                                <label for="text_area" class="form-label">Request Description</label>
-                                <textarea class="form-control" name="text_description" id="request_id"></textarea>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <input type="file" name="file_upload" class="form-control" id="inputfile" >
-                                    <label class="input-group-text"  for="inputGroupFile02">Upload</label>
-                                </div>
-                            </div>
-                            
-                            <div class="modal-footer">
-                                <button type="submit" name="add_wfh" id="submit-btn" class="btn btn-primary">Add</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            </div>
-                    </form> 
-
-             </div>
-        </div>
-     </div>
-<!--------------------------------------Modal End Here----------------------------------------------->
 
 <!------------------------------------------------View ng whole data Modal ---------------------------------------------------->
-
-<div class="modal fade" id="view_wfh" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="view_wfh_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
@@ -158,49 +92,49 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
                 <div class="modal-body">
-                        <div class="mb-3">
+                    <div class="row" >
+                     <div class="col-6">
                             <label for="" class="form-label">Employee ID</label>
-                            <input type="text" name="empid_view" class="form-control" id="view_empid" readonly>
-                        </div>
-
-                <div class="row" >
-                        <div class="col-6">
-                            <label for="" class="form-label">Date</label>
-                            <input type="text" name="date_viewing" class="form-control" id="view_date_id" readonly>
+                            <input type="text" name="wfh_empid_view" class="form-control" id="wfh_empid_view_id" readonly>
                         </div>
                         <div class="col-6">
-                            <label for="" class="form-label">Schedule Type</label>
-                            <input type="text" name="sched_viewing" class="form-control" id="view_sched" readonly>
+                            <label for="company" class="form-label">WFH Date</label>
+                            <input type="date" name="wfh_date_view" class="form-control" id="wfh_date_view_id" readonly>
                         </div>
-                </div>
+                    </div>
+                    
+                    <div class="form-group">
+                              <label for="time_range" class="form-label mt-1">Time Range</label>
+                              <div class="input-group mb-3">
+                              <input type="time" class="form-control" name="wfh_from" id="wfh_time_from_id" readonly>
+                              <span class="input-group-text">-</span>
+                              <input type="time" class="form-control" name="wfh_time_to" id="wfh_time_to_id" readonly>
+                          </div>
+                      </div>
 
-                <div class="form-group">
-                        <label for="time_from_id" class="mt-2">Time Range</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="view_time_from" id="view_time_from_id" readonly>
-                            <span class="input-group-text">-</span>
-                            <input type="text" class="form-control" name="view_time_to" id="view_time_to_id" readonly>
-                        </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="text_area" class="form-label">Reason</label>
+                        <textarea class="form-control" name="view_wfh_reason" id="view_wfh_reason_id" readonly></textarea>
+                    </div>
 
-                <div class="mb-3">
-                        <label for="" class="form-label">Request Description</label>
-                        <input type="text" name="view_request" id="view_id_request" class="form-control" readonly></input>
-                 </div>
+                    <div class="input-group mb-3">
+                        <input type="text" name="view_wfh_upload" class="form-control" id="view_wfh_upload_id" readonly>
+                        <label class="input-group-text"  for="inputGroupFile02">Upload</label>
+                    </div>
 
-                 <div class="mb-3">
-                        <label for="" class="form-label">File Attachment</label>
-                        <input type="text" name="file_viewing" class="form-control" id="view_file_id" readonly>
-                  </div>
+                    <div class="mb-3" style="display: none;">
+                        <label for="text_area" class="form-label">Schedule Type</label>
+                        <input type="text" class="form-control" name="view_wfh_sched_type" id="view_wfh_sched_type_id" readonly>
+                    </div>
 
                   <div class="row" >
                         <div class="col-6">
                             <label for="" class="form-label">Date File</label>
-                            <input type="text" name="datefile_viewing" class="form-control" id="view_datefile" readonly>
+                            <input type="text" name="view_datefile" class="form-control" id="view_datefile_id" readonly>
                         </div>
                         <div class="col-6">
                             <label for="" class="form-label">Status</label>
-                            <input type="text" name="status_viewing" class="form-control" id="view_status_id" readonly>
+                            <input type="text" name="view_wfh_status" class="form-control" id="view_wfh_status_id" readonly>
                         </div>
                     </div>
 
@@ -208,23 +142,21 @@
         </div>
     </div>
 </div>
-
 <!------------------------------------------------End ng View Modal ---------------------------------------------------->
 
-<!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download_wfh" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-----------------------------------Modal For Download starts here------------------------------------------>
+<div class="modal fade" id="download_wfh" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <form action="actions/Wfh Request/download_wfh.php" method="POST">
+      <form action="actions/Wfh Request/download_wfh.php" method="POST" enctype="multipart/form-data">
       <div class="modal-body">
-        <input type="hidden" name="table_id" id="id_table">
-        <input type="hidden" name="table_name" id="name_table">
-        <h3>Are you sure you want download the PDF File?</h3>
+            <input type="hidden" name="table_id_wfh" id="id_table_wfh">
+            <input type="hidden" name="table_name_wfh" id="name_table_wfh">
+            <h3>Are you sure you want download the PDF File?</h3>
       </div>
       <div class="modal-footer">
         <button type="submit" name="yes_download_wfh" class="btn btn-primary">Yes</button>
@@ -235,27 +167,17 @@
     </div>
   </div>
 </div>
-<!---------------------------------------Download Modal End Here --------------------------------------->
+<!-------------------------------------Modal For Download end here------------------------------------------>
 
-
-<!------------------------------------Header and Button------------------------------------------------->
-    <div class="main-panel mt-5" style="margin-left: 15%;">
-        <div class="content-wrapper mt-5">
-          <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1500px; height:800px; border-radius:20px;">
-            <div class="card-body">  
-<!------------------------------------Header, Dropdown and Button------------------------------------------------->
-
+<div class="main-panel mt-5" style="margin-left: 15%;">
+    <div class="content-wrapper mt-5">
+        <div class="card" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17); width:1500px; height:800px; border-radius:20px;">
+            <div class="card-body">
 
 <!----------------------------------Class ng header including the button for modal---------------------------------------------->                    
                             <div class="row">
                                 <div class="col-6">
-                                    <h2>Work From Home Request</h2>
-                                </div>
-                                <div class="col-6 mt-1 text-end">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="file_overtime" data-bs-toggle="modal" data-bs-target="#file_wfh">
-                                    File WFH
-                                    </button>
+                                    <h2>Work From Home Request List</h2>
                                 </div>
                             </div> <!--ROW END-->
 <!----------------------------------End Class ng header including the button for modal-------------------------------------------->
@@ -283,122 +205,161 @@
         }
 ?>
 <!------------------------------------End Message alert------------------------------------------------->
-               
 
-<!------------------------------------------Syntax ng Table-------------------------------------------------->
-                <form action="" method="POST">
-                        <div class="row" >
-                            <div class="col-12 mt-5">
-                                <input style="display: none;" type="text" id="input_id" name="input">
-                                    <div class="table-responsive">
-                                        <table id="order-listing" class="table" >
-                                        <thead>
-                                            <tr>
-                                                <th style="display: none;">ID</th>
-                                                <th>Employee ID</th>
-                                                <th>WFH Date</th>
-                                                <th style="display: none;">Start Time</th>
-                                                <th style="display: none;">End Time</th>
-                                                <th style="display: none;">Schedule Type</th>
-                                                <th>File Attachment</th>
-                                                <th style="display: none;">Request Description</th>
-                                                <th>Date Filed</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <?php
-                                        $conn = mysqli_connect("localhost","root","","hris_db");
+<!----------------------------------Syntax for Dropdown button------------------------------------------>
+<div class="official_panel">
+            <div class="child_panel">
+              <p class="empo_date_text">Employee</p>
+                     <?php
+                        include 'config.php';
 
-                                        $query = "SELECT * FROM `wfh_tb`";
-                                        $query_run = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_assoc($query_run)){
-                                        ?>
-                                        <tbody>
-                                            <tr>
-                                                <td style="display: none;">ID</td>
-                                                <td><?php echo $row['empid']?></td>
-                                                <td><?php echo $row['wfh_date']?></td>
-                                                <td style="display: none;"><?php echo $row['start_time']?></td>
-                                                <td style="display: none;"><?php echo $row['end_time']?></td>
-                                                <td style="display: none;"><?php echo $row['schedule_type']?></td>
-                                                <?php if(!empty($row['upload_file'])):?>
-                                                <td>
-                                                <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_dtr">Download</button>
-                                                </td>
-                                                <?php else: ?>
-                                                <td>No File Attach</td> <!-- Show an empty cell if there is no file attachment -->
-                                                <?php endif; ?>
-                                                <td style="display: none;"><?php echo $row['reason']?></td>
-                                                <td><?php echo $row['date_filed']?></td>
-                                                <td><?php echo $row['status']?></td>
-                                                <td>
-                                                <a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_wfh">View</a> 
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                    </form>  
-<!------------------------------------End Syntax ng Table------------------------------------------------->                      
-                        </div>
-                    </div>
-                </div>
+                        // Fetch all values of empid and date from the database
+                        $sql = "SELECT `empid` FROM `wfh_tb`";
+                        $result = mysqli_query($conn, $sql);
+
+                        // Generate the dropdown list
+                        echo "<select class='select_custom form-select-m' aria-label='.form-select-sm example' name='name_emp''>";
+                        echo "<option value=''>Select Employee</option>"; // Add a default option
+                        while ($row = mysqli_fetch_array($result)) {
+                        $emp_id = $row['empid'];
+                        echo "<option value='$emp_id'>$emp_id</option>"; // Set the value to emp_id|date
+                        }
+                        echo "</select>";
+                      ?>
+            </div>
+
+            <div class="child_panel">
+              <p class="empo_date_text">Status</p>
+                     <?php
+                        include 'config.php';
+
+                        // Fetch all values of empid and date from the database
+                        $sql = "SELECT `status` FROM `wfh_tb`";
+                        $result = mysqli_query($conn, $sql);
+
+                        // Generate the dropdown list
+                        echo "<select class='select_custom form-select-m' aria-label='.form-select-sm example' name='status_emp''>";
+                        echo "<option value=''>Select Status</option>"; // Add a default option
+                        while ($row = mysqli_fetch_array($result)) {
+                        $status = $row['status'];
+                        echo "<option value='$status'>$status</option>"; // Set the value to emp_id|date
+                        }
+                        echo "</select>";
+                      ?>
+            </div>
+            <div class="child_panel">
+            
+            </div>
+            <button class="btn_go" id="id_btngo">Go</button>
+          </div>
+<!------------------------------End Syntax for Dropdown button------------------------------------------------->
+
+<!----------------------------------Button for Approve and Reject All------------------------------------------>
+        <div class="btn-section">
+                <form action="actions/Wfh Request/status_change.php" method="POST">
+                <input type="hidden" name="Approve" value="approved">
+                <button type="submit" name="approve_all" class="approve-btn">Approve All</button>
+                </form>
+
+                <form action="actions/Wfh Request/status_change.php" method="POST">
+                <!-- <input type="hidden" name="status" value="rejected"> -->
+                <button type="submit" name="reject_all" class="reject-btn">Reject All</button>
+                </form>
+        </div>
+<!--------------------------------End Button for Approve and Reject All----------------------------------------> 
+
+<form action="actions/Wfh Request/approval.php" method="POST">
+        <div class="row">
+            <div class="col-12 mt-2">
+                <input type="hidden" id="check_id" name="id_check" value="<?php echo $row['id']?>">
+                <div class="table-responsive">
+                    <table id="order-listing" class="table">
+                        <thead>
+                            <tr>
+                                <th style="display: none;">ID</th>
+                                <th style="display: none;">Employee ID</th>
+                                <th>WFH Date</th>
+                                <th>Start Time</th>
+                                <th >End Time</th>
+                                <th style="display: none;">Reason</th>
+                                <th>File Attachment</th>
+                                <th>Status</th>
+                                <th>Date Filed</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <?php
+                                include 'config.php';
+                                // $aprrover_ID = $_SESSION['empid'];
+
+                                $query = "SELECT
+                                wfh_tb.id,
+                                employee_tb.empid,
+                                wfh_tb.date,
+                                wfh_tb.schedule_type,
+                                wfh_tb.start_time,
+                                wfh_tb.end_time,
+                                wfh_tb.reason,
+                                wfh_tb.file_attachment,
+                                wfh_tb.status,
+                                wfh_tb.date_file
+                            FROM
+                                employee_tb
+                            INNER JOIN wfh_tb ON employee_tb.empid = wfh_tb.empid
+                            ";
+                            $result = mysqli_query($conn, $query);
+                            while ($row = mysqli_fetch_assoc($result)){
+                            ?>
+                        <tbody>
+                            <tr>
+                                <td style="display: none;"><?php echo $row['id']?></td>
+                                <td style="display: none;"><?php echo $row['empid']?></td>
+                                <td><?php echo $row['date']?></td>
+                                <td><?php echo $row['start_time']?></td>
+                                <td><?php echo $row['end_time']?></td>
+                                <td style="display: none;"><?php echo $row['reason']?></td>
+                                <?php if(!empty($row['file_attachment'])): ?>
+                                <td>
+                                <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_wfh">Download</button>
+                                </td>
+                                <?php else: ?>
+                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
+                                <?php endif; ?>
+                                <td <?php if ($row['status'] == 'Approved') {echo 'style="color:green;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} ?>><?php echo $row['status']; ?></td>
+                                <td><?php echo $row['date_file']?></td>
+                                <td>    
+                                <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected'): ?>
+                                 <button type="submit" class="btn btn-outline-success viewbtn" name="approve_btn" style="display: none;" disabled>
+                                  Approve
+                                </button>
+                                 <button type="submit" class="btn btn-outline-danger viewbtn" name="reject_btn" style="display: none;" disabled>
+                                  Reject
+                                </button>
+                                 <?php else: ?>
+                                <button type="submit" class="btn btn-outline-success viewbtn" name="approve_btn">
+                                  Approve
+                                 </button>
+                                 <button type="submit" class="btn btn-outline-danger viewbtn" name="reject_btn">
+                                  Reject
+                                  </button>
+                                  <?php endif; ?>        
+                                </td>
+                            </tr>
+                            <?php
+                              }
+                            ?>
+                        </tbody>
+                    </table>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+
             </div>
         </div>
     </div>
-</div>
-
-
-<!------------------------------------Script para lumabas ang download modal------------------------------------------------->
-<script>
-     $(document).ready(function(){
-               $('.downloadbtn').on('click', function(){
-                 $('#download_dtr').modal('show');
-                      $tr = $(this).closest('tr');
-
-                    var data = $tr.children("td").map(function () {
-                    return $(this).text();
-                    }).get();
-                   console.log(data);
-                   $('#id_table').val(data[0]);
-                   $('#name_table').val(data[2]);
-               });
-             });
-</script>
-<!---------------------------------End ng Script para lumabas ang download modal------------------------------------------>
-
-<!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>
-<script>
-  document.getElementById('inputfile').addEventListener('change', function(event) {
-    var fileInput = event.target;
-    var file = fileInput.files[0];
-    if (file.type !== 'application/pdf') {
-      alert('Please select a PDF file.');
-      fileInput.value = ''; // Clear the file input field
-    }
-  });
-</script>
-<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
-
-<!------------------------------------Script para sa pag pop-up ng view modal------------------------------------------------->
-<script>
-     $(document).ready(function(){
-               $('.viewbtn').on('click', function(){
-                 $('#view_dtr_modal').modal('show');
-                      $tr = $(this).closest('tr');
-
-                    var data = $tr.children("td").map(function () {
-                    return $(this).text();
-                    }).get();
-                   console.log(data);
-                   $('#view_reason1').val(data[6]);
-               });
-             });
-</script>
-<!---------------------------------End ng Script para sa pag pop-up ng view modal------------------------------------------>
+</div><!---Main Panel Close Tag-->
 
 
 <!-------------------------------Script para matest kung naseselect ba ang I.D---------------------------------------->        
@@ -412,52 +373,198 @@
                     return $(this).text();
                     }).get();
                    console.log(data);
-                   $('#input_id').val(data[0]);
+                   $('#check_id').val(data[0]);
                });
              });
-        </script>
+</script>
 <!-----------------------------End Script para matest kung naseselect ba ang I.D------------------------------------->
 
 <!------------------------------------Script para sa whole view data ng modal------------------------------------------------->
-<script>
+<!-- <script>
      $(document).ready(function(){
                $('.viewbtn').on('click', function(){
-                 $('#view_wfh').modal('show');
+                 $('#view_wfh_modal').modal('show');
                       $tr = $(this).closest('tr');
 
                     var data = $tr.children("td").map(function () {
                     return $(this).text();
                     }).get();
                    console.log(data);
-                   $('#view_empid').val(data[1]);
-                   $('#view_date_id').val(data[2]);
-                   $('#view_time_from_id').val(data[3]);
-                   $('#view_time_to_id').val(data[4]);
-                   $('#view_sched').val(data[5]);
-                   $('#view_emp_file').val(data[6]);
-                   $('#view_id_request').val(data[7]);
-                   $('#view_datefile').val(data[8])
-                   var status = $tr.find('td:eq(9)').text();
-                   $('#view_status_id').val(status);
+                   $('#wfh_empid_view_id').val(data[1]);
+                   $('#wfh_date_view_id').val(data[2]);
+                   $('#wfh_time_from_id').val(data[3]);
+                   $('#wfh_time_to_id').val(data[4]);
+                   $('#view_wfh_reason_id').val(data[5]);
+                   $('#view_wfh_upload_id').val(data[6]);
+                   var status = $tr.find('td:eq(7)').text();
+                   $('#view_wfh_status_id').val(status);
+                   $('#view_datefile_id').val(data[8]);
                });
              });
-             </script>
+             </script> -->
 <!---------------------------------End ng Script whole view data ng modal------------------------------------------>
 
+<!------------------------------Script para lumabas download ang modal--------------------------------------------->
+<script>
+     $(document).ready(function(){
+               $('.downloadbtn').on('click', function(){
+                 $('#download_wfh').modal('show');
+                      $tr = $(this).closest('tr');
 
-<!-- End custom js for this page-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-<script src="vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page-->
-<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<script src="bootstrap js/template.js"></script>
-<!-- Custom js for this page-->
-<script src="bootstrap js/data-table.js"></script>
-<!-- End custom js for this page-->
+                    var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                    }).get();
+                   console.log(data);
+                   $('#id_table_wfh').val(data[0]);
+                   $('#name_table_wfh').val(data[2]);
+               });
+             });
+</script>
+<!-------------------------------End ng Script para lumabas download ang modal------------------------------------->
 
+<!--------------------Script para lumabas ang warning message na PDF File lang inaallow---------------------------->
+<script>
+  document.getElementById('inputfile').addEventListener('change', function(event) {
+    var fileInput = event.target;
+    var file = fileInput.files[0];
+    if (file.type !== 'application/pdf') {
+      alert('Please select a PDF file.');
+      fileInput.value = ''; // Clear the file input field
+    }
+  });
+</script>
+<!--------------------End ng Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#schedule-list-container').addClass('move-content');
+    } else {
+      $('#schedule-list-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#schedule-list-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#schedule-list-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script>
+ //HEADER RESPONSIVENESS SCRIPT
+ 
+ 
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-link').on('click', function(e) {
+    if ($(window).width() <= 390) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+  $('.nav-links').on('click', function(e) {
+    if ($(window).width() <= 500) {
+      e.preventDefault();
+      $(this).siblings('.sub-menu').slideToggle();
+    }
+  });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script> 
+        $(document).ready(function(){
+                $('.sched-update').on('click', function(){
+                                    $('#schedUpdate').modal('show');
+                                    $tr = $(this).closest('tr');
+
+                                    var data = $tr.children("td").map(function () {
+                                        return $(this).text();
+                                    }).get();
+
+                                    console.log(data);
+                                    //id_colId
+                                    $('#empid').val(data[8]);
+                                    $('#sched_from').val(data[5]);
+                                    $('#sched_to').val(data[6]);
+                                    $('#empName').val(data[0]);
+                                });
+                            });
+            
+    </script>
+
+
+
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+           <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+     <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+
+
+    
+
+  
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 </body>
 </html>

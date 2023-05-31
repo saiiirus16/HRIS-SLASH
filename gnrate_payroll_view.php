@@ -362,30 +362,46 @@ if(!isset($_SESSION['username'])){
                                                                             }else{
                                                                                 
     
-                                                                                    $emp_dailyRate =  $row_emp['drate'];
-                                                                                    $emp_OtRate = $row_emp['otrate'];
+                                                                                    $mon_emp_dailyRate =  $row_emp['drate'];
+                                                                                    $mon_emp_OtRate = $row_emp['otrate'];
 
                                                                                     $Mon_total_work_hours = (int)substr($MOn_total_work, 0, 2);
-                                                                                    $hour_rate =  $emp_dailyRate / $Mon_total_work_hours;
-                                                                                    $MON_minute_rate = $hour_rate / 60; 
+                                                                                    $mon_hour_rate =  $mon_emp_dailyRate / $Mon_total_work_hours;
+                                                                                    $MON_minute_rate = $mon_hour_rate / 60; 
 
                                                                                     
-                                                                                    $timeString =$date_att['late'];
-                                                                                    $timeString_UT = $date_att['underTime'];
-                                                                                    $timeString_OT = $date_att['OT'];
+                                                                                    $mon_timeString =$date_att['late'];
+                                                                                    $mon_timeString_UT = $date_att['underTime'];
+                                                                                    $mon_timeString_OT = $date_att['OT'];
 
-                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                    $time_UT = DateTime::createFromFormat('H:i:s', $timeString_UT);// Convert time string to DateTime object
-                                                                                    $time_OT = DateTime::createFromFormat('H:i:s', $timeString_OT);// Convert time string to DateTime object
-                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                    $hour= $time_UT->format('H');// Extract Hour from DateTime object
-                                                                                    $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
-                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                    $totalHour = intval($hour);
-                                                                                    $totalHour_OT = intval($hour_OT);
-                                                                                    @$MONDAY_ToADD_OT += $emp_OtRate *  $totalHour_OT;
-                                                                                    @$MONDAY_TO_DEDUCT_LATE += $totalMinutes * $MON_minute_rate;
-                                                                                    @$MONDAY_TO_DEDUCT_UT += $totalHour * $hour_rate;
+                                                                                    $mon_time = DateTime::createFromFormat('H:i:s', $mon_timeString);// Convert time string to DateTime object
+                                                                                    $mon_time_UT = DateTime::createFromFormat('H:i:s', $mon_timeString_UT);// Convert time string to DateTime object
+                                                                                    $mon_time_OT = DateTime::createFromFormat('H:i:s', $mon_timeString_OT);// Convert time string to DateTime object
+
+
+                                                                                    //For latee
+                                                                                     $mon_lateH = $mon_time->format('H');// Extract minutes from DateTime object
+                                                                                     $mon_lateM = $mon_time->format('i');// Extract minutes from DateTime object
+                                                                                     $mon_totalMinutes = intval($mon_lateM);// Convert minutes to integer
+                                                                                     $mon_totalhours = intval($mon_lateH);// Convert minutes to integer
+                                                                                     @$MONDAY_TO_DEDUCT_LATE_hours += $mon_totalhours * $mon_hour_rate;//minutes to deduct
+                                                                                     @$MONDAY_TO_DEDUCT_LATE_minutes += $mon_totalMinutes * $MON_minute_rate;//minutes to deduct
+                                                                                     @$MONDAY_TO_DEDUCT_LATE =  @$MONDAY_TO_DEDUCT_LATE_hours +  @$MONDAY_TO_DEDUCT_LATE_minutes;
+
+
+                                                                                    //for Undertime
+                                                                                    $mon_hour= $mon_time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    $mon_totalHour = intval($mon_hour);
+                                                                                    @$MONDAY_TO_DEDUCT_UT += $mon_totalHour * $mon_hour_rate;
+
+
+                                                                                    //for Overtime
+                                                                                    $mon_hour_OT = $mon_time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    $mon_totalHour_OT = intval($mon_hour_OT);
+                                                                                    @$MONDAY_ToADD_OT += $mon_emp_OtRate *  $mon_totalHour_OT;
+                                                                                   
+                                                                                    
+                                                                                  
                                                                                 }
                                                                                 
                                                                             } else if($day_of_week === 'Tuesday'){
@@ -396,29 +412,57 @@ if(!isset($_SESSION['username'])){
                                                                                 }else{
                                                                                 
                                                                                     
-                                                                                    $emp_dailyRate =  $row_emp['drate'];
-                                                                                    $emp_OtRate = $row_emp['otrate'];
+                                                                                    $tue_emp_dailyRate =  $row_emp['drate'];
+                                                                                    $tue_emp_OtRate = $row_emp['otrate'];
 
-                                                                                    $total_work_hours = (int)substr($Tue_total_work, 0, 2);
-                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                    $minute_rate = $hour_rate / 60; 
+                                                                                    $tue_total_work_hours = (int)substr($Tue_total_work, 0, 2);
+                                                                                    $tue_hour_rate =  $tue_emp_dailyRate / $tue_total_work_hours;
+                                                                                    $tue_minute_rate = $tue_hour_rate / 60; 
 
-                                                                                    $timeString =$date_att['late'];
-                                                                                    $timeString_UT = $date_att['underTime'];
-                                                                                    $timeString_OT = $date_att['OT'];
+                                                                                    $tue_timeString =$date_att['late'];
+                                                                                    $tue_timeString_UT = $date_att['underTime'];
+                                                                                    $tue_timeString_OT = $date_att['OT'];
 
-                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                    $time_UT = DateTime::createFromFormat('H:i:s', $timeString_UT);// Convert time string to DateTime object
-                                                                                    $time_OT = DateTime::createFromFormat('H:i:s', $timeString_OT);// Convert time string to DateTime object
-                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                    $hour= $time_UT->format('H');// Extract Hour from DateTime object
-                                                                                    $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
-                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                    $totalHour = intval($hour);
-                                                                                    $totalHour_OT = intval($hour_OT);
-                                                                                    @$Tue_ToADD_OT += $emp_OtRate *  $totalHour_OT;
-                                                                                    @$Tue_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
-                                                                                    @$Tue_TO_DEDUCT_UT += $totalHour * $hour_rate;
+                                                                                    $tue_time = DateTime::createFromFormat('H:i:s', $tue_timeString);// Convert time string to DateTime object
+                                                                                    $tue_time_UT = DateTime::createFromFormat('H:i:s', $tue_timeString_UT);// Convert time string to DateTime object
+                                                                                    $tue_time_OT = DateTime::createFromFormat('H:i:s', $tue_timeString_OT);// Convert time string to DateTime object
+
+
+                                                                                     //For latee
+                                                                                     $tue_lateH = $tue_time->format('H');// Extract minutes from DateTime object
+                                                                                     $tue_lateM = $tue_time->format('i');// Extract minutes from DateTime object
+                                                                                     $tue_totalMinutes = intval($tue_lateM);// Convert minutes to integer
+                                                                                     $tue_totalhours = intval($tue_lateH);// Convert minutes to integer
+                                                                                     @$tue_LATE_hours += $tue_totalhours * $tue_hour_rate;//minutes to deduct
+                                                                                     @$tue_LATE_minutes += $tue_totalMinutes * $tue_minute_rate;//minutes to deduct
+                                                                                     @$Tue_TO_DEDUCT_LATE =  @$tue_LATE_hours +  @$tue_LATE_minutes;
+
+
+                                                                                    //for Undertime
+                                                                                    $tue_hour= $tue_time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    $tue_totalHour = intval($tue_hour);
+                                                                                    @$Tue_TO_DEDUCT_UT += $tue_totalHour * $tue_hour_rate;
+
+
+                                                                                    //for Overtime
+                                                                                    $tue_hour_OT = $tue_time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    $tue_totalHour_OT = intval($tue_hour_OT);
+                                                                                    @$Tue_ToADD_OT += $tue_emp_OtRate *  $tue_totalHour_OT;
+
+                                                                                    // echo $lateH = $time->format('H');// Extract minutes from DateTime object
+                                                                                    // echo $lateM = $time->format('i');// Extract minutes from DateTime object
+
+                                                                                    // $minutes = $lateH + $lateM;
+
+
+                                                                                    // $hour= $time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    // $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    // $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    // $totalHour = intval($hour);
+                                                                                    // $totalHour_OT = intval($hour_OT);
+                                                                                    // @$Tue_ToADD_OT += $emp_OtRate *  $totalHour_OT;
+                                                                                    // @$Tue_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
+                                                                                    // @$Tue_TO_DEDUCT_UT += $totalHour * $hour_rate;
                                                                                 }
                                                                             } else if($day_of_week === 'Wednesday'){
                                                                                 if($wed_total_work === '00:00:00'){
@@ -428,30 +472,53 @@ if(!isset($_SESSION['username'])){
                                                                                 }else{
                                                                                     
                                                                                     
-                                                                                    $emp_dailyRate =  $row_emp['drate'];
-                                                                                    $emp_OtRate = $row_emp['otrate'];
+                                                                                    $weds_emp_dailyRate =  $row_emp['drate'];
+                                                                                    $weds_emp_OtRate = $row_emp['otrate'];
 
-                                                                                    $total_work_hours = (int)substr($wed_total_work, 0, 2);
-                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                    $minute_rate = $hour_rate / 60; 
+                                                                                    $weds_total_work_hours = (int)substr($wed_total_work, 0, 2);
+                                                                                    $weds_hour_rate =  $weds_emp_dailyRate / $weds_total_work_hours;
+                                                                                    $weds_minute_rate = $weds_hour_rate / 60; 
 
                                                                                     
-                                                                                    $timeString =$date_att['late'];
-                                                                                    $timeString_UT = $date_att['underTime'];
-                                                                                    $timeString_OT = $date_att['OT'];
+                                                                                    $weds_timeString =$date_att['late'];
+                                                                                    $weds_timeString_UT = $date_att['underTime'];
+                                                                                    $weds_timeString_OT = $date_att['OT'];
 
-                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                    $time_UT = DateTime::createFromFormat('H:i:s', $timeString_UT);// Convert time string to DateTime object
-                                                                                    $time_OT = DateTime::createFromFormat('H:i:s', $timeString_OT);// Convert time string to DateTime object
-                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                    $hour= $time_UT->format('H');// Extract Hour from DateTime object
-                                                                                    $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
-                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                    $totalHour = intval($hour);
-                                                                                    $totalHour_OT = intval($hour_OT);
-                                                                                    @$WED_ToADD_OT += $emp_OtRate *  $totalHour_OT; 
-                                                                                    @$WED_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
-                                                                                    @$WED_TO_DEDUCT_UT += $totalHour * $hour_rate;
+                                                                                    $weds_time = DateTime::createFromFormat('H:i:s', $weds_timeString);// Convert time string to DateTime object
+                                                                                    $weds_time_UT = DateTime::createFromFormat('H:i:s', $weds_timeString_UT);// Convert time string to DateTime object
+                                                                                    $weds_time_OT = DateTime::createFromFormat('H:i:s', $weds_timeString_OT);// Convert time string to DateTime object
+
+
+                                                                                   //For latee
+                                                                                   $weds_lateH = $weds_time->format('H');// Extract minutes from DateTime object
+                                                                                   $weds_lateM = $weds_time->format('i');// Extract minutes from DateTime object
+                                                                                   $weds_totalMinutes = intval($weds_lateM);// Convert minutes to integer
+                                                                                   $weds_totalhours = intval($weds_lateH);// Convert minutes to integer
+                                                                                   @$weds_TO_DEDUCT_LATE_hours += $weds_totalhours * $weds_hour_rate;//minutes to deduct
+                                                                                   @$weds_TO_DEDUCT_LATE_minutes += $weds_totalMinutes * $weds_minute_rate;//minutes to deduct
+                                                                                   @$WED_TO_DEDUCT_LATE =  @$weds_TO_DEDUCT_LATE_hours +  @$weds_TO_DEDUCT_LATE_minutes;
+
+
+                                                                                  //for Undertime
+                                                                                  $weds_hour= $weds_time_UT->format('H');// Extract Hour from DateTime object
+                                                                                  $weds_totalHour = intval($weds_hour);
+                                                                                  @$WED_TO_DEDUCT_UT += $weds_totalHour * $weds_hour_rate;
+
+
+                                                                                  //for Overtime
+                                                                                  $weds_hour_OT = $weds_time_OT->format('H');// Extract Hour from DateTime object
+                                                                                  $weds_totalHour_OT = intval($weds_hour_OT);
+                                                                                  @$WED_ToADD_OT += $weds_emp_OtRate *  $weds_totalHour_OT;
+
+                                                                                    // $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    // $hour= $time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    // $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    // $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    // $totalHour = intval($hour);
+                                                                                    // $totalHour_OT = intval($hour_OT);
+                                                                                    // @$WED_ToADD_OT += $emp_OtRate *  $totalHour_OT; 
+                                                                                    // @$WED_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
+                                                                                    // @$WED_TO_DEDUCT_UT += $totalHour * $hour_rate;
                                                                                 }
                                                                             } else if($day_of_week === 'Thursday'){
                                                                                 if($thurs_total_work === '00:00:00'){
@@ -460,29 +527,51 @@ if(!isset($_SESSION['username'])){
                                                                                     $Thurs_ToADD_OT = 0;
                                                                                 }else{
                                                                                 
-                                                                                    $emp_dailyRate =  $row_emp['drate'];
-                                                                                    $emp_OtRate = $row_emp['otrate'];
+                                                                                    $thurs_emp_dailyRate =  $row_emp['drate'];
+                                                                                    $thurs_emp_OtRate = $row_emp['otrate'];
 
-                                                                                    $total_work_hours = (int)substr($thurs_total_work, 0, 2);
-                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                    $minute_rate = $hour_rate / 60; 
+                                                                                    $thurs_total_work_hours = (int)substr($thurs_total_work, 0, 2);
+                                                                                    $thurs_hour_rate =  $thurs_emp_dailyRate / $thurs_total_work_hours;
+                                                                                    $thurs_minute_rate = $thurs_hour_rate / 60; 
 
-                                                                                    $timeString =$date_att['late'];
-                                                                                    $timeString_UT = $date_att['underTime'];
-                                                                                    $timeString_OT = $date_att['OT'];
+                                                                                    $thurs_timeString =$date_att['late'];
+                                                                                    $thurs_timeString_UT = $date_att['underTime'];
+                                                                                    $thurs_timeString_OT = $date_att['OT'];
 
-                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                    $time_UT = DateTime::createFromFormat('H:i:s', $timeString_UT);// Convert time string to DateTime object
-                                                                                    $time_OT = DateTime::createFromFormat('H:i:s', $timeString_OT);// Convert time string to DateTime object
-                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                    $hour= $time_UT->format('H');// Extract Hour from DateTime object
-                                                                                    $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
-                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                    $totalHour = intval($hour);
-                                                                                    $totalHour_OT = intval($hour_OT);
-                                                                                    @$Thurs_ToADD_OT += $emp_OtRate *  $totalHour_OT;
-                                                                                    @$Thurs_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
-                                                                                    @$Thurs_TO_DEDUCT_UT += $totalHour * $hour_rate;
+                                                                                    $thurs_time = DateTime::createFromFormat('H:i:s', $thurs_timeString);// Convert time string to DateTime object
+                                                                                    $thurs_time_UT = DateTime::createFromFormat('H:i:s', $thurs_timeString_UT);// Convert time string to DateTime object
+                                                                                    $thurs_time_OT = DateTime::createFromFormat('H:i:s', $thurs_timeString_OT);// Convert time string to DateTime object
+
+                                                                                     //For latee
+                                                                                   $thurs_lateH = $thurs_time->format('H');// Extract minutes from DateTime object
+                                                                                   $thurs_lateM = $thurs_time->format('i');// Extract minutes from DateTime object
+                                                                                   $thurs_totalMinutes = intval($thurs_lateM);// Convert minutes to integer
+                                                                                   $thurs_totalhours = intval($thurs_lateH);// Convert minutes to integer
+                                                                                   @$thurs_TO_DEDUCT_LATE_hours += $thurs_totalhours * $thurs_hour_rate;//minutes to deduct
+                                                                                   @$thurs_TO_DEDUCT_LATE_minutes += $thurs_totalMinutes * $thurs_minute_rate;//minutes to deduct
+                                                                                   @$Thurs_TO_DEDUCT_LATE =  @$thurs_TO_DEDUCT_LATE_hours +  @$thurs_TO_DEDUCT_LATE_minutes;
+
+
+                                                                                  //for Undertime
+                                                                                  $thurs_hour= $thurs_time_UT->format('H');// Extract Hour from DateTime object
+                                                                                  $thurs_totalHour = intval($thurs_hour);
+                                                                                  @$Thurs_TO_DEDUCT_UT += $thurs_totalHour * $thurs_hour_rate;
+
+
+                                                                                  //for Overtime
+                                                                                  $thurs_hour_OT = $thurs_time_OT->format('H');// Extract Hour from DateTime object
+                                                                                  $thurs_totalHour_OT = intval($thurs_hour_OT);
+                                                                                  @$Thurs_ToADD_OT += $thurs_emp_OtRate *  $thurs_totalHour_OT;
+
+                                                                                    // $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    // $hour= $time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    // $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    // $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    // $totalHour = intval($hour);
+                                                                                    // $totalHour_OT = intval($hour_OT);
+                                                                                    // @$Thurs_ToADD_OT += $emp_OtRate *  $totalHour_OT;
+                                                                                    // @$Thurs_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
+                                                                                    // @$Thurs_TO_DEDUCT_UT += $totalHour * $hour_rate;
                                                                                 }
                                                                             } else if($day_of_week === 'Friday'){
                                                                                 if($fri_total_work === '00:00:00'){
@@ -491,29 +580,51 @@ if(!isset($_SESSION['username'])){
                                                                                     $Fri_ToADD_OT = 0;
                                                                                 }else{
                                                                                 
-                                                                                    $emp_dailyRate =  $row_emp['drate'];
-                                                                                    $emp_OtRate = $row_emp['otrate'];
+                                                                                    $fri_emp_dailyRate =  $row_emp['drate'];
+                                                                                    $fri_emp_OtRate = $row_emp['otrate'];
 
-                                                                                    $total_work_hours = (int)substr($fri_total_work, 0, 2);
-                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                    $minute_rate = $hour_rate / 60; 
+                                                                                    $fri_total_work_hours = (int)substr($fri_total_work, 0, 2);
+                                                                                    $fri_hour_rate =  $fri_emp_dailyRate / $fri_total_work_hours;
+                                                                                    $fri_minute_rate = $fri_hour_rate / 60; 
 
-                                                                                    $timeString =$date_att['late'];
-                                                                                    $timeString_UT = $date_att['underTime'];
-                                                                                    $timeString_OT = $date_att['OT'];
+                                                                                    $fri_timeString =$date_att['late'];
+                                                                                    $fri_timeString_UT = $date_att['underTime'];
+                                                                                    $fri_timeString_OT = $date_att['OT'];
 
-                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                    $time_UT = DateTime::createFromFormat('H:i:s', $timeString_UT);// Convert time string to DateTime object
-                                                                                    $time_OT = DateTime::createFromFormat('H:i:s', $timeString_OT);// Convert time string to DateTime object
-                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                    $hour= $time_UT->format('H');// Extract Hour from DateTime object
-                                                                                    $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
-                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                    $totalHour = intval($hour);
-                                                                                    $totalHour_OT = intval($hour_OT);
-                                                                                    @$Fri_ToADD_OT += $emp_OtRate *  $totalHour_OT;
-                                                                                    @$Fri_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
-                                                                                    @$Fri_TO_DEDUCT_UT += $totalHour * $hour_rate; 
+                                                                                    $fri_time = DateTime::createFromFormat('H:i:s', $fri_timeString);// Convert time string to DateTime object
+                                                                                    $fri_time_UT = DateTime::createFromFormat('H:i:s', $fri_timeString_UT);// Convert time string to DateTime object
+                                                                                    $fri_time_OT = DateTime::createFromFormat('H:i:s', $fri_timeString_OT);// Convert time string to DateTime object
+
+                                                                                      //For latee
+                                                                                   $fri_lateH = $fri_time->format('H');// Extract minutes from DateTime object
+                                                                                   $fri_lateM = $fri_time->format('i');// Extract minutes from DateTime object
+                                                                                   $fri_totalMinutes = intval($fri_lateM);// Convert minutes to integer
+                                                                                   $fri_totalhours = intval($fri_lateH);// Convert minutes to integer
+                                                                                   @$fri_TO_DEDUCT_LATE_hours += $fri_totalhours * $fri_hour_rate;//minutes to deduct
+                                                                                   @$fri_TO_DEDUCT_LATE_minutes += $fri_totalMinutes * $fri_minute_rate;//minutes to deduct
+                                                                                   @$Fri_TO_DEDUCT_LATE =  @$fri_TO_DEDUCT_LATE_hours +  @$fri_TO_DEDUCT_LATE_minutes;
+
+
+                                                                                  //for Undertime
+                                                                                  $fri_hour= $fri_time_UT->format('H');// Extract Hour from DateTime object
+                                                                                  $fri_totalHour = intval($fri_hour);
+                                                                                  @$Fri_TO_DEDUCT_UT += $fri_totalHour * $fri_hour_rate;
+
+
+                                                                                  //for Overtime
+                                                                                  $fri_hour_OT = $fri_time_OT->format('H');// Extract Hour from DateTime object
+                                                                                  $fri_totalHour_OT = intval($fri_hour_OT);
+                                                                                  @$Fri_ToADD_OT += $emp_OtRate *  $totalHour_OT;
+
+                                                                                    // $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    // $hour= $time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    // $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    // $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    // $totalHour = intval($hour);
+                                                                                    // $totalHour_OT = intval($hour_OT);
+                                                                                    // @$Fri_ToADD_OT += $emp_OtRate *  $totalHour_OT;
+                                                                                    // @$Fri_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
+                                                                                    // @$Fri_TO_DEDUCT_UT += $totalHour * $hour_rate; 
                                                                                 }
                                                                             } else if($day_of_week === 'Saturday'){
                                                                                 if($sat_total_work === '00:00:00'){
@@ -522,29 +633,52 @@ if(!isset($_SESSION['username'])){
                                                                                     $SAT_ToADD_OT = 0;
                                                                                 }else{
                                                                                 
-                                                                                    $emp_dailyRate =  $row_emp['drate'];
-                                                                                    $emp_OtRate = $row_emp['otrate'];
+                                                                                    $sat_emp_dailyRate =  $row_emp['drate'];
+                                                                                    $sat_emp_OtRate = $row_emp['otrate'];
 
-                                                                                    $total_work_hours = (int)substr($sat_total_work, 0, 2);
-                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                    $minute_rate = $hour_rate / 60; 
+                                                                                    $sat_total_work_hours = (int)substr($sat_sat_total_work, 0, 2);
+                                                                                    $sat_hour_rate =  $sat_emp_dailyRate / $sat_total_work_hours;
+                                                                                    $sat_minute_rate = $sat_hour_rate / 60; 
 
-                                                                                    $timeString =$date_att['late'];
-                                                                                    $timeString_UT = $date_att['underTime'];
-                                                                                    $timeString_OT = $date_att['OT'];
+                                                                                    $sat_timeString =$date_att['late'];
+                                                                                    $sat_timeString_UT = $date_att['underTime'];
+                                                                                    $sat_timeString_OT = $date_att['OT'];
 
-                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                    $time_UT = DateTime::createFromFormat('H:i:s', $timeString_UT);// Convert time string to DateTime object
-                                                                                    $time_OT = DateTime::createFromFormat('H:i:s', $timeString_OT);// Convert time string to DateTime object
-                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                    $hour= $time_UT->format('H');// Extract Hour from DateTime object
-                                                                                    $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
-                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                    $totalHour = intval($hour);
-                                                                                    $totalHour_OT = intval($hour_OT);
-                                                                                    @$SAT_ToADD_OT += $emp_OtRate *  $totalHour_OT;
-                                                                                    @$SAT_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
-                                                                                    @$SAT_TO_DEDUCT_UT += $totalHour * $hour_rate; 
+                                                                                    $sat_time = DateTime::createFromFormat('H:i:s', $sat_timeString);// Convert time string to DateTime object
+                                                                                    $sat_time_UT = DateTime::createFromFormat('H:i:s', $sat_timeString_UT);// Convert time string to DateTime object
+                                                                                    $sat_time_OT = DateTime::createFromFormat('H:i:s', $sat_timeString_OT);// Convert time string to DateTime object
+
+
+                                                                                       //For latee
+                                                                                   $sat_lateH = $sat_time->format('H');// Extract minutes from DateTime object
+                                                                                   $sat_lateM = $sat_time->format('i');// Extract minutes from DateTime object
+                                                                                   $sat_totalMinutes = intval($sat_lateM);// Convert minutes to integer
+                                                                                   $sat_totalhours = intval($sat_lateH);// Convert minutes to integer
+                                                                                   @$sat_TO_DEDUCT_LATE_hours += $sat_totalhours * $sat_hour_rate;//minutes to deduct
+                                                                                   @$sat_TO_DEDUCT_LATE_minutes += $sat_totalMinutes * $sat_minute_rate;//minutes to deduct
+                                                                                   @$SAT_TO_DEDUCT_LATE =  @$sat_TO_DEDUCT_LATE_hours +  @$sat_TO_DEDUCT_LATE_minutes;
+
+
+                                                                                  //for Undertime
+                                                                                  $sat_hour= $sat_time_UT->format('H');// Extract Hour from DateTime object
+                                                                                  $sat_totalHour = intval($sat_hour);
+                                                                                  @$SAT_TO_DEDUCT_UT += $sat_totalHour * $sat_hour_rate;
+
+
+                                                                                  //for Overtime
+                                                                                  $sat_hour_OT = $sat_time_OT->format('H');// Extract Hour from DateTime object
+                                                                                  $sat_totalHour_OT = intval($sat_hour_OT);
+                                                                                  @$SAT_ToADD_OT += $sat_emp_OtRate *  $sat_totalHour_OT;
+
+                                                                                    // $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    // $hour= $time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    // $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    // $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    // $totalHour = intval($hour);
+                                                                                    // $totalHour_OT = intval($hour_OT);
+                                                                                    // @$SAT_ToADD_OT += $emp_OtRate *  $totalHour_OT;
+                                                                                    // @$SAT_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
+                                                                                    // @$SAT_TO_DEDUCT_UT += $totalHour * $hour_rate; 
                                                                                 }
                                                                             } else if($day_of_week === 'Sunday'){
                                                                                 if($sun_total_work === '00:00:00'){
@@ -553,29 +687,52 @@ if(!isset($_SESSION['username'])){
                                                                                     $Sun_ToADD_OT = 0;
                                                                                 }else{
                                                                                 
-                                                                                    $emp_dailyRate =  $row_emp['drate'];
-                                                                                    $emp_OtRate = $row_emp['otrate'];
+                                                                                    $sun_emp_dailyRate =  $row_emp['drate'];
+                                                                                    $sun_emp_OtRate = $row_emp['otrate'];
 
-                                                                                    $total_work_hours = (int)substr($sun_total_work, 0, 2);
-                                                                                    $hour_rate =  $emp_dailyRate / $total_work_hours;
-                                                                                    $minute_rate = $hour_rate / 60; 
+                                                                                    $sun_total_work_hours = (int)substr($sun_total_work, 0, 2);
+                                                                                    $sun_hour_rate =  $sun_emp_dailyRate / $sun_total_work_hours;
+                                                                                    $sun_minute_rate = $sun_hour_rate / 60; 
 
-                                                                                    $timeString =$date_att['late'];
-                                                                                    $timeString_UT = $date_att['underTime'];
-                                                                                    $timeString_OT = $date_att['OT'];
+                                                                                    $sun_timeString =$date_att['late'];
+                                                                                    $sun_timeString_UT = $date_att['underTime'];
+                                                                                    $sun_timeString_OT = $date_att['OT'];
 
-                                                                                    $time = DateTime::createFromFormat('H:i:s', $timeString);// Convert time string to DateTime object
-                                                                                    $time_UT = DateTime::createFromFormat('H:i:s', $timeString_UT);// Convert time string to DateTime object
-                                                                                    $time_OT = DateTime::createFromFormat('H:i:s', $timeString_OT);// Convert time string to DateTime object
-                                                                                    $minutes = $time->format('i');// Extract minutes from DateTime object
-                                                                                    $hour= $time_UT->format('H');// Extract Hour from DateTime object
-                                                                                    $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
-                                                                                    $totalMinutes = intval($minutes);// Convert minutes to integer
-                                                                                    $totalHour = intval($hour);
-                                                                                    $totalHour_OT = intval($hour_OT);
-                                                                                    @$Sun_ToADD_OT += $emp_OtRate *  $totalHour_OT;
-                                                                                    @$Sun_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
-                                                                                    @$Sun_TO_DEDUCT_UT += $totalHour * $hour_rate; 
+                                                                                    $sun_time = DateTime::createFromFormat('H:i:s', $sun_timeString);// Convert time string to DateTime object
+                                                                                    $sun_time_UT = DateTime::createFromFormat('H:i:s', $sun_timeString_UT);// Convert time string to DateTime object
+                                                                                    $sun_time_OT = DateTime::createFromFormat('H:i:s', $sun_timeString_OT);// Convert time string to DateTime object
+
+
+                                                                                        //For latee
+                                                                                   $sun_lateH = $sun_time->format('H');// Extract minutes from DateTime object
+                                                                                   $sun_lateM = $sun_time->format('i');// Extract minutes from DateTime object
+                                                                                   $sun_totalMinutes = intval($sun_lateM);// Convert minutes to integer
+                                                                                   $sun_totalhours = intval($sun_lateH);// Convert minutes to integer
+                                                                                   @$sun_TO_DEDUCT_LATE_hours += $sun_totalhours * $sun_hour_rate;//minutes to deduct
+                                                                                   @$sun_TO_DEDUCT_LATE_minutes += $sun_totalMinutes * $sun_minute_rate;//minutes to deduct
+                                                                                   @$Sun_TO_DEDUCT_LATE =  @$sun_TO_DEDUCT_LATE_hours +  @$sun_TO_DEDUCT_LATE_minutes;
+
+
+                                                                                  //for Undertime
+                                                                                  $sun_hour= $sun_time_UT->format('H');// Extract Hour from DateTime object
+                                                                                  $sun_totalHour = intval($sun_hour);
+                                                                                  @$Sun_TO_DEDUCT_UT += $sun_totalHour * $sun_hour_rate;
+
+
+                                                                                  //for Overtime
+                                                                                  $sun_hour_OT = $sun_time_OT->format('H');// Extract Hour from DateTime object
+                                                                                  $sun_totalHour_OT = intval($sun_hour_OT);
+                                                                                  @$Sun_ToADD_OT += $sun_emp_OtRate *  $sun_totalHour_OT;
+
+                                                                                    // $minutes = $time->format('i');// Extract minutes from DateTime object
+                                                                                    // $hour= $time_UT->format('H');// Extract Hour from DateTime object
+                                                                                    // $hour_OT = $time_OT->format('H');// Extract Hour from DateTime object
+                                                                                    // $totalMinutes = intval($minutes);// Convert minutes to integer
+                                                                                    // $totalHour = intval($hour);
+                                                                                    // $totalHour_OT = intval($hour_OT);
+                                                                                    // @$Sun_ToADD_OT += $emp_OtRate *  $totalHour_OT;
+                                                                                    // @$Sun_TO_DEDUCT_LATE += $totalMinutes * $minute_rate;
+                                                                                    // @$Sun_TO_DEDUCT_UT += $totalHour * $hour_rate; 
                                                                                 }
                                                                             }
                                                                         
@@ -583,7 +740,7 @@ if(!isset($_SESSION['username'])){
                                                                     }
                                                                        
                                                                      else {
-                                                                        echo "No rows found in attendances_tb.";
+                                                                        echo "<span style='color: red;'>You cannot generate a payslip for an employee with no attendance</span>";
                                                                     }
                                                                     
                                                                     
@@ -593,11 +750,13 @@ if(!isset($_SESSION['username'])){
 
                                                                 
                                                                
-
+                                                               
                                                                  //Computation of total deduction of LATE AND UNDERTIME
                                                                  $value_UT_LATE = (@$MONDAY_TO_DEDUCT_LATE + @$Tue_TO_DEDUCT_LATE + @$WED_TO_DEDUCT_LATE +  @$Thurs_TO_DEDUCT_LATE + @$Fri_TO_DEDUCT_LATE + @$SAT_TO_DEDUCT_LATE + @$Sun_TO_DEDUCT_LATE) +  (@$MONDAY_TO_DEDUCT_UT +  @$Tue_TO_DEDUCT_UT + @$WED_TO_DEDUCT_UT  + @$Thurs_TO_DEDUCT_UT +  @$Fri_TO_DEDUCT_UT +  @$SAT_TO_DEDUCT_UT +  @$Sun_TO_DEDUCT_UT);
 
                                                                 $UT_LATE_DEDUCT_TOTAL = number_format($value_UT_LATE, 2); //convert into two decimal only
+                                                                $UT_LATE_DEDUCT_TOTAL = str_replace(',', '', $UT_LATE_DEDUCT_TOTAL); // Remove comma
+
                                                                  //Computation of total deduction of LATE AND UNDERTIME (END)
 
                                                                      //Computation of total add Overtime
@@ -818,7 +977,23 @@ if(!isset($_SESSION['username'])){
               
                 <div class="text-right mr-5 mt-3">
                     <a style="margin-right: 10px; font-size: 20px;"href="cutoff.php">Cancel</a>
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Print</button>
+                    <?php 
+                    $sql_validss = mysqli_query($conn, " SELECT
+                            *                 
+                        FROM
+                            employee_tb
+                        INNER JOIN attendances ON employee_tb.empid = attendances.empid
+                        WHERE (attendances.status = 'Present' OR attendances.status = 'On-Leave') AND employee_tb.empid = $emp_ID AND `date` BETWEEN  '$str_date' AND  '$end_date'");
+
+                        if(mysqli_num_rows($sql_validss) > 0) {
+                            $row_valid= mysqli_fetch_assoc($sql_validss);
+                            echo '<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Print</button>';
+                        } else {
+                            echo '<button type="button" class="btn btn-outline-primary" style="cursor: no-drop;" disabled data-bs-toggle="modal" data-bs-target="#staticBackdrop">Print</button>';
+                        } 
+                       
+                    ?>
+                   
                 </div>
                 <?php            //para sa pag select sa attendances at employee para sa modal ng payslip
                                             $sql_attendanaaa = mysqli_query($conn, " SELECT
@@ -962,7 +1137,8 @@ if(!isset($_SESSION['username'])){
 
                                     <div class="div1_mdl">
                                         <p class="emp_name">EMPLOYEE NAME  :</p>
-                                        <p class="p_emp_name"> <?php echo $row_emp['full_name']; ?> </p>
+                                        <p class="p_emp_name" id="id_p_emp_name"> <?php echo $row_emp['full_name']; ?> </p>
+                                        
                                     </div>
 
                                     <div class="headbody">
@@ -1265,7 +1441,7 @@ if(!isset($_SESSION['username'])){
                             
                             
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" id="id_btn_close" data-bs-dismiss="modal">Close</button>
                                     <button type="button" name="btn_download_pdf" class="btn btn-primary" id="download-pdf">Download PDF</button>
 
                                 </div>
@@ -1306,48 +1482,6 @@ if(!isset($_SESSION['username'])){
 <script src="bootstrap js/data-table.js"></script>  <!-- < Custom js for this page  -->
 <!-- para sa datatable  END-->
 
-<!-- <script type="text/javascript">
-    $("body").on("click", "#download-pdf", function () {
-        let emp_ID = document.getElementById('id_empID').value;
-        let name_cutOff_freq = document.getElementById('id_cutOff_freq').value;
-        let name_cutOff_num = document.getElementById('id_cutOff_num').value;
-        let name_numworks = document.getElementById('id_numworks').value;
-        let name_cutoffID = document.getElementById('id_cutoffID').value;
-        
-
-        html2canvas($('#id_modal-pdf')[0], {
-            onrendered: function (canvas) {
-                var data = canvas.toDataURL();
-                var docDefinition = {
-                    content: [{
-                        image: data,
-                        width: 500
-                    }]
-                };
-                pdfMake.createPdf(docDefinition).download("trt.pdf");
-
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var response = this.responseText;
-                        console.log(response);
-                        if (response != "") {
-                            // Redirect to generate_payslip.php
-                            //window.location.href = "generatePayslip.php?msg= Successfully Generated the Payslip";
-                        } else {
-                            // Response is not "Done"
-                            console.log(response);
-                        }
-                    }
-                };
-                xhr.open("POST", "generate-pdf.php", true);
-                // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                // xhr.setRequestHeader("Content-Type", "multipart/form-data");
-                xhr.send("pdfData=" + encodeURIComponent(data) + "&emp_ID=" + encodeURIComponent(emp_ID) + "&name_cutOff_freq=" + encodeURIComponent(name_cutOff_freq) + "&name_cutOff_num=" + encodeURIComponent(name_cutOff_num) + "&name_numworks=" + encodeURIComponent(name_numworks) + "&name_cutoffID=" + encodeURIComponent(name_cutoffID));
-            }
-        });
-    });
-</script> -->
 <script type="text/javascript">
     $("body").on("click", "#download-pdf", function () {
         let emp_ID = document.getElementById('id_empID').value;
@@ -1355,7 +1489,30 @@ if(!isset($_SESSION['username'])){
         let name_cutOff_num = document.getElementById('id_cutOff_num').value;
         let name_numworks = document.getElementById('id_numworks').value;
         let name_cutoffID = document.getElementById('id_cutoffID').value;
+        document.getElementById('id_btn_close').style.display="none";
+        document.getElementById('download-pdf').style.display="none";
         
+
+        var emp_fullname = document.getElementById("id_p_emp_name");
+        var fullname = emp_fullname.textContent;
+
+        // Create a new Date object
+var currentDate = new Date();
+
+// Get the current date and time in the Philippines (Manila) timezone
+var options = {
+  timeZone: "Asia/Manila",
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric"
+};
+
+var currentDateTime = currentDate.toLocaleString("en-PH", options);
+
+
 
         html2canvas($('#id_modal-pdf')[0], {
             onrendered: function (canvas) {
@@ -1366,85 +1523,38 @@ if(!isset($_SESSION['username'])){
                         width: 500
                     }]
                 };
-                pdfMake.createPdf(docDefinition).download(emp_ID +".pdf");
-
-                var formData = new FormData();
-                formData.append('pdfData', data);
-                formData.append('emp_ID', emp_ID);
-                formData.append('name_cutOff_freq', name_cutOff_freq);
-                formData.append('name_cutOff_num', name_cutOff_num);
-                formData.append('name_numworks', name_numworks);
-                formData.append('name_cutoffID', name_cutoffID);
-
-                var xhr = new XMLHttpRequest();
-                
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var response = this.responseText;
-                        console.log(response);
-                        if (response !== "") {
-                            // Redirect to generate_payslip.php
-                            // window.location.href = "generatePayslip.php?msg= Successfully Generated the Payslip";
-                        } else {
-                            // Response is not "Done"
+                pdfMake.createPdf(docDefinition).download(fullname + "_" + currentDateTime  +".pdf");
+                pdfMake.createPdf(docDefinition).getBase64(function (pdfData) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            var response = this.responseText;
                             console.log(response);
+                            if (response != "") {
+                                // Redirect to generate_payslip.php
+                                window.location.href = "generatePayslip.php?msg=Successfully Generated the Payslip";
+                            } else {
+                                // Response is not "Done"
+                                console.log(response);
+                            }
                         }
-                    }
-                };
-                xhr.open("POST", "generate-pdf.php", true);
-                xhr.send(formData);
-
+                    };
+                    xhr.open("POST", "generate-pdf.php", true);
+                    var formData = new FormData();
+                    formData.append("pdfData", pdfData);
+                    formData.append("emp_ID", emp_ID);
+                    formData.append("name_cutOff_freq", name_cutOff_freq);
+                    formData.append("name_cutOff_num", name_cutOff_num);
+                    formData.append("name_numworks", name_numworks);
+                    formData.append("name_cutoffID", name_cutoffID);
+                    xhr.send(formData);
+                    document.getElementById('id_btn_close').style.display="";
+                    document.getElementById('download-pdf').style.display="";
+                });
             }
         });
     });
 </script>
-
-
-
-
-
-
-<!-- <script type="text/javascript">
-    $("body").on("click", "#download-pdf", function () {
-        let emp_ID = document.getElementById('id_empID').value;
-        let name_cutOff_freq = document.getElementById('id_cutOff_freq').value;
-        let name_cutOff_num = document.getElementById('id_cutOff_num').value;
-        let name_numworks = document.getElementById('id_numworks').value;
-        let name_cutoffID = document.getElementById('id_cutoffID').value;
-
-        html2canvas($('#id_modal-pdf')[0]).then(function(canvas) {
-            canvas.toBlob(function(blob) {
-                var formData = new FormData();
-                formData.append("pdfData", blob);
-                formData.append("emp_ID", emp_ID);
-                formData.append("name_cutOff_freq", name_cutOff_freq);
-                formData.append("name_cutOff_num", name_cutOff_num);
-                formData.append("name_numworks", name_numworks);
-                formData.append("name_cutoffID", name_cutoffID);
-
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var response = this.responseText;
-                        console.log(response);
-                        if (response != "") {
-                            // Redirect to generate_payslip.php
-                            //window.location.href = "generatePayslip.php?msg=Successfully Generated the Payslip";
-                        } else {
-                            // Response is not "Done"
-                            console.log(response);
-                        }
-                    }
-                };
-                xhr.open("POST", "generate-pdf.php", true);
-                xhr.send(formData);
-            }, 'image/png'); // Set the desired image format (e.g., 'image/png' or 'image/jpeg')
-        });
-    });
-</script> -->
-
-
-
 
 
 

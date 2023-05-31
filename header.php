@@ -13,14 +13,17 @@
     <!-- UPPER NAV -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row custom-navbar" id="upper-nav"> <!-- UPPER NAV MOTHER -->
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" id="logo-upper-nav" >
-        <a class="navbar-brand brand-logo me-5" href="../../index.html" ><img src="img/Slash Tech Solutions.png" class="me-2" alt="logo" style="margin-left: 25px;"/></a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html" style="width: 100px;"><img src="img/header-logo-small.jpg" alt="logo" style="width: 100px; " /></a>
+        <a class="navbar-brand brand-logo me-5" href="dashboard.php" ><img src="img/Slash Tech Solutions.png" class="me-2" alt="logo" style="margin-left: 25px;"/></a>
+        <a class="navbar-brand brand-logo-mini" href="dashboard.php" style="width: 100px;"><img src="img/header-logo-small.jpg" alt="logo" style="width: 100px; " /></a>
       </div>
       
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end" id="upper-nav-container" >
         <button class="navbar-toggler navbar-toggler align-self-center" id="navbar-toggler" type="button" data-toggle="minimize">
             <span class="fa-solid fa-bars" style="color:white;"></span>
           </button> 
+          <button id="sidebarToggle" class="responsive-bars-btn">
+            <span class="fa-solid fa-bars" style="color:white;"></span>
+          </button>
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             
@@ -37,7 +40,7 @@
                 </div>
                 <div class="header-type">
                     <h1 style="color: white;margin-top: 15px; margin-bottom: 20px;"><?php if(empty($_SESSION['role'])){
-                                echo "no User!";
+                                echo "no user!";
                             }else{
                                 echo $_SESSION['role'];
                             }
@@ -51,7 +54,7 @@
                 </div>
                 <div class="header-dropdown" >
                     <button class="header-dropdown-btn" style="color: white"><span class="fa-solid fa-chevron-down"></span></button>
-                    <div class="header-dropdown-menu" style="background-color: #555">
+                    <div class="header-dropdown-menu" style="background-color: #000">
                         <a href="logout.php" class="header-dd-btn" style="text-decoration: none;color: white">Logout</a>
                         <a href="#" style="text-decoration:none; color: white">User Profile</a>
                     </div>
@@ -102,78 +105,27 @@
         <div class="tab-content" id="setting-content">
           <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="add-items d-flex px-3 mb-0">
-              <form class="form w-100">
+              
                 <div class="form-group d-flex">
-                  <input type="text" class="form-control todo-list-input" placeholder="Add To-do">
-                  <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task">Add</button>
+                  
                 </div>
-              </form>
+             
             </div>
             <div class="list-wrapper px-3">
-              <ul class="d-flex flex-column-reverse todo-list">
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Team review meeting at 3.00 PM
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Prepare for presentation
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Resolve all the low priority tickets due today
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Schedule meeting for next week
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Project review
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-              </ul>
+              
             </div>
-            <h4 class="px-3 text-muted mt-5 font-weight-light mb-0">Events</h4>
+           
             <div class="events pt-4 px-3">
               <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary me-2"></i>
-                <span>Feb 11 2018</span>
+                
               </div>
-              <p class="mb-0 font-weight-thin text-gray">Creating component page build a js</p>
-              <p class="text-gray mb-0">The total number of sessions</p>
+             
             </div>
             <div class="events pt-4 px-3">
               <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary me-2"></i>
-                <span>Feb 7 2018</span>
+                
               </div>
-              <p class="mb-0 font-weight-thin text-gray">Meeting with Alisa</p>
-              <p class="text-gray mb-0 ">Call Sarah Graves</p>
+          
             </div>
           </div>
        
@@ -191,7 +143,7 @@
           </li>
 
           <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic" style="margin-top: 10px; color:white;">
+          <a class="nav-link nav-links" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic" style="margin-top: 10px; color:white;">
             <i class="fa-regular fa-clock" id="side-icon"></i>
             <span class="nav-title" style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px">TIMEKEEPING</span>
             <i class=" menu-arrow" style="color: white;"></i>
@@ -208,10 +160,25 @@
               <li class="nav-item"> <a class="nav-link" href="Schedules.php">SCHEDULES</a></li>
             </ul>
           </div>
-        </li>   
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-payroll" aria-expanded="false" aria-controls="ui-payroll" style="margin-top: 5px; color:white">
+              <i class="fa-regular fa-credit-card" ></i>
+              <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >PAYROLL</span>
+              <i class="menu-arrow" style="color: white"></i>
+            </a>
+            <div class="collapse" id="ui-payroll">
+              <ul class="nav flex-column sub-menu" style=" width: 100%;">
+                <li class="nav-item"> <a class="nav-link" href="loanRequest.php">LOAN REQUEST</a></li>
+                <li class="nav-item"> <a class="nav-link" href="cutoff.php">GENERATE PAYROLL</a></li>
+                <li class="nav-item"> <a class="nav-link" href="generatePayslip.php">GENERATE PAYSLIP</a></li>
+              </ul>
+            </div>
+          </li>
 
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced" style="margin-top: 5px; color:white">
+          <!-- <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced" style="margin-top: 5px; color:white">
               <i class=" fa-regular fa-credit-card"></i>
               <span class="nav-title"  style="font-size: 21px; margin-left: 15px; font-family: Arial, sans-serif; font-weight: 400; height: 35px" >PAYROLL</span>
               <i class="menu-arrow" style="color: white;"></i>
@@ -223,7 +190,7 @@
                 <li class="nav-item"> <a class="nav-link" href="generatePayslip.php">GENERATE PAYSLIP</a></li>
               </ul>
             </div>
-          </li>
+          </li> -->
 
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-emp" aria-expanded="false" aria-controls="ui-emp" style="margin-top: 5px; color:white">
@@ -234,7 +201,7 @@
             <div class="collapse" id="ui-emp">
               <ul class="nav flex-column sub-menu" style=" width: 100%;">
                 <li class="nav-item"> <a class="nav-link" href="EmployeeList.php">EMPLOYEE LIST</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">EMPLOYEE REQUEST</a></li>
+                <li class="nav-item"> <a class="nav-link" href="employeeRequest.php">EMPLOYEE REQUEST</a></li>
               </ul>
             </div>
           </li>
