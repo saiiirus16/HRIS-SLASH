@@ -70,8 +70,6 @@ function strvalidate() {
     }
   }
 
-  
-
   function endvalidate() {
     let id_inpt_strTime1 = new Date(document.getElementById("id_inpt_strdate").value);
     let id_inpt_endTime1 = new Date(document.getElementById("id_inpt_enddate").value);
@@ -116,55 +114,30 @@ function strvalidate() {
 
 
     //PARA ISA LANG MA CHECK SA FIRST AND SECOND HALF AND UNLOCK THE STARTDATE
-        // function halfdaysides(){
+        function halfdaysides(){
 
-        //   const firstHalfCheckbox = document.querySelector('input[name="firstHalf"]');
-        //   const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
-
-        //   let id_leavePeriod = document.getElementById('id_leavePeriod').value;
-
-        //   if (id_leavePeriod === 'Full Day') {
-        //     document.getElementById("id_inpt_strdate").disabled = false;
-        //     document.getElementById('id_chckfirsthalf').style.display = "none";
-        //     document.getElementById('id_chckSecondhalf').style.display = "none";
-
-        //     firstHalfCheckbox.checked = this.checked;
-        //     secondHalfCheckbox.checked = this.checked;
-            
-        //   }
-        //   else if(id_leavePeriod === 'Half Day'){
-        //     document.getElementById("id_inpt_strdate").disabled = true;
-        //     document.getElementById('id_chckfirsthalf').style.display = "flex";
-        //     document.getElementById('id_chckSecondhalf').style.display = "flex";
-        //   }
-        // }
-
-        function halfdaysides() {
           const firstHalfCheckbox = document.querySelector('input[name="firstHalf"]');
           const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
-          const leavePeriodDropdown = document.getElementById('id_leavePeriod');
-          const startDateInput = document.getElementById('id_inpt_strdate');
-          const endDateInput = document.getElementById('id_inpt_enddate');
-        
-          let selectedLeavePeriod = leavePeriodDropdown.value;
-        
-          if (selectedLeavePeriod === 'Full Day') {
-            startDateInput.disabled = false;
-            startDateInput.value = '';
-            endDateInput.disabled = false;
-            endDateInput.value = '';
+
+          let id_leavePeriod = document.getElementById('id_leavePeriod').value;
+
+          if (id_leavePeriod === 'Full Day') {
+            document.getElementById("id_inpt_strdate").disabled = false;
             document.getElementById('id_chckfirsthalf').style.display = "none";
             document.getElementById('id_chckSecondhalf').style.display = "none";
-        
-            firstHalfCheckbox.checked = false;
-            secondHalfCheckbox.checked = false;
-          } else if (selectedLeavePeriod === 'Half Day') {
-            startDateInput.disabled = true;
-            startDateInput.value = '';
-            endDateInput.disabled = true;
-            endDateInput.value = '';
+            document.getElementById('id_inpt_strdate').value= "";
+            document.getElementById('id_inpt_enddate').value= "";
+
+            firstHalfCheckbox.checked = this.checked;
+            secondHalfCheckbox.checked = this.checked;
+            
+          }
+          else if(id_leavePeriod === 'Half Day'){
+            document.getElementById("id_inpt_strdate").disabled = true;
             document.getElementById('id_chckfirsthalf').style.display = "flex";
             document.getElementById('id_chckSecondhalf').style.display = "flex";
+            document.getElementById('id_inpt_strdate').value= "";
+            document.getElementById('id_inpt_enddate').value= "";
           }
         }
         
