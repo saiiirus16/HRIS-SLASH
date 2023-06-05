@@ -50,25 +50,25 @@ function leavetype() {
 
 
 
-function strvalidate() {
-    let today = new Date(); // Get the current date and time
-    let id_inpt_strTime = new Date(document.getElementById("id_inpt_strdate").value); // Get the date input value as a Date object
-    //let id_inpt_strTime = new Date(document.getElementById("id_inpt_strdate").value.replace(/-/g, '\/'));
+// function strvalidate() {
+//     let today = new Date(); // Get the current date and time
+//     let id_inpt_strTime = new Date(document.getElementById("id_inpt_strdate").value); // Get the date input value as a Date object
+//     //let id_inpt_strTime = new Date(document.getElementById("id_inpt_strdate").value.replace(/-/g, '\/'));
 
-    if (id_inpt_strTime.getTime() < today.getTime()) { // Compare the two dates using getTime()
+//     if (id_inpt_strTime.getTime() < today.getTime()) { // Compare the two dates using getTime()
 
-        alert('You cannot select the date today and the past dates');
-        document.getElementById("id_btnsubmit").style.cursor = "no-drop";
-        document.getElementById("id_btnsubmit").disabled = true;      
-        document.getElementById("id_inpt_enddate").disabled = true;
-    } 
+//         alert('You cannot select the date today and the past dates');
+//         document.getElementById("id_btnsubmit").style.cursor = "no-drop";
+//         document.getElementById("id_btnsubmit").disabled = true;      
+//         document.getElementById("id_inpt_enddate").disabled = true;
+//     } 
 
-    else {
-        document.getElementById("id_btnsubmit").style.cursor = "pointer";
-        document.getElementById("id_btnsubmit").disabled = false;
-        document.getElementById("id_inpt_enddate").disabled = false;
-    }
-  }
+//     else {
+//         document.getElementById("id_btnsubmit").style.cursor = "pointer";
+//         document.getElementById("id_btnsubmit").disabled = false;
+//         document.getElementById("id_inpt_enddate").disabled = false;
+//     }
+//   }
 
   function endvalidate() {
     let id_inpt_strTime1 = new Date(document.getElementById("id_inpt_strdate").value);
@@ -125,6 +125,8 @@ function strvalidate() {
             document.getElementById("id_inpt_strdate").disabled = false;
             document.getElementById('id_chckfirsthalf').style.display = "none";
             document.getElementById('id_chckSecondhalf').style.display = "none";
+            document.getElementById('id_inpt_strdate').value= "";
+            document.getElementById('id_inpt_enddate').value= "";
 
             firstHalfCheckbox.checked = this.checked;
             secondHalfCheckbox.checked = this.checked;
@@ -134,6 +136,8 @@ function strvalidate() {
             document.getElementById("id_inpt_strdate").disabled = true;
             document.getElementById('id_chckfirsthalf').style.display = "flex";
             document.getElementById('id_chckSecondhalf').style.display = "flex";
+            document.getElementById('id_inpt_strdate').value= "";
+            document.getElementById('id_inpt_enddate').value= "";
           }
         }
         

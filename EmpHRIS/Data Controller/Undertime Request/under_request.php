@@ -23,10 +23,7 @@ if(isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == 0) {
     $escaped_contents = "";
 }
 
-$sql = "SELECT * FROM attendances WHERE `empid` = '$employee_id' AND `date` = '$date_undertime'";
-    $result = mysqli_query($conn, $sql);
 
-    if(mysqli_num_rows($result) > 0){
         $query = "INSERT INTO undertime_tb (`empid`,`date`,`start_time`,`end_time`,`total_undertime`,`file_attachment`,`reason`,`status`)
         VALUES ('$employee_id', '$date_undertime', '$start_undertime', '$end_undertime', '$total_undertime', '$escaped_contents', '$reason_undertime', 'Pending')";
         $query_run = mysqli_query($conn, $query);
@@ -36,9 +33,7 @@ $sql = "SELECT * FROM attendances WHERE `empid` = '$employee_id' AND `date` = '$
         }else{
             echo "Failed: " . mysqli_error($conn);
         }
-        }else{
-        header("Location: ../../undertime_req.php?error=You Don't Have Attendance For that Date") ;
-        }
+        
 
 }
 
