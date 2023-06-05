@@ -60,10 +60,37 @@ if(!isset($_SESSION['username'])){
     ?>
 </header>
 
+<style>
+     .pagination{
+        margin-right: 63px !important;
+
+        
+    }
+
+    .pagination li a{
+        color: #c37700;
+    }
+
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+    }
+
+    
+    
+    #order-listing_next{
+        margin-right: 28px !important;
+        margin-bottom: -16px !important;
+
+    }
+</style>
+
 <!---------------------------------------- MAIN CONTAINER START ------------------------------------------->
-<div class="container mt-5" >
-                    <div class="card">
-                        <div class="card-body">
+<div class="container mt-5"  >
+                    <div class="card"  >
+                        <div class="card-body" style="background-color: #fff;">
                             <h2 class="head_text">Generate Payroll</h2>
                              
                            
@@ -239,8 +266,8 @@ if(!isset($_SESSION['username'])){
                                                 <td>" . $row['col_enddate'] . "</td>
                                                 
                                                 <td>
-                                                <button type='submit' name='name_btnView' class='border-light viewbtn' title='View'>
-                                                    <img src='icons/visible.png' alt='...'>
+                                                <button type='submit' name='name_btnView' class='border-light viewbtn' title='View' style='border:none; background-color: inherit;'>
+                                                    <i class='fa-regular fa-eye' style='font-size: 25px;'></i>
                                                 </button>
                                             </td>
                                             

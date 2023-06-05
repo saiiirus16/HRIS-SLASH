@@ -401,8 +401,8 @@ if(!isset($_SESSION['username'])){
 ?>
 <!-------------------- para sa message na error ENd --------------------->
 
-            <div class="row mt-3"> <!--ROW start--> 
-                        <div class="col-6 mb-3">
+            <!-- <div class="row mt-3"> ROW start  -->
+                        <!-- <div class="col-6 mb-3">
                             <div class="pnl_top">
                                 <select class="slction_top" id="limit-select" name= "no_Limit_Listed">
                                     <option value="" disabled selected>Select No. Item To List</option>
@@ -410,9 +410,9 @@ if(!isset($_SESSION['username'])){
                                     <option value="10">Item Listed 10</option>
                                     <option value="15">Item Listed 15</option>
                                 </select>
-                            </div>
+                            </div> -->
 
-                            <style>
+                            <!-- <style>
                                     :root {
                                         --background-gradient: linear-gradient(30deg, #f39c12 30%, #f1c40f);
                                         --gray: #EFB300;
@@ -420,12 +420,10 @@ if(!isset($_SESSION['username'])){
                                     }
 
                                     .slction_top {
-                                        /* Reset Select */
                                         appearance: none;
                                         outline: 0;
                                         border: 0;
                                         box-shadow: none;
-                                        /* Personalize */
                                         flex: 1;
                                         color: #000000;
                                         background-color: var(--white);
@@ -433,13 +431,10 @@ if(!isset($_SESSION['username'])){
                                         cursor: pointer;
                                         font-size: 16px;
                                     }
-
-                                    /* Remove IE arrow */
                                     .slction_top::-ms-expand {
                                         display: none;
                                     }
 
-                                    /* Custom Select wrapper */
                                     .pnl_top {
                                         position: relative;
                                         display: flex;
@@ -452,7 +447,6 @@ if(!isset($_SESSION['username'])){
                                         background-color: #FFFFFF;
                                     }
 
-                                    /* Arrow */
                                     .pnl_top::after {
                                         content: '\25BC';
                                         position: absolute;
@@ -466,7 +460,6 @@ if(!isset($_SESSION['username'])){
                                         pointer-events: none;
                                     }
 
-                                    /* Transition */
                                     .pnl_top:hover::after {
                                         color: #ffffff;
                                     }
@@ -474,8 +467,8 @@ if(!isset($_SESSION['username'])){
                                         color: #787BDB;
                                         font-size: 19px;
                                     }
-                            </style>
-                        </div><!--COL-6 END-->        
+                            </style> -->
+                        <!-- </div>        
                         <div class="col-6 text-end">
                             <div class="pnl_search" >
                                 <form action="" 
@@ -496,8 +489,8 @@ if(!isset($_SESSION['username'])){
                                             ">
                                 </form>
                             </div> 
-                        </div><!--COL-6 END-->        
-                    </div><!--ROW END--> 
+                        </div>       
+                    </div>ROW END  -->
         <!----------------------------------Break------------------------------------->   
         
         
@@ -509,7 +502,7 @@ if(!isset($_SESSION['username'])){
                                 <caption>List of Employee Leave Request</caption>
                                     <thead>
                                         <tr>
-                                            <th scope="col">ID</th>
+                                            <th style="display: none;" scope="col">ID</th>
                                             <th scope="col">Employee ID</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Leave Type</th>
@@ -573,7 +566,7 @@ if(!isset($_SESSION['username'])){
                                                         
 
                                                         echo "<tr>
-                                                                <td>" . $row['col_ID'] . "</td>
+                                                                <td style='display: none;'>" . $row['col_ID'] . "</td>
                                                                 <td>" . $row['col_req_emp'] . "</td>
                                                                 <td scope='row'>
                                                                     <button type='submit' name='view_data' class='viewbtn' title='View' style='border: none; background: transparent;

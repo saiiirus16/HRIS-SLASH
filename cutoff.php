@@ -47,6 +47,7 @@ if(!isset($_SESSION['username'])){
     <link rel="stylesheet" href="css/gnrate_payroll.css">
     <link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" src="js/multi-select-dd.js"></script>
     <!-- para sa font ng net pay -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
@@ -65,6 +66,32 @@ if(!isset($_SESSION['username'])){
         include 'header.php';
     ?>
 </header>
+
+<style>
+    .multiselect-dropdown{
+        width: 400px !important;
+        margin-left: 20px !important;
+        padding: 10px !important;
+    }
+     .multiselect-dropdown-all-selector label{
+        background-color: white;
+     }
+    .multiselect-dropdown-all-selector{
+       
+        display: flex !important;
+        flex-direction: row !important;
+    }
+
+    .multiselect-dropdown-list div{
+   
+        display: flex !important;
+        flex-direction: row !important;
+    }
+
+    .multiselect-dropdown-list div label{
+        background-color: white;
+    }
+</style>
 <!-- Modal -->
 <div class="modal fade" id="modal_create" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -202,25 +229,44 @@ if(!isset($_SESSION['username'])){
                         <div class="mb-3">
                             
                             <?php
-                            include 'config.php';
+                             $server = "localhost";
+                             $user = "root";
+                             $pass ="";
+                             $database = "hris_db";
 
-                            //   // Fetch all values of fname and lname from the database
-                              $sql = "SELECT `fname`, `lname`, `empid` FROM employee_tb";
-                              $result = mysqli_query($conn, $sql);
-                                echo '<div class="dropdown form-select form-select-m">';
-                                    echo '<input disabled class="slction_emp" type="text" id="items_EMP" placeholder="All Employees">';
-                                    echo '<button type="button" class="dropdown-btn">&#x25BC;<i class="fa fa-caret-down"></i></button>';
-                                echo '<div class="dropdown-content">';
-                                echo '<label><input class="emp_lblchckbox" type="checkbox" name="All Employee" value="All Employee">All Employee</label>';
-                             // Generate the list of checkboxes
-                             while ($row = mysqli_fetch_array($result)) {
-                                $emp_id = $row['empid'];
-                                $name = $row['fname'] . ' ' . $row['lname'];
-                                echo '<label><input class="emp_lblchckbox" type="checkbox" name="name_empId" value="' . $emp_id .'"> ' . $name . ' </label>';
-                                }            
-                                echo '</div>';
-                                echo '</div>';
+                            $conn = mysqli_connect($server, $user, $pass, $database);
+
+                            $sql = "SELECT * FROM employee_tb";
+                            $approveResult = mysqli_query($conn, $sql);
+
+                            
+                            $approverOptions = "";
+                            while ($approverRow = mysqli_fetch_assoc($approveResult)) {
+                                $approverOptions .= "<option value='".$approverRow['empid'] . "' style='display:flex; font-size: 16px; font-style:normal;'>".$approverRow['fname']. " ". " " ." ".$approverRow['lname']." </option>";
+                            }
+
+                            // //   // Fetch all values of fname and lname from the database
+                            //   $sql = "SELECT `fname`, `lname`, `empid` FROM employee_tb";
+                            //   $result = mysqli_query($conn, $sql);
+                            //     echo '<div class="dropdown form-select form-select-m">';
+                            //         echo '<input disabled class="slction_emp" type="text" id="items_EMP" placeholder="All Employees">';
+                            //         echo '<button type="button" class="dropdown-btn">&#x25BC;<i class="fa fa-caret-down"></i></button>';
+                            //     echo '<div class="dropdown-content">';
+                            //     echo '<label><input class="emp_lblchckbox" type="checkbox" name="All Employee" value="All Employee">All Employee</label>';
+                            //  // Generate the list of checkboxes
+                            //  while ($row = mysqli_fetch_array($result)) {
+                            //     $emp_id = $row['empid'];
+                            //     $name = $row['fname'] . ' ' . $row['lname'];
+                            //     echo '<label><input class="emp_lblchckbox" type="checkbox" name="name_empId" value="' . $emp_id .'"> ' . $name . ' </label>';
+                            //     }            
+                            //     echo '</div>';
+                            //     echo '</div>';
                             ?>
+                            
+                                <select class="approver-dd" name="name_empId[]" id="" multiple multiselect-search="true" multiselect-select-all="true" multiselect-max-items="3" style="display:flex; width: 380px;">
+                                    <?php echo $approverOptions ?>
+                                </select>
+
                         </div>  <!--mb-3 end--->
                     </div> <!-- col-6 end-->
             </div> <!--END row3 -->
@@ -239,7 +285,7 @@ if(!isset($_SESSION['username'])){
 
 <div class="container mt-5">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" style="background-color: #fff">
 
         <h3 class="mt-2">Cutoff List</h3>
         <button class="btn_Create mt-3" data-bs-toggle="modal" data-bs-target="#modal_create" style="margin-left: 15px;">
@@ -276,7 +322,7 @@ if(!isset($_SESSION['username'])){
 
         <ul class="nav nav-tabs mt-3">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" data-bs-toggle="tab" href="#Standard">Standard</a>
+                        <a class="" aria-current="page" data-bs-toggle="tab" href="#Standard" style="text-decoration: none; color: black;" > <h4>Standard</h4> </a>
                     </li>
                     <!-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#Allowance">----</a>
@@ -368,7 +414,7 @@ if(!isset($_SESSION['username'])){
     <div class="modal-content">
     <form action="actions/Payroll/addEmp.php" method="post">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Employee</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -383,15 +429,18 @@ if(!isset($_SESSION['username'])){
                     $sql = "SELECT fname, lname, empid FROM employee_tb";
                     $result = mysqli_query($conn, $sql);
 
-                    // Generate the dropdown list
-                    echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='add_name_emp' style=' height: 50px; width: 400px; cursor: pointer;'>";
-                    while ($row = mysqli_fetch_array($result)) {
-                            $emp_id = $row['empid'];
-                            $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
-                            echo "<option value='$emp_id'>$name</option>";
-                                            }
-                          echo "</select>";
+                    $options = "";
+                    while($row = mysqli_fetch_assoc($result)){
+                        $options .="<option value='".$row['empid']."'>".$row['empid']." -    ".$row['fname']."  ".$row['lname']." </option> ";
+                    }
+                    
+
+                    
                 ?>
+
+                        <select class="approver-dd" name="cuttOff_emp[]" id="" multiple multiselect-search="true" multiselect-select-all="true" multiselect-max-items="5" style="display:flex; width: 380px;">
+                            <?php echo $options ?>
+                        </select>
             </div>
         
       </div>

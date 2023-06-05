@@ -126,7 +126,7 @@
 <!------------------------------------End Message alert------------------------------------------------->
 
 <!---------------------------------------View Modal Start Here -------------------------------------->
-<div class="modal fade" id="view_dtr_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="view_dtr_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
   <div class="modal-dialog">
     <div class="modal-content">
@@ -148,11 +148,11 @@
 <!---------------------------------------View Modal End Here --------------------------------------->
 
 <!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download_dtr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="download_dtr" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Download PDF File</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -277,11 +277,11 @@
                                         <td><?php echo $row['empid']?></td>
                                         <td><a href="" class="showbtn" data-bs-toggle="modal" data-bs-target="#viewmodal"><?php echo $row['full_name']?></a></td>
                                         <td><?php echo $row['date']?></td>
-                                        <td><?php echo $row['time']?></td>
+                                        <td><?php echo date('h:i A', strtotime($row['time'])) ?></td>
                                         <td><?php echo $row['type']?></td>
                                         <td style="display: none;"><?php echo $row['reason']?></td>
                                         <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_dtr_modal">View</a></td>
-                                        <?php if(!empty($row['upl_file'])): ?>
+                                        <?php if(!empty($row['file_attach'])): ?>
                                         <td>
                                         <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_dtr">Download</button>
                                         </td>
@@ -325,7 +325,7 @@
 
 <!------------------------------------------------View ng whole data Modal ---------------------------------------------------->
 
-<div class="modal fade" id="viewmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">

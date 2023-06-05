@@ -1164,7 +1164,7 @@ thead th:nth-child(1){
 
                                     $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            $options .= "<option style='color:black;' value=' ". $row['schedule_name'] . "'>" .$row['schedule_name']."</option>";
+                                            $options .= "<option style='color:black;' value='".$row['schedule_name']."'>" .$row['schedule_name']."</option>";
                                         }
                                 ?>
                                 <label for="schedule_name">Schedule Type</label><br>
@@ -1176,14 +1176,16 @@ thead th:nth-child(1){
                             <div class="mb-3" class="form-group">
                                 
                                 <label for="sched_from">From</label>
-                                <input type="date" name="sched_from" id="sched_from" class="form-control">
+                                <input type="date" name="sched_from" id="sched_from" class="form-control" onchange="datevalidate()" min="<?php echo date('Y-m-d'); ?>">
+                                <div id="sched_from_error" class="text-danger"></div>
 
                                 <label for="sched_from" class="mt-3">To</label>
-                                <input type="date" name="sched_to" id="sched_to" class="form-control">
+                                <input type="date" name="sched_to" id="sched_to" class="form-control"  onchange="datevalidate()">
+                                <div id="sched_to_error" class="text-danger"></div>
                             </div>
-                            <div class="mb-3 mt-5">
-                                <button value="Cancel" id="sched-update-close" class="sched-update-close btn btn-primary mr-3" style="background-color: #C37700; border: none ">Close</button>
-                                <button value="" type="submit" class="btn btn-primary" style="background-color: black; border:none;">Submit</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: none; background-color: inherit;">Close</button>
+                                <button type="submit" class="btn btn-primary" id="submit-btn" style="background-color: black; border: none;"> Update </button>
                             </div>
                         </div>
                     </form>
@@ -1287,11 +1289,9 @@ thead th:nth-child(1){
 
                 <?php
                         $conn = mysqli_connect("localhost", "root", "" , "hris_db");
-                        $stmt = "SELECT * FROM employee_tb
-                                 AS emp
-                                 INNER JOIN empschedule_tb
-                                 AS esched
-                                 ON(esched.empid = emp.empid)";
+                        $stmt = "SELECT * FROM employee_tb AS emp
+                            INNER JOIN empschedule_tb AS esched ON esched.empid = emp.empid
+                            INNER JOIN schedule_tb AS sched ON sched.schedule_name = esched.schedule_name";
                         $result = $conn->query($stmt);
 
                         if($result->num_rows > 0){
@@ -1301,7 +1301,7 @@ thead th:nth-child(1){
                                 <td style='font-weight: 400;'>".$row["fname"]. " ".$row["lname"]."</td>
                                 <td style='font-weight: 400;'>9:00 AM</td>
                                 <td style='font-weight: 400;'>6:00 PM</td>
-                                <td style='font-weight: 400;'>".$row["department_name"]. "</td>
+                                <td style='font-weight: 400;'>".$row["restday"]. "</td>
                                 <td style='font-weight: 400;'>".$row["schedule_name"]. "</td>
                                 <td style='font-weight: 400;'>".$row["sched_from"]. "</td>
                                 <td style='font-weight: 400;'>".$row["sched_to"]. "</td>
@@ -1384,6 +1384,54 @@ thead th:nth-child(1){
     </div>
     </form> -->
     
+    <script>
+function populateDateFields(row) {
+    var startDate = row.getElementsByTagName('td')[5].innerHTML;
+    var endDate = row.getElementsByTagName('td')[6].innerHTML;
+
+    document.getElementById('sched_from').value = startDate;
+    document.getElementById('sched_to').value = endDate;
+}
+
+var updateButtons = document.getElementsByClassName('sched-update');
+for (var i = 0; i < updateButtons.length; i++) {
+    updateButtons[i].addEventListener('click', function() {
+        var row = this.closest('tr');
+        populateDateFields(row);
+    });
+}
+
+function datevalidate() {
+    var startDateInput = document.getElementById('sched_from');
+    var endDateInput = document.getElementById('sched_to');
+    var startDate = new Date(startDateInput.value);
+    var endDate = new Date(endDateInput.value);
+    var today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
+
+    var startError = document.getElementById('sched_from_error');
+    var endError = document.getElementById('sched_to_error');
+    var submitBtn = document.getElementById('submit-btn');
+
+    if (startDate < today) {
+        startError.innerHTML = "Start Date must be today or a future date.";
+    } else {
+        startError.innerHTML = "";
+    }
+
+    if (endDate < startDate) {
+        endError.innerHTML = "End Date must be equal to or greater than Start Date.";
+    } else {
+        endError.innerHTML = "";
+    }
+
+    if (startError.innerHTML !== "" || endError.innerHTML !== "") {
+        submitBtn.disabled = true;
+    } else {
+        submitBtn.disabled = false;
+    }
+}
+</script>
 
   
 

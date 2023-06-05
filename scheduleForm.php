@@ -57,48 +57,130 @@
         overflow: hidden;
         background-color: #f4f4f4
     }
+    .modal-content{
+        width: 700px !important;
+        height: 600px !important;
+        position: absolute !important;
+        top: 100px !important;
+        right: -230px !important;
+       
+    }
+    .error-message {
+    display: <?php echo (isset($_GET['showError']) && $_GET['showError'] === 'true' && isset($_GET['errorMsg'])) ? 'flex' : 'none'; ?>;
+    background-color: <?php echo (isset($_GET['showError']) && $_GET['showError'] === 'true' && isset($_GET['errorMsg'])) ? 'firebrick' : 'none'; ?>;
+    color: white;
+    width: 500px;
+    height: 45px;
+    margin-left: 50px;
+    margin-top: 27px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+
+  }
+  
+  .error-message .close-btn {
+    background-color: firebrick;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+    
 </style>
 
-    <button id="schedFormBtn" class="schedFormBtn" > Assign to Employese</button>
+<script>
+function validateTimeOut(input) {
+  var timeIn = input.value;
+  var timeOutInput = input.parentElement.nextElementSibling.querySelector('.time-input');
+
+  if (timeIn) {
+    var timeInDate = new Date('1970-01-01 ' + timeIn);
+    var maxTimeOut = new Date(timeInDate.getTime() + (12 * 60 * 60 * 1000));
+
+    timeOutInput.disabled = false;
+    timeOutInput.min = formatTime(maxTimeOut);
+  } else {
+    timeOutInput.disabled = true;
+    timeOutInput.value = "";
+  }
+}
+
+function formatTime(date) {
+  var hours = date.getHours().toString().padStart(2, '0');
+  var minutes = date.getMinutes().toString().padStart(2, '0');
+  return hours + ':' + minutes;
+}
+</script>
+
+<script>
+  function validateSchedule() {
+    var checkboxes = document.getElementsByClassName("checkbox");
+    var timeInputs = document.getElementsByClassName("time-input");
+    var errorMsg = document.getElementById("errorMsg");
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+      var checkbox = checkboxes[i];
+      var timeInput = timeInputs[i];
+      
+      if (checkbox.checked && timeInput.value === "") {
+        alert("You cannot submit a schedule without Time Entry and Time Out");
+        document.getElementById("error-text").innerText = "Please fill in the time for the checked day(s).";
+        errorMsg.innerText = "Please fill in the time for the checked day(s).";
+        errorMsg.style.display = "flex";
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
+  function removeErrorMessage() {
+    var errorMsg = document.getElementById("errorMsg");
+    errorMsg.style.display = "none";
+  }
+</script>
+
+    <button id="" class="schedFormBtn" type="button" data-bs-toggle="modal" data-bs-target="#schedModal"> Assign to Employee</button>
 
     
     <form action="Data Controller/Schedules/empSchedule.php" method="POST">
-        <div class="schedule-modal" id="schedFormModal" style="display:none;">
-            <div class="schedule-modal-container"  id="schedFormModal">
-                    <div class="schedule-modal-content">
-                        <div class="sched-modal-title">
-                            <h1>Change Schedule</h1>
-                            <div> </div>
-                        </div>
-                        <div class="schedule-select">
-                            <div>
-                            <?php
+        <div class="modal fade" id="schedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="title" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="title">Change Schedule</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                    <?php
                                 $server = "localhost";
                                 $user = "root";
                                 $pass ="";
                                 $database = "hris_db";
 
                                 $conn = mysqli_connect($server, $user, $pass, $database);
-                                $sql = "SELECT department_name FROM employee_tb";
+                                $sql = "SELECT col_deptname FROM dept_tb";
                                 $result = mysqli_query($conn, $sql);
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='".$row['department_name']."'>" .$row['department_name'].  "</option>";
+                                    $options .= "<option value='".$row['col_deptname']."'>" .$row['col_deptname'].  "</option>";
                                 }
                                 ?>
 
                                 
                                 <label for="depatment">Select Department</label><br>
-                                <select name="" id="">
+                                <select name="" id="" style="height: 50px; width: 630px; padding: 10px">
                                 <option value disabled selected>Select Department</option>
                                     <?php echo $options; ?>
                                 </select>
-                            
-                            </div>
-                        <div>
-
-                            <?php
+                        </div>
+                        <div class="mb-3">
+                        <?php
                                 $server = "localhost";
                                 $user = "root";
                                 $pass ="";
@@ -110,19 +192,17 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='".$row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                                    $options .= "<option value='".$row['empid'] . "' style='font-size: 16px;'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }
                                 ?>
 
                                 <label for="emp">Select Employee</label><br>
-                                <select name="empid" id="employee-dd"  style="width: 98%; padding: 10px; font-size: 20px; background-color: white; border: 1px solid gray;">
+                                <select name="empid" id="employee-dd"  style="width: 98%; padding: 10px; font-size: 16px; background-color: white; border: 1px solid gray; height: 50px">
                                 <?php echo $options; ?>
                                 </select>
-                            </div>
-                        </div>
-                        <div class="sched-type">
-                            <div>
-                            <?php
+                        </div> 
+                        <div class="mb-3">
+                        <?php
                                     $server = "localhost";
                                     $user = "root";
                                     $pass ="";
@@ -139,36 +219,37 @@
                                     ?>
 
                                 <label for="schedule_name">Schedule Type</label><br>
-                                <select name="schedule_name" id="">
-                                <option value disabled selected>Select Schedule Type</option>
+                                <select name="schedule_name" id="" style="height: 50px; width: 630px; padding: 10px">
+                                
                                     <?php echo $options; ?>
                                 </select>
-                                </div>   
-
                         </div>
-                        <div class="sched-modal-date">
+                        <div class="" style="display: flex; ">
                             <div>
                                 <label for="from">From</label><br>
-                                <input type="date" name="sched_from" id="">
+                                <input type="date" name="sched_from" id="" style="width: 300px; height: 50px; margin-right: 30px; border: black 1px solid; padding: 10px;">
                             </div>
                             <div>
                                 <label for="from">To</label><br>
-                                <input type="date" name="sched_to" id="">   
+                                <input type="date" name="sched_to" id=""  style="width: 300px ; height: 50px; border: black 1px solid; padding: 10px;">   
                             </div>
                         </div>
-
-                        <div class="sched-modal-btn">
+                        
+                        <div class="sched-modal-btn mt-5">
                             <div>
 
                             </div>
                             <div>
-                                <input value="Cancel" style="outline:none; cursor:pointer;" class="schedFormClose" id="schedFormClose">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border:none; background-color: inherit; font-size: 23px;">Close</button>
                                 <input type="submit" value="Submit"  style="outline:none; cursor:pointer;">
                             </div>
                         </div>
+                            
                     </div>
+                </div>
             </div>
         </div>
+       
     </form>
 
     
@@ -204,22 +285,43 @@
                     <a href="http://"><h1>Work From Home</h1></a> -->
                 </div>
             </div>
-        <form action="Data Controller/Schedules/scheduleFormController.php" method="POST">
+        <form action="Data Controller/Schedules/scheduleFormController.php" method="POST" onsubmit="return validateSchedule();">
        <div class="schedule-form-show">
 
            
             <div class="scheduletable-container">
                     <div class="scheduletable-buttons">
                         <div class="scheduleBtn-crud">
-                             <input type="submit" value="Submit" name="submit" class="btn btn-success"  >
+                             <input type="submit" value="Submit" name="submit" class="btn btn-success"  style="color: #fff">
                             <!-- <input type="submit" value="Update" name="" class="btn btn-success"  > -->
                             <!-- <button style="color:white; margin-left:20px"><a href="Button Controller/delete.pshp?id=$row[id]" style="color:white;">Delete</a></button> -->
                         </div>
                     </div>
-            
-                    <label for="schedule_name">Schedule Name</label><br>
-                    <input class="schedule-input" type="text" name="schedule_name" id="" required>
+                    
+                    <div class="schedule-name-container" style="height: 80px; display: flex; flex-direction: row; margin-bottom: 20px;">
+                        <div>
+                            <label for="schedule_name">Schedule Name</label><br>
+                            <input class="schedule-input" type="text" name="schedule_name" id="" required style="border: black 1px solid;" >
+                        </div>
+                        <div>
+                        <div class="error-message d-flex align-items-center justify-content-between" id="errorMsg" style="width: 500px; margin-left: 50px; margin-top: 40px;">
+                       
+                                <?php
+                                if (isset($_GET['showError']) && $_GET['showError'] === 'true') {
+                                    if (isset($_GET['errorMsg'])) {
+                                    echo $_GET['errorMsg'];
+                                    echo '<button class="close-btn" id="error-text" style="border: none; background-color: inherit; font-size: 20px;" onclick="removeErrorMessage()"><span class="fa-regular fa-circle-xmark"> </span</button>
+                                    ';
+                                    }
+                                }
+                                ?>
 
+                                </div>
+                            </div>
+                            
+                            </div>  
+
+                    
         <div class="scheduletable-table">
 
             <div class="schedule-table-container">
@@ -232,44 +334,46 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="monday" value="Monday" id="checkbox1" onclick="toggleInputs(this)"> Monday</td>
-                                <td><input name="mon_timein" type="time" class="time-input" id="time1" disabled></td>
+                                <input type="hidden" name="restday" id="restdayInput" value="<?php echo @$row['restday'] ?>" readonly>
+
+                                <td><input type="checkbox" class="checkbox" name="monday" value="Monday" id="checkbox1"  onchange="updateRestday()" onclick="toggleInputs(this)"> Monday</td>
+                                <td><input name="mon_timein" type="time" class="time-input" id="time1" disabled ></td>
                                 <td><input name="mon_timeout" type="time" class="time-input" id="time2" disabled></td>
                                 <td><input name ="mon_wfh" type="checkbox" class="checkbox-lg" value="WFH" ></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="tuesday" value="Tuesday" id="checkbox1" onclick="toggleInputs(this)"> Tuesday</td>
-                                <td><input name="tues_timein" type="time" class="time-input" id="time3" disabled></td>
+                                <td><input type="checkbox" class="checkbox" name="tuesday" value="Tuesday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Tuesday</td>
+                                <td><input name="tues_timein" type="time" class="time-input" id="time3" disabled ></td>
                                 <td><input name="tues_timeout" type="time" class="time-input" id="time4" disabled></td>
                                 <td><input name ="tues_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="wednesday" value="Wednesday" id="checkbox1" onclick="toggleInputs(this)"> Wednesday</td>
-                                <td><input name="wed_timein" type="time" class="time-input" id="time5" disabled></td>
+                                <td><input type="checkbox" class="checkbox" name="wednesday" value="Wednesday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Wednesday</td>
+                                <td><input name="wed_timein" type="time" class="time-input" id="time5" disabled ></td>
                                 <td><input name="wed_timeout" type="time" class="time-input" id="time6" disabled></td>
                                 <td><input name ="wed_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="thursday" value="Thursday" id="checkbox1" onclick="toggleInputs(this)"> Thursday </td>
-                                <td><input name="thurs_timein" type="time" class="time-input" id="time7" disabled></td>
+                                <td><input type="checkbox" class="checkbox" name="thursday" value="Thursday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Thursday </td>
+                                <td><input name="thurs_timein" type="time" class="time-input" id="time7" disabled ></td>
                                 <td><input name="thurs_timeout" type="time" class="time-input" id="time8" disabled></td>
                                 <td><input name ="thurs_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="friday" value="Friday" id="checkbox1" onclick="toggleInputs(this)"> Friday</td>
-                                <td><input name="fri_timein" type="time" class="time-input" id="time9" disabled></td>
+                                <td><input type="checkbox" class="checkbox" name="friday" value="Friday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Friday</td>
+                                <td><input name="fri_timein" type="time" class="time-input" id="time9" disabled ></td>
                                 <td><input name="fri_timeout" type="time" class="time-input" id="time10" disabled></td>
                                 <td><input name ="fri_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
-                            <td><input type="checkbox" class="checkbox" name="saturday" value="Saturday" id="checkbox1" onclick="toggleInputs(this)"> Saturday</td>
-                            <td><input name="sat_timein" type="time" class="time-input" id="time11" disabled></td>
+                            <td><input type="checkbox" class="checkbox" name="saturday" value="Saturday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Saturday</td>
+                            <td><input name="sat_timein" type="time" class="time-input" id="time11" disabled ></td>
                                 <td><input name="sat_timeout" type="time" class="time-input" id="time12" disabled></td>
                                 <td><input name ="sat_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
-                            <td><input type="checkbox" class="checkbox" name="sunday" value="Sunday" id="checkbox1" onclick="toggleInputs(this)"> Sunday</td>
-                            <td><input name="sun_timein" type="time" class="time-input" id="time13" disabled></td>
+                            <td><input type="checkbox" class="checkbox" name="sunday" value="Sunday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Sunday</td>
+                            <td><input name="sun_timein" type="time" class="time-input" id="time13" disabled  ></td>
                                 <td><input name="sun_timeout" type="time" class="time-input" id="time14" disabled></td>
                                 <td><input name ="sun_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
@@ -336,7 +440,45 @@
                     </div>
                 </div>
         </div> -->
+
         
+<script>
+    function updateRestday() {
+  var checkboxes = document.getElementsByClassName('checkbox');
+  var restdayInput = document.getElementById('restdayInput');
+  var restdays = [];
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (!checkboxes[i].checked) {
+      restdays.push(checkboxes[i].value);
+    }
+  }
+
+  restdayInput.value = restdays.join(', ');
+}
+
+
+</script>
+
+<script>
+  function removeErrorMessage() {
+    var errorMsg = document.getElementById("errorMsg");
+    var parentElement = errorMsg.parentElement;
+    parentElement.style.display = "none";
+
+    var url = new URL(window.location.href);
+    var params = new URLSearchParams(url.search);
+
+    params.delete("errorMsg");
+    params.delete("showError");
+
+    // Update the URL without query parameters
+    window.history.replaceState({}, document.title, url.pathname + params.toString());
+  }
+</script>
+
+
+
 
 
     
@@ -344,10 +486,20 @@
 function toggleInputs(checkbox) {
   var row = checkbox.parentNode.parentNode;
   var inputs = row.getElementsByTagName("input");
-  for (var i = 1; i < inputs.length; i++) {
-    inputs[i].disabled = !checkbox.checked;
+
+  if (checkbox.checked) {
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].disabled = false;
+    }
+  } else {
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i] !== checkbox) {
+        inputs[i].disabled = true;
+      }
+    }
   }
 }
+
 
 const checkbox = document.getElementById('enable-number-input');
 const checkbox2 = document.getElementById('enable-number-input2');

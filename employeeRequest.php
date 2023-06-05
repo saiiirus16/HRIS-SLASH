@@ -169,7 +169,7 @@ if(!isset($_SESSION['username'])){
                             <table id="order-listing" class="table" >
                                 <thead >
                                     <tr> 
-                                        <th style= 'display: ;'> ID </th>  
+                                        <th style="display: none;"> ID </th>  
                                         <th> Employee ID </th>
                                         <th> Name </th>
                                         <th> Positon </th> 
@@ -309,7 +309,7 @@ if(!isset($_SESSION['username'])){
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
                                             echo "<tr>";
-                                            echo "<td>" . $row['col_ID'] . "</td>";
+                                            echo "<td style='display: none;'>" . $row['col_ID'] . "</td>";
                                             echo "<td>" . $row['col_req_emp'] . "</td>";
                                             echo "<td scope='row'>
                                                     <button type='submit' name='view_data' class='viewbtn' title='View' style='border: none; background: transparent;

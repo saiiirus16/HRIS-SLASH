@@ -69,49 +69,45 @@ if(!isset($_SESSION['username'])){
         <form action="actions/Leave Information/insertcode.php" method="POST">
         <div class="modal-body">
         
-            <div class="mb-3">
-                <label for="Select_dept" class="form-label">Select Department</label>
-                        <?php
-                                include 'config.php';
-                                // Fetch all values of col_deptname from the database
-                                $sql = "SELECT col_deptname FROM dept_tb";
-                                $result = mysqli_query($conn, $sql);
+        <div class="mb-3">
+            <label for="Select_dept" class="form-label">Select Department</label>
+            <?php
+            include 'config.php';
+            // Fetch all values of col_deptname from the database
+            $sql = "SELECT col_ID, col_deptname FROM dept_tb";
+            $result = mysqli_query($conn, $sql);
 
-                                // Store all values in an array
-                                $dept_options = array();
-                                while($row = mysqli_fetch_array($result)){
-                                    $dept_options[] = $row['col_deptname'];
-                                            }
+            // Store all values in an array
+            $dept_options = array();
+            while ($row = mysqli_fetch_array($result)) {
+                $ID = $row["col_ID"];
+                $Deptname = $row["col_deptname"];
 
-                                // Generate the dropdown list
-                                echo "<select class='form-select form-select-m' aria-label='.form-select-sm example'>";
-                                foreach ($dept_options as $dept_option){
-                                    echo "<option value='$dept_option'>$dept_option</option>";
-                                        }
-                                echo "</select>";
-                            ?>
-            </div>
-            <!--              line break                     -->
-            <div class="mb-3">
-                <label for="Select_emp" class="form-label">Select Employee</label>
-                <?php
-                    include 'config.php';
+                $dept_options[] = array('col_ID' => $ID, 'col_deptname' => $Deptname);
 
-                    // Fetch all values of fname and lname from the database
-                    $sql = "SELECT fname, lname, empid FROM employee_tb";
-                    $result = mysqli_query($conn, $sql);
+            }
 
-                    // Generate the dropdown list
-                    echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' name='name_emp'>";
-                    while ($row = mysqli_fetch_array($result)) {
-                        $emp_id = $row['empid'];
-                        $name = $row['empid'] . ' - ' . $row['fname'] . ' ' . $row['lname'];
-                        echo "<option value='$emp_id'>$name</option>";
-                    }
-                    echo "</select>";
-                ?>
-            </div>
-            <!--              line break                     -->
+            // Generate the dropdown list
+            echo "<select class='form-select form-select-m' aria-label='.form-select-sm example' id='deptSelect' onchange='updateEmployeeDropdown()'>";
+            foreach ($dept_options as $dept_option) {
+                echo "<option value='" . $dept_option['col_ID'] . "'>" . $dept_option['col_deptname'] . "</option>";
+            }
+            echo "</select>";
+            ?>
+        </div>
+
+
+        <!--------------------------- line break ------------------------------------>
+
+        <div class="mb-3">
+            <label for="Select_emp" class="form-label">Select Employee</label>
+            <select class="form-select form-select-m" aria-label=".form-select-sm example" id="empSelect" name="name_emp"></select>
+        </div>
+
+        <!--------------------------- line break ------------------------------------>
+
+
+
             <div class="mb-3">
                 <label for="vctn_lve" class="form-label">Vacation Leave</label>
                     <div class="input-group mb-3">
