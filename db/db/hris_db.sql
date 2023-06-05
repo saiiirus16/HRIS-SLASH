@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2023 at 06:52 AM
+-- Generation Time: May 14, 2023 at 10:28 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -57,7 +57,7 @@ CREATE TABLE `allowancededuct_tb` (
 CREATE TABLE `announcement_tb` (
   `id` int(11) NOT NULL,
   `announce_title` varchar(255) NOT NULL,
-  `empid` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `announce_date` date NOT NULL,
   `description` varchar(1000) NOT NULL,
   `file_attachment` longblob NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE `attendances` (
   `id` int(11) NOT NULL,
   `status` varchar(255) NOT NULL,
   `empid` varchar(255) NOT NULL,
-  `date` date NOT NULL,
+  `date` varchar(255) NOT NULL,
   `time_in` time NOT NULL,
   `time_out` time NOT NULL,
   `late` time NOT NULL,
@@ -258,6 +258,7 @@ CREATE TABLE `employee_tb` (
   `role` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `cpassword` varchar(255) NOT NULL,
   `sss_amount` int(11) NOT NULL,
   `tin_amount` int(11) NOT NULL,
   `pagibig_amount` int(11) NOT NULL,
@@ -370,9 +371,11 @@ CREATE TABLE `leavetype_tb` (
 CREATE TABLE `overtime_tb` (
   `id` int(11) NOT NULL,
   `empid` int(11) NOT NULL,
+  `date` date NOT NULL,
   `work_schedule` date NOT NULL,
   `time_in` time NOT NULL,
   `time_out` time NOT NULL,
+  `out_time` time NOT NULL,
   `ot_hours` time NOT NULL,
   `total_ot` time NOT NULL,
   `reason` varchar(500) NOT NULL,
@@ -402,21 +405,6 @@ CREATE TABLE `payroll_loan_tb` (
   `loan_status` varchar(255) NOT NULL,
   `col_BAL_amount` int(11) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `payslip_tb`
---
-
-CREATE TABLE `payslip_tb` (
-  `col_ID` int(11) NOT NULL,
-  `col_empid` varchar(50) NOT NULL,
-  `col_Payslip_pdf` longblob NOT NULL,
-  `col_cutoffID` int(11) NOT NULL,
-  `col_numDaysWork` int(11) NOT NULL,
-  `_datetime` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -507,13 +495,6 @@ CREATE TABLE `user_tb` (
   `password` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user_tb`
---
-
-INSERT INTO `user_tb` (`id`, `username`, `userType`, `password`, `role`) VALUES
-(1, 'admin', 'admin', 'admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -666,12 +647,6 @@ ALTER TABLE `overtime_tb`
 --
 ALTER TABLE `payroll_loan_tb`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `payslip_tb`
---
-ALTER TABLE `payslip_tb`
-  ADD PRIMARY KEY (`col_ID`);
 
 --
 -- Indexes for table `positionn_tb`
@@ -835,12 +810,6 @@ ALTER TABLE `payroll_loan_tb`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `payslip_tb`
---
-ALTER TABLE `payslip_tb`
-  MODIFY `col_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `positionn_tb`
 --
 ALTER TABLE `positionn_tb`
@@ -862,7 +831,7 @@ ALTER TABLE `undertime_tb`
 -- AUTO_INCREMENT for table `user_tb`
 --
 ALTER TABLE `user_tb`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `wfh_tb`

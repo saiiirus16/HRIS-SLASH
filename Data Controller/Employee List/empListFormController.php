@@ -98,11 +98,38 @@ $stmt->bind_result($count);
 $stmt->fetch();
 
 if ($count > 0) {
-    // Display an error message and stop the script from continuing
-    echo "<script>alert('Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database.');</script>";
-    echo "<script>window.location.href = '../../empListForm.php';</script>";
+    // Retrieve the previous inputted values from the POST data
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $address = $_POST['address'];
+    $contact = $_POST['contact'];
+    $cstatus = $_POST['cstatus'];
+    $gender = $_POST['gender'];
+    $empdob = $_POST['empdob'];
+    $empsss = $_POST['empsss'];
+    $emptin = $_POST['emptin'];
+    $emppagibig = $_POST['emppagibig'];
+    $empbsalary = $_POST['empbsalary'];
+    $drate = $_POST['drate'];
+    $empdate_hired = $_POST['empdate_hired'];
+    $emptranspo = $_POST['emptranspo'];
+    $empmeal = $_POST['empmeal'];
+    $empinternet = $_POST['empinternet'];
+    $empaccess_id = $_POST['empaccess_id'];
+    $username = $_POST['username'];
+    $role = $_POST['role'];
+    $email = $_POST['email'];
+
+    // Display an error message and redirect with the previous values as query parameters
+    $errorMessage = "Employee with the same name and date of birth or Contact Number, Employee ID, SSN, TIN, Pag-IBIG, or PhilHealth already exists in the database";
+    $queryString = http_build_query([
+        'error' => $errorMessage,
+        'address' => $address,
+        'contact' => $contact
+    ]);
+    header("Location: ../../empListForm.php?" . $queryString);
     exit;
-}
+}  
 
 
 $stmt->close();
@@ -157,14 +184,14 @@ $stmt->close();
 $passwordHash = mysqli_real_escape_string($conn, md5($password));
 
 $status = 'Active';
-$stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `approver`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`, `status`)
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+$stmt = $conn->prepare("INSERT INTO employee_tb (`fname`, `lname`, `empid`, `address`, `contact`, `cstatus`, `gender`, `empdob`, `empsss`, `emptin`, `emppagibig`, `empphilhealth`, `empbranch`, `department_name`, `empposition`, `empbsalary`, `drate`, `empdate_hired`, `emptranspo`, `empmeal`, `empinternet`, `empaccess_id`, `username`, `role`, `email`, `password`, `status`)
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 if (!$stmt) {
     die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$stmt->bind_param("ssssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $approver, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $passwordHash, $status);
+$stmt->bind_param("sssssssssssssssssssssssssss", $fname, $lname, $empid, $address, $contact, $cstatus, $gender, $empdob, $empsss, $emptin, $emppagibig, $empphilhealth, $empbranch, $col_deptname, $empposition, $empbsalary, $drate, $empdate_hired, $emptranspo, $empmeal, $empinternet, $empaccess_id, $username, $role, $email, $passwordHash, $status);
 
 $stmt->execute();
 
@@ -175,6 +202,31 @@ if ($stmt->errno) {
 }
 
 $stmt->close();
+
+
+// Insert into approver_tb table
+$approverEmpIds = $_POST['approver'];
+
+foreach ($approverEmpIds as $approverEmpId) {
+    $stmt2 = $conn->prepare("INSERT INTO approver_tb (`empid`, `approver_empid`)
+                            VALUES (?, ?)");
+
+    if (!$stmt2) {
+        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+    }
+
+    $stmt2->bind_param("ss", $empid, $approverEmpId);
+
+    $stmt2->execute();
+
+    if ($stmt2->errno) {
+        echo "<script>alert('Error: " . $stmt2->error . "');</script>";
+        echo "<script>window.location.href = '../../empListForm.php';</script>";
+        exit;
+    }
+
+    $stmt2->close();
+}
 
 $stmt1 = $conn->prepare("INSERT INTO empschedule_tb (`empid`, `schedule_name`, `sched_from`, `sched_to`)
                         VALUES (?,?,?,?)");
