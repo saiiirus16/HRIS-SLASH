@@ -30,6 +30,40 @@ searchBar.addEventListener("input", () => {
   }
 });
 
+    function updateEmployeeDropdown() {
+        var deptSelect = document.getElementById("deptSelect");
+        var empSelect = document.getElementById("empSelect");
+        var selectedDept = deptSelect.options[deptSelect.selectedIndex].value;
+
+        // Fetch the employees based on the selected department using AJAX or other techniques
+        // Replace the URL below with the appropriate endpoint that retrieves the employees
+        var url = "Data Controller/Leave Information/get_employees.php?department=" + encodeURIComponent(selectedDept);
+
+        // Clear the existing options
+        empSelect.innerHTML = "";
+
+        // Fetch the employees from the server
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Generate the options for the employee dropdown
+                data.forEach(employee => {
+                    var option = document.createElement("option");
+                    option.value = employee.empid;
+                    option.text = employee.empid + " - " + employee.fname + " " + employee.lname;
+                    empSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
+    // Call the function on page load if there's a pre-selected department
+    document.addEventListener("DOMContentLoaded", function () {
+        updateEmployeeDropdown();
+    });
+
 
 // function vldty(){
 //   let set_V_crdt  = document.getElementById("id_v_crdt").value;
