@@ -92,57 +92,9 @@
     
 </style>
 
-<script>
-function validateTimeOut(input) {
-  var timeIn = input.value;
-  var timeOutInput = input.parentElement.nextElementSibling.querySelector('.time-input');
 
-  if (timeIn) {
-    var timeInDate = new Date('1970-01-01 ' + timeIn);
-    var maxTimeOut = new Date(timeInDate.getTime() + (12 * 60 * 60 * 1000));
 
-    timeOutInput.disabled = false;
-    timeOutInput.min = formatTime(maxTimeOut);
-  } else {
-    timeOutInput.disabled = true;
-    timeOutInput.value = "";
-  }
-}
 
-function formatTime(date) {
-  var hours = date.getHours().toString().padStart(2, '0');
-  var minutes = date.getMinutes().toString().padStart(2, '0');
-  return hours + ':' + minutes;
-}
-</script>
-
-<script>
-  function validateSchedule() {
-    var checkboxes = document.getElementsByClassName("checkbox");
-    var timeInputs = document.getElementsByClassName("time-input");
-    var errorMsg = document.getElementById("errorMsg");
-    
-    for (var i = 0; i < checkboxes.length; i++) {
-      var checkbox = checkboxes[i];
-      var timeInput = timeInputs[i];
-      
-      if (checkbox.checked && timeInput.value === "") {
-        alert("You cannot submit a schedule without Time Entry and Time Out");
-        document.getElementById("error-text").innerText = "Please fill in the time for the checked day(s).";
-        errorMsg.innerText = "Please fill in the time for the checked day(s).";
-        errorMsg.style.display = "flex";
-        return false;
-      }
-    }
-    
-    return true;
-  }
-
-  function removeErrorMessage() {
-    var errorMsg = document.getElementById("errorMsg");
-    errorMsg.style.display = "none";
-  }
-</script>
 
     <button id="" class="schedFormBtn" type="button" data-bs-toggle="modal" data-bs-target="#schedModal"> Assign to Employee</button>
 
@@ -292,7 +244,7 @@ function formatTime(date) {
             <div class="scheduletable-container">
                     <div class="scheduletable-buttons">
                         <div class="scheduleBtn-crud">
-                             <input type="submit" value="Submit" name="submit" class="btn btn-success"  style="color: #fff">
+                             <input type="submit" value="Submit" name="submit" class="btn btn-success" id="submit-btn"  style="color: #fff">
                             <!-- <input type="submit" value="Update" name="" class="btn btn-success"  > -->
                             <!-- <button style="color:white; margin-left:20px"><a href="Button Controller/delete.pshp?id=$row[id]" style="color:white;">Delete</a></button> -->
                         </div>
@@ -302,16 +254,16 @@ function formatTime(date) {
                         <div>
                             <label for="schedule_name">Schedule Name</label><br>
                             <input class="schedule-input" type="text" name="schedule_name" id="" required style="border: black 1px solid;" >
+                           
                         </div>
                         <div>
                         <div class="error-message d-flex align-items-center justify-content-between" id="errorMsg" style="width: 500px; margin-left: 50px; margin-top: 40px;">
-                       
+                        <span id="errorMessage" style="color: red; font-size: 16px;"></span>
                                 <?php
                                 if (isset($_GET['showError']) && $_GET['showError'] === 'true') {
                                     if (isset($_GET['errorMsg'])) {
                                     echo $_GET['errorMsg'];
-                                    echo '<button class="close-btn" id="error-text" style="border: none; background-color: inherit; font-size: 20px;" onclick="removeErrorMessage()"><span class="fa-regular fa-circle-xmark"> </span</button>
-                                    ';
+                                    echo '<button class="close-btn" id="error-text" style="border: none; background-color: inherit; font-size: 20px;" onclick="removeErrorMessage()"><span class="fa-regular fa-circle-xmark"> </span</button>';
                                     }
                                 }
                                 ?>
@@ -337,44 +289,44 @@ function formatTime(date) {
                                 <input type="hidden" name="restday" id="restdayInput" value="<?php echo @$row['restday'] ?>" readonly>
 
                                 <td><input type="checkbox" class="checkbox" name="monday" value="Monday" id="checkbox1"  onchange="updateRestday()" onclick="toggleInputs(this)"> Monday</td>
-                                <td><input name="mon_timein" type="time" class="time-input" id="time1" disabled ></td>
-                                <td><input name="mon_timeout" type="time" class="time-input" id="time2" disabled></td>
+                                <td><input name="mon_timein" type="time" class="time-input" id="time1" oninput="validateTime()" disabled></td>            
+                                <td><input name="mon_timeout" type="time" class="time-input" id="time2" oninput="validateTime()" disabled></td>
                                 <td><input name ="mon_wfh" type="checkbox" class="checkbox-lg" value="WFH" ></td>
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="checkbox" name="tuesday" value="Tuesday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Tuesday</td>
-                                <td><input name="tues_timein" type="time" class="time-input" id="time3" disabled ></td>
-                                <td><input name="tues_timeout" type="time" class="time-input" id="time4" disabled></td>
+                                <td><input name="tues_timein" type="time" class="time-input" id="time3" oninput="validateTime()" disabled></td>            
+                                <td><input name="tues_timeout" type="time" class="time-input" id="time4" oninput="validateTime()" disabled></td>
                                 <td><input name ="tues_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="checkbox" name="wednesday" value="Wednesday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Wednesday</td>
-                                <td><input name="wed_timein" type="time" class="time-input" id="time5" disabled ></td>
-                                <td><input name="wed_timeout" type="time" class="time-input" id="time6" disabled></td>
+                                <td><input name="wed_timein" type="time" class="time-input" id="time5" oninput="validateTime()" disabled></td>
+                                <td><input name="wed_timeout" type="time" class="time-input" id="time6" oninput="validateTime()" disabled></td>
                                 <td><input name ="wed_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="checkbox" name="thursday" value="Thursday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Thursday </td>
-                                <td><input name="thurs_timein" type="time" class="time-input" id="time7" disabled ></td>
-                                <td><input name="thurs_timeout" type="time" class="time-input" id="time8" disabled></td>
+                                <td><input name="thurs_timein" type="time" class="time-input" id="time7" oninput="validateTime()" disabled></td>
+                                <td><input name="thurs_timeout" type="time" class="time-input" id="time8" oninput="validateTime()" disabled></td>
                                 <td><input name ="thurs_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
                                 <td><input type="checkbox" class="checkbox" name="friday" value="Friday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Friday</td>
-                                <td><input name="fri_timein" type="time" class="time-input" id="time9" disabled ></td>
-                                <td><input name="fri_timeout" type="time" class="time-input" id="time10" disabled></td>
+                                <td><input name="fri_timein" type="time" class="time-input" id="time9" oninput="validateTime()" disabled></td>
+                                <td><input name="fri_timeout" type="time" class="time-input" id="time10" oninput="validateTime()" disabled></td>
                                 <td><input name ="fri_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
                             <td><input type="checkbox" class="checkbox" name="saturday" value="Saturday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Saturday</td>
-                            <td><input name="sat_timein" type="time" class="time-input" id="time11" disabled ></td>
-                                <td><input name="sat_timeout" type="time" class="time-input" id="time12" disabled></td>
+                            <td><input name="sat_timein" type="time" class="time-input" id="time11" oninput="validateTime()" disabled></td>
+                                <td><input name="sat_timeout" type="time" class="time-input" id="time12" oninput="validateTime()" disabled></td>
                                 <td><input name ="sat_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
                             <td><input type="checkbox" class="checkbox" name="sunday" value="Sunday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)"> Sunday</td>
-                            <td><input name="sun_timein" type="time" class="time-input" id="time13" disabled  ></td>
-                                <td><input name="sun_timeout" type="time" class="time-input" id="time14" disabled></td>
+                            <td><input name="sun_timein" type="time" class="time-input" id="time13" oninput="validateTime()" disabled></td>
+                                <td><input name="sun_timeout" type="time" class="time-input" id="time14" oninput="validateTime()" disabled></td>
                                 <td><input name ="sun_wfh" type="checkbox" class="checkbox-lg" value="WFH"></td>
                             </tr>
                             <tr>
@@ -441,6 +393,82 @@ function formatTime(date) {
                 </div>
         </div> -->
 
+<!------------------------Validation if lumagpas ng 12hrs ang value ng time------------------------------->        
+<script>
+function validateTime() {
+    var timePairs = [
+        [document.getElementById("time1").value, document.getElementById("time2").value],
+        [document.getElementById("time3").value, document.getElementById("time4").value],
+        [document.getElementById("time5").value, document.getElementById("time6").value],
+        [document.getElementById("time7").value, document.getElementById("time8").value],
+        [document.getElementById("time9").value, document.getElementById("time10").value],
+        [document.getElementById("time11").value, document.getElementById("time12").value],
+        [document.getElementById("time13").value, document.getElementById("time14").value],
+       
+    ];
+
+    var errorMessage = document.getElementById('errorMessage');
+    var submitBtn = document.getElementById('submit-btn');
+
+    var hasInvalidSchedule = false;
+
+    for (var i = 0; i < timePairs.length; i++) {
+        var timeIn = timePairs[i][0];
+        var timeOut = timePairs[i][1];
+
+        if (timeIn !== "" && timeOut !== "") {
+            var timeInDate = new Date("2000-01-01 " + timeIn);
+            var timeOutDate = new Date("2000-01-01 " + timeOut);
+            var diffInMinutes = (timeOutDate - timeInDate) / 60000;
+
+            if (diffInMinutes > 720 || diffInMinutes <= 0) {
+                hasInvalidSchedule = true;
+                break;
+            }
+        }
+    }
+
+    if (hasInvalidSchedule) {
+        errorMessage.textContent = "Invalid work schedule. The duration should be within 12 hours.";
+        submitBtn.disabled = true;
+    } else {
+        errorMessage.textContent = "";
+        submitBtn.disabled = false;
+    }
+}
+</script>
+<!------------------------End Validation if lumagpas ng 12hrs ang value ng time------------------------------->    
+
+
+ 
+<script>
+  function validateSchedule() {
+    var checkboxes = document.getElementsByClassName("checkbox");
+    var timeInputs = document.getElementsByClassName("time-input");
+    var errorMsg = document.getElementById("errorMsg");
+    
+    for (var i = 0; i < checkboxes.length; i++) {
+      var checkbox = checkboxes[i];
+      var timeInput = timeInputs[i];
+      
+      if (checkbox.checked && timeInput.value === "") {
+        alert("You cannot submit a schedule without time entry and time out.");
+        document.getElementById("error-text").innerText = "Please fill in the time for the checked day(s).";
+        errorMsg.innerText = "Please fill in the time for the checked day(s).";
+        errorMsg.style.display = "flex";
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
+  function removeErrorMessage() {
+    var errorMsg = document.getElementById("errorMsg");
+    errorMsg.style.display = "none";
+  }
+</script>
+<!------------------------End Validation if Null ang value time------------------------------->
         
 <script>
     function updateRestday() {
