@@ -7,20 +7,37 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!--Font Awesome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="vendors/feather/feather.css">
-    <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <!-- inject:css -->
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
+
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+
+
+
+<!-- skydash -->
+
+<link rel="stylesheet" href="skydash/feather.css">
+    <link rel="stylesheet" href="skydash/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+    <link rel="stylesheet" href="skydash/style.css">
+
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/official_emp.css"/>
     <link rel="stylesheet" href="css/styles.css">
     <title>Official Business - Employee</title>
@@ -33,43 +50,13 @@ session_start();
     </header>
 
     <style>
-    .sidebars ul li{
-        list-style: none;
-        text-decoration:none;
-        width: 287px;
-        margin-left:-16px;
-        line-height:30px;
-       
-    }
+html{
+  overflow: hidden !important;
+}
 
-    .sidebars ul li .hoverable{
-        height:55px;
-    }
-
-    .sidebars ul{
-        height:100%;
-    }
-
-    .sidebars .first-ul{
-        line-height:60px;
-        height:100px;
-    }
-
-    .sidebars ul li ul li{
-        width: 100%;
-    }
-
-    .card-body{
-         width: 70%;
-                   
-    }
-
-    .table{
-         width: 90%;
-    }
 
 </style>
- <!------------------------------------Modal Start Here----------------------------------------------->
+   <!------------------------------------Modal Start Here----------------------------------------------->
  <div class="modal fade" id="file_off_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -208,8 +195,8 @@ session_start();
 
 
 <!---------------------------------------Main Panel Start Here --------------------------------------->
-        <div class="main-panel mt-5" style="margin-left: 15%;">
-            <div class="content-wrapper mt-5">
+        <div class="main-panel mt-5" style="margin-left: 17%; position: absolute; top: 40px">
+            <div class="content-wrapper mt-5" style="background-color: inherit;">
                 <div class="card">
                     <div class="card-body">
 <!---------------------------------------Main Panel End Here --------------------------------------->
@@ -261,20 +248,20 @@ session_start();
 <!--------------------------------------------Syntax and Bootstrap class for table------------------------------------------------>
                         <div class="row">
                             <div class="col-12 mt-5">
-                                <div class="table-responsive" style="">
-                                    <table id="order-listing" class="table">
+                                <div class="table-responsive" style="overflow-x: hidden">
+                                    <table id="order-listing" class="table" >
                                         <thead>
                                             <tr>
                                                 <th style="display: none;">ID</th>
-                                                <th>Employee ID</th>
-                                                <th>Name</th>
+                                                <th style="display:none">Employee ID</th>
+                                                <th style="display:none">Name</th>
                                                 <th>Company Name</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
                                                 <th>Start Time</th>
                                                 <th>End Time</th>
                                                 <th>Location</th>
-                                                <th>File Attachment</th>
+                                                <th style="display:none">File Attachment</th>
                                                 <th>Reason</th>
                                                 <th style="display: none;">View Button</th>
                                                 <th>Status</th>
@@ -309,20 +296,20 @@ session_start();
                                             ?>
                                             <tr>
                                                 <td style="display: none;"><?php echo $row['id'];?></td>
-                                                <td><?php echo $row['empid'];?></td>
-                                                <td><?php echo $row['full_name'];?></td>
+                                                <td style="display:none"><?php echo $row['empid'];?></td>
+                                                <td style="display:none"><?php echo $row['full_name'];?></td>
                                                 <td><?php echo $row['company_name'];?></td>
                                                 <td><?php echo $row['str_date'];?></td>
                                                 <td><?php echo $row['end_date'];?></td>
-                                                <td><?php echo $row['start_time'];?></td>
-                                                <td><?php echo $row['end_time'];?></td>
+                                                <td><?php echo date('h:i A', strtotime($row['start_time'])) ?></td>
+                                                <td><?php echo date('h:i A', strtotime($row['end_time'])) ?></td>
                                                 <td><?php echo $row['location'];?></td>
-                                                <?php if(!empty($row['file_upl'])): ?>
-                                                <td>
+                                                <?php if(!empty($row['file_upl'])):?>
+                                                <td style="display:none">
                                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
                                                 </td>
                                                 <?php else: ?>
-                                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
+                                                <td style="display: none;">None</td> <!-- Show an empty cell if there is no file attachment -->
                                                 <?php endif; ?>
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>
@@ -395,32 +382,118 @@ session_start();
   });
 </script>
 <!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#dashboard-container').addClass('move-content');
+    } else {
+      $('#dashboard-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#dashboard-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#dashboard-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
 
 
+    </script>
 
-<!-----------------------Script para sa automatic na pagdisapper ng alert message------------------------------->
-<!-- <script>
-    setTimeout(function() {
-        let alert = document.querySelector('.alert');
-        if (alert) {
-            alert.remove();
-        }
-    }, 2000);
-</script> -->
-<!---------------------End Script para sa automatic na pagdisapper ng alert message------------------------------>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+//   $('.nav-link').on('click', function(e) {
+//     if ($(window).width() <= 390) {
+//       e.preventDefault();
+//       $(this).siblings('.sub-menu').slideToggle();
+//     }
+//   });
 
-<!-- plugins:js -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page-->
-<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<script src="bootstrap js/template.js"></script>
-<!-- Custom js for this page-->
-<script src="bootstrap js/data-table.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+//   $('.nav-link').on('click', function(e) {
+//     if ($(window).width() <= 500) {
+//       e.preventDefault();
+//       $(this).siblings('.sub-menu').slideToggle();
+//     }
+//   });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+
+
+
+
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+    
+    <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+    <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+    
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 <script src="js/official_emp.js"></script>
 </body>
 </html>
