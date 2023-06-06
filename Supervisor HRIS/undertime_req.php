@@ -318,9 +318,11 @@ session_start();
                          undertime_tb.status,
                          undertime_tb.date_file
                          FROM
-                            employee_tb
-                         INNER JOIN undertime_tb ON employee_tb.empid = undertime_tb.empid 
-                         WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID);";
+                          undertime_tb
+                         INNER JOIN employee_tb ON undertime_tb.empid = employee_tb.empid 
+                         INNER JOIN approver_tb ON approver_tb.empid = undertime_tb.empid
+                          WHERE
+                            approver_tb.approver_empid = $aprrover_ID;";
                          $result = mysqli_query($conn, $query);
                          while ($row = mysqli_fetch_assoc($result)){  
                          ?>

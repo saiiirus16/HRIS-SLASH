@@ -181,7 +181,9 @@ session_start();
                                                             attendances.total_rest
                                                     FROM attendances
                                                     INNER JOIN employee_tb ON attendances.empid = employee_tb.empid
-                                                    WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID)
+                                                    INNER JOIN approver_tb ON approver_tb.empid = attendances.empid
+                                                    WHERE
+                                                                approver_tb.approver_empid = $aprrover_ID
                                                     AND DATE(attendances.date) = CURDATE();
                                      "; // Modify the query to filter by the current date
                                             $result = mysqli_query($conn, $query);

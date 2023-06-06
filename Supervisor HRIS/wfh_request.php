@@ -300,9 +300,11 @@ session_start();
                                 wfh_tb.status,
                                 wfh_tb.date_file
                             FROM
-                                employee_tb
-                            INNER JOIN wfh_tb ON employee_tb.empid = wfh_tb.empid
-                            WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID);";
+                              wfh_tb
+                            INNER JOIN employee_tb ON wfh_tb.empid = employee_tb.empid
+                            INNER JOIN approver_tb ON approver_tb.empid = wfh_tb.empid
+                            WHERE
+                              approver_tb.approver_empid = $aprrover_ID;";
                             $result = mysqli_query($conn, $query);
                             while ($row = mysqli_fetch_assoc($result)){
                             ?>

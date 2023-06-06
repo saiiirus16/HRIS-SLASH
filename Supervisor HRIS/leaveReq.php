@@ -533,7 +533,7 @@ session_start();
                                             <?php 
                                                     include 'config.php';
                                                     //select data db
-
+                                                    $aprrover_ID = $_SESSION['empid'];
                                                     $sql = "SELECT
                                                                 applyleave_tb.col_ID,
                                                                 applyleave_tb.`col_req_emp`,
@@ -551,7 +551,12 @@ session_start();
                                                             FROM
                                                                 applyleave_tb
                                                             INNER JOIN employee_tb ON applyleave_tb.col_req_emp = employee_tb.empid
-                                                            ORDER BY applyleave_tb.`_datetime` DESC
+                                                            INNER JOIN approver_tb ON approver_tb.empid = applyleave_tb.col_req_emp
+                                                            WHERE
+                                                                approver_tb.approver_empid = $aprrover_ID
+                                                            ORDER BY
+                                                                applyleave_tb.`_datetime` DESC;
+                                                
                                                             
                                                             ";
                                                     $result = $conn->query($sql);

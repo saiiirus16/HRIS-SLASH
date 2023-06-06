@@ -325,10 +325,13 @@ session_start();
                          overtime_tb.file_attachment,
                          overtime_tb.status,
                          overtime_tb.date_filed
-                         FROM
-                            employee_tb
-                         INNER JOIN overtime_tb ON employee_tb.empid = overtime_tb.empid 
-                         WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID);";
+                          FROM
+                              overtime_tb
+                          INNER JOIN employee_tb ON overtime_tb.empid = employee_tb.empid
+                          INNER JOIN approver_tb ON approver_tb.empid = overtime_tb.empid
+                          WHERE
+                            approver_tb.approver_empid = $aprrover_ID
+                        ;";
                          $result = mysqli_query($conn, $query);
                          while ($row = mysqli_fetch_assoc($result)){  
                          ?>

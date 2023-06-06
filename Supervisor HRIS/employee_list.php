@@ -116,8 +116,11 @@ session_start();
                                                         employee_tb.department_name,
                                                         employee_tb.email,
                                                         dept_tb.col_deptname
-                                                        FROM employee_tb INNER JOIN dept_tb ON employee_tb.department_name = dept_tb.col_ID
-                                                        WHERE employee_tb.`approver`= (SELECT empid FROM employee_tb WHERE empid = $aprrover_ID);";
+                                                        FROM employee_tb 
+                                                        INNER JOIN dept_tb ON employee_tb.department_name = dept_tb.col_ID
+                                                        INNER JOIN approver_tb ON approver_tb.empid = employee_tb.empid
+                                                        WHERE
+                                                            approver_tb.approver_empid = $aprrover_ID";
                                                         $result = mysqli_query($conn, $query);
                                                         while($row = mysqli_fetch_assoc($result)){
                                                         ?>
