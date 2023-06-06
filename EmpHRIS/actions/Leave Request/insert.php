@@ -223,8 +223,12 @@
                                     // #TO move the uploaded file to specific location
                                     // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
 
-                                    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
-                                    $escaped_contents = mysqli_real_escape_string($conn, $contents);
+                                    if(isset($_FILES['name_file']) && $_FILES['name_file']['error'] == 0) {
+                                        $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+                                        $escaped_contents = mysqli_real_escape_string($conn, $contents);
+                                    } else {
+                                        $escaped_contents = "";
+                                    }
 
 
 
@@ -380,8 +384,12 @@
     // #TO move the uploaded file to specific location
     // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
 
-    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
-	$escaped_contents = mysqli_real_escape_string($conn, $contents);
+    if(isset($_FILES['name_file']) && $_FILES['name_file']['error'] == 0) {
+        $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+        $escaped_contents = mysqli_real_escape_string($conn, $contents);
+    } else {
+        $escaped_contents = "";
+    }
 
 
 

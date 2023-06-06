@@ -254,7 +254,16 @@ session_start();
 
                 </div> <!-- card body end-->
                     <div class="card-footer text-end">
-                        <button id="btn_cancel" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" style= " margin-right: 20px;">Cancel</button>
+                    <?php
+                        if($row['col_status'] === 'Approved' || $row['col_status'] === 'Rejected' || $row['col_status'] === 'Cancelled'){
+                            echo ' <button id="btn_cancel" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" style= " margin-right: 20px; display: none;">Cancel</button>';
+                        }
+                        else{
+                            echo ' <button id="btn_cancel" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" style= " margin-right: 20px;">Cancel</button>';
+                        }
+                            
+                    ?>
+                       
 
 
                     </div>
