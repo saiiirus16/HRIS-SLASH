@@ -26,7 +26,7 @@ else if($row['col_status'] === 'Cancelled'){
 else{
     $reason = $_POST["name_rjectResn"];
     $employee_ID = $_SESSION["ID_empId"];
-    $approver = $_SESSION["username"];
+    $approver = $_SESSION["empid"];
 
     //para sa pag update from pending to approved and action time
       // Get the current date and time

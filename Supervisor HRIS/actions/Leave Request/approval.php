@@ -713,6 +713,8 @@ else{
                         // Check for successful insertion
                         if ($result) {
 
+                            
+
                             $sql = "DELETE FROM `attendances` WHERE `time_in` = '11:11:11'";
                             $result = mysqli_query($conn, $sql);
                             if ($result) {
@@ -744,7 +746,7 @@ else{
                             }
                             else {
                                 echo "Failed: " . mysqli_error($conn);
-                            }
+                            } //end delete
                         
                         }else{
                             echo "not inserted";
