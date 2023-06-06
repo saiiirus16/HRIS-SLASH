@@ -41,7 +41,7 @@ session_start();
                                                         applyleave_tb.`col_status`,
                                                         applyleave_tb.`col_reason`,
                                                         applyleave_tb.`col_PAID_LEAVE`,
-                                                        applyleave_tb.`col_approver`
+                                                        applyleave_tb.col_approver
                                                         
                                                     FROM
                                                         applyleave_tb
@@ -259,8 +259,17 @@ session_start();
 
                 </div> <!-- card body end-->
                     <div class="card-footer text-end">
-                        <button id="btn_reject" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" onclick="click_btnReject()" style= " margin-right: 20px;">Reject</button>
-                        <button id="btn_Approved"  data-bs-toggle="modal" data-bs-target="#Mdl_reasonApproved" type="button" class="btn btn-outline-success" onclick="click_btnApproved()" style= " margin-right: 20px;">Approve</button>
+                        <?php
+                            if($row['col_status'] === 'Approved' || $row['col_status'] === 'Rejected' || $row['col_status'] === 'Cancelled'){
+                                echo ' <button id="btn_reject" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" onclick="click_btnReject()" style= " margin-right: 20px; display:none;">Reject</button>';
+                                echo '<button id="btn_Approved"  data-bs-toggle="modal" data-bs-target="#Mdl_reasonApproved" type="button" class="btn btn-outline-success" onclick="click_btnApproved()" style= " margin-right: 20px; display:none;">Approve</button>';
+                            }
+                            else{
+                                echo ' <button id="btn_reject" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" onclick="click_btnReject()" style= " margin-right: 20px;">Reject</button>';
+                                echo '<button id="btn_Approved"  data-bs-toggle="modal" data-bs-target="#Mdl_reasonApproved" type="button" class="btn btn-outline-success" onclick="click_btnApproved()" style= " margin-right: 20px;">Approve</button>';
+                            }
+                        ?>
+                       
 
                     </div>
 
