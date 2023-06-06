@@ -58,29 +58,38 @@ if(count($_POST) > 0){
 $approverEmpIds = $_POST['approver'];
 $empid_update= $_GET['empid'];
 
-foreach ($approverEmpIds as $approverEmpId) {
-    // $stmt2 = $conn->prepare("INSERT INTO approver_tb (`empid`, `approver_empid`)
-    //                         VALUES (?, ?)");
+$query = "DELETE FROM approver_tb WHERE empid= $empid_update";
+$query_run = mysqli_query($conn, $query);
 
-    $stmt2 = $conn->prepare("UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;)
-    VALUES (?, ?)");
-
-    if (!$stmt2) {
-        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+if($query_run)
+{
+    foreach ($approverEmpIds as $approverEmpId) {
+        $stmt2 = $conn->prepare("INSERT INTO approver_tb (`empid`, `approver_empid`)
+                                VALUES (?, ?)");
+    
+        if (!$stmt2) {
+            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        }
+    
+        $stmt2->bind_param("ss", $empid_update, $approverEmpId);
+    
+        $stmt2->execute();
+    
+        if ($stmt2->errno) {
+            echo "<script>alert('Error: " . $stmt2->error . "');</script>";
+            echo "<script>window.location.href = '../../empListForm.php';</script>";
+            exit;
+        }
+    
+        $stmt2->close();
     }
-
-    $stmt2->bind_param("ss", $empid_update, $approverEmpId);
-
-    $stmt2->execute();
-
-    // if ($stmt2->errno) {
-    //     echo "<script>alert('Error: " . $stmt2->error . "');</script>";
-    //     echo "<script>window.location.href = '../../empListForm.php';</script>";
-    //     exit;
-    // }
-
-    $stmt2->close();
 }
+else
+{
+    echo "Failed: " . mysqli_error($conn);
+}
+
+
 // ----------------END Insert into approver_tb table -------------------------
 }
 
@@ -472,7 +481,7 @@ foreach ($approverEmpIds as $approverEmpId) {
                                         ?>
                                         
                                         <label for="approver">Immediate Superior/Approver</label><br>
-                                        <select class="approver-dd" name="approver[]" id="" multiple multiselect-search="true" multiselect-select-all="true" multiselect-max-items="3" style="display:flex; width: 380px;">
+                                        <select class="approver-dd" name="approver[]" id="approver_ID" multiple multiselect-search="true" multiselect-select-all="true" multiselect-max-items="3" style="display:flex; width: 380px;">
                                             <?php
                                             foreach ($array_approver as $approvers) {
                                                 $approver_ID = $approvers['approver_empid'];
@@ -492,36 +501,7 @@ foreach ($approverEmpIds as $approverEmpId) {
                                             ?>
                                         </select>
                                         
-                                        <!-- <select name="approver" id="">
-                                                <option value="<?php  ?>" selected> 
-                                                    <?php 
-                                                        // foreach ($array_approver as $approvers) 
-                                                        // {
-                                                        //     $approver_ID = $approvers['approver_empid'];
-
-                                                        //     $query = "SELECT
-                                                        //         *
-                                                        //     FROM
-                                                        //         employee_tb                                
-                                                        //     WHERE empid = $approver_ID";
-                                                        //     $result = $conn->query($query);
-                    
-                                                        //     // Check if any rows are fetched
-                                                        //     if ($result->num_rows > 0) 
-                                                        //         { 
-                                                        //             $row_emp_approver = mysqli_fetch_assoc($result);
-
-                                                        //             echo $row_emp_approver['fname'] . " " .  $row_emp_approver['lname'] . ", ";
-                                                        //         }
-                                                    
-                                                        // }
-                                                    ?>
-                                                </option>
-                                                <?php //echo $options; ?>
-                                        </select> -->
-
-                                       
-                                    
+                           
                             </div>
                         </div>
                         <div class="emp-worksched-container">
@@ -544,10 +524,18 @@ foreach ($approverEmpIds as $approverEmpId) {
                                             if(mysqli_num_rows($result_emp_sched) > 0) {
                                             $row_emp_sched = mysqli_fetch_assoc($result_emp_sched);
                                             $schedID = $row_emp_sched['schedule_name'];
+
+                                           
                                         }
                                         
                                             ?>
-                                        <input type="text" name="schedule_name" value="<?php echo $schedID?>" id="" readonly style="border: black 1px solid;">                                       
+                                        <input type="text" name="schedule_name" value="<?php error_reporting(E_ERROR | E_PARSE);
+                                                if($schedID == NULL){
+                                                    echo 'No Schedule';
+                                                }else{
+                                                    echo $schedID;
+                                                }
+                                            ?>" id="" readonly style="border: black 1px solid;">                                       
                                 </div>
                             </div>
                         </div>
@@ -1057,6 +1045,26 @@ $(document).ready(function() {
                                 });
                             });
             
+    </script>
+    <script>
+        // Get the select element
+        var select = document.getElementById("approver_ID");
+        // Create an empty object to store the unique values
+        var uniqueValues = {};
+
+        // Loop through each option
+        for (var i = 0; i < select.options.length; i++) {
+            var option = select.options[i];
+            // Check if the value is already present in the uniqueValues object
+            if (uniqueValues[option.value]) {
+            // Duplicate value found, remove the option
+            select.remove(i);
+            i--; // Decrement the counter to account for the removed option
+            } else {
+            // Unique value, store it in the uniqueValues object
+            uniqueValues[option.value] = true;
+            }
+        }
     </script>
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>

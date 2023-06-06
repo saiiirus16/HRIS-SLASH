@@ -68,18 +68,18 @@
                         
                             echo "
                             <div class='card-header'>
-                            <div class='row'>
-                                <div class='col-6'>
+                                <div class='row'>
+                                  <div class='col-6'>
 
-                                    <h2 class='display-5'>";
-                                    echo $emp_dept_name;
-                                    echo"
-                                    </h2>
-                                </div> <!--first col-6 end-->
-                                <div class='col-6 text-end' style=''>
-                                    <a href='Department.php' class='btn btn-outline-danger'>Go back</a>
-                                </div> <!--sec col-6 end-->
-                            </div> <!--row end-->
+                                      <h1 class='display-5'>";
+                                        echo $emp_dept_name;
+                                        echo"
+                                      </h1>
+                                  </div> <!--first col-6 end-->
+                                  <div class='col-6 text-end' style=''>
+                                      <a href='Department.php' class='btn btn-outline-danger'>Go back</a>
+                                  </div> <!--sec col-6 end-->
+                                </div> <!--row end-->
 
                             </div> <!-- card-header end-->
                             <div class='card-body'>

@@ -98,7 +98,7 @@
                         
                         <div class="input-group mb-3">
                             <input type="text" name="name_dept" class="form-control" id="id_Department" required>
-                            <span class="input-group-text" id="basic-addon2">Department</span>
+                            
                         </div>
                     </div>
                 

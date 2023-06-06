@@ -232,8 +232,10 @@
                         <div class="scheduleBtn-crud">
                             <!-- <button style="color:white;" type="submit"><a href="" style="color:white;">Add</a></button> -->
                             <input type="submit" value="Update" name="update" class="btn btn-success" style="color: white;" >
-                            <button class="btn btn-danger" style="background-color: black; border: black 1px solid;"><a href="actions/Schedules/delete.php?id=<?php echo $schedrow['id'] ?>" style="color:white; text-decoration: none;">Delete</a></button>
-                            <button class="btn btn-primary"><a href="scheduleForm.php" style="color:white; text-decoration: none;">Create New</a></button>
+                            <!-- <button class="btn btn-danger" style="background-color: black; border: black 1px solid;"><a href="actions/Schedules/delete.php?id=<?php //echo $schedrow['id'] ?>" style="color:white; text-decoration: none;">Delete</a></button>
+                            <button class="btn btn-primary"><a href="scheduleForm.php" style="color:white; text-decoration: none;">Create New</a></button> -->
+                            <a class="btn btn-primary" href="actions/Schedules/delete.php?id=<?php echo $schedrow['id'] ?>" style="color:white; text-decoration: none;">Delete</a>
+                            <a href="scheduleForm.php" class="btn btn-dark" style="color:white; text-decoration: none;">Create New</a>
                         </div>
                     </div>
 

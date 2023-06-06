@@ -1137,24 +1137,24 @@ display: block !important;
                 </thead>
              <tbody >
              <?php
+
+            date_default_timezone_set('Asia/Manila');
+            $currentMonth = date('m');
              $result = $db->query("SELECT attendances.status, 
-                                    attendances.empid,
-                                    attendances.date,
-                                    attendances.time_in,
-                                    attendances.time_out,
-                                    attendances.late,
-                                    attendances.early_out,
-                                    attendances.overtime,
-                                    attendances.total_work,
-                                    attendances.total_rest, 
-                                    CONCAT(
-                                                employee_tb.`fname`,
-                                                ' ',
-                                                employee_tb.`lname`
-                                            ) AS `full_name`  
-                                FROM attendances
-                                INNER JOIN employee_tb ON employee_tb.empid = attendances.empid
-                                ORDER BY date ASC");
+             attendances.empid,
+             attendances.date,
+             attendances.time_in,
+             attendances.time_out,
+             attendances.late,
+             attendances.early_out,
+             attendances.overtime,
+             attendances.total_work,
+             attendances.total_rest, 
+             CONCAT(employee_tb.fname, ' ', employee_tb.lname) AS full_name  
+         FROM attendances
+         INNER JOIN employee_tb ON employee_tb.empid = attendances.empid
+         WHERE DATE_FORMAT(attendances.date, '%m') = '$currentMonth'
+         ORDER BY attendances.date ASC");
 
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
