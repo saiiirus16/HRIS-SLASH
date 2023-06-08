@@ -42,7 +42,14 @@ if(isset($_POST['importSubmit'])){
                 $total_rest = '';
 
                 
-
+                  // Check if empid exists in the employee_tb
+                $empQuery = "SELECT * FROM employee_tb WHERE empid = '$empid'";
+                $empResult = $db->query($empQuery);
+                if(mysqli_num_rows($empResult) < 1) {
+                    echo '<script>alert("Error: Unable to insert data for non-existing Employee ID because the Employee ID does not exist in the database.")</script>';
+                    echo "<script>window.location.href = '../../attendance.php';</script>";
+                    exit;
+                }else  {
                 
 
     
@@ -78,7 +85,8 @@ if(isset($_POST['importSubmit'])){
                     WHERE schedule_name ='".$row1['schedule_name']."'";
 
                 } else{
-                    echo 'no found';
+                    echo '<script> alert("hehe"); </script>';
+                    // header("Location: ../../attendance.php");
                 }
 
                 $result = mysqli_query($conn, $stmt);
@@ -446,36 +454,49 @@ if(isset($_POST['importSubmit'])){
                     $prevQuery = "SELECT id FROM attendances WHERE empid = '".$line[1]."'";
                     $prevResult = $db->query($prevQuery);
 
-                    if($prevResult->num_rows > 0){
-                        // Check if empid exists in the employee_tb
-                        $empQuery = "SELECT id FROM employee_tb WHERE empid = '".$empid."' ";
-                        $empResult = $db->query($empQuery);
+                
+                  // Split the empid and date values into separate arrays
+$empids = explode(",", $empid);
+$dates = explode(",", $date);
 
-                        if($empResult->num_rows == 0){
-                            // Store alert message in session
-                            $_SESSION['alert_msg'] = "The employee with empid ".$empid." does not exist in the database.";
-                        } else {
-                            // Insert member data in the database
-                            $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
-                                        VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
-                        }
-                    } else {
-                        // Insert member data in the database
-                        $db->query("INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime,total_work, total_rest)
-                                    VALUES ('".$status."', '".$empid."', '".$date."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')");
+// Iterate over each empid and date combination
+for ($i = 0; $i < count($empids); $i++) {
+    $currentEmpid = $empids[$i];
+    $currentDate = $dates[$i];
 
-                        // Check if empid exists in the employee_tb
-                        $empQuery = "SELECT id FROM employee_tb WHERE empid = '".$empid."' ";
-                        $empResult = $db->query($empQuery);
+    if ($prevResult->num_rows > 0) {
+        // Check if the record already exists for the empid and date combination
+        $recordQuery = "SELECT * FROM attendances WHERE empid = '".$currentEmpid."' AND date = '".$currentDate."'";
+        $recordResult = $db->query($recordQuery);
 
-                        if($empResult->num_rows == 0){
-                            // Store alert message in session
-                            $_SESSION['alert_msg'] = "The employee with empid ".$empid." does not exist in the database.";
-                        }
-                    }        
-                }   
-                }
-            }
+        if ($recordResult->num_rows > 0) {
+            // Update the existing record
+            $db->query("
+                UPDATE attendances SET
+                status = '".$status."', time_in = '".$time_in."', time_out = '".$time_out."', late = '".$late."', early_out = '".$early_out."', overtime = '".$overtime."', total_work = '".$total_work."', total_rest = '".$total_rest."'
+                WHERE empid = '".$currentEmpid."' AND date = '".$currentDate."'
+            ");
+        } else {
+            // Insert a new record
+            $db->query("
+                INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime, total_work, total_rest)
+                VALUES ('".$status."', '".$currentEmpid."', '".$currentDate."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')
+            ");
+        }
+    } else {
+        // Insert new member data in the database
+        $db->query("
+            INSERT INTO attendances (status, empid, date, time_in, time_out, late, early_out, overtime, total_work, total_rest)
+            VALUES ('".$status."', '".$currentEmpid."', '".$currentDate."', '".$time_in."', '".$time_out."','".$late."','".$early_out."','".$overtime."','".$total_work."','".$total_rest."')
+        ");
+    }
+}
+
+                    
+            }       
+        }              
+    }
+}
 
             
           // Close opened CSV file
