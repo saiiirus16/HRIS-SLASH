@@ -59,17 +59,3 @@ document.querySelectorAll('.emp_lblchckbox').forEach((checkbox) => {
   });
 });
 
-
-$(document).ready(function() {
-  $('.btn-delete').click(function() {
-      var id = $(this).data('id');
-      $('#modal-input').val(id);
-  });
-});
-
-$(document).ready(function() {
-  $('.btn-addEmp').click(function() {
-      var id = $(this).data('id1');
-      $('#ID_AddEMp_CutoffID').val(id);
-  });
-});
