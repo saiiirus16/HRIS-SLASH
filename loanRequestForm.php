@@ -50,6 +50,18 @@
         <?php include("header.php")?>
     </header>
 
+    <style>
+        input{
+            border:black 1px solid !important;    
+        }
+        select{
+            border:black 1px solid !important;    
+        }
+        textarea{
+            border: black 1px solid !important;
+        }
+    </style>
+
     <form action="Data Controller/Loan Request/loanRequestFormController.php" method="POST">
     <div class="loan-req-form-container">
         <div class="payroll-loan-title">
@@ -125,7 +137,7 @@
                 <div class="form-group cutoff-no" style="display:flex; flex-direction: row; height: 100px;">
                 <div>
                     <label for="">Cutoff No.</label><br>
-                    <select name="cutoff_no" id="cutoff_no" class="form-control" style="width: 378px; height:50px;" onchange="calculate()" required>
+                    <select name="cutoff_no" id="cutoff_no"  style="width: 378px; height:50px; padding: 10px;" onchange="calculate()" required>
                         <option value="" selected disabled>0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -133,7 +145,7 @@
                     </select>
                 </div> 
                     <div style="display:flex; align-items:center; height: 60px; margin-top: 27px;">  
-                        <button type="button" style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
+                        <button type="button"  data-bs-toggle="modal" data-bs-target="#loanForm" style="width: 240px; height:50px; margin-left: 10px; outline:none; border: none; border-radius: 5px; background-color: #e6e2e2; color: rgb(128, 55, 224); font-weight: 400; font-size: 20px; letter-spacing: 2px; " id="loanFormBtn">Forecast Payment</button>
                     </div>
                 </div>
                 <div class="form-group loan-remarks">
@@ -143,7 +155,7 @@
             </div>
             <div class="col-6" style="padding: 0 30px 0 30px;">
                 <div class="form-group">
-                <div id="dateError" style="color: red;"></div>
+                    <div id="dateError" style="color: red;"></div>
                     <label for="loan_date">Loan Date</label><br>
                     <input type="date" name="loan_date" class="form-control" style="height:50px;" id="loan_date" required>
                 </div>
@@ -179,7 +191,7 @@
                 </div>
                 <div class="form-group loan-req-btn">
                     <button><a href="loanRequest.php" style="text-decoration: none; color:black;">Cancel</a></button>
-                    <button id="saveButton" style="color: blue;">Save</button>
+                    <button style="color: blue;" id="saveButton">Save</button>
                 </div>
             </div>   
         </div>
@@ -211,57 +223,80 @@
     </div>
 
 
-    <div class="loan-forecast-container" id="loanFormModal">
-    <div class="loan-forecast-content">
-        <div class="loan-forecast-title">
-            <h1>Loan Forecast</h1>
-            <div></div>
-        </div>
-        <div class="loan-forecast-balance">
-            <p>Balance: 0</p>
-        </div>
-        <div class="loan-forecast-table">
-            <table class="table table-hover table-bordered" style="margin-bottom: 50px;">
-                <thead>
-                    <th>Year</th>
-                    <th>Month</th>
-                    <th>Cutoff No.</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                </thead>
-                <tbody>
-                    <?php
-                        $conn = mysqli_connect("localhost", "root", "" , "hris_db");
-                        $sql = "SELECT * FROM payroll_loan_tb AS payloan
-                                INNER JOIN employee_tb AS emp
-                                ON(payloan.empid = emp.empid)";
-                        $results = $conn->query($sql);
+    <div class="modal fade" id="loanForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 700px;">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="title">Loan Forecast</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="loan-forecast-balance">
+                        <p>Balance: 0</p>
+                    </div>
+                    <div class="table-responsive" style="margin-left: 30px;width:600px;">
+                        <table class="table table-hover table-bordered" style="margin-bottom: 50px;">
+                            <thead>
+                                <th>Year</th>
+                                <th>Month</th>
+                                <th>Cutoff No.</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $conn = mysqli_connect("localhost", "root", "" , "hris_db");
+                                    $sql = "SELECT * FROM payroll_loan_tb AS payloan
+                                            INNER JOIN employee_tb AS emp
+                                            ON(payloan.empid = emp.empid)";
+                                    $results = $conn->query($sql);
 
-                        if($results->num_rows > 0){
-                            while($rows = $results->fetch_assoc()){
-                                echo "<tr>
-                                        <td style='font-weight:400'>".$rows['year']."</td>
-                                        <td style='font-weight:400'>".$rows['month']."</td>
-                                        <td style='font-weight:400'>".$rows['cutoff_no']."</td>
-                                        <td style='font-weight:400'>".$rows['payable_amount']."</td>
-                                        <td style='font-weight:400' >".$rows['loan_status']."</td>
-                                    </tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='5'>No loan payments found</td></tr>";
-                        }
-                    ?>
-                </tbody>
-            </table>
+                                    if($results->num_rows > 0){
+                                        while($rows = $results->fetch_assoc()){
+                                            echo "<tr>
+                                                    <td style='font-weight:400'>".$rows['year']."</td>
+                                                    <td style='font-weight:400'>".$rows['month']."</td>
+                                                    <td style='font-weight:400'>".$rows['cutoff_no']."</td>
+                                                    <td style='font-weight:400'>".$rows['payable_amount']."</td>
+                                                    <td style='font-weight:400' >".$rows['loan_status']."</td>
+                                                </tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='5'>No loan payments found</td></tr>";
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: none; background-color: inherit; font-size: 20px;">Close</button>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="loan-forecast-bar"></div>
-        <div class="loan-forecast-btn">
-            <button id="loanFormClose" class="loanFormClose">Cancel</button>
-        </div>
+
     </div>
-</div>
 
+    <script>
+  var loanDateInput = document.getElementById('loan_date');
+  var saveButton = document.getElementById('saveButton');
+  var dateError = document.getElementById('dateError');
 
+  loanDateInput.addEventListener('change', function() {
+    var currentDate = new Date().toLocaleDateString('en-PH', { timeZone: 'Asia/Manila' });
+    var selectedDate = new Date(loanDateInput.value);
+
+    if (selectedDate < new Date(currentDate)) {
+      dateError.textContent = 'Past Date is not Allow in loan Date, Please select present date to remove disable in save.';
+      saveButton.disabled = true;
+    } else {
+      dateError.textContent = '';
+      saveButton.disabled = false;
+    }
+  });
+</script>
+
+   
         <script>
     function calculate() {
         // Get values from the input and dropdown
@@ -427,24 +462,6 @@ $(document).ready(function() {
             
     </script>
 
-<script>
-  var loanDateInput = document.getElementById('loan_date');
-  var saveButton = document.getElementById('saveButton');
-  var dateError = document.getElementById('dateError');
-
-  loanDateInput.addEventListener('change', function() {
-    var currentDate = new Date().toLocaleDateString('en-PH', { timeZone: 'Asia/Manila' });
-    var selectedDate = new Date(loanDateInput.value);
-
-    if (selectedDate < new Date(currentDate)) {
-      dateError.textContent = 'Past Date is not Allow in loan Date, Please select present date to remove disable in save.';
-      saveButton.disabled = true;
-    } else {
-      dateError.textContent = '';
-      saveButton.disabled = false;
-    }
-  });
-</script>
 
 
 <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>

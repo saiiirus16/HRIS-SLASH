@@ -372,7 +372,7 @@ if(!isset($_SESSION['username'])){
         </script>
 <!----------------------------------------------End ng Script sa pagpop-up ng modal para maedit------------------------------------------------------->
 
-<script> //FOR VIEW TRANSFER MODAL 
+<script> 
             $(document).ready(function(){
                                     $('.viewbtn').on('click', function(){
                                         $('#IDview_deptMDL').modal('show');
@@ -389,7 +389,7 @@ if(!isset($_SESSION['username'])){
                                         $('#id_position_name').val(data[1]);
                                     });
                                 });
-            //FOR VIEW TRANSFER MODAL END
+
 </script>
 
 
@@ -481,7 +481,7 @@ $(document).ready(function() {
 
     </script>
 
-<script> 
+<!-- <script> 
         $(document).ready(function(){
                 $('.sched-update').on('click', function(){
                                     $('#schedUpdate').modal('show');
@@ -499,7 +499,7 @@ $(document).ready(function() {
                                 });
                             });
             
-    </script>
+    </script> -->
 
 
 

@@ -84,7 +84,7 @@ session_start();
 
 
 <!------------------------------------------------View ng whole data Modal ---------------------------------------------------->
-<div class="modal fade" id="view_wfh_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="view_wfh_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
@@ -145,7 +145,7 @@ session_start();
 <!------------------------------------------------End ng View Modal ---------------------------------------------------->
 
 <!-----------------------------------Modal For Download starts here------------------------------------------>
-<div class="modal fade" id="download_wfh" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="download_wfh" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

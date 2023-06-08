@@ -1,52 +1,39 @@
 <?php
    
-   session_start();
-   if(!isset($_SESSION['username'])){
-       header("Location: login.php"); 
-   } else {
-       // Check if the user's role is not "admin"
-       if($_SESSION['role'] != 'admin'){
-           // If the user's role is not "admin", log them out and redirect to the logout page
-           session_unset();
-           session_destroy();
-           header("Location: logout.php");
-           exit();
-       }
-   }
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); 
+} else {
+    // Check if the user's role is not "admin"
+    if ($_SESSION['role'] != 'admin') {
+        // If the user's role is not "admin", log them out and redirect to the logout page
+        session_unset();
+        session_destroy();
+        header("Location: logout.php");
+        exit();
+    }
+}
 
-    
+$server = "localhost";
+$user = "root";
+$pass ="";
+$database = "hris_db";
 
-        $server = "localhost";
-        $user = "root";
-        $pass ="";
-        $database = "hris_db";
-    
-        $conn = mysqli_connect($server, $user, $pass, $database);
-    
-        if(count($_POST) > 0){
-            mysqli_query($conn, "UPDATE payroll_loan_tb
-            SET loan_type='".$_POST['loan_type']."',
-                year='".$_POST['year']."',
-                month='".$_POST['month']."',
-                cutoff_no='".$_POST['cutoff_no']."',
-                remarks='".$_POST['remarks']."',
-                loan_date='".$_POST['loan_date']."',
-                payable_amount='".$_POST['payable_amount']."',
-                amortization='".$_POST['amortization']."',
-                applied_cutoff='".$_POST['applied_cutoff']."',
-                loan_status='".$_POST['loan_status']."'
-            WHERE id='".$_POST['id']."'");
-header("Location: loanRequest.php");
-        }
-            $resulta = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE id ='". $_GET['id']. "' ");
-            $loanrow = mysqli_fetch_assoc($resulta);
+$conn = mysqli_connect($server, $user, $pass, $database);
 
-            $resultb = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE empid ='".$loanrow['empid']. "' ");
-            $loanrows = mysqli_fetch_assoc($resultb);
-        
-        
+if (count($_POST) > 0) {
+    mysqli_query($conn, "UPDATE payroll_loan_tb
+                         SET loan_type='".$_POST['loan_type']."', year='".$_POST['year']."', month='".$_POST['month']."', cutoff_no='".$_POST['cutoff_no']."', remarks='".$_POST['remarks']."', loan_date='".$_POST['loan_date']."', payable_amount='".$_POST['payable_amount']."', amortization='".$_POST['amortization']."', applied_cutoff='".$_POST['applied_cutoff']."', loan_status='".$_POST['loan_status']."' WHERE id='".$_POST['id']."'");
+    header("Location: loanRequest.php");
+}
 
-    ?>
+$resulta = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE id ='".$_GET['id']."'");
+$loanrow = mysqli_fetch_assoc($resulta);
+
+$resultb = mysqli_query($conn, "SELECT * FROM payroll_loan_tb WHERE empid ='".$loanrow['empid']."'");
+$loanrows = mysqli_fetch_assoc($resultb);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -174,7 +161,7 @@ header("Location: loanRequest.php");
                 <div class="form-group">
                     <label for="payable_amount">Payable Amount</label><br>
                     
-                    <input type="text" name="payable_amount" class="form-control" style="height:50px;"  id="payable_amount"  value="<?php echo $loanrows['payable_amount'];?>" oninput="calculate()" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 8) this.value = this.value.slice(0, 8);">
+                    <input type="text" name="payable_amount" class="form-control" style="height:50px;"  id="payable_amount"  value="<?php echo $loanrow['payable_amount'];?>" oninput="calculate()" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 8) this.value = this.value.slice(0, 8);">
                 </div>
 
                 <div class="form-group">
@@ -191,7 +178,7 @@ header("Location: loanRequest.php");
                 </div>
                 <div class="form-group loan-req-btn">
                     <button><a href="loanRequest.php" style="text-decoration: none; color:black;">Cancel</a></button>
-                    <button style="color: blue;">Save</button>
+                    <button type="submit" style="color: blue;">Save</button>
                 </div>
             </div>   
         </div>

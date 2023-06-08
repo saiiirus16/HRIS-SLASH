@@ -94,8 +94,8 @@ include_once 'config.php';
           <div class="card mt-3" style="width: 1550px; height:800px box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);">
             <div class="card-body">
                 <div class="pnl_home">
-                    <a href="dashboard.php">Home</a>
-                    <p class="header_slash">\</p>
+                    <!-- <a href="dashboard.php">Home</a>
+                    <p class="header_slash">\</p> -->
                     <p class="header_prgph_DTR">Payroll Detailed Report</p>
                 </div>
 <!------------------------------------------------- End Of Header -------------------------------------------> 
@@ -227,7 +227,7 @@ include_once 'config.php';
                                           FROM employee_tb
                                           INNER JOIN attendances ON employee_tb.empid = attendances.empid
                                           WHERE MONTH(attendances.date) = $currentMonth
-                                            AND YEAR(attendances.date) = $currentYear
+                                          AND YEAR(attendances.date) = $currentYear
                                           GROUP BY employee_tb.empid, MONTH(attendances.date)";
                                 
                                             $result = mysqli_query($conn, $query);

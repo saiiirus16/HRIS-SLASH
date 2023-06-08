@@ -143,7 +143,8 @@ include 'header.php';
 
                   <div class="mb-3 mt-2">
                      <label for="tele_phone" class="form-label">Telephone:</label>
-                     <input type="number" name="telephone" class="form-control" maxlength="10" id="telephone_id" required >
+                     
+                     <input type="text" id="telephone_id" name="telephone" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 10) this.value = this.value.slice(0, 10);" placeholder="">
                   </div>
 
 
@@ -196,7 +197,7 @@ include 'header.php';
 
                   <div class="mb-3 mt-2">
                      <label for="tele_phone" class="form-label">Telephone:</label>
-                     <input type="number" name="telephone" class="form-control" id="update_branch_telephone" required maxlength="10" pattern="[0-9]{10,10}">
+                     <input type="number" name="telephone" class="form-control" id="update_branch_telephone" required oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 10) this.value = this.value.slice(0, 10);">
                   </div>
 
       </div> <!--Modal body div close tag-->

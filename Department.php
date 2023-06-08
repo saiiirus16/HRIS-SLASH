@@ -88,13 +88,13 @@
     <form action = "Data Controller/Department/insertcode.php" method="POST">
         <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Department</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Department</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div> <!-- Modal header END -->
         <div class="modal-body">
                 
                     <div class="mb-3">
-                        <label for="adddept" class="col-form-label fs-6">Department Name :</label>
+                        <label for="adddept" class="col-form-label fs-6">Name :</label>
                         
                         <div class="input-group mb-3">
                             <input type="text" name="name_dept" class="form-control" id="id_Department" required>
@@ -105,7 +105,7 @@
         </div> <!-- Modal Body END -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Department</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </div> <!-- Modal footer END -->
         </div> <!-- Modal content END -->
     </form>
@@ -147,13 +147,13 @@
 <div class="container mt-3">
     <div class="">
 
-        <div class="card border-light" style=" box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17); position:absolute; right:100px; bottom: 80px; width:75%; height:75%;" >
+        <div class="card border-light" style=" box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17); position:absolute; right:57px; bottom: 100px; width: 1500px; height: 780px;" >
            
             <div class="card-body">
 
             <div class="row" style="">
                     <div class="col-6">
-                        <h2 class="display-5">Department Records</h2>
+                        <h2 class="">Department Records</h2>
                     </div>
                     <div class="col-6 mt-1 text-end">
                         <!-- Button trigger modal -->
@@ -202,7 +202,7 @@
 
                                 <tr> 
                                         <th style= 'display: none;'> ID  </th>  
-                                        <th> Department  </th>
+                                        <th> Department Name </th>
                                         <th>Total Employee</th>
                                         <th>Action</th>                            
                                 </tr>

@@ -86,7 +86,7 @@
 </style>
 <!----------------------------------------------Modal Start Here-------------------------------------------------------------->
 
-<div class="modal fade" id="file_dtr_btn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="file_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -158,7 +158,7 @@
 <!-------------------------------------------------End ng modal----------------------------------------------------------------->
 
 <!------------------------------------------------DELETE MODAL------------------------------------------------------------------>
-<div class="modal fade" id="deletemodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -182,7 +182,7 @@
 <!---------------------------------------------------END OF DELETE MODAL--------------------------------------------------------->
 
 <!---------------------------------------View Modal Start Here -------------------------------------->
-<div class="modal fade" id="view_dtr_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="view_dtr_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
   <div class="modal-dialog">
     <div class="modal-content">
@@ -204,7 +204,7 @@
 <!---------------------------------------View Modal End Here --------------------------------------->
 
 <!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download_dtr" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="download_dtr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

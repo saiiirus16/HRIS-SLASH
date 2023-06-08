@@ -21,29 +21,32 @@ if(!isset($_SESSION['username'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+
+        <!-- skydash -->
+
+    <link rel="stylesheet" href="skydash/feather.css">
+    <link rel="stylesheet" href="skydash/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="skydash/vendor.bundle.base.css">
+
+    <link rel="stylesheet" href="skydash/style.css">
+
+    <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
+   
+    <link rel="stylesheet" href="css/try.css">
     <title>View Payroll Summary</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/gnrate_payroll.css">
     <link rel="stylesheet" href="css/gnratepayrollVIEW.css">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Para sa datatables -->
-    <link rel="stylesheet" href="vendors/feather/feather.css">
-        <link rel="stylesheet" href="vendors/ti-icons/themify-icons.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/themify-icons/0.1.2/css/themify-icons.css">
-        <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- Para sa datatables END -->
-
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <!-- inject:css -->
-    <link rel="stylesheet" href="bootstrap/vertical-layout-light/style.css">
- 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-
-    <!-- para sa font ng net pay -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
     </style>
@@ -60,26 +63,68 @@ if(!isset($_SESSION['username'])){
     ?>
 </header>
 
+<style>
+    .nav-tabs{
+        display: flex !important; 
+        flex-direction: row !important;
+    }
+    .pagination{
+        margin-right: 63px !important;
+        
+    }
+
+    .pagination li a{
+        color: #c37700;
+    }
+
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+    }
+
+    
+    
+    #order-listing_next{
+        margin-right:14px !important;
+        margin-bottom: -16px !important;
+
+    }
+
+</style>
+
 <div class="container mt-5">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" style="background-color: #fff">
             
 
 
                         <!--------------------------------------- Break ----------------------------------------->
 
-                     
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" data-bs-toggle="tab" href="#Payslip">Payslip Details</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#Allowance">Allowance</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#Loan">Loan Details</a>
-                    </li>
-                </ul>
+                        <div class="d-flex flex-column" style="width: 500px;">
+                            <ul class="nav nav-tabs flex-column">
+                                <div>
+                                    <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" data-bs-toggle="tab" href="#Payslip">Payslip Details</a>
+                                </li>
+                                </div>
+                                <div>
+                                    <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#Allowance">Allowance</a>
+                                </li>
+                                </div>
+                                
+                                <div>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#Loan">Loan Details</a>
+                                </li>
+                                </div>
+                               
+                            </ul>
+                        </div>
+
+
 
                 <div class="tab-content">
                     <div class="tab-pane active" id= "Payslip">
@@ -740,7 +785,7 @@ if(!isset($_SESSION['username'])){
                                                                     }
                                                                        
                                                                      else {
-                                                                        echo "<span style='color: red;'>You cannot generate a payslip for an employee with no attendance</span>";
+                                                                        echo "You cannot generate a payslip for employee with no attendance";
                                                                     }
                                                                     
                                                                     
@@ -1455,32 +1500,11 @@ if(!isset($_SESSION['username'])){
 </div><!--  End Container -->
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
-<script src="path/to/mpdf/autoload.php"></script>
 
 
 
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 
-    
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-
-
-
-<!-- para sa datatable -->
-<script src="vendors/js/vendor.bundle.base.js"></script>
-<script src="vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-<script src="bootstrap js/template.js"></script>
-<script src="bootstrap js/data-table.js"></script>  <!-- < Custom js for this page  -->
-<!-- para sa datatable  END-->
 
 <script type="text/javascript">
     $("body").on("click", "#download-pdf", function () {
@@ -1556,6 +1580,135 @@ var currentDateTime = currentDate.toLocaleString("en-PH", options);
     });
 </script>
 
+<script> 
+     $('.header-dropdown-btn').click(function(){
+        $('.header-dropdown .header-dropdown-menu').toggleClass("show-header-dd");
+    });
+
+//     $(document).ready(function() {
+//     $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//     $('.dashboard-container').toggleClass('move-content');
+  
+//   });
+// });
+ $(document).ready(function() {
+    var isHamburgerClicked = false;
+
+    $('.navbar-toggler').click(function() {
+    $('.nav-title').toggleClass('hide-title');
+    // $('.dashboard-container').toggleClass('move-content');
+    isHamburgerClicked = !isHamburgerClicked;
+
+    if (isHamburgerClicked) {
+      $('#dashboard-container').addClass('move-content');
+    } else {
+      $('#dashboard-container').removeClass('move-content');
+
+      // Add class for transition
+      $('#dashboard-container').addClass('move-content-transition');
+      // Wait for transition to complete before removing the class
+      setTimeout(function() {
+        $('#dashboard-container').removeClass('move-content-transition');
+      }, 800); // Adjust the timeout to match the transition duration
+    }
+  });
+});
+ 
+
+//     $(document).ready(function() {
+//   $('.navbar-toggler').click(function() {
+//     $('.nav-title').toggleClass('hide-title');
+//   });
+// });
+
+
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+//   $('.nav-link').on('click', function(e) {
+//     if ($(window).width() <= 390) {
+//       e.preventDefault();
+//       $(this).siblings('.sub-menu').slideToggle();
+//     }
+//   });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 390) {
+      $('#sidebar').toggleClass('active-sidebars');
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  // Toggle the submenu visibility on click (for mobile devices)
+//   $('.nav-link').on('click', function(e) {
+//     if ($(window).width() <= 500) {
+//       e.preventDefault();
+//       $(this).siblings('.sub-menu').slideToggle();
+//     }
+//   });
+
+  // Hamburger button functionality
+  $('.responsive-bars-btn').on('click', function() {
+    if ($(window).width() <= 500) {
+      $('#sidebar').toggleClass('active-sidebar');
+    }
+  });
+});
+
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+<script src="path/to/mpdf/autoload.php"></script>
+
+
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+
+
+
+
+
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+    
+    <!--skydash-->
+    <script src="skydash/vendor.bundle.base.js"></script>
+    <script src="skydash/off-canvas.js"></script>
+    <script src="skydash/hoverable-collapse.js"></script>
+    <script src="skydash/template.js"></script>
+    <script src="skydash/settings.js"></script>
+    <script src="skydash/todolist.js"></script>
+    <script src="main.js"></script>
+    <script src="bootstrap js/data-table.js"></script>
+    
+
+    <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 
 
 </body>

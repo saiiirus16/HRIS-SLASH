@@ -1135,7 +1135,7 @@ thead th:nth-child(1){
                             
                             <div class="mb-3" >
                                 <?php  
-                                    $conn =mysqli_connect("localhost", "root", "" , "hris_db");
+                                    $conn = mysqli_connect("localhost", "root", "" , "hris_db");
                                     $stmt = "SELECT * FROM employee_tb
                                             AS emp
                                             INNER JOIN empschedule_tb
@@ -1144,12 +1144,11 @@ thead th:nth-child(1){
                                     $result = $conn->query($stmt);
                                         if($result->num_rows > 0){
                                             while($row = $result->fetch_assoc()){
-                                                echo "<input type='text' id='empName' style='border:none; font-size: 20px; font-weight: 500; margin: auto;' >";
+                                                echo "<input type='text' id='empName' style='border:none; font-size: 20px; font-weight: 500; margin: auto;' readonly>";
                                             }
                                         }
                                 ?>
-
-                                <input type="hidden" class="form-control" name="empid" id="empid" readonly>
+                                <input type="hidden" name="empid" id="empid" class="form-control" readonly>
                             </div>
                             <div class="mb-3 mt-4 form-group">
                                 <?php
@@ -1164,7 +1163,7 @@ thead th:nth-child(1){
 
                                     $options = "";
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            $options .= "<option style='color:black;' value=' ". $row['schedule_name'] . "'>" .$row['schedule_name']."</option>";
+                                            $options .= "<option style='color:black;' value='".$row['schedule_name']."'>" .$row['schedule_name']."</option>";
                                         }
                                 ?>
                                 <label for="schedule_name">Schedule Type</label><br>
@@ -1173,24 +1172,26 @@ thead th:nth-child(1){
                                     <?php echo $options; ?>
                                 </select>
                             </div>
-                            <div class="mb-3" class="form-group">                         
+                            <div class="mb-3" class="form-group">
+                                
                                 <label for="sched_from">From</label>
-                                <input type="date" name="sched_from" id="start_date" class="form-control" onchange="datevalidate()" min="<?php echo date('Y-m-d'); ?>">
-                                <div id="start_date_error" class="text-danger"></div>
+                                <input type="date" name="sched_from" id="sched_from" class="form-control" onchange="datevalidate()" min="<?php echo date('Y-m-d'); ?>">
+                                <div id="sched_from_error" class="text-danger"></div>
 
                                 <label for="sched_from" class="mt-3">To</label>
-                                <input type="date" name="sched_to" id="end_date" class="form-control" onchange="datevalidate()">
-                                <div id="end_date_error" class="text-danger"></div>
+                                <input type="date" name="sched_to" id="sched_to" class="form-control"  onchange="datevalidate()">
+                                <div id="sched_to_error" class="text-danger"></div>
                             </div>
-                            <div class="mb-3 mt-5">
-                                <button  type="button" value="" id="sched-update-close" class="sched-update-close btn btn-primary mr-3" data-bs-dismiss="modal" style="background-color: #C37700; border: none">Close</button>
-                                <button value="" id="submit-btn" type="submit" class="btn btn-primary" style="background-color: black; border:none;">Submit</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: none; background-color: inherit;">Close</button>
+                                <button type="submit" class="btn btn-primary" id="submit-btn" style="background-color: black; border: none;"> Update </button>
                             </div>
                         </div>
                     </form>
             </div>
         </div>
     </div>
+
 
     <div class="empList-container" id="schedule-list-container" style="background-color: white;">
         <div class="empList-title">
@@ -1203,7 +1204,7 @@ thead th:nth-child(1){
                     <?php
                        include('config.php');
                        
-                        $sql = "SELECT col_deptname FROM dept_tb";
+                        $sql = "SELECT * FROM dept_tb";
                         $result = mysqli_query($conn, $sql);
 
                         $options = "";
@@ -1232,7 +1233,7 @@ thead th:nth-child(1){
 
                         $options = "";
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $options .= "<option value=' ". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                            $options .= "<option value='". $row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                         }
                         ?>
 
@@ -1287,27 +1288,25 @@ thead th:nth-child(1){
 
                 <?php
                         $conn = mysqli_connect("localhost", "root", "" , "hris_db");
-                        $stmt = "SELECT * FROM employee_tb
-                                 AS emp
-                                 INNER JOIN empschedule_tb
-                                 AS esched
-                                 ON(esched.empid = emp.empid)";
+                        $stmt = "SELECT * FROM employee_tb AS emp
+                            INNER JOIN empschedule_tb AS esched ON esched.empid = emp.empid
+                            INNER JOIN schedule_tb AS sched ON sched.schedule_name = esched.schedule_name";
                         $result = $conn->query($stmt);
 
                         if($result->num_rows > 0){
                             while($row = $result->fetch_assoc()){
                                 echo "
                                 <tr class='lh-1'>
-                                <td style='font-weight: 400;'>".$row["fname"]. " ".$row["lname"]."</td>
+                                <td style='font-weight: 400;'>".$row["fname"]. " " .$row["lname"]."</td>
                                 <td style='font-weight: 400;'>9:00 AM</td>
                                 <td style='font-weight: 400;'>6:00 PM</td>
-                                <td style='font-weight: 400;'>".$row["department_name"]. "</td>
+                                <td style='font-weight: 400;'>".$row["restday"]. "</td>
                                 <td style='font-weight: 400;'>".$row["schedule_name"]. "</td>
                                 <td style='font-weight: 400;'>".$row["sched_from"]. "</td>
                                 <td style='font-weight: 400;'>".$row["sched_to"]. "</td>
                                  <td>
                                  <button type='button' data-bs-toggle='modal' data-bs-target='#schedUpdate' id='sched-update' class='sched-update' style='border:none; background-color:inherit; color:cornflowerblue; outline:none; '>Update</button></td>
-                                <td style='display: none;'> ".$row['empid']. " </td
+                                <td style='display: none;'>".$row['empid']."</td
                             </tr>";
                             }
                         }
@@ -1384,13 +1383,13 @@ thead th:nth-child(1){
     </div>
     </form> -->
     
-<script>
+    <script>
 function populateDateFields(row) {
     var startDate = row.getElementsByTagName('td')[5].innerHTML;
     var endDate = row.getElementsByTagName('td')[6].innerHTML;
 
-    document.getElementById('start_date').value = startDate;
-    document.getElementById('end_date').value = endDate;
+    document.getElementById('sched_from').value = startDate;
+    document.getElementById('sched_to').value = endDate;
 }
 
 var updateButtons = document.getElementsByClassName('sched-update');
@@ -1402,15 +1401,15 @@ for (var i = 0; i < updateButtons.length; i++) {
 }
 
 function datevalidate() {
-    var startDateInput = document.getElementById('start_date');
-    var endDateInput = document.getElementById('end_date');
+    var startDateInput = document.getElementById('sched_from');
+    var endDateInput = document.getElementById('sched_to');
     var startDate = new Date(startDateInput.value);
     var endDate = new Date(endDateInput.value);
     var today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
 
-    var startError = document.getElementById('start_date_error');
-    var endError = document.getElementById('end_date_error');
+    var startError = document.getElementById('sched_from_error');
+    var endError = document.getElementById('sched_to_error');
     var submitBtn = document.getElementById('submit-btn');
 
     if (startDate < today) {
@@ -1432,6 +1431,8 @@ function datevalidate() {
     }
 }
 </script>
+
+  
 
 <script>
 // sched form modal

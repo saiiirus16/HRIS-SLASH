@@ -49,15 +49,61 @@ if(count($_POST) > 0){
     if (isset($_POST['emp_img_url'])) {
         $emp_img_url = ", emp_img_url='".$_POST['emp_img_url']."'";
     }
-    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', approver='".$_POST['approver']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',empposition='".$_POST['empposition']."', role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
     WHERE id ='".$_POST['id']."'");
     header ("Location: EmployeeList.php");
+
+
+    // Insert into approver_tb table
+$approverEmpIds = $_POST['approver'];
+$empid_update= $_GET['empid'];
+
+$query = "DELETE FROM approver_tb WHERE empid= $empid_update";
+$query_run = mysqli_query($conn, $query);
+
+if($query_run)
+{
+    foreach ($approverEmpIds as $approverEmpId) {
+        $stmt2 = $conn->prepare("INSERT INTO approver_tb (`empid`, `approver_empid`)
+                                VALUES (?, ?)");
+    
+        if (!$stmt2) {
+            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        }
+    
+        $stmt2->bind_param("ss", $empid_update, $approverEmpId);
+    
+        $stmt2->execute();
+    
+        if ($stmt2->errno) {
+            echo "<script>alert('Error: " . $stmt2->error . "');</script>";
+            echo "<script>window.location.href = '../../empListForm.php';</script>";
+            exit;
+        }
+    
+        $stmt2->close();
+    }
+}
+else
+{
+    echo "Failed: " . mysqli_error($conn);
+}
+
+
+// ----------------END Insert into approver_tb table -------------------------
 }
 
 
 
     $result = mysqli_query($conn, "SELECT * FROM employee_tb WHERE empid ='". $_GET['empid']. "'");
     $row = mysqli_fetch_assoc($result);  
+
+    $restdayResult = mysqli_query($conn, "SELECT restday FROM employee_tb AS emp
+                                        INNER JOIN empschedule_tb AS esched ON esched.empid = emp.empid
+                                        INNER JOIN schedule_tb AS sched ON sched.schedule_name = esched.schedule_name
+                                        WHERE emp.empid = '".$_GET['empid']."'");
+    $restdayRow = mysqli_fetch_assoc($restdayResult);
+
 
 
 ?>
@@ -95,6 +141,9 @@ if(count($_POST) > 0){
 
 <script src="https://kit.fontawesome.com/803701e46b.js" crossorigin="anonymous"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" src="js/multi-select-dd.js"></script>
 
 <link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/styles.css"> 
@@ -104,6 +153,25 @@ if(count($_POST) > 0){
     <header>
         <?php include("header.php")?>
     </header>
+    <style>
+       .deduction-move{
+
+       }
+       .multiselect-dropdown{
+           width: 420px !important;
+           height: 50px !important;
+           font-size: 18px  !important;
+       }
+       .multiselect-dropdown-list{
+            display: flex !important;
+            flex-direction: column !important;
+       }
+       .multiselect-dropdown-list input{
+        height: 20px !important;
+        width: 20px !important;
+       }
+       
+    </style>
 
         <?php 
         
@@ -126,15 +194,15 @@ if(count($_POST) > 0){
                                 
                                     <div class="emp-fname">
                                         <label for="fname">First Name</label><br>
-                                        <input type="text" name="fname" id="" placeholder="First Name" value="<?php echo $row['fname']; ?>">
+                                        <input type="text" name="fname" id="" placeholder="First Name" value="<?php echo $row['fname']; ?>" style="border: black 1px solid;"> 
                                     </div>
                                     <div class="emp-lname">
                                         <label for="lname">Last Name</label><br>
-                                        <input type="text" name="lname" id="" placeholder="Last Name" value="<?php echo $row['lname']; ?>">
+                                        <input type="text" name="lname" id="" placeholder="Last Name" value="<?php echo $row['lname']; ?>" style="border: black 1px solid;">
                                     </div>
                                     <div class="emp-gender">
                                         <label for="gender">Gender</label><br>
-                                        <select name="gender" id="" placeholdber="Select Gender" value="<?php echo $row['gender'];?>">
+                                        <select name="gender" id="" placeholdber="Select Gender" value="<?php echo $row['gender'];?>" style="border: black 1px solid;">
                                         <option value="<?php echo $row['gender']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['gender']?></option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
@@ -143,15 +211,15 @@ if(count($_POST) > 0){
                                     </div>
                                     <div class="emp-dob">
                                         <label for="empdob">Date of Birth</label><br>
-                                        <input type="date" name="empdob" id="empdob" placeholder="Select Date of Birth" value="<?php echo $row['empdob'] ?>" >
+                                        <input type="date" name="empdob" id="empdob" placeholder="Select Date of Birth" value="<?php echo $row['empdob'] ?>" style="border: black 1px solid;">
                                     </div>
                                     <div class="emp-contact">
                                         <label for="contact">Contact Number</label><br>
-                                            <input type="text" name="contact" id="" placeholder="Contact Number" value="<?php echo $row['contact'] ?>" maxlength="11" pattern="[0-9]{11,11}">
+                                        <input type="text"  name="contact" value="<?php echo $row['contact']?>" id="numberInput" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" style="border: black 1px solid;">
                                     </div>
                                     <div class="emp-cstatus">
                                         <label for="cstatus">Marital Status</label><br>
-                                            <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $row['cstatus'];?>" >
+                                            <select name="cstatus" id="" placeholdber="Select Status" value="<?php echo $row['cstatus'];?>"  style="border: black 1px solid;">
                                             <option value="<?php echo $row['cstatus']?>" selected="selected" class="selectTag" style="color: gray;"><?php echo $row['cstatus']?></option>
                                                 <option value="Single" >Single</option>
                                                 <option value="Married">Married</option>
@@ -160,11 +228,11 @@ if(count($_POST) > 0){
                                     </div>
                                     <div class="emp-email">
                                         <label for="email">Email</label><br>
-                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}" title="Must be a valid email.">
+                                        <input type="email" name="email" id="" placeholder="Email Address" value="<?php echo $row['email'] ?>" pattern="[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}" title="Must be a valid email." style="border: black 1px solid;">
                                     </div>
                                     <div class="emp-datehired">
                                         <label for="empdate_hired">Date Joined</label><br>
-                                            <input type="date" name="empdate_hired" id="" placeholder="Date Hired" value="<?php echo $row['empdate_hired'] ?>">
+                                            <input type="date" name="empdate_hired" id="" placeholder="Date Hired" value="<?php echo $row['empdate_hired'] ?>" style="border: black 1px solid;">
                                     </div>
                                 </div>
                                 <div class="emp-list-info-second-container"> 
@@ -182,11 +250,11 @@ if(count($_POST) > 0){
                                         <!-- Set hidden input value to image URL with file extension -->
                                         <input type="hidden" name="emp_img_url" value="<?php echo $image_url; ?>">
                                     </div>
-                                    <div class="emp-info">
+                                    <div class="emp-info" style="margin-top: 10px;">
                                         <h1><?php echo $row['fname']; ?> <?php echo $row['lname'];?></h1>
-                                        <p><?php echo $row['empposition']?></p>
+                                        
                                         <div class="emp-stats" style="">
-                                        <?php $word = 'Hello';?>
+                                        
                                             <h4 style="margin-top:9px; margin-left: 50px;">Status: </h4>
                                             <input type="text" name="status" id="status" value="<?php if(isset($row['status']) && !empty($row['status'])) { echo $row['status']; } else { echo 'Inactive'; }?>" style="width:65px; border:none; margin-top:1px; margin-left: 4px; color: blue; font-weight: 500; outline:none;" readonly>
                                             <span onclick="changeWord()" class="fa-solid fa-rotate" style="cursor:pointer; margin-top:9px;"></span>
@@ -222,50 +290,54 @@ if(count($_POST) > 0){
                         <div class="employeeList-government-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Government Information</h1>
-                                <button type="button"  data-bs-toggle="modal" data-bs-target="#governModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
+                                <button type="button"  data-bs-toggle="modal" data-bs-target="#governModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px; border:none; background-color:inherit; outline:none; font-size: 30px;"> </button>
                             </div> 
                             <div class="emp-govern-first-container">
                                 <div class="gov-sss" style="display:flex">
                                     <div>
                                     <label for="empsss">SSS #</label><br>
-                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>" ><br> 
+                                        <input type="text" name="empsss" id="" placeholder="Input SSS#" value="<?php echo $row['empsss'] ?>" style="border: black 1px solid;" ><br> 
                                     </div>
                                     <div>
                                     <label for="sssamount">Amount</label><br>
-                                    <input type="text" name="sss_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="sss_amount" id="numberInput" placeholder="Input Deduction" value="<?php if(isset($row['sss_amount'])&& !empty($row['sss_amount'])) { echo $row['sss_amount']; }?>" style="color:black; font-size: 15px; border: black 1px solid" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);">
+                                    
                                     </div>
                                 </div>
 
                                 <div class="gov-tin" style="display:flex">
                                     <div>
                                         <label for="emptin">TIN #</label><br>
-                                            <input type="text" name="emptin" id="" placeholder="Input TIN" value="<?php echo $row['emptin'] ?>">
+                                            <input type="text" name="emptin" id="" placeholder="Input TIN" value="<?php echo $row['emptin'] ?>" style="border: black 1px solid;">
                                     </div>
                                     <div>
                                     <label for="tinamount">Amount</label><br>
-                                    <input type="text" name="tin_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="tin_amount" id="numberInput" placeholder="Input Deduction" value="<?php if(isset($row['tin_amount'])&& !empty($row['tin_amount'])) { echo $row['tin_amount']; }?>" style="color:black; font-size: 15px; border: black 1px solid" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);">
+                                    
                                     </div>
                                 </div>
 
                                 <div class="gov-pagibig" style="display:flex">
                                     <div>
                                         <label for="emppagibig">Pagibig #</label><br>
-                                            <input type="text" name="emppagibig" id="" placeholder="Input Pagibig #" value="<?php echo $row['emppagibig'] ?>" >
+                                            <input type="text" name="emppagibig" id="" placeholder="Input Pagibig #" value="<?php echo $row['emppagibig'] ?>" style="border: black 1px solid;" >
                                     </div>
                                     <div>
                                     <label for="pagibigamount">Amount</label><br>
-                                    <input type="text" name="pagibig_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="pagibig_amount" id="numberInput" placeholder="Input Deduction" value="<?php if(isset($row['pagibig_amount'])&& !empty($row['pagibig_amount'])) { echo $row['pagibig_amount']; }?>" style="color:black; font-size: 15px; border: black 1px solid" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);">
+                                    
                                     </div>
                                 </div>
 
                                 <div class="gov-philhealth" style="display:flex">
                                     <div>
                                         <label for="empphilhealth">Philhealth #</label><br>
-                                            <input type="text" name="empphilhealth" id="" placeholder="Input Philhealth #" value="<?php echo $row['empphilhealth'] ?>">
+                                            <input type="text" name="empphilhealth" id="" placeholder="Input Philhealth #" value="<?php echo $row['empphilhealth'] ?>" style="border: black 1px solid;">
                                     </div>
                                     <div>
                                     <label for="philhealth_amount">Amount</label><br>
-                                    <input type="text" name="philhealth_amount" id="" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; }?>" style="color:gray; font-size: 15px;">
+                                    <input type="text" name="philhealth_amount" id="numberInput" placeholder="Input Deduction" value="<?php if(isset($row['philhealth_amount'])&& !empty($row['philhealth_amount'])) { echo $row['philhealth_amount']; }?>" style="color:black; font-size: 15px; border: black 1px solid" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);">
+                                   
                                     </div>
                                 </div>
                             </div>
@@ -274,21 +346,22 @@ if(count($_POST) > 0){
                         <div class="emp-allowance-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Employee Allowance</h1>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#allowanceModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#allowanceModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px; border:none; background-color:inherit; outline:none; font-size: 30px;"> </button>
 
                             </div>
                             <div class="emp-allowance-first-container">
                                 <div class="allowance-transpo">
                                     <label for="emptranspo">Transportation</label><br>
-                                        <input type="text" name="emptranspo" placeholder="0.00" value="<?php echo $row['emptranspo']; ?>">
+                                        <input type="text" name="emptranspo" placeholder="0.00" value="<?php echo $row['emptranspo']; ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" style="border: black 1px solid;">
+                                        
                                 </div>
                                 <div class="allowance-meal">
                                     <label for="empmeal">Meal Allowance</label><br>
-                                        <input type="text" name="empmeal" placeholder="0.00" value="<?php echo $row['empmeal'] ?>"> 
+                                        <input type="text" name="empmeal" placeholder="0.00" value="<?php echo $row['empmeal'] ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" style="border: black 1px solid;"> 
                                 </div>
                                 <div class="allowance-internet">
                                     <label for="empinternet">Internet Allowance</label><br>
-                                        <input type="text" name="empinternet" placeholder="0.00" value="<?php echo $row['empinternet'] ?>">  
+                                        <input type="text" name="empinternet" placeholder="0.00" value="<?php echo $row['empinternet'] ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" style="border: black 1px solid;">  
                                 </div>
                             </div>
                         </div>
@@ -304,21 +377,22 @@ if(count($_POST) > 0){
                                 </div>
                                 <div class="empInfo-position">
                                 <?php
-                                include 'config.php';
+                                        include 'config.php';
 
-                                $sql = "SELECT * FROM positionn_tb";
-                                $results = mysqli_query($conn, $sql);
-
-                                $options = "";
-                                while ($rows = mysqli_fetch_assoc($results)) {
-                                    $selected = ($rows['id'] == $row['empposition']) ? 'selected' : '';
-                                    $options .= "<option value='".$rows['id']."' ".$selected.">" .$rows['position'].  "</option>";
-                                }
-                                ?>
-                                <label for="empposition">Job Position</label><br>
-                                <select name="empposition" id="" placeholder="Select Job Position" value="<?php echo $row['position'];?>">
-                                    <?php echo $options; ?>
-                                </select>
+                                        $sql = "SELECT * FROM positionn_tb";
+                                        $results = mysqli_query($conn, $sql);
+                                        $options = "";
+                                        while ($rows = mysqli_fetch_assoc($results)) {
+                                            $selected = ($rows['id'] == $row['empposition']) ? 'selected' : '';
+                                            $options .= "<option value='".$rows['id']."' ".$selected.">" .$rows['position'].  "</option>";
+                                        }
+                                        ?>
+                                        
+                                        <label for="empposition">Position</label><br>
+                                        <select name="empposition" id="" placeholder="" value="<?php echo $row['empposition'];?>">
+                                            
+                                            <?php echo $options; ?>
+                                        </select>
                                 </div>
                                 <div class="empInfo-role">
                                     <label for="role">Role</label><br>
@@ -362,7 +436,8 @@ if(count($_POST) > 0){
                                         ?>
                                         
                                         <label for="department_name">Department</label><br>
-                                        <select name="department_name" id="" placeholder="Select Job Position" value="<?php echo $row['col_deptname'];?>">
+                                        <select name="department_name" id="" placeholder="" value="<?php echo $row['col_deptname'];?>">
+                                            
                                             <?php echo $options; ?>
                                         </select>
                                 </div>
@@ -382,60 +457,68 @@ if(count($_POST) > 0){
                                 </div>
                                 <div class="empInfo-salary">
                                     <label for="empbsalary">Basic Salary</label><br>
-                                        <input type="number" name="empbsalary" id="" placeholder="Basic Salary" value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>">
+                                        
+                                        <input type="text"  name="empbsalary"  value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>" id="numberInput" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 8);" style="border: black 1px solid;">
                                 </div>
                                 <div class="empInfo-otrate">
                                     <label for="otrate">OT Rate</label><br>
-                                        <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php echo $row['otrate']?>">
+                                        
+                                        <input type="text"  name="otrate" placeholder="OT Rate" value="<?php echo $row['otrate']?>" id="numberInput" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 8);" style="border: black 1px solid;">
                                 </div>
                                 <div class="empInfo-approver">
                                   <?php
-                                        $server = "localhost";
-                                        $user = "root";
-                                        $pass ="";
-                                        $database = "hris_db";
-
-                                        $conn = mysqli_connect($server, $user, $pass, $database);
+                                       include 'config.php';
                                         $sql = "SELECT * FROM employee_tb WHERE `role` = 'admin' OR `role` = 'Supervisor'";
                                         $result = mysqli_query($conn, $sql);
 
                                         $options = "";
                                         while ($rows = mysqli_fetch_assoc($result)) {
                                             
-                                            $options .= "<option value='".$rows['empid']."'>".$rows['fname']. " " .$rows['lname']." </option>";
+                                            $options .= "<option  style='display:flex; font-size: 10px; font-style:normal;' value='".$rows['empid']."'>".$rows['fname']. " " .$rows['lname']." </option>";
                                         }
 
-                                        $approver = $row['approver'];
 
-                                        if($approver === '00000100010'){
-                                            $approver_fullname = "Super Admin";
-                                            $empID_approver = "00000100010";
-                                        }
-                                        else{
-                                            $result_approver = mysqli_query($conn, " SELECT
-                                                *  
-                                            FROM
-                                                employee_tb
-                                            WHERE empid = $approver");
-                                            if(mysqli_num_rows($result_approver) > 0) {
-                                                $row_approver = mysqli_fetch_assoc($result_approver);
-                                                //echo $row__leaveINFO['col_vctionCrdt'];
-                                                $approver_fullname = $row_approver['fname'] . " " . $row_approver['lname'];
-                                                $empID_approver = $row_approver['empid'];
-                                            } else {
-                                                $approver_fullname = 'Something Went Wrong';
+
+                                        $employee_ID = $_GET['empid'];
+
+                                        $query = "SELECT * FROM approver_tb WHERE empid = $employee_ID";
+                                        $result = $conn->query($query);
+                                        
+                                        // Check if any rows are fetched
+                                        if ($result->num_rows > 0) {
+                                            $array_approver = array(); // Array to store the approvers
+                                        
+                                            // Loop through each row
+                                            while ($row = $result->fetch_assoc()) {
+                                                $approver_empid = $row["approver_empid"];
+                                                $array_approver[] = array('approver_empid' => $approver_empid);
                                             }
                                         }
                                         
-                                    ?>
-
+                                        ?>
                                         
                                         <label for="approver">Immediate Superior/Approver</label><br>
-                                        <select name="approver" id="">
-                                        <option value="<?php echo $empID_approver ?>" selected><?php echo $approver_fullname?></option>
-                                            <?php echo $options; ?>
+                                        <select class="approver-dd" name="approver[]" id="approver_ID" multiple multiselect-search="true" multiselect-select-all="true" multiselect-max-items="3" style="display:flex; width: 380px;">
+                                            <?php
+                                            foreach ($array_approver as $approvers) {
+                                                $approver_ID = $approvers['approver_empid'];
+                                        
+                                                $query = "SELECT * FROM employee_tb WHERE empid = $approver_ID";
+                                                $result = $conn->query($query);
+                                        
+                                                // Check if any rows are fetched
+                                                if ($result->num_rows > 0) {
+                                                    $row_emp_approver = mysqli_fetch_assoc($result);
+                                                   
+                                                    echo '<option value="' . $approver_ID . '" selected>' . $row_emp_approver['fname'] . ' ' . $row_emp_approver['lname'] . '</option>';
+                                                    
+                                                }
+                                            }
+                                            echo $options;
+                                            ?>
                                         </select>
-                                    
+                                        
+                           
                             </div>
                         </div>
                         <div class="emp-worksched-container">
@@ -443,9 +526,11 @@ if(count($_POST) > 0){
                                 <h1>Employment Work Schedule</h1>
                             </div>
                             <div class="emp-worksched-first-container">
+
                                 <div class="worksched-restday">
                                     <label for="restday">Rest Day</label><br>
-                                        <input type="text" name="restday" id="" placeholder="Rest Day" value="<?php if(isset($row['restday'])&& !empty($row['restday'])) { echo $row['restday']; } else { echo 'n/a'; }?>">
+                                    <input type="text"  id="" placeholder="Rest Day" value="<?php echo !empty($restdayRow['restday']) ? $restdayRow['restday'] : 'No rest day'; ?>" style="border: black 1px solid;" readonly>
+
                                 </div>
                                 <div class="worksched-scedule">
                                     <label for="schedule_name">Schedule Setup</label><br>
@@ -456,10 +541,18 @@ if(count($_POST) > 0){
                                             if(mysqli_num_rows($result_emp_sched) > 0) {
                                             $row_emp_sched = mysqli_fetch_assoc($result_emp_sched);
                                             $schedID = $row_emp_sched['schedule_name'];
+
+                                           
                                         }
                                         
                                             ?>
-                                        <input type="text" name="schedule_name" value="<?php echo $schedID?>" id="" readonly>                                       
+                                        <input type="text" name="schedule_name" value="<?php error_reporting(E_ERROR | E_PARSE);
+                                                if($schedID == NULL){
+                                                    echo 'No Schedule';
+                                                }else{
+                                                    echo $schedID;
+                                                }
+                                            ?>" id="" readonly style="border: black 1px solid;">                                       
                                 </div>
                             </div>
                         </div>
@@ -470,11 +563,11 @@ if(count($_POST) > 0){
                             <div class="emp-payroll-first-container">
                                 <div class="payroll-bank-name">
                                     <label for="bank_name">Bank Name</label><br>
-                                    <input type="text" name="bank_name" id="" value="<?php if(isset($row['bank_name'])&& !empty($row['bank_name'])) { echo $row['bank_name']; } else { echo 'n/a'; }?>">
+                                    <input type="text" name="bank_name" id="" value="<?php echo $row['bank_name']?>" placeholder="N/A" style="border: black 1px solid;">
                                 </div>
                                 <div class="payroll-bank_no">
                                     <label for="bank_number">Bank Account Number</label><br>
-                                    <input type="text" name="bank_number" id=""  value="<?php if(isset($row['bank_number'])&& !empty($row['bank_number'])) { echo $row['bank_number']; } else { echo 'n/a'; }?>">
+                                    <input type="text" name="bank_number" id=""  value="<?php echo $row['bank_number']?>" placeholder="N/A" style="border: black 1px solid;">
                                 </div>
                             </div>
                         </div>
@@ -514,7 +607,7 @@ if(count($_POST) > 0){
                         <script>
                             $(document).ready(function(){
 
-                                var html = '<tr><td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
+                                var html = '<tr><td><input required type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"style="margin-top: 10px; border: black 1px solid;"></td><td><input required type="text" name="govern_amount[]" id="inputBox" class="emp-amount form-control" placeholder="Amount" oninput="validateInput(this)" style="margin-top: 10px; border: black 1px solid;"></td><td><input type="button" value="Remove" name="id_emp" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
 
                                 var max = 5;
                                 var x = 1;
@@ -531,6 +624,10 @@ if(count($_POST) > 0){
                                 });
 
                             });
+
+                            function validateInput(input) {
+                                input.value = input.value.replace(/\D/g, '');
+                                }   
                         </script>
                         <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
                             <div class="modal-header">
@@ -543,13 +640,13 @@ if(count($_POST) > 0){
                                 <table class="" id="table-field" style=" width: 600px; margin-left: 100px;" >
                                     <tr>
                                         <th>Description</th>
-                                        <th>Amount</th>
-                                        <th style="margin-left: 50px;">Actions</th>
+                                        <th style="margin-right: 100px;">Amount</th>
+                                        <th >Actions</th>
                                         <th></th>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="other_govern[]" id="amountInput"  class="emp-desc form-control" placeholder="Description"></td>
-                                        <td><input type="number" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" ></td>
+                                        <td><input required type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description" style="border: black 1px solid;" ></td>
+                                        <td><input required type="text" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" style="border: black 1px solid;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);"></td>
                                         <td><input type="button"  value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px; margin-left: 20px;" ></td>
                                         <td>
                                         <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
@@ -557,6 +654,7 @@ if(count($_POST) > 0){
                                         </td>
                                     </tr>
                                 </table>
+                              
 
                                 <div class="other-govern-title" style="margin-top: 30px">
                                     <h1 style="font-size: 23px; margin-left: 20px; margin-bottom:-20px;">New Deductions</h1>
@@ -565,44 +663,41 @@ if(count($_POST) > 0){
                                 <table style=" width: 300px; margin-left: 100px; margin-top: 30px;">
                                     <tr>
                                         <th>Description</th>
-                                        <th>Amount</th>
+                                        <th class="deduction-move">Amount</th>
                                         <th>Actions</th>         
                                     </tr>
-                                <?php
-                                   $conn = mysqli_connect("localhost", "root", "", "hris_db");
-                                   $sql = "SELECT * FROM governdeduct_tb
-                                            AS govern
-                                            INNER JOIN employee_tb
-                                            AS emp
-                                            ON(emp.empid = govern.id_emp)
+                                    <?php
+                                    $conn = mysqli_connect("localhost", "root", "", "hris_db");
+                                    $sql = "SELECT govern.id, govern.other_govern, govern.govern_amount, emp.empid FROM governdeduct_tb AS govern
+                                            INNER JOIN employee_tb AS emp ON emp.empid = govern.id_emp
                                             WHERE govern.id_emp = '".$_GET['empid']."'";
-                                   $result = mysqli_query($conn, $sql);
-                                   $totalAmount = 0;
-                                   if (mysqli_num_rows($result) > 0) {
-                                       while ($row = mysqli_fetch_assoc($result)) {
-                                           $totalAmount += $row['govern_amount'];
-                                           echo "<tr>";
-                                           echo "<td><input type='text' readonly class='emp-desc form-control' style='margin-top:10px;' name='other_govern[]' value='" . $row['other_govern'] . "'></td>";
-                                           echo "<td><input type='text'  style='margin-top:10px;'  class='emp-amount form-control' readonly name='govern_amount[]' value='" . $row['govern_amount'] . "'></td>";
-                                           echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/govern_delete.php?other_govern=".$row['other_govern']."&empid=".$row['empid']."' style='color:white;'>Delete</a></button></td>";
-                                           echo "<input type='hidden'readonly name='empid[]' value='" . $row['empid'] . "'>";
-                                           echo "</tr>";
-                                       }
+                                    $result = mysqli_query($conn, $sql);
+                                    $totalAmount = 0;
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $totalAmount += $row['govern_amount'];
+                                            echo "<tr>";
+                                            echo "<td><input type='text' readonly class='emp-desc form-control' style='margin-top:10px;width:250px;' name='other_govern[]' value='" . $row['other_govern'] . "'></td>";
+                                            echo "<td><input type='text'  style='margin-top:10px; width:250px;'  class='emp-amount form-control' readonly name='govern_amount[]' value='" . $row['govern_amount'] . "'></td>";
+                                            echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/govern_delete.php?id=".$row['id']."&empid=".$row['empid']."' style='color:white;'>Delete</a></button></td>";
+                                            echo "<input type='hidden'readonly name='empid[]' value='" . $row['empid'] . "'>";
+                                            echo "</tr>";
+                                        }
                                     }
-                                   echo "<tr>";
-                                   echo "<td>Total Amount:</td>";
-                                   echo "<td><input type='text' readonly style='margin-top:10px;'  class='emp-amount form-control' name='total_amount' value='" . $totalAmount . "'></td>";
-                                   echo "</tr>";
-                                   mysqli_close($conn);
-                                ?>
-                                <input type='hidden' name="empid" value="<?php echo $rows['empid'];?>">
+                                    echo "<tr>";
+                                    echo "<td>Total Amount:</td>";
+                                    echo "<td><input type='text' readonly style='margin-top:10px;'  class='emp-amount form-control' name='total_amount' value='" . $totalAmount . "'></td>";
+                                    echo "</tr>";
+                                    mysqli_close($conn);
+                                    ?>
+                 <input type='hidden' name="empid" value="<?php echo $rows['empid'];?>">
                                 
                                 </table>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Yes</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: none; font-size: 20px; background-color: inherit;">Close</button>
+                                <input type="submit" value="Submit" name="submit" id="submit" style=" font-size: 23px; margin-top: -1px; margin-right: 10px; color: #fff; height: 50px; padding: 10px; background-color: black; border: none; border-radius: 10px;"  >
                             </div>        
                         </div>
                         </div>
@@ -647,7 +742,11 @@ if(count($_POST) > 0){
                         <div class="modal-content" style="width: 800px;">
                             <script>
                                 $(document).ready(function(){
-                                    var html = '<tr><td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px;"></td><td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="margin-top: 10px;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
+                                    var html = '<tr><td><input required type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px; border: black 1px solid; width: 100%;"></td><td><input required type="text" name="govern_amount[]" id="inputBox" class="emp-amount form-control" placeholder="Amount" oninput="validateInput(this)" style="margin-top: 10px; border: black 1px solid;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
+
+                                   
+
+                                    
 
                                 var max = 5;
                                 var x = 1;
@@ -664,10 +763,13 @@ if(count($_POST) > 0){
                                 });
 
                             });
+                            function validateInput(input) {
+                                input.value = input.value.replace(/\D/g, '');
+                                }  
                             </script>
                             <input type="hidden" name="id" value="<?php echo $rows['id']; ?>">
                             <div class="modal-header">
-                                <h1 class="modal-title">Add new deduction</h1>
+                                <h1 class="modal-title" style="font-size: 25px;">Add new deduction</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">  
@@ -679,14 +781,15 @@ if(count($_POST) > 0){
                                         <th></th>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"></td>
-                                        <td><input type="number" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount"></td>
+                                        <td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description" style="width: 250px; border: black 1px solid;" required></td>
+                                        <td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="width: 250px; border: black 1px solid;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" required></td>
                                         <td><input type="button" value="Add" name="id_emp[]" id="allowanceAdd" class="btn btn-success" style="width: 73px;" ></td>
                                         <td>
                                         <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
                                         </td>
                                     </tr>
                                 </table>
+                           
 
                                 <div class="other-allowance-title" style="margin-top: 30px">
                                     <h1 style="font-size: 23px; margin-left: 20px; margin-bottom:-20px;">New Deductions</h1>
@@ -698,41 +801,40 @@ if(count($_POST) > 0){
                                         <th>Amount</th>
                                         <th>Actions</th>         
                                     </tr>
-                                <?php
-                                     $conn = mysqli_connect("localhost", "root", "", "hris_db");
-                                     $sql = "SELECT * FROM allowancededuct_tb
-                                            AS allow
-                                            INNER JOIN employee_tb
-                                            AS emp
-                                            ON(emp.empid = allow.id_emp)
-                                            WHERE allow.id_emp = '".$_GET['empid']."'";
-                                     $resultd = mysqli_query($conn, $sql);
-                                     $totalAmountd = 0;
-                                     if (mysqli_num_rows($resultd) > 0) {
-                                         while ($rowd = mysqli_fetch_assoc($resultd)) {
-                                             $totalAmountd += $rowd['allowance_amount'];
-                                             echo "<tr>";
-                                             echo "<td><input type='text' readonly class='form-control allowance-desc' style='margin-top:10px;' name='other_allowance[]' value='" . $rowd['other_allowance'] . "'></td>";
-                                             echo "<td><input type='text'  style='margin-top:10px;'  class='form-control allowance-amount' readonly name='allowance_amount[]' value='" . $rowd['allowance_amount'] . "' ></td>";
-                                             echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/allowance_delete.php?other_allowance=".$rowd['other_allowance']."&empid=".$rowd['empid']."' style='color:white;'>Delete</a></button></td>";
-                                             echo "<input type='hidden'readonly name='empid[]' value='" . $rowd['empid'] . "'>";
-                                             echo "</tr>";
-                                         }
-                                      }
-                                     echo "<tr>";
-                                     echo "<td>Total Amount:</td>";
-                                     echo "<td><input type='text' disabled style='margin-top:10px;'  class='form-control allowance-amount' name='total_amount' value='" . $totalAmountd . "'></td>";
-                                     echo "</tr>";
-                                     mysqli_close($conn);
-                                  ?>
+                                    <?php
+                                        $conn = mysqli_connect("localhost", "root", "", "hris_db");
+                                        $sql = "SELECT allow.id, allow.other_allowance, allow.allowance_amount, emp.empid 
+                                                FROM allowancededuct_tb AS allow
+                                                INNER JOIN employee_tb AS emp ON emp.empid = allow.id_emp
+                                                WHERE allow.id_emp = '".$_GET['empid']."'";
+                                        $resultd = mysqli_query($conn, $sql);
+                                        $totalAmountd = 0;
+                                        if (mysqli_num_rows($resultd) > 0) {
+                                            while ($rowd = mysqli_fetch_assoc($resultd)) {
+                                                $totalAmountd += $rowd['allowance_amount'];
+                                                echo "<tr>";
+                                                echo "<td><input type='text' readonly class='form-control allowance-desc' style='margin-top:10px; width: 250px;' name='other_allowance[]' value='" . $rowd['other_allowance'] . "'></td>";
+                                                echo "<td><input type='text' style='margin-top:10px; width:250px;' class='form-control allowance-amount' readonly name='allowance_amount[]' value='" . $rowd['allowance_amount'] . "' ></td>";
+                                                echo "<td><button type='button' name='delete_data' class='btn btn-danger'><a href='actions/Employee List/allowance_delete.php?id=".$rowd['id']."&empid=".$rowd['empid']."' style='color:white;'>Delete</a></button></td>";
+                                                echo "<input type='hidden' readonly name='empid[]' value='" . $rowd['empid'] . "'>";
+                                                echo "</tr>";
+                                            }
+                                        }
+                                        echo "<tr>";
+                                        echo "<td>Total Amount:</td>";
+                                        echo "<td><input type='text' disabled style='margin-top:10px;' class='form-control allowance-amount' name='total_amount' value='" . $totalAmountd . "'></td>";
+                                        echo "</tr>";
+                                        mysqli_close($conn);
+                                        ?>
+
                                   <input type='hidden' name="empid" value="<?php echo $rowss['empid'];?>">
                                 
                                 </table>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Understood</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: none; font-size: 20px; background-color: inherit;">Close</button>
+                                <input type="submit" value="Submit" name="submit" id="submit" style=" font-size: 23px; margin-top: -1px; margin-right: 10px; color: #fff; height: 50px; padding: 10px; background-color: black; border: none; border-radius: 10px;"  >
                             </div>  
                             </form>
                         </div>
@@ -741,6 +843,8 @@ if(count($_POST) > 0){
                 
                     
                  
+                
+            
             
  
 <!-- <script type="text/javascript">
@@ -780,6 +884,26 @@ function clickOutsides(e){
     }
 }
 
+</script>
+
+<script>
+    var inputBox = document.getElementById("inputBox");
+
+var invalidChars = [
+  "-",
+  "+",
+  "e",
+];
+
+inputBox.addEventListener("input", function() {
+  this.value = this.value.replace(/[e\+\-]/gi, "");
+});
+
+inputBox.addEventListener("keydown", function(e) {
+  if (invalidChars.includes(e.key)) {
+    e.preventDefault();
+  }
+});
 </script>
     
     
@@ -939,10 +1063,29 @@ $(document).ready(function() {
                             });
             
     </script>
+    <script>
+        // Get the select element
+        var select = document.getElementById("approver_ID");
+        // Create an empty object to store the unique values
+        var uniqueValues = {};
+
+        // Loop through each option
+        for (var i = 0; i < select.options.length; i++) {
+            var option = select.options[i];
+            // Check if the value is already present in the uniqueValues object
+            if (uniqueValues[option.value]) {
+            // Duplicate value found, remove the option
+            select.remove(i);
+            i--; // Decrement the counter to account for the removed option
+            } else {
+            // Unique value, store it in the uniqueValues object
+            uniqueValues[option.value] = true;
+            }
+        }
+    </script>
 
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
-
     
 
     
@@ -961,6 +1104,7 @@ $(document).ready(function() {
      <script src="main.js"></script>
     <script src="bootstrap js/data-table.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     
 

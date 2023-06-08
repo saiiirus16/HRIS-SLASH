@@ -117,8 +117,6 @@ if(!empty($_GET['status'])){
 
     
 </style>
-
-
 <!-------------------------------------------- Modal Start Here ---------------------------------------------------------->
 <div class="modal fade" id="upload_dtr_btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -159,17 +157,13 @@ if(!empty($_GET['status'])){
                   </div>
 <!------------------------------------------------- End Of Header -------------------------------------------> 
 
-<!-------------------------------------------------------ERROR MESSAGE ALERT------------------------------------------------------------------->
-<?php
-    if (isset($_GET['error'])) {
-        $err = $_GET['error'];
-        echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-        '.$err.'
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>';
-    }
-?>
-<!------------------------------------------------------- END NG ERROR MESSAGE ALERT------------------------------------------------------------>
+<!---------------------------------------- Display status message ------------------------------------------->
+<?php if(!empty($statusMsg)){ ?>
+            <div class="col-xs-12 mt-2">
+                <div class="alert <?php echo $statusType; ?>"><?php echo $statusMsg; ?></div>
+            </div>
+            <?php } ?>
+<!---------------------------------------End Display status message ------------------------------------------->
 
 <!----------------------------------------select button and text input--------------------------------------->
 <div class="container-select" style="">

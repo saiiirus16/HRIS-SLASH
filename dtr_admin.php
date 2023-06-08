@@ -229,7 +229,7 @@
                       <div class="row" >
                           <div class="col-12 mt-2">
                               <input type="hidden" id="input_id" name="input" value="<?php echo $row['id']; ?>">
-                                  <div class="table-responsive mt-4" style="height: 600px;">
+                                  <div class="table-responsive mt-4" style="overflow-x: hidden;">
                                       <table id="order-listing" class="table" >
                                       <thead>
                                           <tr>
@@ -277,7 +277,7 @@
                                         <td><?php echo $row['empid']?></td>
                                         <td><a href="" class="showbtn" data-bs-toggle="modal" data-bs-target="#viewmodal"><?php echo $row['full_name']?></a></td>
                                         <td><?php echo $row['date']?></td>
-                                        <td><?php echo $row['time']?></td>
+                                        <td><?php echo date('h:i A', strtotime($row['time'])) ?></td>
                                         <td><?php echo $row['type']?></td>
                                         <td style="display: none;"><?php echo $row['reason']?></td>
                                         <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_dtr_modal">View</a></td>
@@ -288,9 +288,9 @@
                                         <?php else: ?>
                                         <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                         <?php endif; ?>
-                                        <td <?php if ($row['status'] == 'Approved') {echo 'style="color:green;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} ?>><?php echo $row['status']; ?></td>
+                                        <td <?php if ($row['status'] == 'Approved') {echo 'style="color:blue;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} elseif ($row['status'] == 'Pending') {echo 'style="color:orange;"';} elseif ($row['status'] == 'Cancelled') {echo 'style="color:red;"';}?>><?php echo $row['status']; ?></td>
                                         <td>
-                                        <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected'): ?>
+                                        <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected' || $row['status'] === 'Cancelled'): ?>
                                           <button type="submit" class="btn btn-outline-success viewbtn" name="approve_btn" style="display: none;" disabled>
                                             Approve
                                           </button>
@@ -351,7 +351,7 @@
                         </div>
                         <div class="col-6">
                             <label for="" class="form-label">TIME</label>
-                            <input type="time" name="employee_time" class="form-control" id="view_emp_time" readonly>
+                            <input type="text" name="employee_time" class="form-control" id="view_emp_time" readonly>
                         </div>
                 </div>
 
@@ -368,7 +368,7 @@
 
                 <div class="row" >
                         <div class="col-6">
-                            <label for="" class="form-label">FILE ATTACHMENT</label>
+                            <label for="" class="form-label">Cancel Reason</label>
                             <input type="text" name="employee_file" class="form-control" id="view_emp_file" readonly>
                         </div>
                         <div class="col-6">

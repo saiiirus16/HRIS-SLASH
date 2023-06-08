@@ -1137,6 +1137,8 @@ display: block !important;
                 </thead>
              <tbody >
              <?php
+             date_default_timezone_set('Asia/Manila');
+             $currentMonth = date('m');
              $result = $db->query("SELECT attendances.status, 
                                     attendances.empid,
                                     attendances.date,
@@ -1154,6 +1156,7 @@ display: block !important;
                                             ) AS `full_name`  
                                 FROM attendances
                                 INNER JOIN employee_tb ON employee_tb.empid = attendances.empid
+                                WHERE DATE_FORMAT(attendances.date, '%m') = '$currentMonth'
                                 ORDER BY date ASC");
 
         if($result->num_rows > 0){
@@ -1287,15 +1290,17 @@ display: block !important;
     </table> -->
 
     
+    
         <div class="att-export-btn">
-         <p>Export options: <a href="excel-att.php" class="" style="color:green"></i>Excel</a><span> |</span> <button id="btnExport" style="background-color: inherit; border:none; color: red">Export to PDF</button></p>
-         
+        <form action="att-pdf.php" method="POST" target="_blank">
+         <p>Export options: <a href="excel-att.php" class="" style="color:green"></i>Excel</a><span> |</span> <input type="submit" name="pdf_creater" value="PDF" style="border:none; color:red; background-color: inherit;"> </p>
+         </form>
         </div>
    
     </div>
     
 
-
+<!-- 
     <script>
 $(document).ready(function () {
     $("#btnExport").click(function () {
@@ -1321,7 +1326,7 @@ $(document).ready(function () {
         });
     });
 });
-</script>
+</script> -->
 
 <script> 
      $('.header-dropdown-btn').click(function(){

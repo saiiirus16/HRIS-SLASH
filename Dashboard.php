@@ -89,7 +89,7 @@
 
     <link rel="stylesheet" href="css/try.css">
     <link rel="stylesheet" href="css/styles.css">
-
+    <link rel="stylesheet" href="css/dashboard.css">
 
     <style>
     @font-face {
@@ -107,1134 +107,6 @@
         <?php include("header.php")?>
     </header>
 
-    <style>
-    html{
-        background-color: #f4f4f4 !important; 
-    }
-    body{
-        overflow: hidden;
-        background-color: #F4F4F4 !important;
-    }
-
-    .sidebars ul li{
-        list-style: none;
-        text-decoration:none;
-        width: 287px;
-        margin-left:-16px;
-        line-height:30px;
-       
-    }
-
-    .sidebars ul li .hoverable{
-        height:55px;
-    }
-
-    .sidebars ul{
-        height:100%;
-    }
-
-    .sidebars .first-ul{
-        line-height:60px;
-        height:100px;
-    }
-
-    .sidebars ul li ul li{
-        width: 100%;
-    }
-
-    .card-body{
-        width: 99.8%;
-        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-    }
-
-    .card-header{
-        width: 99.8%;
-        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-    }
-
-    
-    @media(max-width: 1350px){
-        html{
-            background-color: #fff !important;
-            overflow: scroll;
-        }
-
-
-     .dashboard-content{
-        background-color: #fff !important;
-     }
-
-     .sidebar{
-        background-color: #fff !important;
-     }
-     /* heder-user*/   
-    .header-user{
-       width: 400px;
-       margin-right: -50px;
-       transition: ease-in-out 1s;
-    }
-
-    .header-notif{
-        margin-right: 30px;
-        transition: ease-in-out 1s;
-    }
-    .header-head{
-        margin-right: 25px;
-        transition: ease-in-out 1s;
-        
-    }
-    .header-head img{
-        height: 50px;
-        transition: ease-in-out 1s;
-    }
-    .header-type h1{
-        font-size: 20px;
-        transition: ease-in-out 1s;
-    }
-    .header-type p{
-        font-size: 16px;
-        transition: ease-in-out 1s;
-    }
-    .header-dropdown{
-        margin-right: 30px;
-        transition: ease-in-out 1s;
-    }
-
-
-    .dashboard-content{
-        border: none;
-        height: 1750px;
-        transition: ease-in-out 1s;
-    }
-    
-    .dashboard-contents{
-        display:flex;
-        flex-direction: column;
-        transition: ease-in-out 1s;
-    }
-
-
-    /* first-dash-contents */
-    .first-dash-contents{
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 35px;
-        transition: ease-in-out 1s;
-        
-       
-        
-    }
-
-    .emp-request-list-container{
-        margin-top: 50px !important;
-        margin-right: 20px !important;
-        transition: ease-in-out 1s;
-    }
-
-    .employee-status-overview{
-        margin-top: 20px !important;
-        transition: ease-in-out 1s;
-    }
-
-
-
-    /*end of first-dash */
-
-
-    /*second-dash-contents*/
-    .second-dash-contents{
-        margin: auto;
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 30px;
-        transition: ease-in-out 1s;
-        width: 93% !important;
-    }
-
-    .announcement-container{
-        transition: ease-in-out 1s;
-        width: 88% !important;
-    }
-
-    .event-container{
-        margin-top: 30px !important;
-        width: 88% !important;
-        transition: ease-in-out 1s;
-    }
-
-    .event-content{
-        width: 100% !important;
-        transition: ease-in-out 1s;
-    }
-
-    /* end of second dash*/
-    
-  }
-  
-
-  @media(max-width: 500px){
-
-html{
-    overflow-x: hidden !important;
-    background-color: white !important;
-}
-body{
-    overflow-y: hidden !important;
-    background-color: #fff !important;
-    width: 500px !important;
-}
-#upper-nav{
-    background-color: black !important; 
-    width: 500px !important;
-    height: 75px;
-    position: fixed !important;
-}
-
-.navbar-menu-wrapper{
-    background-color: black !important;
-    width: 390px !important;
-    height: 60px !important;
-    position: fixed !important;
-   
-    margin-left: 70px !important;
-    
-    
-}
-
-.navbar-brand-wrapper{
-    background-color: black !important;
-    position: absolute !important;
-    width: 100px !important;
-    box-shadow: none;
-    height: 60px !important;
-    z-index: 100;
-}
-
-.navbar-brand-wrapper img{
-    height: 40px !important;
-    width: 50px !important;
-    margin-left: -20px !important;
-}
-
-.sidebar{
-    position: fixed !important;
-    left: 0;
-    width: 85px;
-    margin-top: 0 !important;
-    height: 130vh !important;
-    display: none !important;
-    transition: ease-in-out 1s !important;
-    
-}
-
-#sidebar.active-sidebar {
-display: block !important;
-} 
-
-
-.navbar-toggler{
-    display: none !important;
-}
-
-.responsive-bars-btn{
-    display: block !important;
-    margin-right: 90px !important;
-    border: none !important;
-    
-}
-
-.responsive-bars-btn span{
-    color: white !important;
-    font-size: 18px !important;
-}
-
-.header-user{
-   width: 290px;
-   transition: ease-in-out 1s;
-   background-color: black !important;
-   
-}
-.header-notif span{
-    font-size: 20px !important;
-    margin-right: -10px;
-    margin-left: 30px !important;
-}
-.header-head img{
-    height: 40px !important;
-}
-.header-type h1{
-    font-size: 19px !important;
-}
-.header-type p{
-    font-size: 14px !important;
-    margin-top: -25px !important;
-}
-.header-dropdown{
-    margin-left: 30px !important;
-}
-.header-dropdown-menu{
-    width: 130px !important;
-    margin-left: -55px !important;
-   
-}
-
-.nav-title,.menu-arrow{
-    display: none !important;
-}
-
-.nav-item{
-    margin-bottom: 15px !important;
-}
-
-.collapse{
-    width: 250px !important;
-    position: fixed !important;
-    left: 85px !important;
-}
-
-.dashboard-content{
-    width: 390px;
-    
-    margin-left: 0px !important;
-    margin-top: -20px !important;
-}
-
-.dashboard-title{
-    
-}
-
-.dashboard-title h1{
-    margin-left: 20px;
-}
-
-.dashboard-contents{
-    
-}
-
-.first-dash-contents{
-    width: 500px !important;
-    margin: auto !important;
-}
-
-.employee-status-overview{
-    width: 100% !important;
-}
-
-.emp-status-title{
-   margin-left: -10px !important;
-}
-
-.emp-status-container{
-   
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    height: 900px !important;
-}
-
-.emp-status-container div{
-    width: 340px !important;
-}
-
-.emp-status-container div:nth-child(1){
-    background-color: #000080 !important;
-    
-}
-
-.emp-status-container div:nth-child(1) input{
-color: white;
-font-size: 35px !important;
-margin-left: 10px !important;
-margin-top: -5px !important;
-}
-
-.emp-status-container div:nth-child(1) label{
-color: white;
-margin-left: 10px !important;
-font-size: 19px !important;
-}   
-
-.emp-status-container div:nth-child(1) p{
-color: white;
-margin-left: 10px !important;
-margin-top: 5px !important; 
-font-size: 19px !important;
-} 
-
-.emp-status-container div:nth-child(1) span{
-    font-size: 19px !important;
-    margin-left: 3px !important;
-    color: black !important;
-}
-
-
-.emp-status-container div:nth-child(2){
-    background-color: #F3797E !important; 
-}
-
-.emp-status-container div:nth-child(2) input{
-color: white;
-font-size: 35px !important;
-margin-left: 10px !important;
-margin-top: -5px !important;
-}
-
-.emp-status-container div:nth-child(2) label{
-color: white;
-margin-left: 10px !important;
-font-size: 19px !important;
-}   
-
-.emp-status-container div:nth-child(2) p{
-color: white;
-margin-left: 10px !important;
-margin-top: 5px !important; 
-font-size: 19px !important;
-} 
-
-.emp-status-container div:nth-child(2) span{
-    font-size: 19px !important;
-    margin-left: 3px !important;
-    color: black !important;
-}
-
-.emp-status-container div:nth-child(3){
-    background-color: #4747A1 !important;
-}
-
-.emp-status-container div:nth-child(3) input{
-color: white;
-font-size: 35px !important;
-margin-left: 10px !important;
-margin-top: -5px !important;
-}
-
-.emp-status-container div:nth-child(3) label{
-color: white;
-margin-left: 10px !important;
-font-size: 19px !important;
-}   
-
-.emp-status-container div:nth-child(3) p{
-color: white;
-margin-left: 10px !important;
-margin-top: 5px !important; 
-font-size: 19px !important;
-} 
-
-.emp-status-container div:nth-child(3) span{
-    font-size: 19px !important;
-    color: black !important;
-    margin-left: 3px !important;
-}
-
-.emp-status-container div:nth-child(4){
-    background-color: #7978E9 !important;
-}
-
-.emp-status-container div:nth-child(4) input{
-color: white;
-font-size: 35px !important;
-margin-left: 10px !important;
-margin-top: -5px !important;
-}
-
-.emp-status-container div:nth-child(4) label{
-color: white;
-margin-left: 10px !important;
-font-size: 19px !important;
-}   
-
-.emp-status-container div:nth-child(4) p{
-color: white;
-margin-left: 10px !important;
-margin-top: 5px !important; 
-font-size: 19px !important;
-} 
-
-.emp-status-container div:nth-child(4) .wfh-color{
-    font-size: 19px !important;
-    margin-left: 3px !important;
-    color: black !important;
-}
-
-.emp-status-container div:nth-child(5){
-    background-color: #98BDFF !important;
-}
-.emp-status-container div:nth-child(5) input{
-color: white;
-font-size: 35px !important;
-margin-left: 10px !important;
-margin-top: -5px !important;
-}
-
-.emp-status-container div:nth-child(5) label{
-color: white;
-margin-left: 10px !important;
-font-size: 19px !important;
-}   
-
-.emp-status-container div:nth-child(5) p{
-color: white;
-margin-left: 10px !important;
-margin-top: 5px !important; 
-font-size: 19px !important;
-} 
-
-.emp-status-container div:nth-child(5) span{
-    font-size: 19px !important;
-    margin-left: 3px !important;
-    color: black !important;
-}
-
-.emp-request-list-container{
-    width: 500px !important;
-    
-}
-
-.emp-btn-container{
-    width: 90% !important;
-    margin:auto !important;
-
-}
-
-.emp-request-btn{
-    position: relative !important;
-    display: flex;
-    justify-content: space-between;
-   
-    width: 95% !important;
-    margin:auto !important;
-}
-
-/* .emp-request-btn div:nth-child(1){
-    margin-left: 20px !important;
-} */
-
-.emp-request-btn div:nth-child(1) p{
-    font-size: 10px !important;
-   
-    height: 25px !important;
-    width: 25px !important;
-}
-
-.emp-request-btn div:nth-child(1) div{
-    margin-left: 0px !important;
-}
-
-.emp-request-btn div:nth-child(2){
-    margin-top: 5px !important;
-    margin-left: -3px !important;
-}
-
-.emp-request-btn div:nth-child(3){
-    margin-top: 5px !important;
-
-}
-
-.emp-request-btn div:nth-child(4){
-    margin-top: 5px !important;
-    margin-right: 5px !important;
-}
-
-.emp-request-btn div button{
-    font-size: 13px !important;
-}
-
-.emp-request-table{
-    width: 90% !important;
-    margin-left: 11px !important;
-    margin: auto !important;
-}
-
-.dash
-
-.dash-responsive-btn{
-    margin-top: 16px !important;
-    display: block !important;
-    margin-right: 40px !important;
-}
-
-.request-list-dropdown {
-    display: none;
-    margin-top: 10px;
-    background-color: #f4f4f4 !important;
-    position: absolute !important;
-    right: -10px !important;
-    bottom: -115px !important;
-    width: 130px !important;
-    border-radius: 7px !important;
-    padding: 10px !important;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
- }
-
- .request-list-dropdown button{
-    font-size: 18px !important;
-    font-weight: 500 !important;
- }
- 
-.emp-request-btn .fa-chevron-down {
-    transition: transform 0.3s;
-}
-
-.emp-request-btn.active .fa-chevron-down {
-    transform: rotate(180deg);
-}
-
-.request-table{
-   
-    margin-left: 10px !important;
-    width: 95% !important; 
-}
-
-/* second content */
-.second-dash-contents{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    transition: ease-in-out 1s;
-    margin:auto !important;
-    margin-top: 20px !important;
-    
-    width: 500px !important;
-    
-}
-
-.announcement-container{
-    
-    width: 485px !important;
-    margin: auto !important;
-    margin-left: 5px !important;
-}
-
-.announce-title{
-    width: 93% !important;
-    margin: auto !important;
-    margin-left: 12px !important;
-}
-
-.announce-content{
-    width: 100% !important;
-    margin: auto !important;
-    margin-top: 20px !important;
-}
-
-.announce-content button{
-    font-size: 16px !important;
-}
-
-.announce-content h4{
-    font-size: 26px !important;
-}
-
-.announce-content p{
-    font-size: 14px !important;
-}
-
-.event-container{
-    margin-bottom: 25px !important;
-    width: 95% !important;
-    margin-left: 0px !important;
-}
-.event-title{
-    width: 95% !important;
-    margin: auto !important;
-}
-.event-content{
-    width: 96% !important;
-    margin: auto !important;
-}
-
-.header-dropdown-menu a{
-    margin-left: 30px !important;
-    margin-bottom: 5px !important;
-}
-
-
-}   
-
-  @media(max-width: 390px){
-
-    html{
-        overflow-x: hidden !important;
-        background-color: white !important;
-    }
-    body{
-        overflow-y: hidden !important;
-        background-color: #fff !important;
-        width: 390px !important;
-    }
-    #upper-nav{
-        background-color: black !important; 
-        width: 390px !important;
-        height: 75px;
-        position: fixed !important;
-    }
-
-    .navbar-menu-wrapper{
-       
-        width: 390px !important;
-        height: 60px !important;
-        position: fixed !important;
-        
-        
-    }
-
-    .navbar-brand-wrapper{
-        background-color: black !important;
-        position: absolute !important;
-        width: 100px !important;
-        box-shadow: none;
-        height: 60px !important;
-        z-index: 100;
-    }
-
-    .navbar-brand-wrapper img{
-        height: 40px !important;
-        width: 50px !important;
-        margin-left: -20px !important;
-    }
-    
-    .sidebar{
-        position: fixed !important;
-        left: 0;
-        width: 85px;
-        margin-top: 0 !important;
-        height: 130vh !important;
-        display: none !important;
-        transition: ease-in-out 1s !important;
-        
-    }
-
-    #sidebar.active-sidebars {
-    display: block !important;
-  } 
-
-  
-
-    
-    .navbar-toggler{
-        display: none !important;
-    }
-
-    .responsive-bars-btn{
-        display: block !important;
-        margin-right: 40px !important;
-        border: none !important;
-        
-    }
-
-    .responsive-bars-btn span{
-        color: white !important;
-        font-size: 18px !important;
-    }
-
-    .header-user{
-       width: 200px;
-        margin-right: 90px;
-       transition: ease-in-out 1s;
-       background-color: black !important;
-       
-    }
-    .header-notif span{
-        font-size: 20px !important;
-        margin-right: -10px;
-        margin-left: 30px !important;
-    }
-    .header-head img{
-        height: 40px !important;
-    }
-    .header-type h1{
-        font-size: 19px !important;
-    }
-    .header-type p{
-        font-size: 14px !important;
-        margin-top: -25px !important;
-    }
-    .header-dropdown{
-        margin-left: 30px !important;
-    }
-    .header-dropdown-menu{
-        width: 130px !important;
-        margin-left: -55px !important;
-       
-    }
-
-    .nav-title,.menu-arrow{
-        display: none !important;
-    }
-
-    .nav-item{
-        margin-bottom: 15px !important;
-    }
-
-    .collapse{
-        width: 250px !important;
-        position: fixed !important;
-        left: 85px !important;
-    }
-
-    .dashboard-content{
-        width: 390px;
-        
-        margin-left: 0px !important;
-        margin-top: -20px !important;
-    }
-    
-    .dashboard-title{
-        
-    }
-
-    .dashboard-title h1{
-        margin-left: 20px;
-    }
-
-    .dashboard-contents{
-        
-    }
-
-    .first-dash-contents{
-   
-        width: 95% !important;
-        margin: auto !important;
-    }
-
-    .employee-status-overview{
-        width: 100% !important;
-    }
-
-    .emp-status-title{
-       margin-left: -15px !important;
-    }
-
-    .emp-status-container{
-       
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        height: 900px !important;
-    }
-
-    .emp-status-container div{
-        width: 340px !important;
-    }
-
-    .emp-status-container div:nth-child(1){
-        background-color: #000080 !important;
-        
-    }
-
-    .emp-status-container div:nth-child(1) input{
-    color: white;
-    font-size: 35px !important;
-    margin-left: 10px !important;
-    margin-top: -5px !important;
-    }
-
-    .emp-status-container div:nth-child(1) label{
-    color: white;
-    margin-left: 10px !important;
-    font-size: 19px !important;
-    }   
-
-    .emp-status-container div:nth-child(1) p{
-    color: white;
-    margin-left: 10px !important;
-    margin-top: 5px !important; 
-    font-size: 19px !important;
-    } 
-
-    .emp-status-container div:nth-child(1) span{
-        font-size: 19px !important;
-        margin-left: 3px !important;
-        color: black !important;
-    }
-
-
-    .emp-status-container div:nth-child(2){
-        background-color: #F3797E !important; 
-    }
-
-    .emp-status-container div:nth-child(2) input{
-    color: white;
-    font-size: 35px !important;
-    margin-left: 10px !important;
-    margin-top: -5px !important;
-    }
-
-    .emp-status-container div:nth-child(2) label{
-    color: white;
-    margin-left: 10px !important;
-    font-size: 19px !important;
-    }   
-    
-    .emp-status-container div:nth-child(2) p{
-    color: white;
-    margin-left: 10px !important;
-    margin-top: 5px !important; 
-    font-size: 19px !important;
-    } 
-
-    .emp-status-container div:nth-child(2) span{
-        font-size: 19px !important;
-        margin-left: 3px !important;
-        color: black !important;
-    }
-
-    .emp-status-container div:nth-child(3){
-        background-color: #4747A1 !important;
-    }
-
-    .emp-status-container div:nth-child(3) input{
-    color: white;
-    font-size: 35px !important;
-    margin-left: 10px !important;
-    margin-top: -5px !important;
-    }
-
-    .emp-status-container div:nth-child(3) label{
-    color: white;
-    margin-left: 10px !important;
-    font-size: 19px !important;
-    }   
-    
-    .emp-status-container div:nth-child(3) p{
-    color: white;
-    margin-left: 10px !important;
-    margin-top: 5px !important; 
-    font-size: 19px !important;
-    } 
-
-    .emp-status-container div:nth-child(3) span{
-        font-size: 19px !important;
-        color: black !important;
-        margin-left: 3px !important;
-    }
-
-    .emp-status-container div:nth-child(4){
-        background-color: #7978E9 !important;
-    }
-
-    .emp-status-container div:nth-child(4) input{
-    color: white;
-    font-size: 35px !important;
-    margin-left: 10px !important;
-    margin-top: -5px !important;
-    }
-
-    .emp-status-container div:nth-child(4) label{
-    color: white;
-    margin-left: 10px !important;
-    font-size: 19px !important;
-    }   
-    
-    .emp-status-container div:nth-child(4) p{
-    color: white;
-    margin-left: 10px !important;
-    margin-top: 5px !important; 
-    font-size: 19px !important;
-    } 
-
-    .emp-status-container div:nth-child(4) .wfh-color{
-        font-size: 19px !important;
-        margin-left: 3px !important;
-        color: black !important;
-    }
-
-    .emp-status-container div:nth-child(5){
-        background-color: #98BDFF !important;
-    }
-    .emp-status-container div:nth-child(5) input{
-    color: white;
-    font-size: 35px !important;
-    margin-left: 10px !important;
-    margin-top: -5px !important;
-    }
-
-    .emp-status-container div:nth-child(5) label{
-    color: white;
-    margin-left: 10px !important;
-    font-size: 19px !important;
-    }   
-    
-    .emp-status-container div:nth-child(5) p{
-    color: white;
-    margin-left: 10px !important;
-    margin-top: 5px !important; 
-    font-size: 19px !important;
-    } 
-
-    .emp-status-container div:nth-child(5) span{
-        font-size: 19px !important;
-        margin-left: 3px !important;
-        color: black !important;
-    }
-
-    .emp-request-list-container{
-        width: 95% !important;
-        
-    }
-
-    .emp-btn-container{
-        width: 100% !important;
-        margin-left: 11px !important; 
-    }
-
-    .emp-request-btn{
-        position: relative !important;
-        display: flex;
-        justify-content: space-between;
-       
-        width: 95% !important;
-        margin:auto !important;
-    }
-
-    /* .emp-request-btn div:nth-child(1){
-        margin-left: 20px !important;
-    } */
-
-    .emp-request-btn div:nth-child(1) p{
-        font-size: 10px !important;
-       
-        height: 25px !important;
-        width: 25px !important;
-    }
-
-    .emp-request-btn div:nth-child(1) div{
-        margin-left: 0px !important;
-    }
-
-    .emp-request-btn div:nth-child(2){
-        margin-top: 5px !important;
-        margin-left: -3px !important;
-    }
-
-    .emp-request-btn div:nth-child(3){
-        margin-top: 5px !important;
-    
-    }
-
-    .emp-request-btn div:nth-child(4){
-        margin-top: 5px !important;
-        margin-right: 5px !important;
-    }
-
-    .emp-request-btn div button{
-        font-size: 13px !important;
-    }
-
-    .emp-request-table{
-        width: 100% !important;
-        margin-left: 11px !important;
-    }
-
-    .dash
-
-    .dash-responsive-btn{
-        margin-top: 16px !important;
-        display: block !important;
-        margin-right: 40px !important;
-    }
-
-    .request-list-dropdown {
-        display: none;
-        margin-top: 10px;
-        background-color: #f4f4f4 !important;
-        position: absolute !important;
-        right: -10px !important;
-        bottom: -115px !important;
-        width: 130px !important;
-        border-radius: 7px !important;
-        padding: 10px !important;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.17);
-     }
-
-     .request-list-dropdown button{
-        font-size: 18px !important;
-        font-weight: 500 !important;
-     }
-     
-    .emp-request-btn .fa-chevron-down {
-        transition: transform 0.3s;
-    }
-
-    .emp-request-btn.active .fa-chevron-down {
-        transform: rotate(180deg);
-    }
-
-    .request-table{
-       
-        margin-left: 10px !important;
-        width: 95% !important; 
-    }
-
-    /* second content */
-    .second-dash-contents{
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-        transition: ease-in-out 1s;
-        margin-top: 20px !important;
-        margin-left: 10px !important;
-        width: 95% !important;
-    }
-
-    .announcement-container{
-        
-        width: 100% !important;
-    }
-
-    .announce-title{
-        width: 95% !important;
-        margin: auto !important;
-    }
-
-    .announce-content{
-        width: 100% !important;
-        margin: auto !important;
-        margin-top: 20px !important;
-    }
-
-    .announce-content button{
-        font-size: 16px !important;
-    }
-
-    .announce-content h4{
-        font-size: 26px !important;
-    }
-
-    .announce-content p{
-        font-size: 14px !important;
-    }
-
-    .event-container{
-        margin-bottom: 25px !important;
-        width: 100% !important;
-        margin-left: 0px !important;
-    }
-    .event-title{
-        width: 95% !important;
-        margin: auto !important;
-    }
-    .event-content{
-        width: 95% !important;
-        margin: auto !important;
-    }
-
-    .header-dropdown-menu a{
-        margin-left: 30px !important;
-        margin-bottom: 5px !important;
-    }
-   
-   
-}   
-  
-
-</style> 
 
 <!------------------------------------Message alert------------------------------------------------->
 <?php
@@ -1259,33 +131,6 @@ font-size: 19px !important;
         // }
 ?>
 <!------------------------------------End Message alert------------------------------------------------->
-
-<!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <form action="actions/Announce/download.php" method="POST">
-      <div class="modal-body">
-        <input type="hidden" name="table_id" id="id_table">
-        <input type="hidden" name="table_name" id="name_table">
-        <h3>Are you sure you want download the PDF File?</h3>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" name="yes_download" class="btn btn-primary">Yes</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      </div>
-      </form>
-
-    </div>
-  </div>
-</div>
-<!---------------------------------------Download Modal End Here --------------------------------------->
-
     <?php 
     $servername = "localhost";
     $username = "root";
@@ -1318,7 +163,61 @@ font-size: 19px !important;
 
 
 <!-------------------------------------------Modal of Announce Start Here--------------------------------------------->
-</div><div class="modal fade" id="announcement_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="announcement_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Summary of Announcement</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+       <form action="Data Controller/Announcement/insert_announce.php" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3" style="display:none;">
+                        <label for="Select_emp" class="form-label">Name</label>
+                            <?php
+                                include 'config.php'; 
+                                @$employeeid = $_SESSION['empid'];
+                                ?>
+                                <input type="text" class="form-control" name="name_emp" value="<?php 
+                                    error_reporting(E_ERROR | E_PARSE);
+                                    if($employeeid == NULL){
+                                        
+                                        echo '0909090909';
+                                    }else{
+                                        echo $employeeid;
+                                    }?>" id="empid" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="company" class="form-label">Title</label>
+                            <input type="text" name="announce_title" class="form-control" id="announce_title_id" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date_announcement" class="form-label">Date</label>
+                            <input type="date" name="announce_date" class="form-control" id="announce_date_id" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="text_description" class="form-label">Description</label>
+                            <textarea class="form-control" name="announce_description" id="announce_description_id"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="text_description" class="form-label">File Attachment</label>
+                            <input type="file" name="file_upload" class="form-control" id="inputfile" >
+                        </div>
+
+                    </div><!--Modal body Close tag--->
+                    <div class="modal-footer">
+                <button type="submit" name="add_announcement" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         </form>
+
+      </div>
+    </div>
+  </div>
+</div><div class="modal fade" id="announcement_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -1396,6 +295,7 @@ font-size: 19px !important;
                                 <th>Title</th>
                                 <th>Details</th>
                                 <th>Attachment</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -1432,6 +332,7 @@ font-size: 19px !important;
                                 <?php else: ?>
                                 <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                 <?php endif; ?>
+                               
                             </tr>
                         </tbody>
                         <?php
@@ -1448,7 +349,31 @@ font-size: 19px !important;
 </div>
 <!-------------------------------------------Modal of View Summary End Here--------------------------------------------->
     
+<!---------------------------------------Download Modal Start Here -------------------------------------->
+<div class="modal fade" id="download" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
+      <form action="actions/Announcement/download.php" method="POST">
+      <div class="modal-body">
+        <input type="hidden" name="table_id" id="id_table">
+        <input type="hidden" name="table_name" id="name_table">
+        <h3>Are you sure you want download the PDF File?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="yes_download" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!---------------------------------------Download Modal End Here --------------------------------------->
 
 
     <div class="dashboard-container" id="dashboard-container">
@@ -1542,7 +467,7 @@ font-size: 19px !important;
                     <div class="announcement-container">
                         <div class="announce-title">
                             <h3 class="mb-0 d-inline-block mt-2 ml-2">Announcement</h3>
-                            <i class="mdi mdi-arrow-down-drop-circle float-right mt-2 mr-2" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: blue;"></i>
+                                <i class="mdi mdi-arrow-down-drop-circle float-right mt-2 mr-2 dropdown-icon" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#announcement_modal" style="cursor: pointer;">Add Announcement</a>
@@ -1612,7 +537,7 @@ font-size: 19px !important;
                                 <p><span class="mdi mdi-calendar-check" style="margin-right:10px;"></span> Events</p>
                             </div>
                             <div>
-                                <i class="mdi mdi-arrow-down-drop-circle float-right mt-2 mr-2" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: blue"></i>
+                                <i class="mdi mdi-arrow-down-drop-circle float-right mt-2 mr-2"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black"></i>
                             </div>
                         </div>
                         <div class="event-content">
@@ -1623,13 +548,18 @@ font-size: 19px !important;
             </div>
         </div>
     </div>
+    
 
 
-<!------------------------------------Script para sa download modal------------------------------------------------->
+    
+
+
+
+<!------------------------------------Script para lumabas ang download modal------------------------------------------------->
 <script>
      $(document).ready(function(){
                $('.downloadbtn').on('click', function(){
-                 $('#download').modal('show');
+                $('#download').modal('show');
                       $tr = $(this).closest('tr');
 
                     var data = $tr.children("td").map(function () {
@@ -1641,7 +571,7 @@ font-size: 19px !important;
                });
              });
 </script>
-<!---------------------------------End ng Script para download modal------------------------------------------>
+<!---------------------------------End ng Script para lumabas ang download modal------------------------------------------>
 
 <!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>
 <script>
@@ -1654,7 +584,8 @@ font-size: 19px !important;
     }
   });
 </script>
-<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->    
+
+<!--------------------End ng Script para lumabas ang Script para lumabas ang warning message na PDF File lang inaallow--------------------->
         
 <!------------------------Script sa function ng Previous and Next Button--------------------------------------->
 <script>

@@ -25,7 +25,7 @@
     
         if(count($_POST) > 0){
             mysqli_query($conn, "UPDATE schedule_tb
-                                 SET schedule_name='".$_POST['schedule_name']."', monday='".$_POST['monday']."', mon_timein='".$_POST['mon_timein']."', mon_timeout='".$_POST['mon_timeout']."', mon_wfh='".$_POST['mon_wfh']."', tuesday='".$_POST['tuesday']."', tues_timein='".$_POST['tues_timein']."', tues_timeout='".$_POST['tues_timeout']."', tues_wfh='".$_POST['tues_wfh']."', wednesday='".$_POST['wednesday']."', wed_timein='".$_POST['wed_timein']."', wed_timeout='".$_POST['wed_timeout']."', wed_wfh='".$_POST['wed_wfh']."', thursday='".$_POST['thursday']."', thurs_timein='".$_POST['thurs_timein']."', thurs_timeout='".$_POST['thurs_timeout']."', thurs_wfh='".$_POST['thurs_wfh']."', friday='".$_POST['friday']."', fri_timein='".$_POST['fri_timein']."', fri_timeout='".$_POST['fri_timeout']."', fri_wfh='".$_POST['fri_wfh']."', saturday='".$_POST['saturday']."', sat_timein='".$_POST['sat_timein']."', sat_timeout='".$_POST['sat_timeout']."', sat_wfh='".$_POST['sat_wfh']."', sunday='".$_POST['sunday']."', sun_timein='".$_POST['sun_timein']."', sun_timeout='".$_POST['sun_timeout']."', sun_wfh='".$_POST['sun_wfh']."', flexible='".$_POST['flexible']."', grace_period='".$_POST['grace_period']."',  sched_ot='".$_POST['sched_ot']."', sched_holiday='".$_POST['sched_holiday']."'
+                                 SET schedule_name='".$_POST['schedule_name']."', monday='".$_POST['monday']."', mon_timein='".$_POST['mon_timein']."', mon_timeout='".$_POST['mon_timeout']."', mon_wfh='".$_POST['mon_wfh']."', tuesday='".$_POST['tuesday']."', tues_timein='".$_POST['tues_timein']."', tues_timeout='".$_POST['tues_timeout']."', tues_wfh='".$_POST['tues_wfh']."', wednesday='".$_POST['wednesday']."', wed_timein='".$_POST['wed_timein']."', wed_timeout='".$_POST['wed_timeout']."', wed_wfh='".$_POST['wed_wfh']."', thursday='".$_POST['thursday']."', thurs_timein='".$_POST['thurs_timein']."', thurs_timeout='".$_POST['thurs_timeout']."', thurs_wfh='".$_POST['thurs_wfh']."', friday='".$_POST['friday']."', fri_timein='".$_POST['fri_timein']."', fri_timeout='".$_POST['fri_timeout']."', fri_wfh='".$_POST['fri_wfh']."', saturday='".$_POST['saturday']."', sat_timein='".$_POST['sat_timein']."', sat_timeout='".$_POST['sat_timeout']."', sat_wfh='".$_POST['sat_wfh']."', sunday='".$_POST['sunday']."', sun_timein='".$_POST['sun_timein']."', sun_timeout='".$_POST['sun_timeout']."', sun_wfh='".$_POST['sun_wfh']."', flexible='".$_POST['flexible']."', grace_period='".$_POST['grace_period']."',  sched_ot='".$_POST['sched_ot']."', sched_holiday='".$_POST['sched_holiday']."', restday='".$_POST['restday']."'
                                  WHERE id='".$_POST['id']."'");
             header ("Location: Schedules.php");
         }
@@ -70,47 +70,60 @@
         <?php include("header.php")?>
     </header>
 
+    <style>
+        body a{
+            text-decoration: none;
+
+        }
+
+        .modal-content{
+        width: 700px !important;
+        height: 600px !important;
+        position: absolute !important;
+        top: 100px !important;
+        right: -230px !important;
+       
+    }
+    </style>
 
 
 
-    <button id="schedFormBtn" class="schedFormBtn" > Assign to Employee</button>
+    <button id="schedFormBtn" class="schedFormBtn"  type="button" data-bs-toggle="modal" data-bs-target="#schedModal" > Assign to Employee</button>
+   
     <form action="Data Controller/Schedules/empSchedule.php" method="POST">
-        <div class="schedule-modal" id="schedFormModal">
-            <div class="schedule-modal-container"  id="schedFormModal">
-                    <div class="schedule-modal-content">
-                        <div class="sched-modal-title">
-                            <h1>Change Schedule</h1>
-                            <div> </div>
-                        </div>
-                        <div class="schedule-select">
-                            <div>
-                            <?php
+        <div class="modal fade" id="schedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="title" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="title">Change Schedule</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                        <?php
                                 $server = "localhost";
                                 $user = "root";
                                 $pass ="";
                                 $database = "hris_db";
 
                                 $conn = mysqli_connect($server, $user, $pass, $database);
-                                $sql = "SELECT department_name FROM employee_tb";
+                                $sql = "SELECT col_deptname FROM dept_tb";
                                 $result = mysqli_query($conn, $sql);
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='".$row['department_name']."'>" .$row['department_name'].  "</option>";
+                                    $options .= "<option value='".$row['col_deptname']."'>" .$row['col_deptname'].  "</option>";
                                 }
                                 ?>
 
                                 
                                 <label for="depatment">Select Department</label><br>
-                                <select name="" id="">
+                                <select name="" id="" style="height: 50px; width: 630px; padding: 10px">
                                 <option value disabled selected>Select Department</option>
                                     <?php echo $options; ?>
                                 </select>
-                            
-                            </div>
-                        <div>
-
-                            <?php
+                        </div>
+                        <div class="mb-3">
+                        <?php
                                 $server = "localhost";
                                 $user = "root";
                                 $pass ="";
@@ -122,21 +135,17 @@
 
                                 $options = "";
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $options .= "<option value='".$row['empid']."'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
+                                    $options .= "<option value='".$row['empid'] . "'>". $row['empid'] . " ". " - ". " " .$row['fname']. " ".$row['lname']. "</option>";
                                 }
                                 ?>
 
                                 <label for="emp">Select Employee</label><br>
-                                <select name="empid" id="employee-dd">
-                                <option value disabled selected>Select Employee</option>
-                                    <?php echo $options; ?>
+                                <select name="empid" id="employee-dd"  style="width: 98%; padding: 10px; font-size: 16px; background-color: white; border: 1px solid gray; height: 50px">
+                                <?php echo $options; ?>
                                 </select>
-
-                            </div>
-                        </div>
-                        <div class="sched-type">
-                            <div>
-                            <?php
+                        </div> 
+                        <div class="mb-3">
+                        <?php
                                     $server = "localhost";
                                     $user = "root";
                                     $pass ="";
@@ -148,46 +157,46 @@
 
                                     $options = "";
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $options .= "<option value='".$row['schedule_name']."'>" .$row['schedule_name']."</option>";
+                                        $options .= "<option value='".$row['schedule_name']."'>".$row['schedule_name']."</option>";
                                     }
                                     ?>
 
                                 <label for="schedule_name">Schedule Type</label><br>
-                                <select name="schedule_name" id="">
-                                <option value disabled selected>Select Schedule Type</option>
+                                <select name="schedule_name" id="" style="height: 50px; width: 630px; padding: 10px">
+                                
                                     <?php echo $options; ?>
                                 </select>
-                                </div>   
-
                         </div>
-                        <div class="sched-modal-date">
+                        <div class="" style="display: flex; ">
                             <div>
                                 <label for="from">From</label><br>
-                                <input type="date" name="sched_from" id="" >
+                                <input type="date" name="sched_from" id="" style="width: 300px; height: 50px; margin-right: 30px; border: black 1px solid; padding: 10px;">
                             </div>
                             <div>
                                 <label for="from">To</label><br>
-                                <input type="date" name="sched_to" id="">   
+                                <input type="date" name="sched_to" id=""  style="width: 300px ; height: 50px; border: black 1px solid; padding: 10px;">   
                             </div>
                         </div>
-
-                        <div class="sched-modal-btn">
+                        
+                        <div class="sched-modal-btn mt-5">
                             <div>
 
                             </div>
                             <div>
-                                <input value="Cancel" style="outline:none; cursor:pointer;" class="schedFormClose" id="schedFormClose">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border:none; background-color: inherit; font-size: 23px;">Close</button>
                                 <input type="submit" value="Submit"  style="outline:none; cursor:pointer;">
                             </div>
                         </div>
+                            
                     </div>
+                </div>
             </div>
         </div>
     </form>
 
     
     <form action="" method="POST">
-       <div class="scheduleform-container">
+       <div class="scheduleform-container" style="background-color: #fff">
             <div class="schedulelist-container">
                 <div class="schedulelist-title">
                     <h1>Schedule List</h1>
@@ -222,9 +231,11 @@
                     <div class="scheduletable-buttons">
                         <div class="scheduleBtn-crud">
                             <!-- <button style="color:white;" type="submit"><a href="" style="color:white;">Add</a></button> -->
-                            <input type="submit" value="Update" name="update" class="btn btn-success"  >
-                            <button class="btn btn-danger"><a href="actions/Schedules/delete.php?id=<?php echo $schedrow['id'] ?>" style="color:white; text-decoration: none;">Delete</a></button>
-                            <button class="btn btn-primary"><a href="scheduleForm.php" style="color:white; text-decoration: none;">Create</a></button>
+                            <input type="submit" value="Update" name="update" class="btn btn-success" style="color: white;" >
+                            <!-- <button class="btn btn-danger" style="background-color: black; border: black 1px solid;"><a href="actions/Schedules/delete.php?id=<?php //echo $schedrow['id'] ?>" style="color:white; text-decoration: none;">Delete</a></button>
+                            <button class="btn btn-primary"><a href="scheduleForm.php" style="color:white; text-decoration: none;">Create New</a></button> -->
+                            <a class="btn btn-primary" href="actions/Schedules/delete.php?id=<?php echo $schedrow['id'] ?>" style="color:white; text-decoration: none;">Delete</a>
+                            <a href="scheduleForm.php" class="btn btn-dark" style="color:white; text-decoration: none;">Create New</a>
                         </div>
                     </div>
 
@@ -243,45 +254,46 @@
                         </thead>
                         <tbody>
                             <tr>
+                            <input type="hidden" name="restday" id="restdayInput" value="<?php echo @$row['restday'] ?>" readonly>
                                 <input type="hidden" name="id" value="<?php echo $schedrow['id']; ?>">
                                 <td>
-                                <input type="checkbox" class="checkbox" name="monday" id="checkbox1" onclick="toggleInputs(this)" value="Monday" <?php if ($schedrow['monday']){ echo "checked"; } ?>> Monday</td>
+                                <input type="checkbox" class="checkbox" name="monday" id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)" value="Monday" <?php if ($schedrow['monday']){ echo "checked"; } ?>> Monday</td>
                                 <td><input name="mon_timein" type="time" class="time-input" id="time1"  value="<?php if(isset($schedrow['mon_timein'])&& !empty($schedrow['mon_timein'])) { echo $schedrow['mon_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="mon_timeout" type="time" class="time-input" id="time2"  value="<?php if(isset($schedrow['mon_timeout'])&& !empty($schedrow['mon_timeout'])) { echo $schedrow['mon_timeout']; } else { echo 'No data'; }?>"></td>
                                 <td><input name ="mon_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['mon_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="tuesday"  id="checkbox1" onclick="toggleInputs(this)" value="Tuesday" <?php if ($schedrow['tuesday']){ echo "checked"; } ?>> Tuesday</td>
+                                <td><input type="checkbox" class="checkbox" name="tuesday"  id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)" value="Tuesday" <?php if ($schedrow['tuesday']){ echo "checked"; } ?>> Tuesday</td>
                                 <td><input name="tues_timein" type="time" class="time-input" id="time3"  value="<?php if(isset($schedrow['tues_timein'])&& !empty($schedrow['tues_timein'])) { echo $schedrow['tues_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="tues_timeout" type="time" class="time-input" id="time4"  value="<?php if(isset($schedrow['tues_timeout'])&& !empty($schedrow['tues_timeout'])) { echo $schedrow['tues_timeout']; } else {echo 'No data'; }?>"></td>
                                 <td><input name ="tues_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['tues_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="wednesday"  id="checkbox1" onclick="toggleInputs(this)" value="Wednesday" <?php if ($schedrow['wednesday']){ echo "checked"; } ?>> Wednesday</td>
+                                <td><input type="checkbox" class="checkbox" name="wednesday"  id="checkbox1" onchange="updateRestday()" onclick="toggleInputs(this)" value="Wednesday" <?php if ($schedrow['wednesday']){ echo "checked"; } ?>> Wednesday</td>
                                 <td><input name="wed_timein" type="time" class="time-input" id="time5"  value="<?php if(isset($schedrow['wed_timein'])&& !empty($schedrow['wed_timein'])) { echo $schedrow['wed_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="wed_timeout" type="time" class="time-input" id="time6"  value="<?php if(isset($schedrow['wed_timeout'])&& !empty($schedrow['wed_timeout'])) { echo $schedrow['wed_timeout']; } else {echo 'No data'; }?>"></td>
                                 <td><input name ="wed_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['wed_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="thursday" value="Thursday" <?php if ($schedrow['thursday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)">  Thursday </td>
+                                <td><input type="checkbox" class="checkbox" name="thursday" value="Thursday" onchange="updateRestday()" <?php if ($schedrow['thursday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)">  Thursday </td>
                                 <td><input name="thurs_timein" type="time" class="time-input" id="time7"  value="<?php if(isset($schedrow['thurs_timein'])&& !empty($schedrow['thurs_timein'])) { echo $schedrow['thurs_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="thurs_timeout" type="time" class="time-input" id="time8" value="<?php if(isset($schedrow['thurs_timeout'])&& !empty($schedrow['thurs_timeout'])) { echo $schedrow['thurs_timeout']; } else {echo 'No data'; }?>"></td>
                                 <td><input name ="thurs_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['thurs_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                                <td><input type="checkbox" class="checkbox" name="friday" value="Friday" <?php if ($schedrow['friday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)"> Friday</td>
+                                <td><input type="checkbox" class="checkbox" name="friday" value="Friday" onchange="updateRestday()" <?php if ($schedrow['friday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)"> Friday</td>
                                 <td><input name="fri_timein" type="time" class="time-input" id="time9"  value="<?php if(isset($schedrow['fri_timein'])&& !empty($schedrow['fri_timein'])) { echo $schedrow['fri_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="fri_timeout" type="time" class="time-input" id="time10"  value="<?php if(isset($schedrow['fri_timeout'])&& !empty($schedrow['fri_timeout'])) { echo $schedrow['fri_timeout']; } else {echo 'No data'; }?>"></td>
                                 <td><input name ="fri_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['fri_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                            <td><input type="checkbox" class="checkbox" name="saturday" value="Saturday" <?php if ($schedrow['saturday']){ echo "checked"; } ?>id="checkbox1" onclick="toggleInputs(this)"> Saturday</td>
+                            <td><input type="checkbox" class="checkbox" name="saturday" value="Saturday" onchange="updateRestday()" <?php if ($schedrow['saturday']){ echo "checked"; } ?>id="checkbox1" onclick="toggleInputs(this)"> Saturday</td>
                             <td><input name="sat_timein" type="time" class="time-input" id="time11"  value="<?php if(isset($schedrow['sat_timein'])&& !empty($schedrow['sat_timein'])) { echo $schedrow['sat_timein']; } else {echo 'No data'; }?>"></td>
                                 <td><input name="sat_timeout" type="time" class="time-input" id="time12"  value="<?php if(isset($schedrow['sat_timeout'])&& !empty($schedrow['sat_timeout'])) { echo $schedrow['sat_timeout']; } else {echo 'No data'; }?>"></td>
                                 <td><input name ="sat_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['sat_wfh']){ echo "checked"; } ?>></td>
                             </tr>
                             <tr>
-                            <td><input type="checkbox" class="checkbox" name="sunday" value="Sunday" <?php if ($schedrow['sunday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)" > Sunday</td>
+                            <td><input type="checkbox" class="checkbox" name="sunday" value="Sunday" onchange="updateRestday()" <?php if ($schedrow['sunday']){ echo "checked"; } ?> id="checkbox1" onclick="toggleInputs(this)" > Sunday</td>
                             <td><input name="sun_timein" type="time" class="time-input" id="time13"  value="<?php  if(isset($schedrow['sun_timein'])&& !empty($schedrow['sun_timein'])) { echo $schedrow['sun_timein']; } else echo 'No data';?>"></td>
                                 <td><input name="sun_timeout" type="time" class="time-input" id="time14"  value="<?php if(isset($schedrow['sun_timeout'])&& !empty($schedrow['sun_timeout'])) { echo $schedrow['sun_timeout']; } else {echo 'No data'; }?>"></td>
                                 <td><input name ="sun_wfh" type="checkbox" class="checkbox-lg" value="WFH" <?php if ($schedrow['sun_wfh']){ echo "checked"; } ?>></td>
@@ -333,14 +345,42 @@
 
 
     
+       <script>
+    function updateRestday() {
+  var checkboxes = document.getElementsByClassName('checkbox');
+  var restdayInput = document.getElementById('restdayInput');
+  var restdays = [];
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (!checkboxes[i].checked) {
+      restdays.push(checkboxes[i].value);
+    }
+  }
+
+  restdayInput.value = restdays.join(', ');
+}
+</script>
+
+
+    
 <script>
 function toggleInputs(checkbox) {
   var row = checkbox.parentNode.parentNode;
   var inputs = row.getElementsByTagName("input");
-  for (var i = 1; i < inputs.length; i++) {
-    inputs[i].disabled = !checkbox.checked;
+
+  if (checkbox.checked) {
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].disabled = false;
+    }
+  } else {
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i] !== checkbox) {
+        inputs[i].disabled = true;
+      }
+    }
   }
 }
+
 
 const checkbox = document.getElementById('enable-number-input');
 const checkbox2 = document.getElementById('enable-number-input2');

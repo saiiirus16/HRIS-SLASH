@@ -92,7 +92,7 @@ if(!isset($_SESSION['username'])){
 </style>
 
 <!---------------------------------------View Modal Start Here -------------------------------------->
-<div class="modal fade" id="viewmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="viewmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
   <div class="modal-dialog">
     <div class="modal-content">
@@ -114,7 +114,7 @@ if(!isset($_SESSION['username'])){
 <!---------------------------------------View Modal End Here --------------------------------------->
 
 <!---------------------------------------Download Modal Start Here -------------------------------------->
-<div class="modal fade" id="download" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="download" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -160,7 +160,7 @@ if(!isset($_SESSION['username'])){
 <?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>';
