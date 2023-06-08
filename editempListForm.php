@@ -15,7 +15,7 @@
    }
 
     
-   $server = "localhost";
+$server = "localhost";
 $user = "root";
 $pass = "";
 $database = "hris_db";
@@ -49,7 +49,11 @@ if(count($_POST) > 0){
     if (isset($_POST['emp_img_url'])) {
         $emp_img_url = ", emp_img_url='".$_POST['emp_img_url']."'";
     }
-    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',empposition='".$_POST['empposition']."', role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
+
+    $dailyRate_update = $_POST['empbsalary'] / 22;
+    $dailyRate_update = number_format($dailyRate_update, 2);
+
+    mysqli_query($conn, "UPDATE employee_tb SET fname='".$_POST['fname']."',lname='".$_POST['lname']."',contact='".$_POST['contact']."',cstatus='".$_POST['cstatus']."',gender='".$_POST['gender']."',empdob='".$_POST['empdob']."',empsss='".$_POST['empsss']."',emptin='".$_POST['emptin']."',emppagibig='".$_POST['emppagibig']."',empphilhealth='".$_POST['empphilhealth']."',empbranch='".$_POST['empbranch']."',department_name='".$_POST['department_name']."',empbsalary='".$_POST['empbsalary']."', drate='". $dailyRate_update ."', otrate='".$_POST['otrate']."', empdate_hired='".$_POST['empdate_hired']."',emptranspo='".$_POST['emptranspo']."',empmeal='".$_POST['empmeal']."',empinternet='".$_POST['empinternet']."',empposition='".$_POST['empposition']."', role='".$_POST['role']."',email='".$_POST['email']."', sss_amount='".$_POST['sss_amount']."', tin_amount='".$_POST['tin_amount']."', pagibig_amount='".$_POST['pagibig_amount']."', philhealth_amount='".$_POST['philhealth_amount']."', classification='".$_POST['classification']."', bank_name='".$_POST['bank_name']."', bank_number='".$_POST['bank_number']."'".$emp_img_url.", status='".$_POST['status']."'
     WHERE id ='".$_POST['id']."'");
     header ("Location: EmployeeList.php");
 
