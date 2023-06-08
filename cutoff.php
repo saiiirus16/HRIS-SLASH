@@ -334,10 +334,9 @@ if(!isset($_SESSION['username'])){
 
     <div class="tab-content">
         <form action="gnrate_payroll.php" method="post">
-            <div class="tab-pane" id="Standard">
-            
+        <div class="tab-pane" id="Standard">
             <div class="scroll" style="max-height:500px; overflow: scroll;">
-            <?php 
+                <?php 
                 include 'config.php';
                 // Fetch data from the MySQL table
                 $sql = "SELECT * FROM cutoff_tb WHERE col_type ='Standard'";
@@ -379,33 +378,35 @@ if(!isset($_SESSION['username'])){
                 }
                 // Close connection
                 mysqli_close($conn);  
-            ?>
+                ?>
+            </div>
         </div>
-    </div>
 </form>
+
 
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form action="actions/Payroll/delete.php" method="post">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog">
+        <form action="actions/Payroll/delete.php" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="name_CutoffID" id="modal-input">
+                    Are you sure you want to delete this cutoff?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" name="btn_delete_modal"  class="btn btn-primary">Confirm</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <input type="hidden" name="name_CutoffID" id="modal-input">
-                Are you sure you want to delete this cutoff?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" name="btn_delete_modal"  class="btn btn-primary">Confirm</button>
-            </div>
-        </div>
-    </form>
-  </div>
+        </form>
+    </div>
 </div>
+
 
 
 <!-- Modal -->
@@ -566,6 +567,24 @@ $(document).ready(function() {
 
 </script>
 
+
+<!-- Para sa pag kuha sa ID ng cuttoff para maka delete at add ng employee sa cutofff -->
+<script>
+    $(document).ready(function() {
+  $('.btn-delete').click(function() {
+      var id = $(this).data('id');
+      $('#modal-input').val(id);
+  });
+});
+
+$(document).ready(function() {
+  $('.btn-addEmp').click(function() {
+      var id = $(this).data('id1');
+      $('#ID_AddEMp_CutoffID').val(id);
+  });
+});
+</script>
+<!-- Para sa pag kuha sa ID ng cuttoff para maka delete at add ng employee sa cutofff  END--> 
   
     
 <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>

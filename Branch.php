@@ -70,7 +70,8 @@ include 'header.php';
     }
 
     .card-body{
-      box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17);
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17);
+      border-radius: 25px;
     }
 
     .content-wrapper{
@@ -244,9 +245,9 @@ include 'header.php';
 <!---------------------------------------------------END OF DELETE BRANCH INFO MODAL------------------------------------------------------------------->
 
 
-<div class="main-panel" style="width: 100%; height: 100vh; position: absolute; top: 50px ; margin-left: 15%;">
+<div class="main-panel" style="width: 100%; height: 100vh; position: absolute; top: 75px; margin-left: 16.8%;">
         <div class="content-wrapper mt-5" >
-          <div class="card" style="width:1550px; height: 780px;">
+          <div class="card" style="width:1500px; height: 780px;">
             <div class="card-body">
             <div class="row">
                         <div class="col-6">

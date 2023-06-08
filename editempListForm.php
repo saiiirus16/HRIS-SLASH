@@ -157,6 +157,20 @@ else
        .deduction-move{
 
        }
+       .multiselect-dropdown{
+           width: 420px !important;
+           height: 50px !important;
+           font-size: 18px  !important;
+       }
+       .multiselect-dropdown-list{
+            display: flex !important;
+            flex-direction: column !important;
+       }
+       .multiselect-dropdown-list input{
+        height: 20px !important;
+        width: 20px !important;
+       }
+       
     </style>
 
         <?php 
@@ -236,7 +250,7 @@ else
                                         <!-- Set hidden input value to image URL with file extension -->
                                         <input type="hidden" name="emp_img_url" value="<?php echo $image_url; ?>">
                                     </div>
-                                    <div class="emp-info">
+                                    <div class="emp-info" style="margin-top: 10px;">
                                         <h1><?php echo $row['fname']; ?> <?php echo $row['lname'];?></h1>
                                         
                                         <div class="emp-stats" style="">
@@ -276,7 +290,7 @@ else
                         <div class="employeeList-government-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Government Information</h1>
-                                <button type="button"  data-bs-toggle="modal" data-bs-target="#governModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px; border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
+                                <button type="button"  data-bs-toggle="modal" data-bs-target="#governModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px; border:none; background-color:inherit; outline:none; font-size: 30px;"> </button>
                             </div> 
                             <div class="emp-govern-first-container">
                                 <div class="gov-sss" style="display:flex">
@@ -332,21 +346,22 @@ else
                         <div class="emp-allowance-container">
                             <div class="emp-title" style="display:flex; flex-direction:space-row; align-items: center; justify-content:space-between; width: 1440px;">
                                 <h1>Employee Allowance</h1>
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#allowanceModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px; border:none; background-color:inherit; outline:none; font-size: 20px;"> </button>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#allowanceModal" id="modal-update" id="modal-update" class="fa-light fa-plus" style="color: #000000; cursor: pointer; margin-right: 20px; font-size: 20px; border:none; background-color:inherit; outline:none; font-size: 30px;"> </button>
 
                             </div>
                             <div class="emp-allowance-first-container">
                                 <div class="allowance-transpo">
                                     <label for="emptranspo">Transportation</label><br>
-                                        <input type="text" name="emptranspo" placeholder="0.00" value="<?php echo $row['emptranspo']; ?>" style="border: black 1px solid;">
+                                        <input type="text" name="emptranspo" placeholder="0.00" value="<?php echo $row['emptranspo']; ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" style="border: black 1px solid;">
+                                        
                                 </div>
                                 <div class="allowance-meal">
                                     <label for="empmeal">Meal Allowance</label><br>
-                                        <input type="text" name="empmeal" placeholder="0.00" value="<?php echo $row['empmeal'] ?>" style="border: black 1px solid;"> 
+                                        <input type="text" name="empmeal" placeholder="0.00" value="<?php echo $row['empmeal'] ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" style="border: black 1px solid;"> 
                                 </div>
                                 <div class="allowance-internet">
                                     <label for="empinternet">Internet Allowance</label><br>
-                                        <input type="text" name="empinternet" placeholder="0.00" value="<?php echo $row['empinternet'] ?>" style="border: black 1px solid;">  
+                                        <input type="text" name="empinternet" placeholder="0.00" value="<?php echo $row['empinternet'] ?>" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" style="border: black 1px solid;">  
                                 </div>
                             </div>
                         </div>
@@ -442,11 +457,13 @@ else
                                 </div>
                                 <div class="empInfo-salary">
                                     <label for="empbsalary">Basic Salary</label><br>
-                                        <input type="number" name="empbsalary" id="" placeholder="Basic Salary" value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>" style="border: black 1px solid;">
+                                        
+                                        <input type="text"  name="empbsalary"  value="<?php if(isset($row['empbsalary'])){ echo $row['empbsalary'];} else{ echo 'No Data.'; } ?>" id="numberInput" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 8);" style="border: black 1px solid;">
                                 </div>
                                 <div class="empInfo-otrate">
                                     <label for="otrate">OT Rate</label><br>
-                                        <input type="number" name="otrate" id="" placeholder="OT Rate" value="<?php echo $row['otrate']?>" style="border: black 1px solid;">
+                                        
+                                        <input type="text"  name="otrate" placeholder="OT Rate" value="<?php echo $row['otrate']?>" id="numberInput" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 8);" style="border: black 1px solid;">
                                 </div>
                                 <div class="empInfo-approver">
                                   <?php
@@ -512,7 +529,7 @@ else
 
                                 <div class="worksched-restday">
                                     <label for="restday">Rest Day</label><br>
-                                    <input type="text"  id="" placeholder="Rest Day" value="<?php echo !empty($restdayRow['restday']) ? $restdayRow['restday'] : 'No rest day'; ?>" style="border: black 1px solid;">
+                                    <input type="text"  id="" placeholder="Rest Day" value="<?php echo !empty($restdayRow['restday']) ? $restdayRow['restday'] : 'No rest day'; ?>" style="border: black 1px solid;" readonly>
 
                                 </div>
                                 <div class="worksched-scedule">
@@ -546,11 +563,11 @@ else
                             <div class="emp-payroll-first-container">
                                 <div class="payroll-bank-name">
                                     <label for="bank_name">Bank Name</label><br>
-                                    <input type="text" name="bank_name" id="" value="<?php if(isset($row['bank_name'])&& !empty($row['bank_name'])) { echo $row['bank_name']; } else { echo 'n/a'; }?>" style="border: black 1px solid;">
+                                    <input type="text" name="bank_name" id="" value="<?php echo $row['bank_name']?>" placeholder="N/A" style="border: black 1px solid;">
                                 </div>
                                 <div class="payroll-bank_no">
                                     <label for="bank_number">Bank Account Number</label><br>
-                                    <input type="text" name="bank_number" id=""  value="<?php if(isset($row['bank_number'])&& !empty($row['bank_number'])) { echo $row['bank_number']; } else { echo 'n/a'; }?>" style="border: black 1px solid;">
+                                    <input type="text" name="bank_number" id=""  value="<?php echo $row['bank_number']?>" placeholder="N/A" style="border: black 1px solid;">
                                 </div>
                             </div>
                         </div>
@@ -590,7 +607,7 @@ else
                         <script>
                             $(document).ready(function(){
 
-                                var html = '<tr><td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"style="margin-top: 10px; border: black 1px solid;"></td><td><input type="text" name="govern_amount[]" id="inputBox" class="emp-amount form-control" placeholder="Amount" oninput="validateInput(this)" style="margin-top: 10px; border: black 1px solid;"></td><td><input type="button" value="Remove" name="id_emp" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
+                                var html = '<tr><td><input required type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description"style="margin-top: 10px; border: black 1px solid;"></td><td><input required type="text" name="govern_amount[]" id="inputBox" class="emp-amount form-control" placeholder="Amount" oninput="validateInput(this)" style="margin-top: 10px; border: black 1px solid;"></td><td><input type="button" value="Remove" name="id_emp" id="empRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
 
                                 var max = 5;
                                 var x = 1;
@@ -628,8 +645,8 @@ else
                                         <th></th>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description" style="border: black 1px solid;"></td>
-                                        <td><input type="text" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" style="border: black 1px solid;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);"></td>
+                                        <td><input required type="text" name="other_govern[]" id=""  class="emp-desc form-control" placeholder="Description" style="border: black 1px solid;" ></td>
+                                        <td><input required type="text" name="govern_amount[]" id=""  class="emp-amount form-control" placeholder="Amount" style="border: black 1px solid;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);"></td>
                                         <td><input type="button"  value="Add" name="id_emp[]" id="empAdd" class="btn btn-success" style="width: 73px; margin-left: 20px;" ></td>
                                         <td>
                                         <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">
@@ -725,7 +742,7 @@ else
                         <div class="modal-content" style="width: 800px;">
                             <script>
                                 $(document).ready(function(){
-                                    var html = '<tr><td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px; border: black 1px solid; width: 100%;"></td><td><input type="text" name="govern_amount[]" id="inputBox" class="emp-amount form-control" placeholder="Amount" oninput="validateInput(this)" style="margin-top: 10px; border: black 1px solid;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
+                                    var html = '<tr><td><input required type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description"style="margin-top: 10px; border: black 1px solid; width: 100%;"></td><td><input required type="text" name="govern_amount[]" id="inputBox" class="emp-amount form-control" placeholder="Amount" oninput="validateInput(this)" style="margin-top: 10px; border: black 1px solid;"></td><td><input type="button" value="Remove" name="id_emp" id="allowanceRemove" class="btn" style="margin-top: 10px;"></td><td> <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px"></td></tr>';
 
                                    
 
@@ -764,8 +781,8 @@ else
                                         <th></th>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description" style="width: 250px; border: black 1px solid;"></td>
-                                        <td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="width: 250px; border: black 1px solid;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);"></td>
+                                        <td><input type="text" name="other_allowance[]" id=""  class="allowance-desc form-control" placeholder="Description" style="width: 250px; border: black 1px solid;" required></td>
+                                        <td><input type="text" name="allowance_amount[]" id=""  class="allowance-amount form-control" placeholder="Amount" style="width: 250px; border: black 1px solid;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 11) this.value = this.value.slice(0, 11);" required></td>
                                         <td><input type="button" value="Add" name="id_emp[]" id="allowanceAdd" class="btn btn-success" style="width: 73px;" ></td>
                                         <td>
                                         <input type="hidden" name="id_emp[]" value="<?php echo $rows['empid']?>" id="" style="width:30px">

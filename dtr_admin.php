@@ -288,9 +288,9 @@
                                         <?php else: ?>
                                         <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                         <?php endif; ?>
-                                        <td <?php if ($row['status'] == 'Approved') {echo 'style="color:green;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} ?>><?php echo $row['status']; ?></td>
+                                        <td <?php if ($row['status'] == 'Approved') {echo 'style="color:blue;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} elseif ($row['status'] == 'Pending') {echo 'style="color:orange;"';} elseif ($row['status'] == 'Cancelled') {echo 'style="color:red;"';}?>><?php echo $row['status']; ?></td>
                                         <td>
-                                        <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected'): ?>
+                                        <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected' || $row['status'] === 'Cancelled'): ?>
                                           <button type="submit" class="btn btn-outline-success viewbtn" name="approve_btn" style="display: none;" disabled>
                                             Approve
                                           </button>
@@ -351,7 +351,7 @@
                         </div>
                         <div class="col-6">
                             <label for="" class="form-label">TIME</label>
-                            <input type="time" name="employee_time" class="form-control" id="view_emp_time" readonly>
+                            <input type="text" name="employee_time" class="form-control" id="view_emp_time" readonly>
                         </div>
                 </div>
 
@@ -368,7 +368,7 @@
 
                 <div class="row" >
                         <div class="col-6">
-                            <label for="" class="form-label">FILE ATTACHMENT</label>
+                            <label for="" class="form-label">Cancel Reason</label>
                             <input type="text" name="employee_file" class="form-control" id="view_emp_file" readonly>
                         </div>
                         <div class="col-6">

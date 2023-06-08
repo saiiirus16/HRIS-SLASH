@@ -44,6 +44,38 @@
     <link rel="stylesheet" href="css/styles.css"> 
     <title>Employee Information</title>
 </head>
+<style>
+    
+    .pagination{
+        margin-right: 85px !important;
+        
+    }
+
+    .pagination li a{
+        color: #c37700;
+    }
+
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+    }
+
+    .card{
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17);
+      width: 1500px;
+      height: 780px;
+
+    }
+    
+    #order-listing_next{
+        margin-right: 30px !important;
+        margin-bottom: -7px !important;
+
+    }
+</style>
+
 <body>
    
         <header>
@@ -51,7 +83,7 @@
             ?>
 </header>
     
-<div class="container mt-5" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  box-shadow: 10px 10px 10px 8px #888888;">
+<div class="container mt-5" style="position:absolute; width: 100%; right: 250px; bottom: 50px; height: 80%;  border-radius: 25px">
     <div class="">
         <div class="card border-light">
             
@@ -66,11 +98,11 @@
                         $branch_id = $_POST['branch_id'];
                         
                             echo "
-                            <div class='card-header'>
-                            <div class='row'>
+                            <div class=''>
+                            <div class='row' style='margin-top: 20px; margin-left:5px; margin-right:5px;'>
                                 <div class='col-6'>
 
-                                    <h2 class='display-5'>";
+                                    <h2 class=''>";
                                     echo $branch;
                                     echo"
                                     </h2>
@@ -83,9 +115,10 @@
                             </div> <!-- card-header end-->
                             <div class='card-body'>
                                 <div class='table my-3 table-responsive '>
-                                    <table id='data_table' class='table table-sortable table-striped table-hover caption-top'>
-                                        <thead style='color: #787BDB;
-                                                    font-size: 19px;'>
+                                    <table id='order-listing' class='table table-sortable table-hover caption-top'>
+                                        <thead style='color: black;
+                                                    font-size: 19px;
+                                                    background-color: #ececec;'>
                                             <tr> 
                                                     <th> Employee ID </th>  
                                                     <th> Employee FullName  </th>

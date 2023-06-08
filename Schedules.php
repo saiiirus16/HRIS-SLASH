@@ -1205,12 +1205,12 @@ thead th:nth-child(1){
                     <?php
                        include('config.php');
                        
-                        $sql = "SELECT department_name FROM employee_tb";
+                        $sql = "SELECT * FROM dept_tb";
                         $result = mysqli_query($conn, $sql);
 
                         $options = "";
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $options .= "<option >" .$row['department_name'].  "</option>";
+                            $options .= "<option >" .$row['col_deptname'].  "</option>";
                         }
                         ?>
 
@@ -1307,7 +1307,7 @@ thead th:nth-child(1){
                                 <td style='font-weight: 400;'>".$row["sched_to"]. "</td>
                                  <td>
                                  <button type='button' data-bs-toggle='modal' data-bs-target='#schedUpdate' id='sched-update' class='sched-update' style='border:none; background-color:inherit; color:cornflowerblue; outline:none; '>Update</button></td>
-                                <td style='display: none;'> ".$row['empid']. " </td
+                                <td style='display: none;'>".$row['empid']. " </td
                             </tr>";
                             }
                         }

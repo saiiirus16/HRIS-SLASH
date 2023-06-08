@@ -61,7 +61,7 @@ if(!isset($_SESSION['username'])){
       overflow: hidden !important;
     }
     .card{
-      box-shadow: 5px 8px 10px 0 rgba(0, 0, 0, 0.3), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17);
       width: 1500px;
       height: 780px;
 
@@ -184,7 +184,7 @@ if(!isset($_SESSION['username'])){
 <!---------------------------------------------------END OF DELETE MODAL------------------------------------------------------------------->
 
 <!-----------------------------------------ETO ANG HEADER INCLUDING ANG DROP-DOWN-------------------------------------------------------->
-<div class="main-panel mt-5" style="width: 100%; height: 100vh; position: absolute; top: 0px ; margin-left: 17%;">
+<div class="main-panel mt-5" style="width: 100%; height: 100vh; position: absolute; top: 25px; margin-left: 16.8%;">
         <div class="content-wrapper mt-5">
           <div class="card">
             <div class="card-body">
@@ -481,7 +481,7 @@ $(document).ready(function() {
 
     </script>
 
-<script> 
+<!-- <script> 
         $(document).ready(function(){
                 $('.sched-update').on('click', function(){
                                     $('#schedUpdate').modal('show');
@@ -499,7 +499,7 @@ $(document).ready(function() {
                                 });
                             });
             
-    </script>
+    </script> -->
 
 
 

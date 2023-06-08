@@ -98,7 +98,7 @@
                         
                         <div class="input-group mb-3">
                             <input type="text" name="name_dept" class="form-control" id="id_Department" required>
-                            
+                            <span class="input-group-text" id="basic-addon2">Department</span>
                         </div>
                     </div>
                 
@@ -147,13 +147,13 @@
 <div class="container mt-3">
     <div class="">
 
-        <div class="card border-light" style=" box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17); position:absolute; right:100px; bottom: 80px; width:75%; height:75%;" >
+        <div class="card border-light" style=" box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17); position:absolute; right:57px; bottom: 100px; width: 1500px; height: 780px;" >
            
             <div class="card-body">
 
             <div class="row" style="">
                     <div class="col-6">
-                        <h2 class="display-5">Department Records</h2>
+                        <h2 class="">Department Records</h2>
                     </div>
                     <div class="col-6 mt-1 text-end">
                         <!-- Button trigger modal -->
