@@ -345,7 +345,7 @@ if(isset($_POST['importSubmit'])){
             
             $qstring = '?status=succ';
         }else{
-            $qstring = '?error=No date and Employe ID exisiting!';
+            $qstring = '?status=err';
         }
     }else{
         $qstring = '?status=invalid_file';

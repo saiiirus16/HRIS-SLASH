@@ -16,7 +16,7 @@ if(isset($_POST['view_data'])){
         header("Location: ../../official_business.php");
     }
     else if($_POST['name_reqType'] === 'DTR Request'){
-        header("Location: ../../official_business.php");
+        header("Location: ../../dtr_admin.php");
     }
 }
 ?>

@@ -22,8 +22,18 @@
                                     // $uploads_dir = 'file_reason';
                                     // #TO move the uploaded file to specific location
                                     // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
-                                    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
-                                    $escaped_contents = mysqli_real_escape_string($conn, $contents);
+
+                                    // $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+                                    // $escaped_contents = mysqli_real_escape_string($conn, $contents);
+
+                                     // Open a file handle
+                                    // $fileHandle = fopen($_FILES["name_file"]["tmp_name"], "rb");
+
+                                    // // Read the file contents
+                                    // $fileContents = fread($fileHandle, filesize($_FILES["name_file"]["tmp_name"]));
+
+                                    // // Close the file handle
+                                    // fclose($fileHandle);
 
 
 
@@ -91,18 +101,39 @@
                                                                             header("Location: ../../leavereq.php?error=You cannot apply request from the range date provide. Lack of credits for Vacation Leave");
                                                                         }
                                                                         else{
+                                                                            if (isset($_FILES["name_file"]) && $_FILES["name_file"]["error"] == UPLOAD_ERR_OK) {
                                                                             // header("Location: ../../leavereq.php?error=You request a leave on your rest day");
                                                                             #sql query to insert into database
-                                                                                    $sql = "INSERT into applyleave_tb(`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_PAID_LEAVE`, `col_status`) 
-                                                                                    VALUES('$empname', '$leave_type', '$leave_period', '$str_date', '$end_date', '$reason_txt', '$escaped_contents','With Pay', 'Pending')";
+                                                                              // Open a file handle
+                                                                                $fileHandle = fopen($_FILES["name_file"]["tmp_name"], "rb");
 
-                                                                                    if(mysqli_query($conn,$sql)){
+                                                                                // Read the file contents
+                                                                                $fileContents = fread($fileHandle, filesize($_FILES["name_file"]["tmp_name"]));
+
+                                                                                // Close the file handle
+                                                                                fclose($fileHandle);
+                                                                                //echo $fileContents;
+
+                                                                                
+                                                                                    $status = 'Pending';
+                                                                                    $col_PAID_LEAVE = 'With Pay';
+                                                                                    // Prepare the INSERT statement
+                                                                                    $sql = "INSERT INTO applyleave_tb (`col_req_emp`, `col_LeaveType`, `col_LeavePeriod`, `col_strDate`, `col_endDate`, `col_reason`, `col_file`, `col_PAID_LEAVE`, `col_status`) 
+                                                                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                                                                    $stmt = $conn->prepare($sql);
+
+                                                                                    // Bind parameters to the statement
+                                                                                    $stmt->bind_param("sssssssss", $empname, $leave_type, $leave_period, $str_date, $end_date, $reason_txt, $fileContents, $col_PAID_LEAVE, $status);
+
+                                                                                    // Execute the statement
+                                                                                    if ($stmt->execute()) {
                                                                                         header("Location: ../../leavereq.php?msg=Successfully Added");
+                                                                                    } else {
+                                                                                        echo "Error: " . $stmt->error;
                                                                                     }
-                                                                                    else{
-                                                                                        echo "Error";
-                                                                                    }
-                                                                            
+
+
+                                                                                }
                                                                             }
                                                                     } //end if statement in Vacation
                                                                     elseif($leave_type == 'Bereavement Leave'){
@@ -160,6 +191,9 @@
                                                        
                                                     
                                                     }// end schedule tb
+                                                    else {
+                                                        header("Location: ../../leavereq.php?error=You cannot Request a Leave without an assigned schedule.");
+                                                    }
                                                     
                                         } //end empschedule tb
                                         else {
@@ -171,12 +205,7 @@
 
         }
     else if (isset($_POST['secondHalf'])) {
-
-
-
-        
-
-                                  
+       
                                 $empname = $_POST["name_emp"];
                                 $leave_type =  $_POST['name_LeaveT'];
                                 $leave_period = $_POST['secondHalf'];
@@ -194,8 +223,12 @@
                                     // #TO move the uploaded file to specific location
                                     // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
 
-                                    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
-                                    $escaped_contents = mysqli_real_escape_string($conn, $contents);
+                                    if(isset($_FILES['name_file']) && $_FILES['name_file']['error'] == 0) {
+                                        $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+                                        $escaped_contents = mysqli_real_escape_string($conn, $contents);
+                                    } else {
+                                        $escaped_contents = "";
+                                    }
 
 
 
@@ -351,8 +384,12 @@
     // #TO move the uploaded file to specific location
     // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
 
-    $contents = file_get_contents($_FILES['name_file']['tmp_name']);
-	$escaped_contents = mysqli_real_escape_string($conn, $contents);
+    if(isset($_FILES['name_file']) && $_FILES['name_file']['error'] == 0) {
+        $contents = file_get_contents($_FILES['name_file']['tmp_name']);
+        $escaped_contents = mysqli_real_escape_string($conn, $contents);
+    } else {
+        $escaped_contents = "";
+    }
 
 
 
@@ -394,7 +431,7 @@
                                         OR '$end_date' BETWEEN `col_strDate` AND `col_endDate`)");
                     if(mysqli_num_rows($result_leaveINFO) > 0) {
                                             $row__leaveINFO = mysqli_fetch_assoc($result_leaveINFO);
-                                            
+                                            //echo  "d maka insert";
                                         header("Location: ../../leavereq.php?error= Cannot Apply due to the selected dates is already taken by your past requests.");
                 } else {
 

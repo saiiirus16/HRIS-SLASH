@@ -26,7 +26,7 @@ else if($row['col_status'] === 'Cancelled'){
 else{
     $reason = $_POST["name_rjectResn"];
     $employee_ID = $_SESSION["ID_empId"];
-    $approver = $_SESSION["username"];
+    $approver = $_SESSION["empid"];
 
     //para sa pag update from pending to approved and action time
       // Get the current date and time
@@ -43,7 +43,7 @@ else{
             VALUES('$Applyleave_ID','$reason', 'Rejected')";
         if(mysqli_query($conn,$sql1))
         {
-            $sql ="UPDATE applyleave_tb SET  col_status= 'Rejected', col_dt_action= '$currentDateTime1', col_approver = '$approver' WHERE col_ID = $Applyleave_ID";
+            $sql ="UPDATE applyleave_tb SET col_status= 'Rejected', col_dt_action= '$currentDateTime1', col_approver = '$approver' WHERE col_ID = $Applyleave_ID";
             $query_run = mysqli_query($conn, $sql);
             if($query_run){
                 header("Location: ../../leavereq.php?msg=Rejected Successfully");
