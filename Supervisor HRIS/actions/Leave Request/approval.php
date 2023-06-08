@@ -497,27 +497,29 @@ else{
             //para sa pag update from pending to approved and action time
                 //PARA SA PAG UPDATE NG CREDITS SA APPLY TB
                 $date1 = new DateTime($row['col_strDate']);
-                $date2 = new DateTime($row['col_endDate']); 
+                $date2 = new DateTime($row['col_endDate']);
+               
                 $interval = $date1->diff($date2);
-                //echo $interval->days . "  break";
-                //echo "The number of days between the two dates is: " . $interval->days;
-        
+
+                $numberOfDays = $interval->days + 1;
+                echo "The number of days between the two dates is: " . $numberOfDays;
+
                 if($row['col_LeaveType'] == 'Vacation Leave'){
-                    $minusVacationCredits = $row__leaveINFO['col_vctionCrdt'] - $interval->days; //para mag minus sa credits sa IF Vacation
+                    echo "minus " . $minusVacationCredits = $row__leaveINFO['col_vctionCrdt'] - $numberOfDays; //dito ako naputol
                     $sql_minusvacationCredits ="UPDATE leaveinfo_tb SET col_vctionCrdt= $minusVacationCredits WHERE col_empID = $employee_ID";
                     $query_run_minusCredits = mysqli_query($conn, $sql_minusvacationCredits);
                 }
                 elseif($row['col_LeaveType'] == 'Bereavement Leave'){
-                    $minusBrvmntCredits = $row__leaveINFO['col_brvmntCrdt'] - $interval->days; //para mag minus sa credits sa IF Vacation
+                    echo $minusBrvmntCredits = $row__leaveINFO['col_brvmntCrdt'] - $numberOfDays; //para mag minus sa credits sa IF Vacation
                     $sql_minusBrvmntCredits ="UPDATE leaveinfo_tb SET col_brvmntCrdt= $minusBrvmntCredits WHERE col_empID = $employee_ID";
                     $query_run_BrvmntminusCredits = mysqli_query($conn, $sql_minusBrvmntCredits);
                 }
                 elseif($row['col_LeaveType'] == 'Sick Leave'){
-                    $minusSickCredits = $row__leaveINFO['col_sickCrdt'] - $interval->days; //para mag minus sa credits sa IF Vacation
+                    echo $minusSickCredits = $row__leaveINFO['col_sickCrdt'] - $numberOfDays; //para mag minus sa credits sa IF Vacation
                     $sql_minusSickCredits ="UPDATE leaveinfo_tb SET col_sickCrdt= $minusSickCredits WHERE col_empID = $employee_ID";
                     $query_run_SickminusCredits = mysqli_query($conn, $sql_minusSickCredits);
                 }
-        
+               
                
                  //PARA SA PAG UPDATE NG CREDITS SA APPLY TB (END)
                 
@@ -713,40 +715,80 @@ else{
                         // Check for successful insertion
                         if ($result) {
 
+                            $Not_countLEave = mysqli_query($conn, "SELECT COUNT(*) AS leave_notValid FROM attendances WHERE `time_in` = '11:11:11';");
+
+                            if ($Not_countLEave) {
+                            $row_notCounted = mysqli_fetch_assoc($Not_countLEave);
+                            
+                            
                             
 
-                            $sql = "DELETE FROM `attendances` WHERE `time_in` = '11:11:11'";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result) {
+                            $count = $row_notCounted['leave_notValid'];
+                            //PARA IBALIK ANG NAWALA NA SCHEDULE IF WALA SIYA SCHEDULE SA ARAW NA ITO
+                                if($row['col_LeaveType'] == 'Vacation Leave'){
+                                  $updated_credit = $minusVacationCredits + $count;
 
-                                $sql1 = "INSERT into actiontaken_tb(`col_applyID`, `col_remarks`,`col_status`) 
-                                VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
-                                  if(mysqli_query($conn,$sql1))
-                                  {
-                                    $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
+                                    $sql ="UPDATE leaveinfo_tb SET col_vctionCrdt = $updated_credit WHERE col_empID = $employee_ID";
                                     $query_run = mysqli_query($conn, $sql);
-                        
-                        
-                                        if($query_run){
-            
-            
-                                            header("Location: ../../leavereq.php?msg=Approved Successfully");
-                                           
+                                }
+                                elseif($row['col_LeaveType'] == 'Bereavement Leave'){
+
+                                    $updated_credit = $minusBrvmntCredits + $count;
+
+                                    $sql ="UPDATE leaveinfo_tb SET col_brvmntCrdt = $updated_credit WHERE col_empID = $employee_ID";
+                                    $query_run = mysqli_query($conn, $sql);
+                                
+                                }
+                                elseif($row['col_LeaveType'] == 'Sick Leave'){
+
+                                    $updated_credit = $minusSickCredits + $count;
+
+                                    $sql ="UPDATE leaveinfo_tb SET col_sickCrdt = $updated_credit WHERE col_empID = $employee_ID";
+                                    $query_run = mysqli_query($conn, $sql);
+                                    
+                                }
+                            //PARA IBALIK ANG NAWALA NA SCHEDULE IF WALA SIYA SCHEDULE SA ARAW NA ITO (END)
+
+                                    $sql = "DELETE FROM `attendances` WHERE `time_in` = '11:11:11'";
+                                    $result = mysqli_query($conn, $sql);
+                                    if ($result) {
+
+                                        $sql1 = "INSERT into actiontaken_tb(`col_applyID`, `col_remarks`,`col_status`) 
+                                        VALUES('$IDLEAVE_TABLE','$reason', 'Approved')";
+                                        if(mysqli_query($conn,$sql1))
+                                        {
+                                            $sql ="UPDATE applyleave_tb SET col_status= 'Approved', col_dt_action= '$currentDateTime', col_approver = '$approver' WHERE col_ID = $IDLEAVE_TABLE";
+                                            $query_run = mysqli_query($conn, $sql);
+                                
+                                
+                                                if($query_run){
+                    
+                    
+                                                    header("Location: ../../leavereq.php?msg=Approved Successfully");
+                                                
+                                                }
+                                                else{
+                                                    echo '<script> alert("Data Not Updated"); </script>';
+                                                }
                                         }
                                         else{
                                             echo '<script> alert("Data Not Updated"); </script>';
                                         }
-                                  }
-                                  else{
-                                    echo '<script> alert("Data Not Updated"); </script>';
-                                  }
 
 
-                                
-                            }
+                                        
+                                    }
+                                    else {
+                                        echo "Failed: " . mysqli_error($conn);
+                                    } //end delete
+                                     
+                            } //end count
                             else {
-                                echo "Failed: " . mysqli_error($conn);
-                            } //end delete
+                            // Handle the query error
+                            echo "Error executing the query: " . mysqli_error($conn);
+                            }
+                                   
+
                         
                         }else{
                             echo "not inserted";
@@ -1388,33 +1430,7 @@ else{
 
 
 
-        //------------------------------------  CODE FOR UPDATING LEAVE REQUEST ACTION DATETIME, STATUS and MINUS LEAVE INFO CRDITS FUllday----------------------------------
-            //para sa pag update from pending to approved and action time
-                //PARA SA PAG UPDATE NG CREDITS SA APPLY TB
-                $date1 = new DateTime($row['col_strDate']);
-                $date2 = new DateTime($row['col_endDate']); 
-                $interval = $date1->diff($date2);
-                //echo $interval->days . "  break";
-                //echo "The number of days between the two dates is: " . $interval->days;
-        
-                // if($row['col_LeaveType'] == 'Vacation Leave'){
-                //     $minusVacationCredits = $row__leaveINFO['col_vctionCrdt'] - $interval->days; //para mag minus sa credits sa IF Vacation
-                //     $sql_minusvacationCredits ="UPDATE leaveinfo_tb SET col_vctionCrdt= $minusVacationCredits WHERE col_empID = $employee_ID";
-                //     $query_run_minusCredits = mysqli_query($conn, $sql_minusvacationCredits);
-                // }
-                // elseif($row['col_LeaveType'] == 'Bereavement Leave'){
-                //     $minusBrvmntCredits = $row__leaveINFO['col_brvmntCrdt'] - $interval->days; //para mag minus sa credits sa IF Vacation
-                //     $sql_minusBrvmntCredits ="UPDATE leaveinfo_tb SET col_brvmntCrdt= $minusBrvmntCredits WHERE col_empID = $employee_ID";
-                //     $query_run_BrvmntminusCredits = mysqli_query($conn, $sql_minusBrvmntCredits);
-                // }
-                // elseif($row['col_LeaveType'] == 'Sick Leave'){
-                //     $minusSickCredits = $row__leaveINFO['col_sickCrdt'] - $interval->days; //para mag minus sa credits sa IF Vacation
-                //     $sql_minusSickCredits ="UPDATE leaveinfo_tb SET col_sickCrdt= $minusSickCredits WHERE col_empID = $employee_ID";
-                //     $query_run_SickminusCredits = mysqli_query($conn, $sql_minusSickCredits);
-                // }
-        
-               
-                 //PARA SA PAG UPDATE NG CREDITS SA APPLY TB (END)
+      
                 
             //------------------------------------BREAK----------------------------------
             //pra sa pag update ng action taken at status to approved

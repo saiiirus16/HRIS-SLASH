@@ -42,7 +42,9 @@
 
             $day_of_week = date('l', strtotime($date_under)); // get the day of the week using the "l" format specifier
 
-            if($day_of_week === 'Monday'){      
+            if($day_of_week === 'Monday'){  
+
+
                 if($endtime < $col_monday_timeout){
                     $time_out_datetime1 = new DateTime($endtime);
                     $scheduled_outs = new DateTime($col_monday_timeout);
@@ -54,7 +56,7 @@
                 }
                 $total_work = strtotime($endtime) + strtotime($starttime) - 7200;
                 $total_work = date('H:i:s', $total_work);
-                
+              
                 $query = "SELECT * FROM attendances WHERE `empid` = '$employeeid' AND `date` = '$date_under' AND (status = 'Absent' || status = 'LWOP' || status = 'On-Leave')";
                 $query_run = mysqli_query($conn, $query);
 
@@ -222,40 +224,64 @@
                 }
             } //Friday Close Tag
 
-            else if($day_of_week === 'Saturday'){      
-                if($endtime < $col_saturday_timeout){
-                    $time_out_datetime1 = new DateTime($endtime);
-                    $scheduled_outs = new DateTime($col_saturday_timeout);
-                    $early_interval = $scheduled_outs->diff($time_out_datetime1);
-                    $early_out = $early_interval->format('%h:%i:%s');
+            else if($day_of_week === 'Saturday'){    
+                $sat_timein = $row_sched_tb['sat_timein'];
+                $sat_timeout = $row_sched_tb['sat_timeout'];
+
+                if ($sat_timein === '' && $sat_timeout === ''){
+                    header("Location: ../../undertime_req.php?error= This employee request doesn't have a schedule for this day.");
                 }
                 else{
-                    $early_out = "00:00:00";
-                }
-                $total_work = strtotime($endtime) + strtotime($starttime) - 7200;
-                $total_work = date('H:i:s', $total_work);
-                
-                $query = "SELECT * FROM attendances WHERE `empid` = '$employeeid' AND `date` = '$date_under' AND (status = 'Absent' || status = 'LWOP' || status = 'On-Leave')";
-                $query_run = mysqli_query($conn, $query);
+                    if($endtime < $col_saturday_timeout){
+                        $time_out_datetime1 = new DateTime($endtime);
+                        $scheduled_outs = new DateTime($col_saturday_timeout);
+                        $early_interval = $scheduled_outs->diff($time_out_datetime1);
+                        $early_out = $early_interval->format('%h:%i:%s');
+                    }
+                    else{
+                        $early_out = "00:00:00";
+                    }
+                    $total_work = strtotime($endtime) + strtotime($starttime) - 7200;
+                    $total_work = date('H:i:s', $total_work);
 
-                if(mysqli_num_rows($query_run) > 0) {
                     $sql = "UPDATE attendances SET `time_out`='$endtime', 
-                    `early_out`='$total_undertime', `total_work`='$total_work' WHERE `empid` = '$employeeid' AND `date` = '$date_under'";
-                    $result = mysqli_query($conn, $sql);
-                if($result){
-                        $sql = "UPDATE undertime_tb SET `status` ='Approved' WHERE `id`='$column_id'";
-                        $query_run = mysqli_query($conn, $sql);
-                            if($query_run){
-                                header("Location: ../../undertime_req.php?msg=You Approved this Request Successfully");
-                            }else{
-                                echo "Failed: " . mysqli_error($conn);
-                            } 
-                    } else {
-                        echo "Failed: " . mysqli_error($conn);
-                    }      
-                } else {
-                    header("Location: ../../undertime_req.php?error=The Employee Does not have attendance for $date_under");
+                        `early_out`='$total_undertime', `total_work`='$total_work' WHERE `empid` = '$employeeid' AND `date` = '$date_under'";
+                        $result = mysqli_query($conn, $sql);
+                    if($result){
+                            $sql = "UPDATE undertime_tb SET `status` ='Approved' WHERE `id`='$column_id'";
+                            $query_run = mysqli_query($conn, $sql);
+                                if($query_run){
+                                    header("Location: ../../undertime_req.php?msg=You Approved this Request Successfully");
+                                }else{
+                                    echo "Failed: " . mysqli_error($conn);
+                                } 
+                        } else {
+                            echo "Failed: " . mysqli_error($conn);
+                        }  
+                    
+                    // $query = "SELECT * FROM attendances WHERE `empid` = '$employeeid' AND `date` = '$date_under' AND (status = 'Absent' || status = 'LWOP' || status = 'On-Leave')";
+                    // $query_run = mysqli_query($conn, $query);
+    
+                    // if(mysqli_num_rows($query_run) > 0) {
+                    //     $sql = "UPDATE attendances SET `time_out`='$endtime', 
+                    //     `early_out`='$total_undertime', `total_work`='$total_work' WHERE `empid` = '$employeeid' AND `date` = '$date_under'";
+                    //     $result = mysqli_query($conn, $sql);
+                    // if($result){
+                    //         $sql = "UPDATE undertime_tb SET `status` ='Approved' WHERE `id`='$column_id'";
+                    //         $query_run = mysqli_query($conn, $sql);
+                    //             if($query_run){
+                    //                 header("Location: ../../undertime_req.php?msg=You Approved this Request Successfully");
+                    //             }else{
+                    //                 echo "Failed: " . mysqli_error($conn);
+                    //             } 
+                    //     } else {
+                    //         echo "Failed: " . mysqli_error($conn);
+                    //     }      
+                    // } else {
+                    //     header("Location: ../../undertime_req.php?error=The Employee Does not have attendance for $date_under");
+                    // }
                 }
+                
             } //Saturday Close Tag
 
             else if($day_of_week === 'Sunday'){      
