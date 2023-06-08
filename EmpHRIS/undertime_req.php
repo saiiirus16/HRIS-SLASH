@@ -113,13 +113,13 @@ session_start();
                             
                             <div class="mb-3">
                                 <label for="company" class="form-label">Date</label>
-                                <input type="date" name="date_undertime" class="form-control" id="date_id_undertime" required onchange="checkSchedule()">
+                                <input type="date" name="date_undertime" class="form-control" id="date_id_undertime" required onchange="checkSchedule()" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="time_range" class="form-label mt-1">Time Range</label>
                                 <div class="input-group mb-3">
-                                    <input type="time" class="form-control" name="under_time_to" id="under_time_to_id" onchange="undertime_hours(); validateUndertimeInputs();">
+                                    <input type="time" class="form-control" name="under_time_to" id="under_time_to_id" onchange="undertime_hours(); validateUndertimeInputs();" required>
                                     <span class="input-group-text">-</span>
                                     <input type="time" class="form-control" name="under_time_from" id="under_time_from_id" readonly>
                                 </div>
@@ -135,7 +135,7 @@ session_start();
 
                             <div class="mb-3 mt-2">
                                 <label for="text_area" class="form-label">Reason</label>
-                                <textarea class="form-control" name="undertime_reason" id="view_under_reason"></textarea>
+                                <textarea class="form-control" name="undertime_reason" id="view_under_reason" required></textarea>
                             </div>
 
                                 <div class="input-group mb-3">
@@ -280,7 +280,7 @@ session_start();
             $msg = $_GET['msg'];
             echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
 ?>
@@ -292,7 +292,7 @@ session_start();
             $err = $_GET['error'];
             echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
             '.$err.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
 ?>
@@ -303,18 +303,19 @@ session_start();
 <form action="" method="POST">
         <div class="row" >
             <div class="col-12 mt-5">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow-y: scroll;">
                         <table id="order-listing" class="table" >
                         <thead>
                             <tr>
                                 <th style="display: none;">ID</th>
                                 <th style="display: none;">Employee ID</th>
+                                <th style="display: none;">Name</th>
                                 <th>Undertime Date</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
                                 <th>Undertime Hours</th>
                                 <th style="display: none;">Reason</th>
-                                <th style="display: none;">File Attachment</th>
+                                <th>File Attachment</th>
                                 <th>Status</th>
                                 <th>Date Filed</th>
                                 <th>Action</th>
@@ -327,6 +328,7 @@ session_start();
                          $query = "SELECT
                          undertime_tb.id,
                          employee_tb.empid,
+                         CONCAT (employee_tb.`fname`, ' ', employee_tb.`lname`) AS `full_name`,
                          undertime_tb.date,
                          undertime_tb.start_time,
                          undertime_tb.end_time,
@@ -345,17 +347,18 @@ session_start();
                             <tr>
                                 <td style="display: none;"><?php echo $row['id']?></td>
                                 <td style="display: none;"><?php echo $row['empid']?></td>
+                                <td style="display: none;"><?php echo $row['full_name']?></td>
                                 <td><?php echo $row['date']?></td>
                                 <td><?php echo date('h:i A', strtotime($row['end_time'])) ?></td>
                                 <td><?php echo date('h:i A', strtotime($row['start_time'])) ?></td>
                                 <td><?php echo $row['total_undertime']?></td>
                                 <td style="display: none;"><?php echo $row['reason']?></td>
                                 <?php if(!empty($row['file_attachment'])): ?>
-                                <td style="display: none;">
+                                <td>
                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_undertime">Download</button>
                                 </td>
                                 <?php else: ?>
-                                <td style="display: none;">None</td> <!-- Show an empty cell if there is no file attachment -->
+                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                 <?php endif; ?>
                                 <td><?php echo $row['status']?></td>
                                 <td><?php echo $row['date_file']?></td>
@@ -376,7 +379,16 @@ session_start();
 </div>
 
 
-
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
+<script>
+    function removeErrorFromURL() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('error');
+        url.searchParams.delete('msg');
+        window.history.replaceState({}, document.title, url);
+    }
+</script>
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
  
 
 

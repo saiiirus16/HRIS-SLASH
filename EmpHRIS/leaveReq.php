@@ -51,20 +51,46 @@ session_start();
 </header>
 
 <style>
+    
+    html{
+        background-color: #f4f4f4 !important;
+        overflow: hidden;
+    }
+    
+
     body{
-        list-style:none;
-        text-decoration:none;
+        overflow: hidden;
+        background-color: #f4f4f4;
     }
 
-   
+    
+
+    .pagination li a{
+        color: #c37700;
+    }
+
+        .page-item.active .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button .page-link, .jsgrid .jsgrid-pager .active.jsgrid-pager-page .page-link, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-nav-button a, .jsgrid .jsgrid-pager .jsgrid-pager-nav-button .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-nav-button a, .page-item.active .jsgrid .jsgrid-pager .jsgrid-pager-page a, .jsgrid .jsgrid-pager .jsgrid-pager-page .page-item.active a, .jsgrid .jsgrid-pager .active.jsgrid-pager-page a {
+        z-index: 3;
+        color: #fff;
+        background-color: #000;
+        border-color: #000;
+    }
+
+    
+    
+    #order-listing_next{
+        margin-right: 28px !important;
+        margin-bottom: -16px !important;
+
+    }
 </style>
 
 
-<div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 275px;">
+<div class="container-xxl mt-5 " style="position:absolute; TOP: 75px; right: 212px;">
         <div class="">
 
-            <div class="card border-light" style="box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.5); width: 1530px; height: 800px;">
-                <div class="card-header">
+            <div class="card border-light" style="box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17); width: 1500px; height: 780px;">
+                <div class="">
                     
 
 <!-------------------------------------------------------------- BREAK  for add  leave Type modal start------------------------------------------------------------------------------->
@@ -116,7 +142,7 @@ session_start();
                                             <!------------------------------ BREAK -------------------------------------->
 
                                         <div class="row">
-                                        <input type="hidden" name='name_emp' readonly value=" <?php  echo $_SESSION['empid']; ?>">
+                                        <input type="hidden" name='name_emp' readonly value="<?php  echo $_SESSION['empid']; ?>">
                                                 <div class="col-6">
                                                     <div class="mb-3">
                                                         <label for="Select_dept" class="form-label">Leave Type :</label>
@@ -229,7 +255,7 @@ session_start();
 
                                                 <div class="mt-3">
                                                     <label for="formFileMultiple" class="form-label fs-4">Attach File :</label>
-                                                    <input class="form-control" name="name_file" type="file" id="formFileMultiple" multiple required>
+                                                    <input class="form-control" name="name_file" type="file" id="formFileMultiple">
                                                 </div>
 
                                         </div>  <!-- end body-->
@@ -247,10 +273,10 @@ session_start();
         <!-------------------------------------------------------------- BREAK modal end ----------------------------------------------------------------->
                     
                 </div> 
-                <div class="card-body">
+                <div class="card-body" style="border-radius: 25px";>
                 <div class="row">
                         <div class="col-6">
-                            <h2 class="display-5">Leave Request</h2>
+                            <h2 class="" style="font-size: 23px; font-weight: bold;">Leave Request</h2>
                         </div>
                         <div class="col-6 text-end mt-3">
                             <button class="btn_applyL" data-bs-toggle="modal" data-bs-target="#id_apply_leave">
@@ -339,124 +365,28 @@ session_start();
 ?>
 <!-------------------- para sa message na error ENd --------------------->
 
-            <div class="row mt-3"> <!--ROW start--> 
-                        <div class="col-6 mb-3">
-                            <div class="pnl_top">
-                                <select class="slction_top" id="limit-select" name= "no_Limit_Listed">
-                                    <option value="" disabled selected>Select No. Item To List</option>
-                                    <option value="5">Item Listed 5</option>
-                                    <option value="10">Item Listed 10</option>
-                                    <option value="15">Item Listed 15</option>
-                                </select>
-                            </div>
-
-                            <style>
-                                    :root {
-                                        --background-gradient: linear-gradient(30deg, #f39c12 30%, #f1c40f);
-                                        --gray: #EFB300;
-                                        --white: #ffffff;
-                                    }
-
-                                    .slction_top {
-                                        /* Reset Select */
-                                        appearance: none;
-                                        outline: 0;
-                                        border: 0;
-                                        box-shadow: none;
-                                        /* Personalize */
-                                        flex: 1;
-                                        color: #000000;
-                                        background-color: var(--white);
-                                        background-image: none;
-                                        cursor: pointer;
-                                        font-size: 16px;
-                                    }
-
-                                    /* Remove IE arrow */
-                                    .slction_top::-ms-expand {
-                                        display: none;
-                                    }
-
-                                    /* Custom Select wrapper */
-                                    .pnl_top {
-                                        position: relative;
-                                        display: flex;
-                                        margin-left: 90px;
-                                        width: 190px;
-                                        height: 30px;
-                                        overflow: hidden;
-                                        font-size: xx-small;
-                                        border-radius: 2px;
-                                        background-color: #FFFFFF;
-                                    }
-
-                                    /* Arrow */
-                                    .pnl_top::after {
-                                        content: '\25BC';
-                                        position: absolute;
-                                        top: 0;
-                                        right: 0;
-                                        border-radius: 2px;
-                                        padding: 9px;
-                                        margin-top: 3px;
-                                        background-color: #FFC921;
-                                        transition: .25s all ease;
-                                        pointer-events: none;
-                                    }
-
-                                    /* Transition */
-                                    .pnl_top:hover::after {
-                                        color: #ffffff;
-                                    }
-                                    th{
-                                        color: #787BDB;
-                                        font-size: 19px;
-                                    }
-                            </style>
-                        </div><!--COL-6 END-->        
-                        <div class="col-6 text-end">
-                            <div class="pnl_search" >
-                                <form action="" 
-                                    style= "
-                                        border: none;
-                                        padding: 0;
-                                        background-color: #ffffff;
-                                            ">
-                                    <input id="search_bar" type="text" placeholder="Search"
-                                    style= "
-                                            margin-right: 50px;
-                                            width: 260px;
-                                            border: 1px solid #adacac;
-                                            border-radius: 5px;
-                                            padding: 9px 4px 9px 40px;
-                                            background: #FFFFFF url(icons/search.png) 
-                                            no-repeat 13px center;
-                                            ">
-                                </form>
-                            </div> 
-                        </div><!--COL-6 END-->        
-                    </div><!--ROW END--> 
+          
         <!----------------------------------Break------------------------------------->   
         
         
-                    <div id="data_table" class="table table-responsive "  style="height: 300px; overflow-y: auto;">
+                    <div id="data_table" class="table table-responsive "  style="height: 400px; overflow-y: auto;">
                         <form action="actions/Leave Request/action.php" method="post">
                         <input id="id_ID_tb" name="name_ID_tb" type="text" style="display: none;">  <!--received the id of selected data in datatble and pass to calss action-->   
                         <input id="id_IDemp_tb" name="name_empID_tb" type="text" style="display: none;"> <!--received the employee_id of selected data in datatble and pass to calss action-->  
-                        <table id="data_table" class="table table-sortable table-striped table-hover caption-top " >
+                        <table id="order-listing" class="table table-sortable table-hover caption-top " >
                                 <caption>List of Employee Leave Request</caption>
-                                    <thead>
+                                    <thead style="background-color: #ececec;">
                                         <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Employee ID</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Leave Type</th>
-                                            <th scope="col">Leave Date</th>
-                                            <th scope="col">Date Filled</th>
-                                            <th scope="col">Action Taken</th>
-                                            <th scope="col">Approver</th>
-                                            <th scope="col">File Reason</th>
-                                            <th scope="col">Status</th>
+                                            <th style="color: black;" scope="col">ID</th>
+                                            <th style="color: black;" scope="col">Employee ID</th>
+                                            <th style="color: black;" scope="col">Name</th>
+                                            <th style="color: black;" scope="col">Leave Type</th>
+                                            <th style="color: black;" scope="col">Leave Date</th>
+                                            <th style="color: black;" scope="col">Date Filled</th>
+                                            <th style="color: black;" scope="col">Action Taken</th>
+                                            <th style="color: black;" scope="col">Approver</th>
+                                            <th style="color: black;" scope="col">File Reason</th>
+                                            <th style="color: black;" scope="col">Status</th>
                                         </tr>
                                     </thead>
                                         <tbody id="table-body">
@@ -475,6 +405,7 @@ session_start();
                                                                     employee_tb.`lname`
                                                                 ) AS `full_name`,
                                                                 applyleave_tb.`col_LeaveType`,
+                                                                applyleave_tb.`col_file`,
                                                                 applyleave_tb.`col_strDate`,
                                                                 applyleave_tb.`_datetime`,
                                                                 applyleave_tb.`col_dt_action`,
@@ -524,15 +455,21 @@ session_start();
                                                                 <td>" . $row['_datetime'] . "</td>
                                                                 <td>" . $row['col_dt_action'] . "</td>
                                                                 <td>" . $approver_fullname . "</td>
-                                                                <td>
-                                                                    <div class='row'>
+                                                                <td>";
+
+                                                                if($row['col_file'] === "") {
+                                                                    echo "No file attached";
+                                                                } else {
+                                                                    echo "<div class='row'>
                                                                         <div class='col-12'>
                                                                             <button type='button' class='border-0 btn_view_file' title='View' data-bs-toggle='modal' data-bs-target='#id_view_file' style='background: transparent;'>
                                                                                 <img src='icons/view_file.png' alt='...'>
                                                                             </button>
                                                                         </div>
-                                                                    </div>
-                                                                </td>
+                                                                    </div>";
+                                                                }
+                                                                
+                                                                echo "</td>
                                                                 <td" . ($row['col_status'] === 'Approved' ? " style='color: blue;'" :
                                                                             ($row['col_status'] === 'Rejected' ? " style='color: red;'" :
                                                                                 ($row['col_status'] === 'Cancelled' ? " style='color: orange;'" :
@@ -586,6 +523,7 @@ session_start();
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
                 
+
 <script>
   document.getElementById('formFileMultiple').addEventListener('change', function(event) {
     var fileInput = event.target;
@@ -598,28 +536,138 @@ session_start();
   });
 </script>
 
-<script>
-    function halfdaysides() {
-        // Get the selected value of the "Leave Period" dropdown
-        var leavePeriodSelect = document.getElementById("id_leavePeriod");
-        var selectedLeavePeriod = leavePeriodSelect.value;
+<script> //script in leave request nilipat ko kasi d gumagana pag nasa folder(leaveReq.js) ng js siya nilagay
 
-        // Get the start and end date values
-        var startDate = new Date(document.getElementById("id_inpt_strdate").value);
-        var endDate = new Date(document.getElementById("id_inpt_enddate").value);
+function leavetype() {
+  let leavetype_id = document.getElementById("leavetype_id").value;
 
-        // Calculate the time difference in days
-        var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  if (leavetype_id === 'Vacation Leave') {
+    document.getElementById("id_leavePeriod").disabled = false;
+  }
+  else if (leavetype_id === 'Sick Leave') {
+    document.getElementById("id_leavePeriod").disabled = false;
+  }
+  else if (leavetype_id === 'Bereavement Leave') {
+    document.getElementById("id_leavePeriod").disabled = false;
+  }
+   else {
+    document.getElementById("id_leavePeriod").disabled = true;
+  }
+}
 
-        // Enable/disable the "Half Day" option based on conditions
-        if (selectedLeavePeriod === 'Full Day' && diffDays >= 2) {
-            leavePeriodSelect.options[2].disabled = true;
-        } else {
-            leavePeriodSelect.options[2].disabled = false;
-        }
+  function endvalidate() {
+    let id_inpt_strTime1 = new Date(document.getElementById("id_inpt_strdate").value);
+    let id_inpt_endTime1 = new Date(document.getElementById("id_inpt_enddate").value);
+    let id_leavePeriod = document.getElementById("id_leavePeriod");
+    let leavePeriodText = id_leavePeriod.options[id_leavePeriod.selectedIndex].text;
+  
+    if (leavePeriodText === 'Half Day') {
+            if (id_inpt_strTime1.getTime() !== id_inpt_endTime1.getTime()) {
+              alert("For half-day leaves, the start and end dates must be the same.");
+              document.getElementById("id_btnsubmit").style.cursor = "no-drop";
+              document.getElementById("id_btnsubmit").disabled = true;
+            } else {
+              if (id_inpt_strTime1.getTime() > id_inpt_endTime1.getTime()) {
+                alert("Please set the End Date not before the Start Date");
+                document.getElementById("id_btnsubmit").style.cursor = "no-drop";
+                document.getElementById("id_btnsubmit").disabled = true;
+              } else {
+                document.getElementById("id_btnsubmit").style.cursor = "pointer";
+                document.getElementById("id_btnsubmit").disabled = false;
+              }
+            }
+    } else { //if fullday
+              if (id_inpt_strTime1.getTime() === id_inpt_endTime1.getTime()) {
+                alert("For Full-day leaves, the start and end dates must NOT be the same.");
+                document.getElementById("id_btnsubmit").style.cursor = "no-drop";
+                document.getElementById("id_btnsubmit").disabled = true;
+              }else{
+            //else
+            if (id_inpt_strTime1.getTime() > id_inpt_endTime1.getTime()) {
+              alert("Please set the End Date not before the Start Date");
+              document.getElementById("id_btnsubmit").style.cursor = "no-drop";
+              document.getElementById("id_btnsubmit").disabled = true;
+            } else {
+              document.getElementById("id_btnsubmit").style.cursor = "pointer";
+              document.getElementById("id_btnsubmit").disabled = false;
+            }
+              }
+      
     }
-</script>
+  }
+
+
+
+    //PARA ISA LANG MA CHECK SA FIRST AND SECOND HALF AND UNLOCK THE STARTDATE
+        function halfdaysides(){
+
+          const firstHalfCheckbox = document.querySelector('input[name="firstHalf"]');
+          const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
+
+          let id_leavePeriod = document.getElementById('id_leavePeriod').value;
+
+          if (id_leavePeriod === 'Full Day') {
+            document.getElementById("id_inpt_strdate").disabled = false;
+            document.getElementById('id_chckfirsthalf').style.display = "none";
+            document.getElementById('id_chckSecondhalf').style.display = "none";
+            document.getElementById('id_inpt_strdate').value= "";
+            document.getElementById('id_inpt_enddate').value= "";
+
+            firstHalfCheckbox.checked = this.checked;
+            secondHalfCheckbox.checked = this.checked;
+            
+          }
+          else if(id_leavePeriod === 'Half Day'){
+            document.getElementById("id_inpt_strdate").disabled = true;
+            document.getElementById('id_chckfirsthalf').style.display = "flex";
+            document.getElementById('id_chckSecondhalf').style.display = "flex";
+            document.getElementById('id_inpt_strdate').value= "";
+            document.getElementById('id_inpt_enddate').value= "";
+          }
+        }
+        
+
+
+        const firstHalfCheckbox = document.querySelector('input[name="firstHalf"]');
+        const secondHalfCheckbox = document.querySelector('input[name="secondHalf"]');
+        firstHalfCheckbox.addEventListener('click', function() {
+            secondHalfCheckbox.checked = !this.checked;
+            document.getElementById("id_inpt_strdate").disabled = false;
+        });
+        secondHalfCheckbox.addEventListener('click', function() {
+            firstHalfCheckbox.checked = !this.checked;
+            document.getElementById("id_inpt_strdate").disabled = false;
+        });
+
+
+    //PARA ISA LANG MA CHECK SA FIRST AND SECOND HALF (END)
+
+
+
+//PARA MAG CHANGE SA TEXT NG CHECKBOX TO PAY AND WITHOUT PAY
+
+    var checkbox = document.getElementById('checkbox_wthPay');
+
+    checkbox.addEventListener('change', function() {
+
+        var inputValue = document.getElementById('chnge_val');
+
+        if (this.checked) {
+            inputValue.value = 'Leave With Pay';
+            inputValue.style.color = '#ffffff';
+            inputValue.style.backgroundColor = 'green';
+        } else {
+            inputValue.value = 'Leave Without Pay';
+            inputValue.style.color = '#ffffff';
+            inputValue.style.backgroundColor = 'red';
+        }
+    });
+
+//PARA MAG CHANGE SA TEXT NG CHECKBOX TO PAY AND WITHOUT PAY (END)
+    
+</script> 
+<!-- //script in leave request nilipat ko kasi d gumagana pag nasa folder(leaveReq.js) ng js siya nilagay END -->
+
 
                 <!---------------------------break --------------------------->
 <script> //FOR VIEW TRANSFER 
@@ -820,7 +868,7 @@ function getPastWorkingDays(date, n) {
 }
 </script>
 
-
+<script src="js/leaveReq.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>   
@@ -843,10 +891,12 @@ function getPastWorkingDays(date, n) {
     <script src="skydash/todolist.js"></script>
     <script src="main.js"></script>
     <script src="bootstrap js/data-table.js"></script>
+
+    
     
 
     <script src="vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 </body>
-<script src="js/leaveReq.js"></script>
+
 </html>

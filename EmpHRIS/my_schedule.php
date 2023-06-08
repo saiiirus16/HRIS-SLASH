@@ -121,146 +121,173 @@
 
 
 <!----------------------------------Syntax for Dropdown button------------------------------------------>
-    <div class="official_panel">
-            <div class="child_panel">
-              <p class="empo_date_text">Date From</p>
-              <input class="select_custom" type="date" name="" id="datestart" required>
-            </div>
-            <div class="child_panel">
-              <div class="notif">
-              <p class="empo_date_text">Date To</p>
-              <p id="validate" class="validation">End date must beyond the start date</p>
-            </div>
-              <input class="select_custom" type="date" id="enddate" onchange="datefunct()" required>
-            </div>
-            <button class="btn_go" id="id_btngo">Go</button>
-          </div>
+<div class="official_panel">
+  <div class="child_panel">
+    <p class="empo_date_text">Date From</p>
+    <input class="select_custom" type="date" name="date_from" id="datestart" required>
+  </div>
+  <div class="child_panel">
+    <div class="notif">
+      <p class="empo_date_text">Date To</p>
+    </div>
+    <input class="select_custom" type="date" name="date_to" id="enddate" onchange="datefunct()" required>
+  </div>
+  <button class="btn_go" id="id_btngo" onclick="filterDates()">Go</button>
+</div>
 <!------------------------------End Syntax for Dropdown button------------------------------------------------->
-            
+<script>
+  function filterDates() {
+    var dateFrom = document.getElementById('datestart').value;
+    var dateTo = document.getElementById('enddate').value;
+
+    var url = 'my_schedule.php?date_from=' + dateFrom + '&date_to=' + dateTo;
+    window.location.href = url;
+  }
+</script>
 
 <!------------------------------------------Syntax ng Table-------------------------------------------------->
         <div class="row" >
             <div class="col-12 mt-2">
-                    <div class="table-responsive">
-                     <table id="order-listing" class="table">
+                    <div class="table-responsive">              
+                        <table id="order-listing" class="table">
                         <thead>
                             <tr>
-                                <th style="display: none;">ID</th>
-                                <th style="display: none;">Employee ID</th>
-                                <th>Work Date</th>
-                                <th>Work Day</th>
-                                <th>Start Time</th> 
-                                <th>End Time</th>
-                                <th>Work Setup</th>
-                                <th>Working Hours</th>
+                            <th style="display: none;">ID</th>
+                            <th style="display: none;">Employee ID</th>
+                            <th>Work Date</th>
+                            <th>Work Day</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Work Setup</th>
+                            <th>Working Hours</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php 
-                            $employeeid = $_SESSION['empid'];
-                            include 'config.php';
-                            date_default_timezone_set('Asia/Manila'); // set the timezone to Manila
+                        <?php
+                                $employeeid = $_SESSION['empid'];
+                                include 'config.php';
+                                date_default_timezone_set('Asia/Manila'); // set the timezone to Manila
 
-                            $today = new DateTime(); // create a new DateTime object for today
-                            $today->modify('this week'); // navigate to the beginning of the week
+                                $today = new DateTime(); // create a new DateTime object for today
+                                $today->modify('this week'); // navigate to the beginning of the week
 
-                            $week_dates = array(); // create an empty array to store the week dates
+                                $week_dates = array(); // create an empty array to store the week dates
 
-                            for ($i = 0; $i < 7; $i++) {
+                                for ($i = 0; $i < 7; $i++) {
                                 $week_dates[] = $today->format('Y-m-d'); // add the current date to the array
                                 $today->modify('+1 day'); // navigate to the next day
-                            }
-                            $query = "SELECT empschedule_tb.id, employee_tb.empid, empschedule_tb.sched_from, empschedule_tb.sched_to, empschedule_tb.schedule_name, schedule_tb.mon_timein, schedule_tb.mon_timeout,
-                            schedule_tb.tues_timein, schedule_tb.tues_timeout,
-                            schedule_tb.wed_timein, schedule_tb.wed_timeout,
-                            schedule_tb.thurs_timein, schedule_tb.thurs_timeout,
-                            schedule_tb.fri_timein, schedule_tb.fri_timeout,
-                            schedule_tb.sat_timein, schedule_tb.sat_timeout,
-                            schedule_tb.sun_timein, schedule_tb.sun_timeout
-                            FROM
-                            empschedule_tb
-                            INNER JOIN schedule_tb ON empschedule_tb.schedule_name = schedule_tb.schedule_name
-                            INNER JOIN employee_tb ON empschedule_tb.empid = employee_tb.empid WHERE employee_tb.empid = '$employeeid';";
+                                }
 
-                            $result = mysqli_query($conn, $query);
-                            while ($row = mysqli_fetch_assoc($result)) {
+                                $dateFrom = $week_dates[0]; // set the default start date to the first date in the week
+                                $dateTo = end($week_dates); // set the default end date to the last date in the week
+
+                                // Check if the filter dates are submitted
+                                if (isset($_GET['date_from']) && isset($_GET['date_to'])) {
+                                $dateFrom = $_GET['date_from'];
+                                $dateTo = $_GET['date_to'];
+                                }
+
+                                $query = "SELECT empschedule_tb.id, employee_tb.empid, empschedule_tb.sched_from, empschedule_tb.sched_to, empschedule_tb.schedule_name, schedule_tb.mon_timein, schedule_tb.mon_timeout,
+                                        schedule_tb.tues_timein, schedule_tb.tues_timeout,
+                                        schedule_tb.wed_timein, schedule_tb.wed_timeout,
+                                        schedule_tb.thurs_timein, schedule_tb.thurs_timeout,
+                                        schedule_tb.fri_timein, schedule_tb.fri_timeout,
+                                        schedule_tb.sat_timein, schedule_tb.sat_timeout,
+                                        schedule_tb.sun_timein, schedule_tb.sun_timeout
+                                        FROM empschedule_tb
+                                        INNER JOIN schedule_tb ON empschedule_tb.schedule_name = schedule_tb.schedule_name
+                                        INNER JOIN employee_tb ON empschedule_tb.empid = employee_tb.empid
+                                        WHERE employee_tb.empid = '$employeeid'
+                                        AND empschedule_tb.sched_from <= '$dateTo'
+                                        AND empschedule_tb.sched_to >= '$dateFrom';";
+
+                                $result = mysqli_query($conn, $query);
+
+                                while ($row = mysqli_fetch_assoc($result)) {
                                 $schedFrom = $row['sched_from'];
                                 $schedTo = $row['sched_to'];
                                 $dateRange = "";
-                                $currDate = $week_dates[0]; // start from the first date in the week
-                                while ($currDate <= $schedTo && in_array($currDate, $week_dates)) {
+                                $currDate = $dateFrom; // start from the selected start date
+
+                                while ($currDate <= $schedTo && $currDate <= $dateTo) {
+                                    if ($currDate >= $schedFrom) {
                                     $date = $currDate;
                                     $dayOfWeek = date("l", strtotime($date));
                                     $startTime = '';
                                     $endTime = '';
+
                                     switch ($dayOfWeek) {
-                                    case 'Monday':
+                                        case 'Monday':
                                         $startTime = $row['mon_timein'];
                                         $endTime = $row['mon_timeout'];
                                         break;
-                                    case 'Tuesday':
+                                        case 'Tuesday':
                                         $startTime = $row['tues_timein'];
                                         $endTime = $row['tues_timeout'];
                                         break;
-                                    case 'Wednesday':
+                                        case 'Wednesday':
                                         $startTime = $row['wed_timein'];
                                         $endTime = $row['wed_timeout'];
                                         break;
-                                    case 'Thursday':
+                                        case 'Thursday':
                                         $startTime = $row['thurs_timein'];
                                         $endTime = $row['thurs_timeout'];
                                         break;
-                                    case 'Friday':
+                                        case 'Friday':
                                         $startTime = $row['fri_timein'];
                                         $endTime = $row['fri_timeout'];
                                         break;
-                                    case 'Saturday':
+                                        case 'Saturday':
                                         $startTime = $row['sat_timein'];
                                         $endTime = $row['sat_timeout'];
                                         break;
-                                    case 'Sunday':
+                                        case 'Sunday':
                                         $startTime = $row['sun_timein'];
                                         $endTime = $row['sun_timeout'];
                                         break;
                                     }
+
                                     $dateRange .= $date . " ";
+
                                     // Calculate working hours
                                     $workingHours = "";
+
                                     if (($startTime == 'NULL') && ($endTime == 'NULL')) {
                                         $startTime = '-';
                                         $endTime = '-';
-                                        $row['schedule_name'] = 'Restday';  
-                                        $workingHours = '0.00';                                 
+                                        $row['schedule_name'] = 'Restday';
+                                        $workingHours = '0.00';
                                     } else if (!empty($startTime) && !empty($endTime)) {
                                         $startTimestamp = strtotime($startTime);
                                         $endTimestamp = strtotime($endTime);
                                         $workingSeconds = $endTimestamp - $startTimestamp - 3600; // subtract 1 hour for lunchtime
                                         $workingSeconds = abs($workingSeconds); // Get the absolute value
                                         $workingHours = number_format($workingSeconds / 3600, 2); // format as 0.00
-                                    }                                    
-                                ?>
+                                    }
+                                    ?>
                                     <tr>
-                                        <td style="display: none;"><?php echo $row['id']?></td>
-                                        <td style="display: none;"><?php echo $row['empid']?></td>
-                                        <td><?php echo $date?></td>
-                                        <td><?php echo $dayOfWeek?></td>
-                                        <?php if (($startTime === null || $startTime === '') && ($endTime === null || $endTime === '')): ?>
-                                        <td>-</td> 
+                                        <td style="display: none;"><?php echo $row['id'] ?></td>
+                                        <td style="display: none;"><?php echo $row['empid'] ?></td>
+                                        <td><?php echo $date ?></td>
+                                        <td><?php echo $dayOfWeek ?></td>
+                                        <?php if (($startTime === null || $startTime === '') && ($endTime === null || $endTime === '')) : ?>
                                         <td>-</td>
-                                        <td>Restday</td>  
+                                        <td>-</td>
+                                        <td>Restday</td>
                                         <td>0.00</td>
-                                    <?php else: ?>
-                                        <td><?php echo !is_null($startTime) ? date("h:i A", strtotime($startTime)) : '-'?></td> 
-                                        <td><?php echo !is_null($endTime) ? date("h:i A", strtotime($endTime)) : '-'?></td>
-                                        <td><?php echo $row['schedule_name']?></td>  
-                                        <td><?php echo $workingHours?></td> 
-                                    <?php endif; ?>
+                                        <?php else : ?>
+                                        <td><?php echo !is_null($startTime) ? date("h:i A", strtotime($startTime)) : '-' ?></td>
+                                        <td><?php echo !is_null($endTime) ? date("h:i A", strtotime($endTime)) : '-' ?></td>
+                                        <td><?php echo $row['schedule_name'] ?></td>
+                                        <td><?php echo $workingHours ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                 <?php
+                                    }
                                     $currDate = date('Y-m-d', strtotime($currDate . ' +1 day'));
                                 }
-                              } 
-                            ?>
+                            }
+                        ?>
                         </tbody>
                     </table>
 

@@ -97,7 +97,7 @@ session_start();
         <h1 class="modal-title fs-5" id="exampleModalLabel">Work From Home Request</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="Data Controller/Wfh Request/insert_wfh.php" method="POST" enctype="multipart/form-data">
+    <form action="Data Controller/Wfh Request/insert_wfh.php" method="POST" enctype="multipart/form-data">
       <div class="modal-body">
         <div class="mb-3" style="display: none;">
             <label for="select_empid" class="form-label">Employee Name</label>
@@ -109,7 +109,7 @@ session_start();
 
         <div class="mb-3">
             <label for="choose_wfh" class="form-label">Date</label>
-            <input type="date" name="wfh_date" id="date_wfh" class="form-control">
+            <input type="date" name="wfh_date" id="date_wfh" class="form-control" required>
         </div>
 
         <div class="mb-3" style="display: none;">
@@ -120,15 +120,15 @@ session_start();
         <div class="form-group">
             <label for="choose_timerange" class="form-label">Time Range</label>
             <div class="input-group mb-3">
-                <input type="time" name="time_from" id="from_time" class="form-control">
+                <input type="time" name="time_from" id="from_time" class="form-control" required>
                 <span class="input-group-text">-</span>
-                <input type="time" name="time_to" id="to_time" class="form-control">
+                <input type="time" name="time_to" id="to_time" class="form-control" required>
             </div>
         </div>
 
         <div class="mb-3 mt-2">
               <label for="description" class="form-label">Request Description</label>
-              <textarea class="form-control" name="request_description" id="description_req"></textarea>
+              <textarea class="form-control" name="request_description" id="description_req" required></textarea>
         </div>
 
         <div class="mb-3">
@@ -139,7 +139,7 @@ session_start();
       </div><!--Modal Body Close Tag-->
       <div class="modal-footer">
         <button type="submit" name="add_wfh" class="btn btn-primary">Add</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
     </form>
 
@@ -259,7 +259,7 @@ session_start();
             $msg = $_GET['msg'];
             echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
 ?>
@@ -269,9 +269,9 @@ session_start();
 <?php
         if (isset($_GET['error'])) {
             $err = $_GET['error'];
-            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
             '.$err.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
 ?>
@@ -280,12 +280,13 @@ session_start();
 
         <div class="row">
             <div class="col-12 mt-5">
-                <div class="table-responsive">
+                <div class="table-responsive" style="overflow-y: scroll;">
                     <table id="order-listing" class="table">
                         <thead>
                             <tr>
                                 <th style="display: none;">ID</th>
                                 <th style="display: none;">Employee ID</th>
+                                <th style="display: none;">Name</th>
                                 <th>WFH Date</th>
                                 <th style="display: none;">Start Time</th>
                                 <th style="display: none;">End Time</th>
@@ -297,12 +298,14 @@ session_start();
                             </tr>
                         </thead>
                         <?php
-                                $conn = mysqli_connect("localhost","root","","hris_db");
+                                // $conn = mysqli_connect("localhost","root","","hris_db");
+                                include 'config.php';
                                 $employeeid = $_SESSION['empid'];
 
                                 $query = "SELECT
                                 wfh_tb.id,
                                 employee_tb.empid,
+                                CONCAT (employee_tb.`fname`, ' ', employee_tb.`lname`) AS `full_name`,
                                 wfh_tb.date,
                                 wfh_tb.schedule_type,
                                 wfh_tb.start_time,
@@ -321,6 +324,7 @@ session_start();
                             <tr>
                                 <td style="display: none;"><?php echo $row['id']?></td>
                                 <td style="display: none;"><?php echo $row['empid']?></td>
+                                <td style="display: none;"><?php echo $row['full_name']?></td>
                                 <td><?php echo $row['date']?></td>
                                 <td style="display: none;"><?php echo $row['start_time']?></td>
                                 <td style="display: none;"><?php echo $row['end_time']?></td>
@@ -350,6 +354,19 @@ session_start();
         </div>
     </div>
 </div><!---Main Panel Close Tag-->
+
+
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
+<script>
+    function removeErrorFromURL() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('error');
+        url.searchParams.delete('msg');
+        window.history.replaceState({}, document.title, url);
+    }
+</script>
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
+
 
 <!------------------------------------Script para sa whole view data ng modal------------------------------------------------->
 <script>

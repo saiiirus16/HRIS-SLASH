@@ -195,8 +195,8 @@ session_start();
 
       <form action="actions/Overtime Request/download_ot.php" method="POST">
       <div class="modal-body">
-        <input type="hidden" name="table_id" id="id_table">
-        <input type="hidden" name="table_name" id="name_table">
+        <input type="text" name="table_id" id="id_table">
+        <input type="text" name="table_name" id="name_table">
         <h3>Are you sure you want download the PDF File?</h3>
       </div>
       <div class="modal-footer">
@@ -310,7 +310,7 @@ session_start();
             $msg = $_GET['msg'];
             echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
 ?>
@@ -322,7 +322,7 @@ session_start();
             $err = $_GET['error'];
             echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
             '.$err.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
 ?>
@@ -334,18 +334,19 @@ session_start();
         <div class="row" >
             <div class="col-12 mt-5">
                 <input style="display: none;" type="text" id="input_id" name="input">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow-y: scroll;">
                         <table id="order-listing" class="table" >
                         <thead>
                             <tr>
                                 <th style="display: none;">ID</th>
                                 <th style="display: none;">Employee ID</th>
+                                <th style="display: none;">Name</th>
                                 <th>OT Date</th>
                                 <th>Time In</th>
                                 <th>Time Out</th>
                                 <th>OT Hours</th>
                                 <th style="display: none;">Reason</th>
-                                <th style="display: none;">File Attachment</th>
+                                <th>File Attachment</th>
                                 <th>Status</th>
                                 <th>Date Filed</th>
                                 <th>Action</th>
@@ -358,6 +359,7 @@ session_start();
                          $query = "SELECT
                          overtime_tb.id,
                          employee_tb.empid,
+                         CONCAT (employee_tb.`fname`, ' ', employee_tb.`lname`) AS `full_name`,
                          overtime_tb.work_schedule,
                          overtime_tb.time_in,
                          overtime_tb.time_out,
@@ -379,17 +381,18 @@ session_start();
                             <tr>
                                 <td style="display: none;"><?php echo $row['id']?></td>
                                 <td style="display: none;"><?php echo $row['empid']?></td>
+                                <td style="display: none;"><?php echo $row['full_name']?></td>
                                 <td><?php echo $row['work_schedule']?></td>
                                 <td><?php echo date('h:i A', strtotime($row['time_in'])) ?></td>
                                 <td><?php echo date('h:i A', strtotime($row['time_out'])) ?></td>
                                 <td><?php echo $row['total_ot']?></td>
                                 <td style="display: none;"><?php echo $row['reason']?></td>
                                 <?php if(!empty($row['file_attachment'])): ?>
-                                <td style="display: none;">
+                                <td>
                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_ot">Download</button>
                                 </td>
                                 <?php else: ?>
-                                <td style="display: none;">None</td> <!-- Show an empty cell if there is no file attachment -->
+                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                 <?php endif; ?>
                                 <td><?php echo $row['status']?></td>
                                 <td><?php echo $row['date_filed']?></td>
@@ -410,8 +413,16 @@ session_start();
 </div>
 
 
-
- 
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
+<script>
+    function removeErrorFromURL() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('error');
+        url.searchParams.delete('msg');
+        window.history.replaceState({}, document.title, url);
+    }
+</script>
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
 
 
 

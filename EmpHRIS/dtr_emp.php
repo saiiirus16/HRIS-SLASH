@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    session_start(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,21 +133,24 @@
 </div>
 <!-------------------------------------------------End ng modal----------------------------------------------------------------->
 
-<!------------------------------------------------DELETE MODAL------------------------------------------------------------------>
-<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!------------------------------------------------Cancel MODAL------------------------------------------------------------------>
+<div class="modal fade" id="cancelmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Your Request</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="actions/DTR Employee/dtr_delete.php" method="post">
+      <form action="actions/DTR Employee/dtr_cancel.php" method="post">
       <div class="modal-body">
-        <input type="hidden" name="delete_id" id="delete_id">
-        <h4>Are you sure you want to delete your request?</h4>
+           <!-- <label for="floatingTextarea" class="form-label">Reasons:</label>
+           <textarea class="form-control" name="name_cancel_reason" placeholder="Type your reason..." id="floatingTextarea" required></textarea> -->
+           <h4>You want to cancel your DTR Correction?</h4>
+           <input type="hidden" name="dtr_ID" id="id_DTR">
+           <input type="hidden" name="dtr_empid" id="empid_dtr">
       </div>
       <div class="modal-footer">
-        <button type="submit" name="delete_data" class="btn btn-primary">Yes</button>
+        <button type="submit" name="cancel_data" class="btn btn-primary">Yes</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
       </div>
       </form>
@@ -155,7 +158,7 @@
     </div>
   </div>
 </div>
-<!---------------------------------------------------END OF DELETE MODAL--------------------------------------------------------->
+<!---------------------------------------------------END OF Cancel MODAL--------------------------------------------------------->
 
 <!---------------------------------------View Modal Start Here -------------------------------------->
 <div class="modal fade" id="view_dtr_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -188,7 +191,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <form action="actions/DTR Correction/download_dtr.php" method="POST">
+      <form action="actions/DTR Employee/download_dtr.php" method="POST">
       <div class="modal-body">
         <input type="hidden" name="table_id" id="id_table">
         <input type="hidden" name="table_name" id="name_table">
@@ -229,34 +232,31 @@
                             </div> <!--ROW END-->
 <!----------------------------------End Class ng header including the button for modal-------------------------------------------->
 
-<!-----------------------------------------Syntax for the alert Message----------------------------------------------------------->
-<?php
 
+<!------------------------------------Message alert------------------------------------------------->
+<?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div id="alert-message" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
-
 ?>
-<!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
+<!------------------------------------End Message alert------------------------------------------------->
 
-
-<!-----------------------------------------Syntax for the alert Message----------------------------------------------------------->
+<!------------------------------------Message alert------------------------------------------------->
 <?php
-
         if (isset($_GET['error'])) {
             $err = $_GET['error'];
-            echo '<div id="alert-message" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
             '.$err.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
-
 ?>
-<!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
+<!------------------------------------End Message alert------------------------------------------------->
+
 
 
 <!-------------------------------------------Style sa card at table--------------------------------------------------------------->
@@ -278,7 +278,7 @@
                                                 <th>Time</th>
                                                 <th>Type</th>
                                                 <th>Reason</th>
-                                                <th style="display: none;">File Attachment</th>
+                                                <th>File Attachment</th>
                                                 <th style="display: none;">View Button</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -320,17 +320,19 @@
                                                                 <td  style="display: none;"><?php echo $row['reason'];?></td>
                                                                 <td><a href="" class="btn btn-primary viewbtn" data-bs-toggle="modal" data-bs-target="#view_dtr_modal">View</a></td>
                                                                 <?php if(!empty($row['file_attach'])): ?>
-                                                                <td style="display: none;">
+                                                                <td>
                                                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download_dtr">Download</button>
                                                                 </td>
                                                                 <?php else: ?>
-                                                                <td style="display: none;">None</td> <!-- Show an empty cell if there is no file attachment -->
+                                                                <td>None</td> <!-- Show an empty cell if there is no file attachment -->
                                                                 <?php endif; ?>
-                                                                <td> 
-                                                                    <p><?php echo $row['status']?></p>
-                                                                </td>
+                                                                <td <?php if ($row['status'] == 'Approved') {echo 'style="color:blue;"';} elseif ($row['status'] == 'Rejected') {echo 'style="color:red;"';} elseif ($row['status'] == 'Pending') {echo 'style="color:orange;"';} elseif ($row['status'] == 'Cancelled') {echo 'style="color:red;"';}?>><?php echo $row['status']; ?></td>
                                                                 <td>
-                                                                    <button class="btn btn-outline-danger delete_btn">Delete</button>
+                                                                  <?php if ($row['status'] === 'Approved' || $row['status'] === 'Rejected' || $row['status'] === 'Cancelled'): ?>
+                                                                  <button class="btn btn-outline-danger cancelbtn" data-bs-toggle="modal" data-bs-target="#cancelmodal" type="button" class="btn btn-outline-danger" style="display: none;" disabled>Cancel</button>
+                                                                  <?php else: ?>
+                                                                  <button class="btn btn-outline-danger cancelbtn" data-bs-toggle="modal" data-bs-target="#cancelmodal" type="button" class="btn btn-outline-danger">Cancel</button>
+                                                                  <?php endif; ?>
                                                                 </td>
                                                                 </tr>
                                                 <?php
@@ -346,6 +348,41 @@
             </div>
         </div>
     </div>
+
+
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
+<script>
+    function removeErrorFromURL() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('error');
+        url.searchParams.delete('msg');
+        window.history.replaceState({}, document.title, url);
+    }
+</script>
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
+
+
+<!----------------------------------FOR VIEW TRANSFER MODAL END------------------------------------------------>
+<script>
+            $(document).ready(function(){
+                                    $('.cancelbtn').on('click', function(){
+                                        $('#cancelmodal').modal('show');
+                                        $tr = $(this).closest('tr');
+
+                                        var data = $tr.children("td").map(function () {
+                                            return $(this).text();
+                                        }).get();
+
+                                        console.log(data);
+                                        //id_colId
+                                        $('#id_DTR').val(data[0]);
+                                        $('#empid_dtr').val(data[1]);
+                                    });
+                                });
+</script>
+<!----------------------------------FOR VIEW TRANSFER MODAL END------------------------------------------------>
+
+
 
 <!------------------------------------Script para lumabas ang modal------------------------------------------------->
 <script>
@@ -364,26 +401,6 @@
 </script>
 <!---------------------------------End ng Script para lumabas ang modal------------------------------------------>
 
-<!---------------------------------------Script sa pagpop-up ng modal para madelete--------------------------------------------->          
-<script>
-            $(document).ready(function (){
-                $('.delete_btn').on('click' , function(){
-                    $('#deletemodal').modal('show');
-
-
-                    $tr = $(this).closest('tr');
-
-                    var data = $tr.children("td").map(function(){
-                        return $(this).text();
-                    }).get();
-
-                    console.log(data);
-
-                    $('#delete_id').val(data[0]);                  
-                });
-            });
-        </script>
-<!---------------------------------------End Script sa pagpop-up ng modal para madelete--------------------------------------------->
 
 <!---------------------------- Script para lumabas ang warning message na PDF File lang inaallow------------------------------------------>
 <script>

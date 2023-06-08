@@ -124,17 +124,17 @@ html{
                                 </div>
 
                                 <div class="input-group mb-3">
-                                    <input type="file" name="file_upload" class="form-control" id="inputfile" >
+                                    <input type="file" name="file_upload" class="form-control" id="inputfile">
                                 </div>
 
                                 <div class="mb-3">
                                 <label for="text_area" class="form-label">Reason</label>
-                                <textarea class="form-control" name="text_reason" id="view_reason"></textarea>
+                                <textarea class="form-control" name="text_reason" id="view_reason" required></textarea>
                                 </div>
                             </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button type="submit" name="savedata" id="submit-btn" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </form> 
 
@@ -215,18 +215,31 @@ html{
                             </div> <!--ROW END-->
 <!----------------------------------End Class ng header including the button for modal-------------------------------------------->
 
-<!-----------------------------------------Syntax for the alert Message----------------------------------------------------------->
+
+<!------------------------------------Message alert------------------------------------------------->
 <?php
         if (isset($_GET['msg'])) {
             $msg = $_GET['msg'];
-            echo '<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+            echo '<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
             '.$msg.'
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
           </div>';
         }
-
 ?>
-<!--------------------------------------End ng Syntax for the alert Message------------------------------------------------------->
+<!------------------------------------End Message alert------------------------------------------------->
+
+<!------------------------------------Message alert------------------------------------------------->
+<?php
+        if (isset($_GET['error'])) {
+            $err = $_GET['error'];
+            echo '<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+            '.$err.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="removeErrorFromURL()"></button>
+          </div>';
+        }
+?>
+<!------------------------------------End Message alert------------------------------------------------->
+
 
 <!---------------------------------------------Style to resize/design table------------------------------------------------------->
                         <style>
@@ -248,7 +261,7 @@ html{
 <!--------------------------------------------Syntax and Bootstrap class for table------------------------------------------------>
                         <div class="row">
                             <div class="col-12 mt-5">
-                                <div class="table-responsive" style="overflow-x: hidden">
+                                <div class="table-responsive" style="overflow-y: scroll; overflow-x: hidden;" >
                                     <table id="order-listing" class="table" >
                                         <thead>
                                             <tr>
@@ -261,14 +274,15 @@ html{
                                                 <th>Start Time</th>
                                                 <th>End Time</th>
                                                 <th>Location</th>
-                                                <th style="display:none">File Attachment</th>
+                                                <th>File Attachment</th>
                                                 <th>Reason</th>
                                                 <th style="display: none;">View Button</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
                                         <?php 
-                                            $conn = mysqli_connect("localhost","root","","hris_db");
+                                            // $conn = mysqli_connect("localhost","root","","hris_db");
+                                            include 'config.php';
                                             $employeeid = $_SESSION['empid'];
 
                                             $query = "SELECT
@@ -305,11 +319,11 @@ html{
                                                 <td><?php echo date('h:i A', strtotime($row['end_time'])) ?></td>
                                                 <td><?php echo $row['location'];?></td>
                                                 <?php if(!empty($row['file_upl'])):?>
-                                                <td style="display:none">
+                                                <td>
                                                 <button type="button" class="btn btn-outline-success downloadbtn" data-bs-toggle="modal" data-bs-target="#download">Download</button>
                                                 </td>
                                                 <?php else: ?>
-                                                <td style="display: none;">None</td> <!-- Show an empty cell if there is no file attachment -->
+                                                <td >None</td> <!-- Show an empty cell if there is no file attachment -->
                                                 <?php endif; ?>
                                                 <td style="display: none;"><?php echo $row['reason'];?></td>
                                                 <td>
@@ -331,6 +345,18 @@ html{
                 </div>
             </div>
         </div>
+
+
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
+<script>
+    function removeErrorFromURL() {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('error');
+        url.searchParams.delete('msg');
+        window.history.replaceState({}, document.title, url);
+    }
+</script>
+<!-----------------------------Script sa pagremove ng message sa link------------------------------------>
 
 
 
