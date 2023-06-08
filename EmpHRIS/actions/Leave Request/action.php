@@ -7,6 +7,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <title>Action for Leave Request</title>
 </head>
+<style>
+    h2{
+        font-size: 23px;
+        font-weight: bold;
+    }
+    .card{
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.17);
+      width: 1500px;
+      height: 780px;
+      padding: 20px;
+      top: 75px;
+      margin-left: 3%;
+
+      
+    }
+</style>
+
 <body>
 
 
@@ -70,7 +87,7 @@ session_start();
             <!--<form action="reject.php" method="post">-->
             
                 <div class="card border-light">
-                    <div class="card-header">
+                    <div class="">
                         <div class="row">
                             <div class="col-6">
                                 <h2>
@@ -259,7 +276,7 @@ session_start();
                             echo ' <button id="btn_cancel" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" style= " margin-right: 20px; display: none;">Cancel</button>';
                         }
                         else{
-                            echo ' <button id="btn_cancel" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" style= " margin-right: 20px;">Cancel</button>';
+                            echo ' <button id="btn_cancel" data-bs-toggle="modal" data-bs-target="#Mdl_reasonDecline" type="button" class="btn btn-outline-danger" style= " margin-right: 20px;">Cancel Request</button>';
                         }
                             
                     ?>

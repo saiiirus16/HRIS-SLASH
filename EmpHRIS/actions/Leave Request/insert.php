@@ -11,31 +11,6 @@
                                 $str_date = $_POST['name_STRdate'];
                                 $end_date = $_POST['name_ENDdate'];
                                 $reason_txt = $_POST['name_txtRSN'];
-                                
-                                 #file name with a random number so that similar dont get replaced
-                                    //     $reason_file = rand(1000,10000)."-" . $_FILES["name_file"]["name"];
-
-                                    //     #temporary file name to store file
-                                    //     $tname = $_FILES["name_file"]["tmp_name"];
-                                
-                                    // #upload directory path
-                                    // $uploads_dir = 'file_reason';
-                                    // #TO move the uploaded file to specific location
-                                    // move_uploaded_file($tname, $uploads_dir.'/'.$reason_file);
-
-                                    // $contents = file_get_contents($_FILES['name_file']['tmp_name']);
-                                    // $escaped_contents = mysqli_real_escape_string($conn, $contents);
-
-                                     // Open a file handle
-                                    // $fileHandle = fopen($_FILES["name_file"]["tmp_name"], "rb");
-
-                                    // // Read the file contents
-                                    // $fileContents = fread($fileHandle, filesize($_FILES["name_file"]["tmp_name"]));
-
-                                    // // Close the file handle
-                                    // fclose($fileHandle);
-
-
 
                                     //Para sa pag select ng mga data galing sa EMPSCHEDULE to validate if may sched na siya ay pwede na mag request ng leave
                                         $result_empsched = mysqli_query($conn, "SELECT
@@ -43,8 +18,12 @@
                                         FROM
                                             empschedule_tb
                                         WHERE empid = $empname");
-                                        if(mysqli_num_rows($result_empsched) > 0) {
+                                        if(mysqli_num_rows($result_empsched) > 0) {                                           
                                             $row__schedEMP= mysqli_fetch_assoc($result_empsched);
+                                            $row__schedEMP['sched_from'];
+                                            $row__schedEMP['sched_to'];
+
+                                            
                                                 $sched_name = $row__schedEMP['schedule_name'];
                                                         // --------------break------------//
                                                     $result_sched = mysqli_query($conn, "SELECT

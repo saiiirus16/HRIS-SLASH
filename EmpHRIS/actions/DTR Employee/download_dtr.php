@@ -6,7 +6,7 @@ if (isset($_POST['yes_dl'])) {
 
 
    // Step 2: Retrieve blob data from database
-        $sql = "SELECT `upl_file` FROM `emp_dtr_tb` WHERE `id` = ?";
+        $sql = "SELECT `file_attach` FROM `emp_dtr_tb` WHERE `id` = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "i", $select_tableid); // $id is the ID of the blob data you want to retrieve
         mysqli_stmt_execute($stmt);

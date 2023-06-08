@@ -22,7 +22,7 @@
             $escaped_contents = "";
         }
         
-        $sql = "SELECT * FROM emp_dtr_tb WHERE `empid` = '$employee_id' AND `date` = '$date_dtr'";
+        $sql = "SELECT * FROM emp_dtr_tb WHERE `empid` = '$employee_id' AND `date` = '$date_dtr' AND `type` = '$type'";
         $result = mysqli_query($conn, $sql);
 
         if(mysqli_num_rows($result) > 0) {
